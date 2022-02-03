@@ -37,7 +37,7 @@ using Moralis.Web3Api.Client;
 using Moralis.Web3Api.Interfaces;
 using Moralis.Web3Api.Models;
 
-namespace Moralis.SolanaApi.Api
+namespace Moralis.Web3Api.Api
 {
 	/// <summary>
 	/// Represents a collection of functions to interact with the API endpoints
