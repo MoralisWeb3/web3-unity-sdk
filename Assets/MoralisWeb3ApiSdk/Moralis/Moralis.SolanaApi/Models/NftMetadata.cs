@@ -31,7 +31,7 @@ using Newtonsoft.Json;
 namespace Moralis.SolanaApi.Models
 {
     [DataContract]
-    class NftMetadata
+    public class NftMetadata
     {
         [DataMember(Name = "mint", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "mint")]
