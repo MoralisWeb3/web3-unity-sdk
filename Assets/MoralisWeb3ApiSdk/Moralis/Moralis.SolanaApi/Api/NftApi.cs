@@ -64,6 +64,8 @@ namespace Moralis.SolanaApi.Api
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNFTMetadata");
 
+			var headerParams = new Dictionary<String, String>();
+
 			var path = "/nft/{network}/{address}/metadata";
 			path = path.Replace("{" + "network" + "}", ApiClient.ParameterToString(network.ToString()));
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
@@ -71,7 +73,7 @@ namespace Moralis.SolanaApi.Api
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.GET, null, null, null, null, null, authSettings));
+			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings));
 
 			if (((int)response.StatusCode) >= 400)
 				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.Content, response.Content);

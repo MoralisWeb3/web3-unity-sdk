@@ -1,12 +1,12 @@
-﻿using Moralis.SolanaApi.Client;
-using Moralis.SolanaApi.Interfaces;
-using Moralis.SolanaApi.Models;
-using RestSharp;
+﻿using Moralis.WebGL.SolanaApi.Client;
+using Moralis.WebGL.SolanaApi.Interfaces;
+using Moralis.WebGL.SolanaApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using System.Net;
 
-namespace Moralis.SolanaApi.Api
+namespace Moralis.WebGL.SolanaApi.Api
 {
     public class AccountApi : IAccountApi
 	{
@@ -58,7 +58,7 @@ namespace Moralis.SolanaApi.Api
 		/// <value>An instance of the ApiClient</value>
 		public ApiClient ApiClient { get; set; }
 
-		public async Task<NativeBalance> Balance(NetworkTypes network, string address)
+		public async UniTask<NativeBalance> Balance(NetworkTypes network, string address)
         {
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling Balance");
@@ -72,18 +72,17 @@ namespace Moralis.SolanaApi.Api
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling Balance: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling Balance: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling Balance: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling Balance: " + response.Item3, response.Item3);
 
-			return (NativeBalance)ApiClient.Deserialize(response.Content, typeof(NativeBalance), response.Headers);
-
+			return ((CloudFunctionResult<NativeBalance>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<NativeBalance>), response.Item2)).Result;
 		}
 
-		public async Task<List<SplTokenBalanace>> GetSplTokens(NetworkTypes network, string address)
+		public async UniTask<List<SplTokenBalanace>> GetSplTokens(NetworkTypes network, string address)
 		{
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetSplTokens");
@@ -97,17 +96,17 @@ namespace Moralis.SolanaApi.Api
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling GetSplTokens: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling GetSplTokens: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetSplTokens: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetSplTokens: " + response.Item3, response.Item3);
 
-			return (List<SplTokenBalanace>)ApiClient.Deserialize(response.Content, typeof(List<SplTokenBalanace>), response.Headers);
+			return ((CloudFunctionResult<List<SplTokenBalanace>>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<List<SplTokenBalanace>>), response.Item2)).Result;
 		}
 
-		public async Task<List<SplNft>> GetNFTs(NetworkTypes network, string address)
+		public async UniTask<List<SplNft>> GetNFTs(NetworkTypes network, string address)
         {
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNFTs");
@@ -121,17 +120,17 @@ namespace Moralis.SolanaApi.Api
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTs: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTs: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetNFTs: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetNFTs: " + response.Item3, response.Item3);
 
-			return (List<SplNft>)ApiClient.Deserialize(response.Content, typeof(List<SplNft>), response.Headers);
+			return ((CloudFunctionResult<List<SplNft>>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<List<SplNft>>), response.Item2)).Result;
 		}
 
-		public async Task<Portfolio> GetPortfolio(NetworkTypes network, string address)
+		public async UniTask<Portfolio> GetPortfolio(NetworkTypes network, string address)
         {
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetPortfolio");
@@ -145,14 +144,14 @@ namespace Moralis.SolanaApi.Api
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling GetPortfolio: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling GetPortfolio: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetPortfolio: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetPortfolio: " + response.Item3, response.Item3);
 
-			return (Portfolio)ApiClient.Deserialize(response.Content, typeof(Portfolio), response.Headers);
+			return ((CloudFunctionResult<Portfolio>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<Portfolio>), response.Item2)).Result;
 		}
 	}
 }

@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.IO;
-using System.Web;
-using System.Linq;
 using System.Net;
 using System.Text;
+using UnityEngine.Networking;
+using Moralis.WebGL.SolanaApi;
+using Moralis.WebGL.SolanaApi.Models;
+using WebRequest = Moralis.WebGL.SolanaApi.Models.WebRequest;
 using Newtonsoft.Json;
-using RestSharp;
-using RestSharp.Extensions;
+using Cysharp.Threading.Tasks;
+using Moralis.WebGL.SolanaApi.Core.Models;
 
-namespace Moralis.SolanaApi.Client
+namespace Moralis.WebGL.SolanaApi.Client
 {
     /// <summary>
     /// API client is mainly responible for making the HTTP call to the API backend.
@@ -28,7 +27,8 @@ namespace Moralis.SolanaApi.Client
         public ApiClient(String basePath = "http://localhost:3063/api/v2")
         {
             BasePath = basePath;
-            RestClient = new RestClient(BasePath);
+            RestClient = new UniversalWebClient();
+
         }
 
         /// <summary>
@@ -41,7 +41,8 @@ namespace Moralis.SolanaApi.Client
         /// Gets or sets the RestClient.
         /// </summary>
         /// <value>An instance of the RestClient</value>
-        public RestClient RestClient { get; set; }
+        //public RestClient RestClient { get; set; }
+        public UniversalWebClient RestClient { get; set; }
 
         /// <summary>
         /// Gets the default header.
@@ -63,71 +64,70 @@ namespace Moralis.SolanaApi.Client
         /// <param name="fileParams">File parameters.</param>
         /// <param name="authSettings">Authentication settings.</param>
         /// <returns>Object</returns>
-        public async Task<Object> CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
+        public async UniTask<Tuple<HttpStatusCode, Dictionary<string, string>, string>> CallApi(String path, Method method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, FileParameter> fileParams, String[] authSettings)
         {
-
-            var request = new RestRequest(path, method);
+            bool paramsAdded = false;
+            //var request = new RestRequest(path, method);
+            WebRequest request = new WebRequest();
+            request.Resource = BasePath;
+            request.Path = path;
+            request.Method = method.ToString().ToUpper();
 
             UpdateParamsForAuth(queryParams, headerParams, authSettings);
 
-            // add default header, if any
-            if (_defaultHeaderMap != null)
+            if (!String.IsNullOrWhiteSpace(postBody))
             {
-                foreach (var defaultHeader in _defaultHeaderMap)
-                {
-                    request.AddHeader(defaultHeader.Key, defaultHeader.Value);
-                }
+                request.Data = new MemoryStream(Encoding.UTF8.GetBytes(postBody));
+            }
+
+            // add default header, if any
+            foreach (var defaultHeader in _defaultHeaderMap)
+            {
+                request.Headers.Add(new KeyValuePair<string, string>(defaultHeader.Key, defaultHeader.Value));
             }
 
             // add header parameter, if any
-            if (headerParams != null)
+            foreach (var param in headerParams)
             {
-                foreach (var param in headerParams)
+                if (!String.IsNullOrEmpty(param.Key) && !String.IsNullOrEmpty(param.Value))
                 {
-                    request.AddHeader(param.Key, param.Value);
+                    request.Headers.Add(new KeyValuePair<string, string>(param.Key, param.Value));
                 }
             }
 
             // add query parameter, if any
-            if (queryParams != null)
+            foreach (var param in queryParams)
             {
-                foreach (var param in queryParams)
+                if (paramsAdded == false)
                 {
-                    request.AddParameter(param.Key, param.Value, ParameterType.QueryString);
+                    paramsAdded = true;
+                    request.Method = $"{request.Method}?{param.Key}={UnityWebRequest.EscapeURL(param.Value)}";
+                }
+                else
+                {
+                    request.Method = $"{request.Method}&{param.Key}={UnityWebRequest.EscapeURL(param.Value)}";
                 }
             }
 
             // add form parameter, if any
-            if (formParams != null)
+            if (formParams != null && formParams.Count > 0)
             {
-                foreach (var param in formParams)
-                {
-                    request.AddParameter(param.Key, param.Value, ParameterType.QueryString);
-                }
+                string data = JsonConvert.SerializeObject(formParams);
+                request.Data = new MemoryStream(Encoding.UTF8.GetBytes(data));
             }
 
             // add file parameter, if any
-            if (formParams != null)
+            if (fileParams != null && fileParams.Count > 0)
             {
-                foreach (var param in fileParams)
-                {
-                    request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
-                }
-                //request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
+                string data = JsonConvert.SerializeObject(fileParams);
+                request.Data = new MemoryStream(Encoding.UTF8.GetBytes(data));
             }
 
-            if (postBody != null) // http body (model) parameter
-                request.AddParameter("application/json", postBody, ParameterType.RequestBody);
+            //request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentType);
 
-            Task<Object> restTask = Task.Run(() =>
-            {
-                return (Object)RestClient.Execute(request);
-            });
-
-            return await restTask;
-
+            return await RestClient.ExecuteAsync(request);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Moralis.SolanaApi.Client
 #if MORALIS_UNITY
             return UnityEngine.Networking.UnityWebRequest.EscapeURL(str);
 #else
-            return HttpUtility.UrlEncode(str);
+            return HttpUtility.UrlEncode(str); 
 #endif
         }
 
@@ -163,10 +163,14 @@ namespace Moralis.SolanaApi.Client
         /// <returns>FileParameter.</returns>
         public FileParameter ParameterToFile(string name, Stream stream)
         {
+            byte[] buffer = new byte[stream.Length];
+            stream.Read(buffer, 0, buffer.Length);
+            stream.Position = 0;
+
             if (stream is FileStream)
-                return FileParameter.Create(name, stream.ReadAsBytes(), Path.GetFileName(((FileStream)stream).Name));
+                return FileParameter.Create(name, buffer, Path.GetFileName(((FileStream)stream).Name));
             else
-                return FileParameter.Create(name, stream.ReadAsBytes(), "no_file_name_provided");
+                return FileParameter.Create(name, buffer, "no_file_name_provided");
         }
 
         /// <summary>
@@ -213,7 +217,7 @@ namespace Moralis.SolanaApi.Client
         /// <param name="type">Object type.</param>
         /// <param name="headers">HTTP headers.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        public object Deserialize(string content, Type type, IList<Parameter> headers = null)
+        public object Deserialize(string content, Type type, Dictionary<string, string> headers = null)
         {
             if (type == typeof(Object)) // return an object
             {
@@ -229,10 +233,14 @@ namespace Moralis.SolanaApi.Client
                 var fileName = filePath + Guid.NewGuid();
                 if (headers != null)
                 {
-                    var regex = new Regex(@"Content-Disposition:.*filename=['""]?([^'""\s]+)['""]?$");
-                    var match = regex.Match(headers.ToString());
-                    if (match.Success)
-                        fileName = filePath + match.Value.Replace("\"", "").Replace("'", "");
+                    //var regex = new Regex(@"Content-Disposition:.*filename=['""]?([^'""\s]+)['""]?$");
+                    //var match = regex.Match(headers.ToString());
+                    //if (match.Success)
+                    if (headers.ContainsKey("Content-Disposition"))
+                    {
+                        string cntDisp = headers["Content-Disposition"];
+                        fileName = filePath + cntDisp.Replace("\"", "").Replace("'", "");
+                    }
                 }
                 File.WriteAllText(fileName, content);
                 return new FileStream(fileName, FileMode.Open);

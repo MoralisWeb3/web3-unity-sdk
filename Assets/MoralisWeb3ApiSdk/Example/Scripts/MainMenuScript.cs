@@ -182,6 +182,8 @@ public class MainMenuScript : MonoBehaviour
 
         // TODO: For your own app you may want to move / remove this.
         LogoutButtonOn();
+
+
     }
 
     /// <summary>

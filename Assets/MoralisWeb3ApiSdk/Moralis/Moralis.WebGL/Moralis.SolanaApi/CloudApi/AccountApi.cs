@@ -1,13 +1,13 @@
-﻿using Moralis.SolanaApi.Client;
-using Moralis.SolanaApi.Interfaces;
-using Moralis.SolanaApi.Models;
+﻿using Moralis.WebGL.SolanaApi.Client;
+using Moralis.WebGL.SolanaApi.Interfaces;
+using Moralis.WebGL.SolanaApi.Models;
 using Newtonsoft.Json;
-using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using System.Net;
 
-namespace Moralis.SolanaApi.CloudApi
+namespace Moralis.WebGL.SolanaApi.CloudApi
 {
 	public class AccountApi : IAccountApi
 	{
@@ -59,7 +59,7 @@ namespace Moralis.SolanaApi.CloudApi
 		/// <value>An instance of the ApiClient</value>
 		public ApiClient ApiClient { get; set; }
 
-		public async Task<NativeBalance> Balance(NetworkTypes network, string address)
+		public async UniTask<NativeBalance> Balance(NetworkTypes network, string address)
 		{
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNFTMetadata");
@@ -76,18 +76,17 @@ namespace Moralis.SolanaApi.CloudApi
 
 			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling Balance: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling Balance: " + response.Item3, response.Item3);
 
-			return ((CloudFunctionResult<NativeBalance>)ApiClient.Deserialize(response.Content, typeof(CloudFunctionResult<NativeBalance>), response.Headers)).Result;
-
+			return ((CloudFunctionResult<NativeBalance>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<NativeBalance>), response.Item2)).Result;
 		}
 
-		public async Task<List<SplTokenBalanace>> GetSplTokens(NetworkTypes network, string address)
+		public async UniTask<List<SplTokenBalanace>> GetSplTokens(NetworkTypes network, string address)
 		{
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNFTMetadata");
@@ -104,18 +103,17 @@ namespace Moralis.SolanaApi.CloudApi
 
 			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetSplTokens: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetSplTokens: " + response.Item3, response.Item3);
 
-			return ((CloudFunctionResult<List<SplTokenBalanace>>)ApiClient.Deserialize(response.Content, typeof(CloudFunctionResult<List<SplTokenBalanace>>), response.Headers)).Result;
-
+			return ((CloudFunctionResult<List<SplTokenBalanace>>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<List<SplTokenBalanace>>), response.Item2)).Result;
 		}
 
-		public async Task<List<SplNft>> GetNFTs(NetworkTypes network, string address)
+		public async UniTask<List<SplNft>> GetNFTs(NetworkTypes network, string address)
 		{
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNFTMetadata");
@@ -132,18 +130,17 @@ namespace Moralis.SolanaApi.CloudApi
 
 			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetNFTs: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetNFTs: " + response.Item3, response.Item3);
 
-			return ((CloudFunctionResult<List<SplNft>>)ApiClient.Deserialize(response.Content, typeof(CloudFunctionResult<List<SplNft>>), response.Headers)).Result;
-
+			return ((CloudFunctionResult< List < SplNft >>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<List<SplNft>>), response.Item2)).Result;
 		}
 
-		public async Task<Portfolio> GetPortfolio(NetworkTypes network, string address)
+		public async UniTask<Portfolio> GetPortfolio(NetworkTypes network, string address)
 		{
 			// Verify the required parameter 'pairAddress' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNFTMetadata");
@@ -160,14 +157,14 @@ namespace Moralis.SolanaApi.CloudApi
 
 			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
 
-			IRestResponse response = (IRestResponse)(await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings));
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings);
 
-			if (((int)response.StatusCode) >= 400)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.Content, response.Content);
-			else if (((int)response.StatusCode) == 0)
-				throw new ApiException((int)response.StatusCode, "Error calling GetNFTMetadata: " + response.ErrorMessage, response.ErrorMessage);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetPortfolio: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetPortfolio: " + response.Item3, response.Item3);
 
-			return ((CloudFunctionResult<Portfolio>)ApiClient.Deserialize(response.Content, typeof(CloudFunctionResult<Portfolio>), response.Headers)).Result;
+			return ((CloudFunctionResult<Portfolio>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<Portfolio>), response.Item2)).Result;
 		}
 	}
 }
