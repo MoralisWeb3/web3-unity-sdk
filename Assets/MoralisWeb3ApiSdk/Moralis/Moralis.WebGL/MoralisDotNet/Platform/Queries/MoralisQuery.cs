@@ -98,6 +98,10 @@ namespace Moralis.WebGL.Platform.Queries
             {
                 Filters = new Dictionary<string, object>(MergeWhereClauses(where));
             }
+            else
+            {
+                Filters = new Dictionary<string, object>();
+            }
 
             if (includes is { })
             {
@@ -595,6 +599,13 @@ namespace Moralis.WebGL.Platform.Queries
         {
             EnsureNotInstallationQuery();
             IEnumerable<T> aggResp = await QueryService.AggregateAsync<T>(this, SessionToken, cancellationToken);
+
+            foreach (T i in aggResp)
+            {
+                i.ObjectService = this.QueryService.ObjectService;
+                i.SessionToken = this.SessionToken;
+            }
+
             return aggResp;
         }
 
@@ -612,7 +623,15 @@ namespace Moralis.WebGL.Platform.Queries
         public async UniTask<IEnumerable<T>> FindAsync(CancellationToken cancellationToken)
         {
             EnsureNotInstallationQuery();
-            return await QueryService.FindAsync(this, SessionToken, cancellationToken);
+            IEnumerable<T> items = await QueryService.FindAsync(this, SessionToken, cancellationToken);
+
+            foreach (T i in items)
+            {
+                i.ObjectService = this.QueryService.ObjectService;
+                i.SessionToken = this.SessionToken;
+            }
+
+            return items;
         }
 
         /// <summary>
@@ -629,7 +648,15 @@ namespace Moralis.WebGL.Platform.Queries
         public async UniTask<IEnumerable<T>> DistinctAsync(CancellationToken cancellationToken)
         {
             EnsureNotInstallationQuery();
-            return await QueryService.DistinctAsync(this, SessionToken, cancellationToken);
+            IEnumerable<T> items = await QueryService.DistinctAsync(this, SessionToken, cancellationToken);
+
+            foreach (T i in items)
+            {
+                i.ObjectService = this.QueryService.ObjectService;
+                i.SessionToken = this.SessionToken;
+            }
+
+            return items;
         }
 
         /// <summary>
@@ -646,7 +673,12 @@ namespace Moralis.WebGL.Platform.Queries
         public async UniTask<T> FirstOrDefaultAsync(CancellationToken cancellationToken)
         {
             EnsureNotInstallationQuery();
-            return await QueryService.FirstAsync<T>(this, SessionToken, cancellationToken);
+            T item = await QueryService.FirstAsync<T>(this, SessionToken, cancellationToken);
+
+            item.ObjectService = this.QueryService.ObjectService;
+            item.SessionToken = this.SessionToken;
+
+            return item;
         }
 
         /// <summary>
@@ -702,7 +734,16 @@ namespace Moralis.WebGL.Platform.Queries
             singleItemQuery = new MoralisQuery<T>(singleItemQuery, includes: Includes, selectedKeys: KeySelections, limit: 1);
             IEnumerable<T> findResp = await singleItemQuery.FindAsync(cancellationToken);
             T result = findResp.FirstOrDefault();
-            return result != null ? result : throw new MoralisFailureException(MoralisFailureException.ErrorCode.ObjectNotFound, "Object with the given objectId not found.");
+
+            if (result == null)
+            {
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.ObjectNotFound, "Object with the given objectId not found.");
+            }
+
+            result.ObjectService = this.QueryService.ObjectService;
+            result.SessionToken = this.SessionToken;
+
+            return result;
         }
 
         internal object GetConstraint(string key) => Filters?.GetOrDefault(key, null);
@@ -712,9 +753,10 @@ namespace Moralis.WebGL.Platform.Queries
             Dictionary<string, object> result = new Dictionary<string, object>();
 
             if (Filters != null)
-                result["where"] = JsonSerializer.Serialize(Filters);//PointerOrLocalIdEncoder.Instance.Encode(Filters, Services);
+                result["where"] = JsonSerializer.Serialize(Filters);
             else
-                result["where"] = new object();
+                result["where"] = new Dictionary<string, object>();
+
             if (Orderings != null)
                 result["order"] = String.Join(",", Orderings.ToArray());
             if (SkipAmount != null)
