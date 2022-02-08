@@ -602,7 +602,7 @@ namespace Moralis.Platform.Queries
                 foreach (T i in items)
                 {
                     i.ObjectService = this.QueryService.ObjectService;
-                    i.SessionToken = this.SessionToken;
+                    i.sessionToken = this.SessionToken;
                 }
 
                 return items;
@@ -630,7 +630,7 @@ namespace Moralis.Platform.Queries
                 foreach (T i in items)
                 {
                     i.ObjectService = this.QueryService.ObjectService;
-                    i.SessionToken = this.SessionToken;
+                    i.sessionToken = this.SessionToken;
                 }
 
                 return items;
@@ -657,7 +657,7 @@ namespace Moralis.Platform.Queries
                 foreach (T i in items)
                 {
                     i.ObjectService = this.QueryService.ObjectService;
-                    i.SessionToken = this.SessionToken;
+                    i.sessionToken = this.SessionToken;
                 }
 
                 return items;
@@ -682,7 +682,7 @@ namespace Moralis.Platform.Queries
                 T i = task.Result;
 
                 i.ObjectService = this.QueryService.ObjectService;
-                i.SessionToken = this.SessionToken;
+                i.sessionToken = this.SessionToken;
 
                 return i;
             }); // task.Result);
