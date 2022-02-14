@@ -44,11 +44,10 @@ namespace Moralis.Platform.Objects
         }
 
         public string objectId;
+        public string sessionToken;
         public DateTime? createdAt;
         public DateTime? updatedAt;
-        public MoralisAcl ACL;
-        public string sessionToken;
-
+        public MoralisAcl ACL; 
         public string ClassName { get; set; }
         internal bool IsDirty { get; set; }
         internal IObjectService ObjectService { get; set; }

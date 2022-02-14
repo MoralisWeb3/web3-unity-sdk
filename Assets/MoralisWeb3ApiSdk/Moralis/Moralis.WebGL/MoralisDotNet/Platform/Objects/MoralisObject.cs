@@ -29,13 +29,14 @@ namespace Moralis.WebGL.Platform.Objects
 
         public MoralisObject(string className, 
             string objectId = null,
-            string sessionId = null,
+            string sessionToken = null,
             DateTime? createdAt = null,
             DateTime? updatedAt = null,
             MoralisAcl ACL = null)
         {
             this.ClassName = className;
             this.objectId = objectId;
+            this.sessionToken = sessionToken;
             this.createdAt = createdAt;
             this.updatedAt = updatedAt;
             this.ACL = ACL;
