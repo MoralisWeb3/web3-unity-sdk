@@ -1,6 +1,9 @@
 mergeInto(LibraryManager.library, {
   Web3Connect: function () {
-    window.web3gl.connect();
+  },
+
+  ConnectWeb3: function (appLogo, appTitle, appDesc) {
+    window.web3gl.connect(appLogo, appTitle, appDesc);
   },
 
   ConnectAccount: function () {
@@ -74,5 +77,9 @@ mergeInto(LibraryManager.library, {
 
   GetNetwork: function () {
     return window.web3gl.networkId;
+  },
+
+  SetDebugMode: function (mode) {
+    window.web3gl.debugMode = mode;
   }
 });

@@ -8,6 +8,7 @@ window.web3ChainId = 1;
 // Define web3gl to unity interface
 window.web3gl = {
   networkId: 0,
+  debugMode: false,
   connect,
   connectAccount: "",
   signMessage,
@@ -24,10 +25,17 @@ let web3;
 /*
 Establish connection to web3.
 */
-async function connect() {
-  // Options that can be used to connect to non-standard wallets 
-  // and wallet conect.
+async function connect(appLogo, appTitle, appDesc) {
+  
   const providerOptions = {
+	injected: {
+		display: {
+		  logo: appLogo,
+		  name: appTitle,
+		  description: appDesc
+		},
+		package: null
+	}
   };
 
   const web3Modal = new window.Web3Modal.default({
@@ -69,10 +77,15 @@ Implement sign message
 async function signMessage(message) {
   try {
     const from = (await web3.eth.getAccounts())[0];
+	
+	log('signMessage: message: ' + message);
+	
     const signature = await web3.eth.personal.sign(message, from, "");
     window.web3gl.signMessageResponse = signature;
+	  log('signMessage: signature: ' + signature);
   } catch (error) {
     window.web3gl.signMessageResponse = error.message;
+	  log('signMessage: error: ' + error.message);
   }
 }
 
@@ -81,6 +94,9 @@ Implement send transaction
 */
 async function sendTransaction(to, value, gasLimit, gasPrice) {
   const from = (await web3.eth.getAccounts())[0];
+  
+  log('sendTransaction to: ' + to + ' value: ' + value + ' gasLimit: ' + gasLimit + ' gasPrice: ' + gasPrice);
+  
   web3.eth
     .sendTransaction({
       from,
@@ -91,9 +107,11 @@ async function sendTransaction(to, value, gasLimit, gasPrice) {
     })
     .on("transactionHash", (transactionHash) => {
       window.web3gl.sendTransactionResponse = transactionHash;
+	  log('sendTransaction: txnHash: ' + transactionHash);
     })
     .on("error", (error) => {
       window.web3gl.sendTransactionResponse = error.message;
+	  log('sendTransaction: error: ' + error.message);
     });
 }
 
@@ -102,6 +120,9 @@ Implement send contract
 */
 async function sendContract(method, abi, contract, args, value, gasLimit, gasPrice) {
   const from = (await web3.eth.getAccounts())[0];
+  
+  log('sendContract method: ' + method + ' value: ' + value + ' gasLimit: ' + gasLimit + ' gasPrice: ' + gasPrice + ' args: ' + args);
+  
   new web3.eth.Contract(JSON.parse(abi), contract).methods[method](...JSON.parse(args))
     .send({
       from,
@@ -111,8 +132,16 @@ async function sendContract(method, abi, contract, args, value, gasLimit, gasPri
     })
     .on("transactionHash", (transactionHash) => {
       window.web3gl.sendContractResponse = transactionHash;
+	  log('sendContract: txnHash: ' + transactionHash);
     })
     .on("error", (error) => {
       window.web3gl.sendContractResponse = error.message;
+	  log('sendContract: error: ' + error.message);
     });
+}
+
+function log(msg){
+	if (window.web3gl.debugMode) {
+		console.log("web3gl: " + msg);
+	}
 }
