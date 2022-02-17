@@ -204,12 +204,6 @@ public class MainMenuScript : MonoBehaviour
 
             // TODO: For your own app you may want to move / remove this.
             LogoutButtonOn();
-
-
-            HexBigInteger val = new HexBigInteger("0x2386F26FC10000");
-            string th = await MoralisInterface.SendTransactionAsync("0xA18fb8ED2c2472b4Ebbb14681D204A364E1C2F25", val);
-
-            Debug.Log($"Transfer txnHash: {th}");
         }
     }
 #endif
