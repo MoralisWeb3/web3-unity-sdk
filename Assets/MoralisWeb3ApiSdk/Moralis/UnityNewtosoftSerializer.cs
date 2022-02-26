@@ -92,7 +92,7 @@ namespace Moralis
 #else
 using Moralis.Platform.Abstractions;
 
-namespace Assets.Scripts
+namespace Moralis
 {
     /// <summary>
     /// Defines a Newtonsoft wrapper around the Unity specific Newtonsoft library so that is

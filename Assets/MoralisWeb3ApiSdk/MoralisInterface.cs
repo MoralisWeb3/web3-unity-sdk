@@ -53,7 +53,6 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Eth.Transactions;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
-using Moralis;
 using Moralis.Web3Api.Client;
 using Moralis.SolanaApi.Client;
 using Moralis.Platform;
