@@ -17,11 +17,13 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
 
         IJsonSerializer JsonSerializer { get; }
 
+        IObjectService ObjectService { get; }
+
         public bool RevocableSessionEnabled { get; set; }
 
         public object RevocableSessionEnabledMutex { get; } = new object { };
 
-        public MoralisUserService(IMoralisCommandRunner commandRunner, IJsonSerializer jsonSerializer) => (CommandRunner, JsonSerializer) = (commandRunner, jsonSerializer);
+        public MoralisUserService(IMoralisCommandRunner commandRunner, IObjectService objectService, IJsonSerializer jsonSerializer) => (CommandRunner, ObjectService, JsonSerializer) = (commandRunner, objectService, jsonSerializer);
 
         public async UniTask<TUser> SignUpAsync(IObjectState state, IDictionary<string, IMoralisFieldOperation> operations, CancellationToken cancellationToken = default)
         {
@@ -32,6 +34,8 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
             if ((int)cmdResp.Item1 < 300)
             {
                 resp = (TUser)JsonSerializer.Deserialize<TUser>(cmdResp.Item2);
+
+                resp.ObjectService = this.ObjectService;
             }
             else
             {
@@ -48,6 +52,8 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
             if ((int)cmdResp.Item1 < 300)
             {
                 result = JsonSerializer.Deserialize<TUser>(cmdResp.Item2.ToString());
+
+                result.ObjectService = this.ObjectService;
             }
             else
             {
@@ -66,11 +72,16 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
                 [authType] = data
             };
 
-            Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(new MoralisCommand("server/users", method: "POST", data: JsonSerializer.Serialize(new Dictionary<string, object> { [nameof(authData)] = authData })), cancellationToken: cancellationToken);
-            
+            MoralisCommand cmd = new MoralisCommand("server/users", method: "POST", data: JsonSerializer.Serialize(new Dictionary<string, object> { [nameof(authData)] = authData }));
+            Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(cmd, cancellationToken: cancellationToken);
+
+            Debug.Log($"LogInAsync cmdResp: {cmdResp.Item2}");
+
             if ((int)cmdResp.Item1 < 300)
             {
                 user = JsonSerializer.Deserialize<TUser>(cmdResp.Item2.ToString());
+
+                user.ObjectService = this.ObjectService;
             }
             else
             {
@@ -87,6 +98,8 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
             if ((int)cmdResp.Item1 < 300)
             {
                 user = JsonSerializer.Deserialize<TUser>(cmdResp.Item2.ToString());
+
+                user.ObjectService = this.ObjectService;
             }
             else
             {

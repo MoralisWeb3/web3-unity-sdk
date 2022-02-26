@@ -14,6 +14,7 @@ using WebRequest = Moralis.WebGL.Platform.Services.Models.WebRequest;
 using UnityEngine;
 using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Moralis.WebGL.Platform.Services
 {
@@ -71,16 +72,21 @@ namespace Moralis.WebGL.Platform.Services
             {
                 foreach (KeyValuePair<string, string> header in httpRequest.Headers)
                 {
-                    if (!String.IsNullOrWhiteSpace(header.Value) && allowedHeaders.Contains(header.Key.ToLower()))
+                    if (webRequest.GetRequestHeader(header.Key) != null) continue;
+
+                    if (!String.IsNullOrWhiteSpace(header.Value) &&
+                        allowedHeaders.Contains(header.Key.ToLower()))
                     {
-                        webRequest.SetRequestHeader(header.Key, header.Value);
                         Debug.Log($"Adding Header: {header.Key} value: {header.Value}");
+                        webRequest.SetRequestHeader(header.Key, header.Value);
                     }
                 }
             }
 
             try
             {
+                string x = JsonConvert.SerializeObject(webRequest);
+
                 await webRequest.SendWebRequest();
             }
             catch (Exception exp)

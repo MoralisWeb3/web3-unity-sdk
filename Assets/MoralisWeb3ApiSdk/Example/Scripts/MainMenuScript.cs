@@ -195,6 +195,36 @@ public class MainMenuScript : MonoBehaviour
 
         // TODO: For your own app you may want to move / remove this.
         LogoutButtonOn();
+
+        Debug.Log("Testing User Save ...");
+        await TestUserUpdate(user);
+    }
+
+    private async Task TestUserUpdate(MoralisUser user)
+    {
+        user.username = GetTestName(user.username);
+        //Debug.Log($"Username is now: {user.username}, session: {user.sessionToken}");
+        await user.SaveAsync();
+
+        user = await MoralisInterface.GetClient().UserFromSession(user.sessionToken);
+
+        Debug.Log($"Username: {user.username}, session: {user.sessionToken}");
+    }
+
+    private string GetTestName(string currentName)
+    {
+        string[] names = { "Clem the Great", "Sion the Bold", "Bob", "D@ve", "Oogmar the Deft", "Alesdair the Blessed", "Seviel the Mighty", "Master Adept Xactant", "Semaphore the Beautiful", "Gamemaster Nexnang" };
+
+        System.Random rand = new System.Random((int)DateTime.Now.Ticks);
+
+        int x = rand.Next(names.Length);
+
+        while (names[x].Equals(currentName))
+        {
+            x = rand.Next(names.Length);
+        }
+
+        return names[x];
     }
 
     /// <summary>
