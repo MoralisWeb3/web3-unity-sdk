@@ -7,6 +7,7 @@ using Moralis.WebGL.Platform.Abstractions;
 using Moralis.WebGL.Platform.Utilities;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Moralis.WebGL.Platform.Objects
 {
@@ -36,6 +37,8 @@ namespace Moralis.WebGL.Platform.Objects
             }
 
             Dictionary<string, object> user = ((MoralisUser)value).ToParameterDictionary();
+            Debug.Log("User serialized to:");
+            foreach (string k in user.Keys) Debug.Log($"{k}: {user[k].ToString()}");
 
             serializer.Serialize(writer, user);
         }
@@ -80,7 +83,7 @@ namespace Moralis.WebGL.Platform.Objects
 
         public Dictionary<string, object> ToParameterDictionary()
         {
-            List<string> propertiesToSkip = new List<string>(new string[] { "createdate", "sessiontoken" });
+            List<string> propertiesToSkip = new List<string>(new string[] { "createdat", "sessiontoken" });
             Dictionary<string, object> result = new Dictionary<string, object>();
 
             // Use reflection to get all string properties 

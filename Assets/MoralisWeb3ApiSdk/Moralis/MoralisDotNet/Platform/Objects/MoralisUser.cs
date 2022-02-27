@@ -8,6 +8,7 @@ using System.Reflection;
 using Moralis.Platform.Abstractions;
 using Moralis.Platform.Utilities;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Moralis.Platform.Objects
 {
@@ -36,6 +37,8 @@ namespace Moralis.Platform.Objects
             }
 
             Dictionary<string, object> user = ((MoralisUser)value).ToParameterDictionary();
+            Debug.Log("User serialized to:");
+            foreach (string k in user.Keys) Debug.Log($"{k}: {user[k].ToString()}");
 
             serializer.Serialize(writer, user);
         }

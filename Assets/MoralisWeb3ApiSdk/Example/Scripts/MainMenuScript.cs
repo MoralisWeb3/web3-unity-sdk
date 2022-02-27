@@ -140,7 +140,8 @@ public class MainMenuScript : MonoBehaviour
             // Connect experience better.
             //await LoginViaConnectionPage();
 #elif UNITY_WEBGL
-            await LoginWithWeb3();
+            //await LoginWithWeb3();
+            qrMenu.SetActive(true);
 #else
             qrMenu.SetActive(true);
 #endif
@@ -208,12 +209,7 @@ public class MainMenuScript : MonoBehaviour
             // TODO: For your own app you may want to move / remove this.
             LogoutButtonOn();
 
-            //await UpdateUserTest.UpdateUserName(user);
-            Debug.Log("Re-fetching user ...");
-
-            MoralisUser updatedUser = await MoralisInterface.GetClient().UserFromSession(user.sessionToken);
-
-            Debug.Log($"User record was reloaded: {updatedUser.username}");
+            await UpdateUserTest.UpdateUserName(user);
         }
     }
 #endif

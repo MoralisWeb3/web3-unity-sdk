@@ -100,9 +100,6 @@ namespace Moralis.Platform.Services.ClientServices
                 return newCommand;
             });
 
-            // Locks needed due to installationFetchTask continuation newCommand.Headers.Add-call-related race condition (occurred once in Unity).
-            // TODO: Consider removal of installationFetchTask variable.
-
             lock (newCommand.Headers)
             {
                 KeyValuePair<string, string> appId = new KeyValuePair<string, string>("X-Parse-Application-Id", ServerConnectionData.ApplicationID);
@@ -111,7 +108,6 @@ namespace Moralis.Platform.Services.ClientServices
                 {
                     newCommand.Headers.Add(appId);
                 }
-                //newCommand.Headers.Add(new KeyValuePair<string, string>("X-Parse-Application-Id", ServerConnectionData.ApplicationID));
 
                 KeyValuePair<string, string> clientVersion = new KeyValuePair<string, string>("X-Parse-Client-Version", MoralisService<TUser>.Version.ToString());
 
@@ -119,8 +115,6 @@ namespace Moralis.Platform.Services.ClientServices
                 {
                     newCommand.Headers.Add(clientVersion);
                 }
-                    
-                //newCommand.Headers.Add(new KeyValuePair<string, string>("X-Parse-Client-Version", MoralisService<TUser>.Version.ToString()));
 
                 if (ServerConnectionData.Headers != null)
                 {

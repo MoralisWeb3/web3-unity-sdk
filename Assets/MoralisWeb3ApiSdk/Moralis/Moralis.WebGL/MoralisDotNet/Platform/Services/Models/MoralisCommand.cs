@@ -30,7 +30,6 @@ namespace Moralis.WebGL.Platform.Services.Models
 
         public MoralisCommand(string relativeUri, string method, string sessionToken = null, IList<KeyValuePair<string, string>> headers = null, Stream stream = null, string contentType = null)
         {
-            Debug.Log("moralis Command 'B'");
             Path = relativeUri;
             Method = method;
             Data = stream;
@@ -38,7 +37,6 @@ namespace Moralis.WebGL.Platform.Services.Models
 
             if (!String.IsNullOrEmpty(sessionToken))
             {
-                Debug.Log($"Set 'X-Parse-Session-Token' header to {sessionToken}");
                 Headers.Add(new KeyValuePair<string, string>("X-Parse-Session-Token", sessionToken));
             }
 
@@ -50,7 +48,6 @@ namespace Moralis.WebGL.Platform.Services.Models
 
         public MoralisCommand(MoralisCommand other)
         {
-            Debug.Log("moralis Command 'C'");
             Resource = other.Resource;
             Path = other.Path;
             Method = other.Method;
