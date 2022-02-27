@@ -70,6 +70,7 @@ public class MainMenuScript : MonoBehaviour
     /// </summary>
     async void Start()
     {
+
         menuBackground = (Image)gameObject.GetComponent(typeof(Image));
 
         qrMenu.SetActive(false);
@@ -262,6 +263,8 @@ public class MainMenuScript : MonoBehaviour
 
         // TODO: For your own app you may want to move / remove this.
         LogoutButtonOn();
+
+        await UpdateUserTest.UpdateUserName(user);
     }
 
     /// <summary>

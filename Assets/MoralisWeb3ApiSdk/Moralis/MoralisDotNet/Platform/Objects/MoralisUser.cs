@@ -1,14 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Reflection;
 using Moralis.Platform.Abstractions;
 using Moralis.Platform.Utilities;
+using Newtonsoft.Json;
 
 namespace Moralis.Platform.Objects
 {
+    class MoralisUserJsonConvertor : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return true;
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            //MyCustomType myCustomType = new MyCustomType();//for null values        
+            Dictionary<string, object> acl = new Dictionary<string, object>();
+            string key = String.Empty;
+
+            while (reader.Read())
+            {
+                var tokenType = reader.TokenType;
+                if (reader.TokenType == JsonToken.PropertyName)
+                {
+                    key = (reader.Value as string) ?? string.Empty;
+                }
+                else if (reader.TokenType == JsonToken.StartObject)
+                {
+                    Dictionary<string, object> cntlDict = new Dictionary<string, object>();
+                    var cntlKey = string.Empty;
+
+                    while (reader.Read())
+                    {
+                        if (reader.TokenType == JsonToken.PropertyName)
+                        {
+                            cntlKey = (reader.Value as string) ?? string.Empty;
+                        }
+                        else if (reader.TokenType == JsonToken.Boolean)
+                        {
+                            bool? b = reader.Value as bool?;
+                            cntlDict.Add(cntlKey, b.Value);
+                        }
+                        if (reader.TokenType == JsonToken.EndObject)
+                        {
+                            acl.Add(key, cntlDict);
+                            break;
+                        }
+                    }
+                }
+                else if (reader.TokenType == JsonToken.EndObject)
+                {
+                    break;
+                }
+            }
+
+            return new MoralisAcl(acl);
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            if (value == null || !(value is MoralisUser))
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+
+            Dictionary<string, object> user = ((MoralisUser)value).ToParameterDictionary();
+
+            serializer.Serialize(writer, user);
+        }
+    }
+
+
+    [JsonConverter(typeof(MoralisUserJsonConvertor))]
     public class MoralisUser : MoralisObject
     {
+        private bool isSaving = false;
+
         public MoralisUser()
         {
             this.ClassName = "_User";
@@ -34,7 +107,6 @@ namespace Moralis.Platform.Objects
         public string password;
         public string email;
 
-
         internal static IDictionary<string, IAuthenticationProvider> Authenticators { get; } = new Dictionary<string, IAuthenticationProvider> { };
     
         internal static HashSet<string> ImmutableKeys { get; } = new HashSet<string> { "sessionToken", "isNew" };
@@ -44,6 +116,30 @@ namespace Moralis.Platform.Objects
 
         internal Task SignUpAsync(Task toAwait, CancellationToken cancellationToken) => throw new NotFiniteNumberException();
 
+        public Dictionary<string, object> ToParameterDictionary()
+        {
+            List<string> propertiesToSkip = new List<string>(new string[]{ "createdat", "sessiontoken" });
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            // Use reflection to get all string properties 
+            // that have getters and setters
+            var properties = from p in this.GetType().GetProperties()
+                             where p.CanRead &&
+                                   p.CanWrite
+                             select p;
+
+            foreach (var property in properties)
+            {
+                // Not all properties should be included on save
+                if (isSaving && propertiesToSkip.Contains(property.Name.ToLower())) continue;
+
+                var value = property.GetValue(this);
+
+                result.Add(property.Name, value);
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Signs up a new user. This will create a new ParseUser on the server and will also persist the
@@ -51,6 +147,11 @@ namespace Moralis.Platform.Objects
         /// password must be set before calling SignUpAsync.
         /// </summary>
         public Task SignUpAsync() => SignUpAsync(CancellationToken.None);
+
+        public void SetSaving(bool val)
+        {
+            isSaving = val;
+        }
 
         /// <summary>
         /// Signs up a new user. This will create a new ParseUser on the server and will also persist the

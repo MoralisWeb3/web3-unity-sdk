@@ -506,7 +506,18 @@ namespace MoralisWeb3ApiSdk
 
             WalletConnectSession client = WalletConnect.Instance.Session;
 
-            Web3Client = new Web3(client.CreateProvider(new Uri(rpcUrl)));
+            // Create a web3 client using Wallet Connect as write client and a dummy client as read client.
+            // Read operations should be via Web3API. Read operation are not implemented in the Web3 Client
+            // Use the Web3API for read operations as available. If you must make run a read request that is
+            // not supported by Web3API you will need to use the Wallet Connect method:
+            // CreateProviderWithInfura(this WalletConnectProtocol protocol, string infruaId, string network = "mainnet", AuthenticationHeaderValue authenticationHeader = null)
+            // We do not recommned this though
+            Web3Client = new Web3(client.CreateProvider(new DeadRpcReadClient((string s) => {
+                Debug.LogError(s);
+            })));
+            //
+            //Web3Client = new Web3(client.CreateProvider(new Uri(rpcUrl)));
+
         }
 
         /// <summary>
