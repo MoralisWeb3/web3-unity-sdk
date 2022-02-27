@@ -97,7 +97,7 @@ namespace MoralisWeb3ApiSdk
         /// <param name="serverUri"></param>
         /// <param name="hostData"></param>
         /// <param name="web3ApiKey"></param>
-        public static async UniTask Initialize(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta = null, string web3RpcUrl = null, string web3ApiKey = null)
+        public static async UniTask Initialize(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
             // Application Id is requried.
             if (string.IsNullOrEmpty(applicationId))
@@ -135,13 +135,11 @@ namespace MoralisWeb3ApiSdk
             // For unity apps the local storage value must also be set.
             connectionData.LocalStoragePath = Application.persistentDataPath;
 
-            web3ClientRpcUrl = web3RpcUrl;
-
             Debug.Log($"Set LocalStoragePath to {connectionData.LocalStoragePath}");
 
             // TODO Make this optional!
             connectionData.Key = "";
-
+            
             Debug.Log("Connecting to Moralis ...");
 
             // Set manifest / host data required so that the Moralis Client does not
@@ -150,10 +148,10 @@ namespace MoralisWeb3ApiSdk
 
             // Define a Unity specific Json Serializer.
             UnityNewtosoftSerializer jsonSerializer = new UnityNewtosoftSerializer();
-        
+
             // If user passed web3apikey, add it to configuration.
-            if (web3ApiKey is { }) Moralis.WebGL.Web3Api.Client.Configuration.ApiKey["X-API-Key"] = web3ApiKey;
             if (web3ApiKey is { }) Moralis.WebGL.SolanaApi.Client.Configuration.ApiKey["X-API-Key"] = web3ApiKey;
+            if (web3ApiKey is { }) Moralis.WebGL.Web3Api.Client.Configuration.ApiKey["X-API-Key"] = web3ApiKey;
 
             // Create an instance of Moralis Server Client
             // NOTE: Web3ApiClient is optional. If you are not using the Moralis 
@@ -310,7 +308,6 @@ namespace MoralisWeb3ApiSdk
     /// </summary>
     public class MoralisInterface : MonoBehaviour
     {
-        private static string web3ClientRpcUrl;
         private static EvmContractManager contractManager;
 
         // Singleton instance of Moralis so that is it is available application 
@@ -333,7 +330,7 @@ namespace MoralisWeb3ApiSdk
         /// <param name="serverUri"></param>
         /// <param name="hostData"></param>
         /// <param name="web3ApiKey"></param>
-        public static async Task Initialize(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta, string web3RpcUrl = null, string web3ApiKey = null)
+        public static async Task Initialize(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta, string web3ApiKey = null)
         {
             // Application Id is requried.
             if (string.IsNullOrEmpty(applicationId))
@@ -368,8 +365,6 @@ namespace MoralisWeb3ApiSdk
             connectionData.ServerURI = serverUri;
             connectionData.ApiKey = web3ApiKey;
 
-            web3ClientRpcUrl = web3RpcUrl;
-
             // For unity apps the local storage value must also be set.
             connectionData.LocalStoragePath = Application.persistentDataPath;
 
@@ -386,15 +381,15 @@ namespace MoralisWeb3ApiSdk
             UnityNewtosoftSerializer jsonSerializer = new UnityNewtosoftSerializer();
 
             // If user passed web3apikey, add it to configuration.
-            if (web3ApiKey is { }) Moralis.Web3Api.Client.Configuration.ApiKey["X-API-Key"] = web3ApiKey;
             if (web3ApiKey is { }) Moralis.SolanaApi.Client.Configuration.ApiKey["X-API-Key"] = web3ApiKey;
+            if (web3ApiKey is { }) Moralis.Web3Api.Client.Configuration.ApiKey["X-API-Key"] = web3ApiKey;
 
             // Create an instance of Moralis Server Client
             // NOTE: Web3ApiClient is optional. If you are not using the Moralis 
             // Web3Api REST API you can call the method with just connectionData
             // NOTE: If you are using a custom user object use 
             // new MoralisClient<YourUser>(connectionData, address, Web3ApiClient)
-            moralis = new MoralisClient(connectionData, new Web3ApiClient(), new SolanaApiClient(),  jsonSerializer);
+            moralis = new MoralisClient(connectionData, new Web3ApiClient(), new SolanaApiClient(), jsonSerializer);
 
             clientMetaData = clientMeta;
 
@@ -486,21 +481,16 @@ namespace MoralisWeb3ApiSdk
             return moralis.LogOutAsync();
         }
 
-        public static void SetupWeb3()
-        { 
-            SetupWeb3(web3ClientRpcUrl);
-        }
-
         /// <summary>
         /// Initializes the Web3 connection to the supplied RPC Url. Call this to change the target chain.
         /// </summary>
         /// <param name="rpcUrl"></param>
         /// <returns></returns>
-        public static void SetupWeb3(string rpcUrl)
+        public static void SetupWeb3()
         {
-            if (String.IsNullOrWhiteSpace(rpcUrl) || clientMetaData == null)
+            if (clientMetaData == null)
             {
-                Debug.Log("Web3 RPC Node Url or Wallet Connect Metadata not provided.");
+                Debug.Log("Wallet Connect Metadata not provided.");
                 return;
             }
 
@@ -517,7 +507,6 @@ namespace MoralisWeb3ApiSdk
             })));
             //
             //Web3Client = new Web3(client.CreateProvider(new Uri(rpcUrl)));
-
         }
 
         /// <summary>

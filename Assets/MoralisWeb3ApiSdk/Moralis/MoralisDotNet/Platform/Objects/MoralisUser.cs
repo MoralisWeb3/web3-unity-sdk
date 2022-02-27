@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
@@ -16,50 +17,14 @@ namespace Moralis.Platform.Objects
         {
             return true;
         }
+        public override bool CanRead
+        {
+            get { return false; }
+        }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            //MyCustomType myCustomType = new MyCustomType();//for null values        
-            Dictionary<string, object> acl = new Dictionary<string, object>();
-            string key = String.Empty;
-
-            while (reader.Read())
-            {
-                var tokenType = reader.TokenType;
-                if (reader.TokenType == JsonToken.PropertyName)
-                {
-                    key = (reader.Value as string) ?? string.Empty;
-                }
-                else if (reader.TokenType == JsonToken.StartObject)
-                {
-                    Dictionary<string, object> cntlDict = new Dictionary<string, object>();
-                    var cntlKey = string.Empty;
-
-                    while (reader.Read())
-                    {
-                        if (reader.TokenType == JsonToken.PropertyName)
-                        {
-                            cntlKey = (reader.Value as string) ?? string.Empty;
-                        }
-                        else if (reader.TokenType == JsonToken.Boolean)
-                        {
-                            bool? b = reader.Value as bool?;
-                            cntlDict.Add(cntlKey, b.Value);
-                        }
-                        if (reader.TokenType == JsonToken.EndObject)
-                        {
-                            acl.Add(key, cntlDict);
-                            break;
-                        }
-                    }
-                }
-                else if (reader.TokenType == JsonToken.EndObject)
-                {
-                    break;
-                }
-            }
-
-            return new MoralisAcl(acl);
+            throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -103,7 +68,6 @@ namespace Moralis.Platform.Objects
 
         public IDictionary<string, IDictionary<string, object>> authData; 
 
-        //public string sessionToken;
         public string password;
         public string email;
 
@@ -123,19 +87,39 @@ namespace Moralis.Platform.Objects
 
             // Use reflection to get all string properties 
             // that have getters and setters
-            var properties = from p in this.GetType().GetProperties()
+            IEnumerable<PropertyInfo> properties = from p in this.GetType().GetProperties()
                              where p.CanRead &&
                                    p.CanWrite
                              select p;
 
-            foreach (var property in properties)
+            foreach (PropertyInfo property in properties)
             {
                 // Not all properties should be included on save
                 if (isSaving && propertiesToSkip.Contains(property.Name.ToLower())) continue;
 
                 var value = property.GetValue(this);
 
-                result.Add(property.Name, value);
+                if (value != null)
+                {
+                    result.Add(property.Name, value);
+                }
+            }
+
+            IEnumerable<FieldInfo> fields = from f in this.GetType().GetFields()
+                         where f.IsPublic
+                         select f;
+
+            foreach (FieldInfo field in fields)
+            {
+                // Not all properties should be included on save
+                if (isSaving && propertiesToSkip.Contains(field.Name.ToLower())) continue;
+
+                var value = field.GetValue(this);
+
+                if (value != null)
+                {
+                    result.Add(field.Name, value);
+                }
             }
 
             return result;

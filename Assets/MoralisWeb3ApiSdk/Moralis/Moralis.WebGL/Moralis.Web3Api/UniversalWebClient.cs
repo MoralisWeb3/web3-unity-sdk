@@ -67,10 +67,12 @@ namespace Moralis.WebGL.Web3Api
             {
                 foreach (KeyValuePair<string, string> header in httpRequest.Headers)
                 {
-                    if (!String.IsNullOrWhiteSpace(header.Value) && allowedHeaders.Contains(header.Key.ToLower()))
+                    if (webRequest.GetRequestHeader(header.Key) != null) continue;
+
+                    if (!String.IsNullOrWhiteSpace(header.Value) &&
+                        allowedHeaders.Contains(header.Key.ToLower()))
                     {
                         webRequest.SetRequestHeader(header.Key, header.Value);
-                        Debug.Log($"Adding Header: {header.Key} value: {header.Value}");
                     }
                 }
             }
