@@ -1,11 +1,14 @@
-﻿using Moralis.Platform.Objects;
-using MoralisWeb3ApiSdk;
+﻿using MoralisWeb3ApiSdk;
 using System;
 using UnityEngine;
 #if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
+using Moralis.WebGL.Platform.Objects;
+
 #else    
 using System.Threading.Tasks;
+using Moralis.Platform.Objects;
+
 #endif
 
 public class UpdateUserTest

@@ -198,7 +198,7 @@ public class MainMenuScript : MonoBehaviour
 
             if (user != null)
             {
-                Debug.Log($"User {user.username} logged in successfully. ");
+                Debug.Log($"User {user.username}, session: {user.sessionToken} logged in successfully. ");
             }
             else
             {
@@ -207,6 +207,13 @@ public class MainMenuScript : MonoBehaviour
 
             // TODO: For your own app you may want to move / remove this.
             LogoutButtonOn();
+
+            //await UpdateUserTest.UpdateUserName(user);
+            Debug.Log("Re-fetching user ...");
+
+            MoralisUser updatedUser = await MoralisInterface.GetClient().UserFromSession(user.sessionToken);
+
+            Debug.Log($"User record was reloaded: {updatedUser.username}");
         }
     }
 #endif

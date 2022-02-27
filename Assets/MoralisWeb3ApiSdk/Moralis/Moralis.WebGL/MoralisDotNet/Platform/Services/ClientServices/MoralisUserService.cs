@@ -93,6 +93,7 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
 
         public async UniTask<TUser> GetUserAsync(string sessionToken, IServiceHub<TUser> serviceHub, CancellationToken cancellationToken = default)
         {
+            Debug.Log($"Get user using sessionToken: {sessionToken}");
             TUser user = default;
             Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(new MoralisCommand("server/users/me", method: "GET", sessionToken: sessionToken, data: default), cancellationToken: cancellationToken);
             if ((int)cmdResp.Item1 < 300)

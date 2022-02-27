@@ -78,8 +78,6 @@ namespace MoralisWeb3ApiSdk
                     URL = ApplicationUrl
                 };
 
-                walletConnect.AppData = clientMeta;
-
                 await MoralisInterface.Initialize(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
             }
         }
