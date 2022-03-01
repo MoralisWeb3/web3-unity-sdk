@@ -52,21 +52,26 @@ namespace Moralis.Platform.Services.ClientServices
         /// <param name="downloadProgress">An <see cref="IProgress{MoralisDownloadProgressEventArgs}"/> instance to push download progress data to.</param>
         /// <param name="cancellationToken">An asynchronous operation cancellation token that dictates if and when the operation should be cancelled.</param>
         /// <returns>Tuple<HttpStatusCode, string></returns>
-        public Task<Tuple<HttpStatusCode, string>> RunCommandAsync(MoralisCommand command, IProgress<IDataTransferLevel> uploadProgress = null, IProgress<IDataTransferLevel> downloadProgress = null, CancellationToken cancellationToken = default) => PrepareCommand(command).ContinueWith(commandTask => GetWebClient().ExecuteAsync(commandTask.Result, uploadProgress, downloadProgress, cancellationToken).OnSuccess(task =>
+        //public Task<Tuple<HttpStatusCode, string>> RunCommandAsync(MoralisCommand command, IProgress<IDataTransferLevel> uploadProgress = null, IProgress<IDataTransferLevel> downloadProgress = null, CancellationToken cancellationToken = default) => PrepareCommand(command).ContinueWith(commandTask => GetWebClient().ExecuteAsync(commandTask.Result, uploadProgress, downloadProgress, cancellationToken).OnSuccess(task =>
+        public async Task<Tuple<HttpStatusCode, string>> RunCommandAsync(MoralisCommand command, IProgress<IDataTransferLevel> uploadProgress = null, IProgress<IDataTransferLevel> downloadProgress = null, CancellationToken cancellationToken = default) // => PrepareCommand(command).ContinueWith(commandTask => GetWebClient().ExecuteAsync(commandTask.Result, uploadProgress, downloadProgress, cancellationToken).OnSuccess(task =>
         {
+            MoralisCommand cmd = await PrepareCommand(command);
+            
+            Tuple<HttpStatusCode, string> cmdResult = await GetWebClient().ExecuteAsync(cmd, uploadProgress, downloadProgress, cancellationToken); //, uploadProgress, downloadProgress, cancellationToken);
+
             cancellationToken.ThrowIfCancellationRequested();
 
-            Tuple<HttpStatusCode, string> response = task.Result;
-            string content = response.Item2;
-            int responseCode = (int) response.Item1;
+            string content = cmdResult.Item2;
+            int responseCode = (int)cmdResult.Item1;
+
 
             if (responseCode >= 500)
             {
-                throw new MoralisFailureException(MoralisFailureException.ErrorCode.InternalServerError, response.Item2);
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.InternalServerError, content);
             }
 
             // The Moralis server returns POCO saved dates as an object. Convert to ISO datetime string.
-            string adjustedData = response.Item2.AdjustJsonForParseDate();
+            string adjustedData = content.AdjustJsonForParseDate();
 
             // Remove Results wrapper.
             if (adjustedData.StartsWith("{\"results\":"))
@@ -78,10 +83,10 @@ namespace Moralis.Platform.Services.ClientServices
                 adjustedData = adjustedData.Substring(10, adjustedData.Length - 11);
             }
 
-            Tuple<HttpStatusCode, string> newResponse = new Tuple<HttpStatusCode, string>(response.Item1, adjustedData);
+            Tuple<HttpStatusCode, string> newResponse = new Tuple<HttpStatusCode, string>(cmdResult.Item1, adjustedData);
             
             return newResponse;
-        })).Unwrap();
+        }//)).Unwrap();
 
         Task<MoralisCommand> PrepareCommand(MoralisCommand command)
         {

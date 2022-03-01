@@ -3,13 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
 using Moralis.WebGL.Platform.Abstractions;
-using Moralis.WebGL.Platform.Services.Models;
-using Moralis.WebGL.Platform.Utilities;
-//using BCLWebClient = System.Net.Http.HttpClient;
 using WebRequest = Moralis.WebGL.Platform.Services.Models.WebRequest;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -41,7 +36,9 @@ namespace Moralis.WebGL.Platform.Services
         static List<string> allowedHeaders { get; } = new List<string>
         {
             "x-parse-application-id",
+            "x-parse-client-version",
             "x-parse-installation-id",
+            "x-parse-session-token",
             "content-type"
         };
         public UniversalWebClient() { }
@@ -77,7 +74,6 @@ namespace Moralis.WebGL.Platform.Services
                     if (!String.IsNullOrWhiteSpace(header.Value) &&
                         allowedHeaders.Contains(header.Key.ToLower()))
                     {
-                        Debug.Log($"Adding Header: {header.Key} value: {header.Value}");
                         webRequest.SetRequestHeader(header.Key, header.Value);
                     }
                 }
@@ -86,7 +82,7 @@ namespace Moralis.WebGL.Platform.Services
             try
             {
                 string x = JsonConvert.SerializeObject(webRequest);
-
+                Debug.Log($"\n\nWebRequest\n----------\v{x}\n\n");
                 await webRequest.SendWebRequest();
             }
             catch (Exception exp)

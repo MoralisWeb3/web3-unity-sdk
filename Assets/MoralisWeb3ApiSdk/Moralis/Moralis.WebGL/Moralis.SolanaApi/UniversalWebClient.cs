@@ -74,19 +74,10 @@ namespace Moralis.WebGL.SolanaApi
                         if (!String.IsNullOrWhiteSpace(header.Value) &&
                             allowedHeaders.Contains(header.Key.ToLower()))
                         {
-                            Debug.Log($"Adding Header: {header.Key} value: {header.Value}");
                             webRequest.SetRequestHeader(header.Key, header.Value);
                         }
                     }
                 }
-                //foreach (KeyValuePair<string, string> header in httpRequest.Headers)
-                //{
-                //    if (!String.IsNullOrWhiteSpace(header.Value) && allowedHeaders.Contains(header.Key.ToLower()))
-                //    {
-                //        webRequest.SetRequestHeader(header.Key, header.Value);
-                //        Debug.Log($"Adding Header: {header.Key} value: {header.Value}");
-                //    }
-                //}
             }
 
             try

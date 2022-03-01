@@ -52,25 +52,36 @@ namespace Moralis.Platform.Services.ClientServices
             return result;
         }
 
-        public Task<TUser> LogInAsync(string authType, IDictionary<string, object> data, IServiceHub<TUser> serviceHub, CancellationToken cancellationToken = default)
+        public async Task<TUser> LogInAsync(string authType, IDictionary<string, object> data, IServiceHub<TUser> serviceHub, CancellationToken cancellationToken = default)
         {
             Dictionary<string, object> authData = new Dictionary<string, object>
             {
                 [authType] = data
             };
 
-            return CommandRunner.RunCommandAsync(new MoralisCommand("server/users", method: "POST", data: JsonSerializer.Serialize(new Dictionary<string, object> { [nameof(authData)] = authData })), cancellationToken: cancellationToken).OnSuccess(task => 
+            //return CommandRunner.RunCommandAsync(new MoralisCommand("server/users", method: "POST", data: JsonSerializer.Serialize(new Dictionary<string, object> { [nameof(authData)] = authData })), cancellationToken: cancellationToken).OnSuccess(task => 
+            //{
+            TUser user = default;
+
+            MoralisCommand cmd = new MoralisCommand("server/users", method: "POST", data: JsonSerializer.Serialize(new Dictionary<string, object> { [nameof(authData)] = authData }));
+            Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(cmd, cancellationToken: cancellationToken);
+
+            if ((int)cmdResp.Item1 < 300)
             {
-                TUser user = default;
-                if ((int)task.Result.Item1 < 300)
-                {
-                    user = JsonSerializer.Deserialize<TUser>(task.Result.Item2.ToString());
+                user = JsonSerializer.Deserialize<TUser>(cmdResp.Item2.ToString());
 
-                    user.ObjectService = this.ObjectService;
-                }
+                user.ObjectService = this.ObjectService;
 
-                return user;
-            });
+                user.ACL = new MoralisAcl(user);
+                user.ethAddress = data["id"].ToString();
+                user.accounts = new string[1];
+                user.accounts[0] = user.ethAddress;
+
+                await user.SaveAsync();
+            }
+
+            return user;
+            //});
         }
 
         //public Task<TUser> GetUserAsync(string sessionToken, IServiceHub<TUser> serviceHub, CancellationToken cancellationToken = default) => CommandRunner.RunCommandAsync(new MoralisCommand("server/users/me", method: "GET", sessionToken: sessionToken, data: default), cancellationToken: cancellationToken).OnSuccess(task => (int)task.Result.Item1 < 300 ? JsonSerializer.Deserialize<TUser>(task.Result.Item2.ToString()) : default);

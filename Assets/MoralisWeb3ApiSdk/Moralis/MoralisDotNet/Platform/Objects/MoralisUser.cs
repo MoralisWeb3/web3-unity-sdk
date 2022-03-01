@@ -4,11 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Reflection;
 using Moralis.Platform.Abstractions;
 using Moralis.Platform.Utilities;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace Moralis.Platform.Objects
 {
@@ -37,8 +35,6 @@ namespace Moralis.Platform.Objects
             }
 
             Dictionary<string, object> user = ((MoralisUser)value).ToParameterDictionary();
-            Debug.Log("User serialized to:");
-            foreach (string k in user.Keys) Debug.Log($"{k}: {user[k].ToString()}");
 
             serializer.Serialize(writer, user);
         }
@@ -61,10 +57,22 @@ namespace Moralis.Platform.Objects
             DateTime? createdAt = null,
             DateTime? updatedAt = null,
             MoralisAcl ACL = null,
-            string sessionToken = null) : base("_User", objectId, sessionToken, createdAt, updatedAt, ACL)
+            string sessionToken = null,
+            string ethAddress = null) : base("_User", objectId, sessionToken, createdAt, updatedAt, ACL)
         {
             this.username = userName;
             this.authData = authData ?? new Dictionary<string, IDictionary<string, object>>();
+
+            if (!String.IsNullOrEmpty(ethAddress))
+            {
+                this.ethAddress = ethAddress;
+                this.accounts = new string[1];
+                this.accounts[0] = ethAddress;
+            }
+            else
+            {
+                accounts = new string[0];
+            }
         }
 
         public string username;
@@ -73,6 +81,8 @@ namespace Moralis.Platform.Objects
 
         public string password;
         public string email;
+        public string ethAddress;
+        public string[] accounts;
 
         internal static IDictionary<string, IAuthenticationProvider> Authenticators { get; } = new Dictionary<string, IAuthenticationProvider> { };
     

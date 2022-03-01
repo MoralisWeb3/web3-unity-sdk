@@ -37,8 +37,6 @@ namespace Moralis.WebGL.Platform.Objects
             }
 
             Dictionary<string, object> user = ((MoralisUser)value).ToParameterDictionary();
-            Debug.Log("User serialized to:");
-            foreach (string k in user.Keys) Debug.Log($"{k}: {user[k].ToString()}");
 
             serializer.Serialize(writer, user);
         }
@@ -60,10 +58,23 @@ namespace Moralis.WebGL.Platform.Objects
             DateTime? createdAt = null,
             DateTime? updatedAt = null,
             MoralisAcl ACL = null,
-            string sessionToken = null) : base("_User", objectId, sessionToken, createdAt, updatedAt, ACL)
+            string sessionToken = null,
+            string ethAddress = null
+            ) : base("_User", objectId, sessionToken, createdAt, updatedAt, ACL)
         {
             this.username = userName;
             this.authData = authData != null ? authData : new Dictionary<string, IDictionary<string, object>>();
+
+            if (!String.IsNullOrEmpty(ethAddress))
+            {
+                this.ethAddress = ethAddress;
+                this.accounts = new string[1];
+                this.accounts[0] = ethAddress;
+            }
+            else
+            {
+                accounts = new string[0];
+            }
         }
 
         public string username;
@@ -72,10 +83,12 @@ namespace Moralis.WebGL.Platform.Objects
 
         public string password;
         public string email;
+        public string ethAddress;
+        public string[] accounts;
 
         internal static IDictionary<string, IAuthenticationProvider> Authenticators { get; } = new Dictionary<string, IAuthenticationProvider> { };
     
-        internal static HashSet<string> ImmutableKeys { get; } = new HashSet<string> { "sessionToken", "isNew" };
+        internal static HashSet<string> ImmutableKeys { get; } = new HashSet<string> { "classname", "sessionToken", "isNew" };
        
         internal ICurrentUserService<MoralisUser> CurrentUserService { get; set; }
 
@@ -83,7 +96,7 @@ namespace Moralis.WebGL.Platform.Objects
 
         public Dictionary<string, object> ToParameterDictionary()
         {
-            List<string> propertiesToSkip = new List<string>(new string[] { "createdat", "sessiontoken" });
+            List<string> propertiesToSkip = new List<string>(new string[] { "classname", "createdat", "sessiontoken" });
             Dictionary<string, object> result = new Dictionary<string, object>();
 
             // Use reflection to get all string properties 

@@ -140,8 +140,8 @@ public class MainMenuScript : MonoBehaviour
             // Connect experience better.
             //await LoginViaConnectionPage();
 #elif UNITY_WEBGL
-            //await LoginWithWeb3();
-            qrMenu.SetActive(true);
+            await LoginWithWeb3();
+            //qrMenu.SetActive(true);
 #else
             qrMenu.SetActive(true);
 #endif

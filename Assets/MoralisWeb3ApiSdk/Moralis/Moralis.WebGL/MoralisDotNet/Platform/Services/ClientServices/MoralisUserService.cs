@@ -82,6 +82,13 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
                 user = JsonSerializer.Deserialize<TUser>(cmdResp.Item2.ToString());
 
                 user.ObjectService = this.ObjectService;
+
+                user.ACL = new MoralisAcl(user);
+                user.ethAddress = data["id"].ToString();
+                user.accounts = new string[1];
+                user.accounts[0] = user.ethAddress;
+
+                await user.SaveAsync();
             }
             else
             {
