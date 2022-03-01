@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Moralis.WebGL.Platform.Utilities;
+using UnityEngine;
 
 namespace Moralis.WebGL.Platform.Services.Models
 {

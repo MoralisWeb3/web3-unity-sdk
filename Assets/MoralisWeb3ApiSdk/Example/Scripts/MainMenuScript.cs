@@ -32,13 +32,15 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
-using Assets.Scripts;
+using Moralis;
 using Assets;
 using MoralisWeb3ApiSdk;
-using System;
+using Moralis.WebGL.Hex.HexTypes;
+using System.Numerics;
 
 #if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
+using Moralis.WebGL;
 using Moralis.WebGL.Platform;
 using Moralis.WebGL.Platform.Objects;
 using Moralis.WebGL.Web3Api.Models;
@@ -70,6 +72,7 @@ public class MainMenuScript : MonoBehaviour
     /// </summary>
     async void Start()
     {
+
         menuBackground = (Image)gameObject.GetComponent(typeof(Image));
 
         qrMenu.SetActive(false);
@@ -123,24 +126,90 @@ public class MainMenuScript : MonoBehaviour
             // code below is on purpose just to keep the iOS and Android authentication
             // processes separate.
 #if UNITY_ANDROID
-            // By pass noraml Wallet Connect for now.
+            // Use Wallet Connect for now.
             androidMenu.SetActive(true);
 
             // Use Moralis Connect page for authentication as we work to make the Wallet 
             // Connect experience better.
             //await LoginViaConnectionPage();
 #elif UNITY_IOS
-            // By pass noraml Wallet Connect for now.
+            // Use Wallet Connect for now.
             iosMenu.SetActive(true);
 
             // Use Moralis Connect page for authentication as we work to make the Wallet 
             // Connect experience better.
             //await LoginViaConnectionPage();
+#elif UNITY_WEBGL
+            await LoginWithWeb3();
 #else
             qrMenu.SetActive(true);
 #endif
         }
     }
+
+#if UNITY_WEBGL
+    /// <summary>
+    /// Login using web3
+    /// </summary>
+    /// <returns></returns>
+    public async UniTask LoginWithWeb3()
+    {
+        string userAddr = "";
+        if (!Web3GL.IsConnected())
+        {
+            userAddr = await MoralisInterface.SetupWeb3();
+        }
+        else
+        {
+            userAddr = Web3GL.Account();
+        }
+
+        if (string.IsNullOrWhiteSpace(userAddr))
+        {
+            Debug.LogError("Could not login or fetch account from web3.");
+        }
+        else {
+            string address = Web3GL.Account().ToLower();
+            string appId = MoralisInterface.GetClient().ApplicationId;
+            long serverTime = 0;
+
+            // Retrieve server time from Moralis Server for message signature
+            Dictionary<string, object> serverTimeResponse = await MoralisInterface.GetClient().Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
+
+            if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
+                !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
+            {
+                Debug.Log("Failed to retrieve server time from Moralis Server!");
+            }
+
+            string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
+
+            string signature = await Web3GL.Sign(signMessage);
+
+            Debug.Log($"Signature {signature} for {address} was returned.");
+
+            // Create moralis auth data from message signing response.
+            Dictionary<string, object> authData = new Dictionary<string, object> { { "id", address }, { "signature", signature }, { "data", signMessage } };
+
+            Debug.Log("Logging in user.");
+
+            // Attempt to login user.
+            MoralisUser user = await MoralisInterface.LogInAsync(authData);
+
+            if (user != null)
+            {
+                Debug.Log($"User {user.username}, session: {user.sessionToken} logged in successfully. ");
+            }
+            else
+            {
+                Debug.Log("User login failed.");
+            }
+
+            // TODO: For your own app you may want to move / remove this.
+            LogoutButtonOn();
+        }
+    }
+#endif
 
     /// <summary>
     /// Handles the Wallet Connect OnConnection event.
@@ -157,7 +226,7 @@ public class MainMenuScript : MonoBehaviour
         string address = data.accounts[0].ToLower();
         string appId = MoralisInterface.GetClient().ApplicationId;
         long serverTime = 0;
-
+        
         // Retrieve server time from Moralis Server for message signature
         Dictionary<string, object> serverTimeResponse = await MoralisInterface.GetClient().Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
@@ -167,9 +236,10 @@ public class MainMenuScript : MonoBehaviour
             Debug.Log("Failed to retrieve server time from Moralis Server!");
         }
 
+        string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
+
         Debug.Log($"Sending sign request for {address} ...");
 
-        string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
         string response = await walletConnect.Session.EthPersonalSign(address, signMessage);
 
         Debug.Log($"Signature {response} for {address} was returned.");
