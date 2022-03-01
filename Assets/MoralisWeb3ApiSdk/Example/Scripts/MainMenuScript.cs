@@ -141,7 +141,6 @@ public class MainMenuScript : MonoBehaviour
             //await LoginViaConnectionPage();
 #elif UNITY_WEBGL
             await LoginWithWeb3();
-            //qrMenu.SetActive(true);
 #else
             qrMenu.SetActive(true);
 #endif
@@ -208,8 +207,6 @@ public class MainMenuScript : MonoBehaviour
 
             // TODO: For your own app you may want to move / remove this.
             LogoutButtonOn();
-
-            await UpdateUserTest.UpdateUserName(user);
         }
     }
 #endif
@@ -268,8 +265,6 @@ public class MainMenuScript : MonoBehaviour
 
         // TODO: For your own app you may want to move / remove this.
         LogoutButtonOn();
-
-        await UpdateUserTest.UpdateUserName(user);
     }
 
     /// <summary>
