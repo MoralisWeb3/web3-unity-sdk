@@ -86,45 +86,48 @@ namespace MoralisWeb3ApiSdk
         private static ServerConnectionData connectionData;
         private static ClientMeta clientMetaData;
 
-        // Since the user object is used so often, once the user is authenticated 
-        // keep a local copy to save some cycles.
-        private static MoralisUser user;
+    public static bool Initialized { get; set; }
 
-        /// <summary>
-        /// Initializes the connection to a Moralis server.
-        /// </summary>
-        /// <param name="applicationId"></param>
-        /// <param name="serverUri"></param>
-        /// <param name="hostData"></param>
-        /// <param name="web3ApiKey"></param>
-        public static async UniTask Initialize(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta = null, string web3ApiKey = null)
+    public static Web3 Web3Client { get; set; }
+    // Since the user object is used so often, once the user is authenticated 
+    // keep a local copy to save some cycles.
+    private static MoralisUser user;
+
+    /// <summary>
+    /// Initializes the connection to a Moralis server.
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <param name="serverUri"></param>
+    /// <param name="hostData"></param>
+    /// <param name="web3ApiKey"></param>
+    public static async UniTask Initialize(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta, string web3ApiKey = null)
+    {
+        // Application Id is requried.
+        if (string.IsNullOrEmpty(applicationId))
         {
-            // Application Id is requried.
-            if (string.IsNullOrEmpty(applicationId))
-            {
-                Debug.LogError("Application Id is required.");
-                throw new ArgumentException("Application Id was not supplied.");
-            }
-            // Server URI is required.
-            if(string.IsNullOrEmpty(serverUri))
-            {
-                Debug.LogError("Server URI is required.");
-                throw new ArgumentException("Server URI was not supplied.");
-            }
+            Debug.LogError("Application Id is required.");
+            throw new ArgumentException("Application Id was not supplied.");
+        }
+        // Server URI is required.
+        if(string.IsNullOrEmpty(serverUri))
+        {
+            Debug.LogError("Server URI is required.");
+            throw new ArgumentException("Server URI was not supplied.");
+        }
 
-            // CHeck that requried Host data properties are set.
-            if (hostData == null || 
-                string.IsNullOrEmpty(hostData.Version) || 
-                string.IsNullOrEmpty(hostData.Name) || 
-                string.IsNullOrEmpty(hostData.ShortVersion) || 
-                string.IsNullOrEmpty(hostData.Identifier))
-            {
-                Debug.LogError("Complete host manifest data are required.");
-                throw new ArgumentException("Complete host manifest data was not supplied.");
-            }
+        // CHeck that requried Host data properties are set.
+        if (hostData == null || 
+            string.IsNullOrEmpty(hostData.Version) || 
+            string.IsNullOrEmpty(hostData.Name) || 
+            string.IsNullOrEmpty(hostData.ShortVersion) || 
+            string.IsNullOrEmpty(hostData.Identifier))
+        {
+            Debug.LogError("Complete host manifest data are required.");
+            throw new ArgumentException("Complete host manifest data was not supplied.");
+        }
 
-            // Create instance of Evm Contract Manager.
-            contractManager = new EvmContractManager();
+        // Create instance of Evm Contract Manager.
+        contractManager = new EvmContractManager();
 
             // Set Moralis conenction values.
             connectionData = new ServerConnectionData();
@@ -186,9 +189,32 @@ namespace MoralisWeb3ApiSdk
         /// Get the Moralis Server Client.
         /// </summary>
         /// <returns></returns>
+
         public static Moralis.WebGL.MoralisClient GetClient() 
         { 
             return moralis; 
+        }
+
+        public static async UniTask SetupWeb3()
+        {
+            if (clientMetaData == null)
+            {
+                Debug.Log("Web3 RPC Node Url or Wallet Connect Metadata not provided.");
+                return;
+            }
+
+            WalletConnectSession client = WalletConnect.Instance.Session;
+            
+            // Create a web3 client using Wallet Connect as write client and a dummy client as read client.
+            // Read operations should be via Web3API. Read operation are not implemented in the Web3 Client
+            // Use the Web3API for read operations as available. If you must make run a read request that is
+            // not supported by Web3API you will need to use the Wallet Connect method:
+            // CreateProviderWithInfura(this WalletConnectProtocol protocol, string infruaId, string network = "mainnet", AuthenticationHeaderValue authenticationHeader = null)
+            // We do not recommned this though
+            Web3Client = new Web3(client.CreateProvider( new DeadRpcReadClient((string s) => {
+                Debug.LogError(s);
+            })));
+
         }
 
         /// <summary>
