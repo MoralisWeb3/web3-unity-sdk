@@ -28,10 +28,10 @@
  */
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Moralis;
 using System.Threading;
+using Moralis;
 using Newtonsoft.Json;
+using UnityEngine;
 
 #if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
@@ -44,6 +44,10 @@ using Moralis.WebGL.Platform;
 using Moralis.WebGL.Platform.Objects;
 #else
 using System.Threading.Tasks;
+using Moralis.Web3Api.Client;
+using Moralis.SolanaApi.Client;
+using Moralis.Platform;
+using Moralis.Platform.Objects;
 using Nethereum.Web3;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Core;
@@ -53,19 +57,15 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Eth.Transactions;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
-using Moralis.Web3Api.Client;
-using Moralis.SolanaApi.Client;
-using Moralis.Platform;
-using Moralis.Platform.Objects;
 #endif
 
 namespace MoralisWeb3ApiSdk
 {
 #if UNITY_WEBGL
-/// <summary>
-/// Class that wraps moralis integration points. Provided as an example of 
-/// how Moralis can be integrated into Unity
-/// </summary>
+    /// <summary>
+    /// Class that wraps moralis integration points. Provided as an example of 
+    /// how Moralis can be integrated into Unity
+    /// </summary>
     public class MoralisInterface : MonoBehaviour
     {
         /// <summary>
@@ -106,17 +106,17 @@ namespace MoralisWeb3ApiSdk
                 throw new ArgumentException("Application Id was not supplied.");
             }
             // Server URI is required.
-            if(string.IsNullOrEmpty(serverUri))
+            if (string.IsNullOrEmpty(serverUri))
             {
                 Debug.LogError("Server URI is required.");
                 throw new ArgumentException("Server URI was not supplied.");
             }
 
             // CHeck that requried Host data properties are set.
-            if (hostData == null || 
-                string.IsNullOrEmpty(hostData.Version) || 
-                string.IsNullOrEmpty(hostData.Name) || 
-                string.IsNullOrEmpty(hostData.ShortVersion) || 
+            if (hostData == null ||
+                string.IsNullOrEmpty(hostData.Version) ||
+                string.IsNullOrEmpty(hostData.Name) ||
+                string.IsNullOrEmpty(hostData.ShortVersion) ||
                 string.IsNullOrEmpty(hostData.Identifier))
             {
                 Debug.LogError("Complete host manifest data are required.");
@@ -139,7 +139,7 @@ namespace MoralisWeb3ApiSdk
 
             // TODO Make this optional!
             connectionData.Key = "";
-            
+
             Debug.Log("Connecting to Moralis ...");
 
             // Set manifest / host data required so that the Moralis Client does not
@@ -163,8 +163,8 @@ namespace MoralisWeb3ApiSdk
             clientMetaData = clientMeta;
 
             if (moralis == null)
-            { 
-                Debug.Log("Moralis connection failed!"); 
+            {
+                Debug.Log("Moralis connection failed!");
             }
             else
             {
@@ -177,18 +177,18 @@ namespace MoralisWeb3ApiSdk
         /// <summary>
         /// Properly dispose Moralis Client, shuts down any subscriptions, etc.
         /// </summary>
-        public static void Dispose() 
-        { 
-            moralis.Dispose(); 
+        public static void Dispose()
+        {
+            moralis.Dispose();
         }
 
         /// <summary>
         /// Get the Moralis Server Client.
         /// </summary>
         /// <returns></returns>
-        public static Moralis.WebGL.MoralisClient GetClient() 
-        { 
-            return moralis; 
+        public static Moralis.WebGL.MoralisClient GetClient()
+        {
+            return moralis;
         }
 
         /// <summary>
@@ -220,9 +220,9 @@ namespace MoralisWeb3ApiSdk
         /// </summary>
         /// <param name="authData"></param>
         /// <returns></returns>
-        public static async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> authData) 
-        { 
-            return await moralis.LogInAsync(authData, CancellationToken.None); 
+        public static async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> authData)
+        {
+            return await moralis.LogInAsync(authData, CancellationToken.None);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace MoralisWeb3ApiSdk
         /// </summary>
         /// <param name="rpcUrl"></param>
         /// <returns></returns>
-        public static async UniTask<string> SetupWeb3() 
+        public static async UniTask<string> SetupWeb3()
         {
             if (clientMetaData == null)
             {
@@ -285,14 +285,21 @@ namespace MoralisWeb3ApiSdk
         /// <returns></returns>
         public async static UniTask<string> ExecuteFunction(string contractAddress,
             string abi,
-            string functionName, 
+            string functionName,
             object[] args,
-            HexBigInteger value, 
-            HexBigInteger gas, 
+            HexBigInteger value,
+            HexBigInteger gas,
             HexBigInteger gasPrice)
         {
+            string gasValue = gas.Value.ToString();
+            string gasPriceValue = gasPrice.ToString();
+
+            if (gasValue.Equals("0") || gasValue.Equals("0x0")) gasValue = "";
+
+            if (gasPriceValue.Equals("0") || gasPriceValue.Equals("0x0")) gasPriceValue = "";
+
             string functionArgs = JsonConvert.SerializeObject(args);
-            string resp = await Web3GL.SendContract(functionName, abi, contractAddress, functionArgs, value.Value.ToString(), gas.Value.ToString(), gasPrice.Value.ToString());
+            string resp = await Web3GL.SendContract(functionName, abi, contractAddress, functionArgs, value.Value.ToString(), gasValue, gasPriceValue);
 
             return resp;
         }
@@ -502,7 +509,7 @@ namespace MoralisWeb3ApiSdk
             // not supported by Web3API you will need to use the Wallet Connect method:
             // CreateProviderWithInfura(this WalletConnectProtocol protocol, string infruaId, string network = "mainnet", AuthenticationHeaderValue authenticationHeader = null)
             // We do not recommned this though
-            Web3Client = new Web3(client.CreateProvider(new DeadRpcReadClient((string s) => {
+            Web3Client = new Web3(client.CreateProvider( new DeadRpcReadClient((string s) => {
                 Debug.LogError(s);
             })));
             //
