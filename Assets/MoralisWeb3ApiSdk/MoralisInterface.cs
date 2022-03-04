@@ -260,14 +260,25 @@ namespace MoralisWeb3ApiSdk
         /// <param name="gas"></param>
         /// <param name="gasPrice"></param>
         /// <returns></returns>
-        public async static UniTask<string> SendTransactionAsync(string recipient, HexBigInteger value, HexBigInteger gas = null, HexBigInteger gasPrice = null)
+        public async static UniTask<string> SendTransactionAsync(string recipientAddress, HexBigInteger value, HexBigInteger gas = null, HexBigInteger gasPrice = null)
         {
             string g = "";
             string gp = "";
+            string txnHash = null;
 
             if (gas != null) g = gas.Value.ToString();
             if (gasPrice != null) gp = gasPrice.Value.ToString();
-            string txnHash = await Web3GL.SendTransaction(recipient, value.Value.ToString(), g, gp);
+
+            try
+            {
+                txnHash = await Web3GL.SendTransaction(recipientAddress, value.Value.ToString(), g, gp);
+
+                Debug.Log($"Transfered {value.Value} WEI from {fromAddress} to {recipientAddress}.  TxnHash: {txnHash}");
+            }
+            catch (Exception exp)
+            {
+                Debug.Log($"Transfer of {value.Value} WEI from {fromAddress} to {recipientAddress} failed!");
+            }
 
             return txnHash;
         }
@@ -283,7 +294,7 @@ namespace MoralisWeb3ApiSdk
         /// <param name="gas"></param>
         /// <param name="gasPrice"></param>
         /// <returns></returns>
-        public async static UniTask<string> ExecuteFunction(string contractAddress,
+        public async static UniTask<string> ExecuteContractFunction(string contractAddress,
             string abi,
             string functionName,
             object[] args,
@@ -512,8 +523,6 @@ namespace MoralisWeb3ApiSdk
             Web3Client = new Web3(client.CreateProvider( new DeadRpcReadClient((string s) => {
                 Debug.LogError(s);
             })));
-            //
-            //Web3Client = new Web3(client.CreateProvider(new Uri(rpcUrl)));
         }
 
         /// <summary>
@@ -612,27 +621,27 @@ namespace MoralisWeb3ApiSdk
         /// <param name="transactionInput">NEthereum TransactionInput object</param>
         /// <param name="functionInput">Function params</param>
         /// <returns>string</returns>
-        public static async Task<string> SendEvmTransactionAsync(string contractKey, string chainId, string functionName, TransactionInput transactionInput, object[] functionInput)
-        {
-            string result = null;
+        //public static async Task<string> SendEvmTransactionAsync(string contractKey, string chainId, string functionName, TransactionInput transactionInput, object[] functionInput)
+        //{
+        //    string result = null;
 
-            if (Web3Client == null)
-            {
-                Debug.LogError("Web3 has not been setup yet.");
-            }
-            else
-            {
-                if (contractManager.Contracts.ContainsKey(contractKey) &&
-                    contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
-                {
-                    Tuple<bool,string,string> resp = await contractManager.SendTransactionAsync(contractKey, chainId, functionName, transactionInput, functionInput);
+        //    if (Web3Client == null)
+        //    {
+        //        Debug.LogError("Web3 has not been setup yet.");
+        //    }
+        //    else
+        //    {
+        //        if (contractManager.Contracts.ContainsKey(contractKey) &&
+        //            contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
+        //        {
+        //            Tuple<bool,string,string> resp = await contractManager.SendTransactionAsync(contractKey, chainId, functionName, transactionInput, functionInput);
 
-                    if (resp.Item1) result = resp.Item2;
-                }
-            }
+        //            if (resp.Item1) result = resp.Item2;
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         /// <summary>
         /// 
@@ -645,34 +654,34 @@ namespace MoralisWeb3ApiSdk
         /// <param name="value"></param>
         /// <param name="functionInput"></param>
         /// <returns></returns>
-        public static async Task<string> SendEvmTransactionAsync(string contractKey, string chainId, string functionName, string fromaddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
-        {
-            string result = null;
+        //public static async Task<string> SendEvmTransactionAsync(string contractKey, string chainId, string functionName, string fromaddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
+        //{
+        //    string result = null;
 
-            if (Web3Client == null)
-            {
-                Debug.LogError("Web3 has not been setup yet.");
-            }
-            else
-            {
-                if (contractManager.Contracts.ContainsKey(contractKey) &&
-                    contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
-                {
-                    Tuple<bool, string, string> resp = await contractManager.SendTransactionAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
+        //    if (Web3Client == null)
+        //    {
+        //        Debug.LogError("Web3 has not been setup yet.");
+        //    }
+        //    else
+        //    {
+        //        if (contractManager.Contracts.ContainsKey(contractKey) &&
+        //            contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
+        //        {
+        //            Tuple<bool, string, string> resp = await contractManager.SendTransactionAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
  
-                    if (resp.Item1)
-                    {
-                        result = resp.Item2;
-                    }
-                    else
-                    {
-                        Debug.LogError($"Evm Transaction failed: {resp.Item3}");
-                    }
-                }
-            }
+        //            if (resp.Item1)
+        //            {
+        //                result = resp.Item2;
+        //            }
+        //            else
+        //            {
+        //                Debug.LogError($"Evm Transaction failed: {resp.Item3}");
+        //            }
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         /// <summary>
         /// 
@@ -685,30 +694,122 @@ namespace MoralisWeb3ApiSdk
         /// <param name="value"></param>
         /// <param name="functionInput"></param>
         /// <returns></returns>
-        public static async Task<string> SendTransactionAndWaitForReceiptAsync(string contractKey, string chainId, string functionName, string fromaddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
+        //public static async Task<string> SendTransactionAndWaitForReceiptAsync(string contractKey, string chainId, string functionName, string fromaddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
+        //{
+        //    string result = null;
+
+        //    if (Web3Client == null)
+        //    {
+        //        Debug.LogError("Web3 has not been setup yet.");
+        //    }
+        //    else
+        //    {
+        //        if (contractManager.Contracts.ContainsKey(contractKey) &&
+        //            contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
+        //        {
+        //            Tuple<bool, string, string> resp = await contractManager.SendTransactionAndWaitForReceiptAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
+
+        //            if (resp.Item1)
+        //            {
+        //                result = resp.Item2;
+        //            }
+        //            else
+        //            {
+        //                Debug.LogError($"Evm Transaction failed: {resp.Item3}");
+        //            }
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+
+
+        /// <summary>
+        /// Performs a transfer of value to receipient.
+        /// </summary>
+        /// <param name="recipient"></param>
+        /// <param name="value"></param>
+        /// <param name="gas"></param>
+        /// <param name="gasPrice"></param>
+        /// <returns></returns>
+        public async static Task<string> SendTransactionAsync(string recipientAddress, HexBigInteger value, HexBigInteger gas = null, HexBigInteger gasPrice = null)
+        {
+            string txnHash = null;
+
+            // Retrieve from address, the address used to athenticate the user.
+            MoralisUser user = await MoralisInterface.GetUserAsync();
+            string fromAddress = user.authData["moralisEth"]["id"].ToString();
+
+            // Create transaction request.
+            TransactionInput txnRequest = new TransactionInput()
+            {
+                Data = String.Empty,
+                From = fromAddress,
+                To = recipientAddress,
+                Value = value
+            };
+
+            try
+            {
+                // Execute the transaction.
+                txnHash = await MoralisInterface.Web3Client.Eth.TransactionManager.SendTransactionAsync(txnRequest);
+
+                Debug.Log($"Transfered {value.Value} WEI from {fromAddress} to {recipientAddress}.  TxnHash: {txnHash}");
+            }
+            catch (Exception exp)
+            {
+                Debug.Log($"Transfer of {value.Value} WEI from {fromAddress} to {recipientAddress} failed!");
+            }
+
+            return txnHash;
+        }
+
+        /// <summary>
+        /// Executes a contract function.
+        /// </summary>
+        /// <param name="contractAddress"></param>
+        /// <param name="abi"></param>
+        /// <param name="functionName"></param>
+        /// <param name="args"></param>
+        /// <param name="value"></param>
+        /// <param name="gas"></param>
+        /// <param name="gasPrice"></param>
+        /// <returns></returns>
+        public async static Task<string> ExecuteContractFunction(string contractAddress,
+            string abi,
+            string functionName,
+            object[] args,
+            HexBigInteger value,
+            HexBigInteger gas,
+            HexBigInteger gasPrice)
         {
             string result = null;
+            string gasValue = gas.Value.ToString();
+            string gasPriceValue = gasPrice.ToString();
 
-            if (Web3Client == null)
-            {
-                Debug.LogError("Web3 has not been setup yet.");
-            }
-            else
-            {
-                if (contractManager.Contracts.ContainsKey(contractKey) &&
-                    contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
+            if (gasValue.Equals("0") || gasValue.Equals("0x0")) gasValue = "";
+
+            if (gasPriceValue.Equals("0") || gasPriceValue.Equals("0x0")) gasPriceValue = "";
+
+            try
+            {            
+                // Retrieve from address, the address used to athenticate the user.
+                MoralisUser user = await MoralisInterface.GetUserAsync();
+                string fromAddress = user.authData["moralisEth"]["id"].ToString();
+
+                Contract contractInstance = Web3Client.Eth.GetContract(abi, contractAddress);
+                Function function = contractInstance.GetFunction(functionName);
+
+                if (function != null)
                 {
-                    Tuple<bool, string, string> resp = await contractManager.SendTransactionAndWaitForReceiptAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
-
-                    if (resp.Item1)
-                    {
-                        result = resp.Item2;
-                    }
-                    else
-                    {
-                        Debug.LogError($"Evm Transaction failed: {resp.Item3}");
-                    }
+                    result = await function.SendTransactionAsync(fromAddress, gas, value, args);
+                
                 }
+            }
+            catch (Exception exp)
+            {
+                Debug.Log($"Call to {functionName} failed due to: {exp.Message}");
             }
 
             return result;
@@ -718,6 +819,7 @@ namespace MoralisWeb3ApiSdk
         /// Provide quick access to the Moralis Web3API Supported chains list.
         /// </summary>
         public static List<ChainEntry> SupportedChains => SupportedEvmChains.SupportedChains;
+
     }
 #endif
 }
