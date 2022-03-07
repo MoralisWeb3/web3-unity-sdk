@@ -1,0 +1,19 @@
+{
+    "name": "MoralisWeb3ApiSdk",
+    "rootNamespace": "",
+    "references": [
+        "UniTask",
+        "Nethereum",
+        "WalletConnectSharp.Unity",
+        "Moralis.Sdk"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
