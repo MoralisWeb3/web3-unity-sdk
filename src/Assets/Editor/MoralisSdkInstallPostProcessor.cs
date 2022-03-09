@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.PackageManager;
  
 using System.IO;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 
@@ -43,7 +44,7 @@ namespace MoralisWeb3ApiSdk.Editor
         /// <summary>
         /// Copies Moralis WebGLTemplate to required Assets/WebGLTemplate folder.
         /// </summary>
-        private void CopyWebGLTemplate()
+        private static void CopyWebGLTemplate()
         {
             var destinationFolder = Path.GetFullPath("Assets/WebGLTemplates/MoralisWebGL");
 
@@ -68,7 +69,7 @@ namespace MoralisWeb3ApiSdk.Editor
         /// create a duplicate entry. If either becomes a necessity, add a process
         /// that removes entries before entires are appended.
         /// </summary>
-        private void UpdateCscFile()
+        private static void UpdateCscFile()
         {
             // Expected Moralis entires
             string[] moralisEntries = { "-define:MORALIS_UNITY" };
