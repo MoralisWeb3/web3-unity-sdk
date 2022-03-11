@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -52,20 +52,15 @@ namespace MoralisWeb3ApiSdk.Editor
 
             var sourceFolder = Path.GetFullPath("Packages/io.moralis.metaversesdk/Resources/WebGLTemplates/MoralisWebGL");
 
-            if (!Directory.Exists(destinationFolder))
-            {
-                Debug.Log($"Copying template from {sourceFolder} ...");
-                Directory.CreateDirectory(destinationFolder);
+            Debug.Log($"Copying template from {sourceFolder}...");
 
-                // Perform the copy
-                FileUtil.ReplaceDirectory(sourceFolder, destinationFolder);
-            }
+            FileUtil.ReplaceDirectory(sourceFolder, destinationFolder);
 
             AssetDatabase.Refresh();
 
             Debug.Log($"Setting webgl template, old was = {PlayerSettings.WebGL.template}");
 
-            PlayerSettings.WebGL.template = "MoralisWebGL";
+            PlayerSettings.WebGL.template = "PROJECT:MyTemplateName";
 
             Debug.Log($"Set webgl template to {PlayerSettings.WebGL.template}");
         }
@@ -149,4 +144,3 @@ namespace MoralisWeb3ApiSdk.Editor
         }
     }
 }
-#endif
