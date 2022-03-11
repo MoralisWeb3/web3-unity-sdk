@@ -49,6 +49,7 @@ namespace MoralisWeb3ApiSdk
 {
     public class MoralisController : MonoBehaviour
     {
+        private static bool runSetup = true;
         public string MoralisServerURI;
         public string MoralisApplicationId;
         public string ApplicationName;
@@ -58,16 +59,14 @@ namespace MoralisWeb3ApiSdk
         public string ApplicationUrl;
 
         public WalletConnect walletConnect;
+
         private void OnValidate()
         {
             if (MoralisServerURI == "SERVER URI" || string.IsNullOrWhiteSpace(MoralisServerURI) || MoralisApplicationId == "APPLICATION ID" || string.IsNullOrWhiteSpace(MoralisApplicationId))
             {
                 Debug.LogError("Setup your Moralis Server URI and Application Id before running. For more help read the Quick Start on: https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate#-quick-start");
             }
-        }
-
-        private void Awake()
-        {
+            
 #if UNITY_EDITOR
             if (runSetup)
             {
@@ -133,6 +132,7 @@ namespace MoralisWeb3ApiSdk
         }
 #endif
 
+#if UNITY_EDITOR
         /// <summary>
         /// Copies Moralis WebGLTemplate to required Assets/WebGLTemplate folder.
         /// </summary>
@@ -160,4 +160,5 @@ namespace MoralisWeb3ApiSdk
             Debug.Log($"Set webgl template to {PlayerSettings.WebGL.template}");
         }
     }
+#endif
 }
