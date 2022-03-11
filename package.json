@@ -16,7 +16,7 @@
 	{
 		"displayName": "Moralis Sdk Demo Application",
 		"description": "Contains a sample application that show how to use the Moralis SDK within a Unity Application.",
-		"path": "Samples~/MoralisDemo"
+		"path": "Samples/MoralisDemo"
 	}
   ],
   "keywords": [
