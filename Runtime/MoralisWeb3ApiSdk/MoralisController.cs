@@ -73,9 +73,6 @@ namespace MoralisWeb3ApiSdk
             {
                 Debug.Log("Running package setup ...");
                 CopyWebGLTemplate();
-             
-                UpdateCscFile();
-
                 runSetup = false;
                 Debug.Log("Package setup complete.");
             }
@@ -136,5 +133,31 @@ namespace MoralisWeb3ApiSdk
         }
 #endif
 
+        /// <summary>
+        /// Copies Moralis WebGLTemplate to required Assets/WebGLTemplate folder.
+        /// </summary>
+        private static void CopyWebGLTemplate()
+        {
+            var destinationFolder = Path.GetFullPath("Assets/WebGLTemplates/MoralisWebGL");
+
+            var sourceFolder = Path.GetFullPath("Packages/io.moralis.metaversesdk/Resources/WebGLTemplates/MoralisWebGL");
+
+            if (!Directory.Exists(destinationFolder))
+            {
+                Debug.Log($"Copying template from {sourceFolder} ...");
+                Directory.CreateDirectory(destinationFolder);
+
+                // Perform the copy
+                FileUtil.ReplaceDirectory(sourceFolder, destinationFolder);
+            }
+
+            AssetDatabase.Refresh();
+
+            Debug.Log($"Setting webgl template, old was = {PlayerSettings.WebGL.template}");
+
+            PlayerSettings.WebGL.template = "MoralisWebGL";
+
+            Debug.Log($"Set webgl template to {PlayerSettings.WebGL.template}");
+        }
     }
 }
