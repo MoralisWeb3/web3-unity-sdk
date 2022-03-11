@@ -39,8 +39,11 @@ using System.Threading.Tasks;
 using WalletConnectSharp.Core.Models;
 #endif
 using UnityEngine;
+using UnityEditor;
 using WalletConnectSharp.Unity;
 using Moralis.Web3Api.Models;
+using System.IO;
+using System;
 
 namespace MoralisWeb3ApiSdk
 {
@@ -61,6 +64,22 @@ namespace MoralisWeb3ApiSdk
             {
                 Debug.LogError("Setup your Moralis Server URI and Application Id before running. For more help read the Quick Start on: https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate#-quick-start");
             }
+        }
+
+        private void Awake()
+        {
+#if UNITY_EDITOR
+            if (runSetup)
+            {
+                Debug.Log("Running package setup ...");
+                CopyWebGLTemplate();
+             
+                UpdateCscFile();
+
+                runSetup = false;
+                Debug.Log("Package setup complete.");
+            }
+#endif
         }
 
 #if UNITY_WEBGL
