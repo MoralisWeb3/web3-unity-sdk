@@ -4,20 +4,19 @@
   "displayName": "Moralis Metaverse SDK",
   "description": "Provides integration with Moralis' SDK and Web3API; providing backend services, and seemless EVM (ethereum Compatible) blockchain integration.",
   "unity": "2020.3",
-  "documentationUrl": "https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate",
-  "changelogUrl": "https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate/blob/main/LICENSE.md",
+  "license": "See LICENSE.md file",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "2.0.0"
   },
+  "type": "metaversesdk",
   "samples": [
 	{
-		"displayName": "Demo Application",
+		"displayName": "Moralis Sdk Demo Application",
 		"description": "Contains a sample application that show how to use the Moralis SDK within a Unity Application.",
-		"path": "Samples~/DemoApp"
+		"path": "Samples~/MoralisDemo"
 	}
- ],
- "keywords": [
+  ],
+  "keywords": [
     "Moralis",
     "Ethereum",
 	"EVM",
