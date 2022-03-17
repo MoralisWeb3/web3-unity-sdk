@@ -50,7 +50,6 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
 
         public async UniTask<string> SaveAsync(MoralisObject item, IDictionary<string, IMoralisFieldOperation> operations, string sessionToken, CancellationToken cancellationToken = default)
         {
-            Debug.Log($"SaveAsync session: {sessionToken}");
             MoralisCommand command = new MoralisCommand(item.objectId == null ? $"server/classes/{Uri.EscapeDataString(item.ClassName)}" : $"server/classes/{Uri.EscapeDataString(item.ClassName)}/{item.objectId}", method: item.objectId is null ? "POST" : "PUT", sessionToken: sessionToken, data: operations is { } && operations.Count > 0 ? JsonSerializer.Serialize(operations, JsonSerializer.DefaultOptions).JsonInsertParseDate() : JsonSerializer.Serialize(item, JsonSerializer.DefaultOptions).JsonInsertParseDate());
             Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(command, cancellationToken: cancellationToken);
             
