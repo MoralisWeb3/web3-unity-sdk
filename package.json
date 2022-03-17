@@ -10,7 +10,7 @@
   "licensesUrl": "https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate/blob/main/LICENSE.md",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "2.0.0",
-    "io.moralis.metaversesdk": "https://github.com/MoralisWeb3/Moralis-CSharp-DotNet.git#upm"
+    "io.moralis.sdk": "https://github.com/MoralisWeb3/Moralis-CSharp-DotNet.git#upm"
   },
   "type": "module",
   "samples": [
