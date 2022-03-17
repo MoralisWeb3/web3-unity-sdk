@@ -1,9 +1,10 @@
 {
-    "name": "Moralis.Sdk",
+    "name": "MoralisMetaverseSdk",
     "rootNamespace": "",
     "references": [
         "UniTask",
-        "WalletConnectSharp.Unity"
+        "WalletConnectSharp.Unity",
+        "MoralisSDK"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
