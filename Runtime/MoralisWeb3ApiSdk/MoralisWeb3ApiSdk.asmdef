@@ -5,7 +5,6 @@
         "UniTask",
         "Nethereum",
         "WalletConnectSharp.Unity",
-        "MoralisSDK"
         "MoralisMetaverseSdk"
     ],
     "includePlatforms": [],

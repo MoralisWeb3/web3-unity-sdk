@@ -3,8 +3,7 @@
     "rootNamespace": "",
     "references": [
         "UniTask",
-        "WalletConnectSharp.Unity",
-        "MoralisSDK"
+        "WalletConnectSharp.Unity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
