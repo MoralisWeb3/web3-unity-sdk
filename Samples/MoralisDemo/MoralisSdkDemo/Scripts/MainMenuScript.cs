@@ -37,6 +37,7 @@ using Assets;
 using MoralisWeb3ApiSdk;
 using Moralis.WebGL.Hex.HexTypes;
 using System.Numerics;
+using System;
 
 #if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
@@ -272,14 +273,23 @@ public class MainMenuScript : MonoBehaviour
     /// </summary>
     public async void Quit()
     {
-        Debug.Log("QUIT");
+        try
+        {
+            Debug.Log("QUIT");
 
-        // Disconnect wallet subscription.
-        await walletConnect.Session.Disconnect();
-        // CLear out the session so it is re-establish on sign-in.
-        walletConnect.CLearSession();
-        // Logout the Moralis User.
-        await MoralisInterface.LogOutAsync();
+            // Logout the Moralis User.
+            await MoralisInterface.LogOutAsync();
+            // Disconnect wallet subscription.
+            await walletConnect.Session.Disconnect();
+            // CLear out the session so it is re-establish on sign-in.
+            walletConnect.CLearSession();
+        }
+        catch (Exception exp)
+        {
+            // Send error to the log but not as an error as this is expected behavior from W.C.
+            Debug.Log($"Quit Error - Has quit already been called? Error: {exp.Message}");
+        }
+        
         // Close out the application.
         Application.Quit();
     }
