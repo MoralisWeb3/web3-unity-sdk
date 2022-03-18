@@ -1,5 +1,5 @@
 {
-    "name": "MoralisMetaverseSdk",
+    "name": "MoralisSdk",
     "rootNamespace": "",
     "references": [
         "UniTask",
