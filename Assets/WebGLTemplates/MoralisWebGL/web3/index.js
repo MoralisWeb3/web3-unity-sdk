@@ -19,8 +19,102 @@ window.web3gl = {
   sendContractResponse: "",
 };
 
+window.moralisLiveQueries = {
+    requestId = 0,
+    webSockets = {},
+    openSocket,
+    openSocketResponse="",
+    closeSocket,
+    closeSocketResponse="",
+    sendRequest,
+    getErrors,
+    getMessages,
+    getSocketState
+};
+
 let provider;
 let web3;
+
+async function openSocket(key, path) {
+    
+    let reqId = window.moralisLiveQueries.requestId++;
+    let ws = {
+        requestId = reqId,
+        socket = new WebSocket(path),
+        messages = [],
+        errors = [],
+        onmessage = function (e) {
+            messages.push(e.Data);
+        },
+        onerror = function (e) {
+            errora.push(e.message);
+        }
+    };
+
+    ws.socket.onopen = function (e) {
+        window.moralisLiveQueries.openSocketResponse = '${key} connection established.';
+    };
+
+    ws.socket.onclose = function (event) {
+        if (event.wasClean) {
+            window.moralisLiveQueries.closeSocketResponse = '[${key} close] Connection closed cleanly, code=${event.code} reason=${event.reason}';
+        } else {
+            // e.g. server process killed or network down
+            // event.code is usually 1006 in this case
+            window.moralisLiveQueries.closeSocketResponse = '[${key} close] Connection died';
+        }
+    };
+
+    ws.socket.onmessage = ws.onmessage;
+    ws.socket.onerror = ws.onerror;
+
+    window.moralisLiveQueries.webSockets[key] = ws;
+};
+
+function getSocketState(key) {
+    var state = 3; // default to closed.
+    if (window.moralisLiveQueries.webSockets[key]) {
+        state = window.moralisLiveQueries.webSockets[key].readyState();
+    }
+    return state;
+};
+
+function closeSocket(key) {
+    if (window.moralisLiveQueries.webSockets[key]) {
+        window.moralisLiveQueries.webSockets[key].close();
+    }
+};
+
+function sendRequest(key, msg) {
+    if (window.moralisLiveQueries.webSockets[key]) {
+        window.moralisLiveQueries.webSockets[key].send(msg);
+    }
+};
+
+// Get any messages in the message queue of websoket key.
+function getMessages(key) {
+    var resp = [];
+
+    if (window.moralisLiveQueries.webSockets[key]) {
+        resp = [...window.moralisLiveQueries.webSockets[key].messages];
+        window.moralisLiveQueries.webSockets[key].messages = [];
+    }
+
+    return resp;
+};
+
+// Get any errors in the error queue of websoket key.
+function getErrors(key) {
+    var resp = [];
+
+    if (window.moralisLiveQueries.webSockets[key]) {
+        resp = [...window.moralisLiveQueries.webSockets[key].errors];
+        window.moralisLiveQueries.webSockets[key].errors = [];
+    }
+
+    return resp;
+};
+
 
 /*
 Establish connection to web3.
@@ -145,3 +239,5 @@ function log(msg){
 		console.log("web3gl: " + msg);
 	}
 }
+
+
