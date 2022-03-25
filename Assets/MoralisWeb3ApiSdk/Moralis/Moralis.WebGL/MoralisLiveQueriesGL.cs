@@ -39,11 +39,6 @@ namespace Moralis.WebGL
         private static extern int GetSocketStateJs(string key);
 
         /// <summary>
-        /// Event raised when a message is received from the server.
-        /// </summary>
-        public event LiveQueryMessageHandler OnEventMessage;
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
@@ -62,19 +57,28 @@ namespace Moralis.WebGL
             }
 
             OpenWebsocketJs(key, path);
-
-            while (loop < waitLoops && openResp.Length < 1)
+            Debug.Log("Going into wait loop ...");
+            while (loop < waitLoops && String.IsNullOrEmpty(openResp))
             {
                 await UniTask.DelayFrame(30);
 
-                openResp = OpenWebsocketResponse();
+                var r = OpenWebsocketResponse();
 
+                if (r != null)
+                {
+                    openResp = r;
+                    Debug.Log($"Create Subscription response: {openResp}");
+                    break;
+                }
+                else Debug.Log("response is null!!!");
                 loop++;
             }
 
+            Debug.Log($"Exiting wait loop resp is {openResp}");
+            
             if (openResp.Length >  0)
             {
-                isConnected = true;
+                isConnected = bool.Parse(openResp);
 
                 resp = true;
             }
