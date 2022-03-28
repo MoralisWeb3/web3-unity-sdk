@@ -159,6 +159,6 @@ namespace MoralisWeb3ApiSdk
 
             Debug.Log($"Set webgl template to {PlayerSettings.WebGL.template}");
         }
-    }
 #endif
+    }
 }
