@@ -10,6 +10,8 @@ using Moralis.WebGL.Platform.Queries.Live;
 
 namespace Moralis.WebGL
 {
+
+
     public class MoralisLiveQueriesGL
     {
         private static bool isConnected;
@@ -76,10 +78,9 @@ namespace Moralis.WebGL
 
             Debug.Log($"Exiting wait loop resp is {openResp}");
             
-            if (openResp.Length >  0)
+            if (openResp.Length >  0 && openResp.Contains("\"isTrusted\":true"))
             {
-                isConnected = bool.Parse(openResp);
-
+                isConnected = true;
                 resp = true;
             }
 
@@ -96,7 +97,7 @@ namespace Moralis.WebGL
         {
             string closeResp = String.Empty;
             bool resp = false;
-            int waitLoops = 240; // approx 2min @ 60FPS
+            int waitLoops = 240; 
             int loop = 0;
 
             if (String.IsNullOrEmpty(key))
@@ -130,7 +131,8 @@ namespace Moralis.WebGL
 
         public static string GetResponseQueue(string key)
         {
-            return GetResponseQueueJs(key);
+            string val = GetResponseQueueJs(key);
+            return val;
         }
 
         public static string GetErrorQueue(string key)
