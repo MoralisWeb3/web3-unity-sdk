@@ -45,6 +45,7 @@ using Moralis.WebGL;
 using Moralis.WebGL.Platform;
 using Moralis.WebGL.Platform.Objects;
 using Moralis.WebGL.Web3Api.Models;
+using Moralis.WebGL.Platform.Services.ClientServices;
 #else
 using System.Threading.Tasks;
 using Moralis.Platform;
@@ -102,6 +103,12 @@ public class MainMenuScript : MonoBehaviour
         }
     }
 
+#if UNITY_WEBGL
+    private void FixedUpdate()
+    {
+        MoralisLiveQueryManager.UpdateWebSockets();
+    }
+#endif
     /// <summary>
     /// Used to start the authentication process and then run the game. If the 
     /// user has a valid Moralis session thes user is redirected to the next 
