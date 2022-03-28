@@ -1,0 +1,17 @@
+{
+    "name": "MoralisSdk",
+    "rootNamespace": "",
+    "references": [
+        "UniTask",
+        "WalletConnectSharp.Unity"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
