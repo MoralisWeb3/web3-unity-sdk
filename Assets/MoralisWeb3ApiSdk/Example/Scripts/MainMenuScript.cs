@@ -323,10 +323,32 @@ public class MainMenuScript : MonoBehaviour
             AuthenticationButtonOn();
         }
     }
-#endif
+
+    private void InitializeWeb3()
+    {
+        MoralisInterface.SetupWeb3();
+
+        // Create an entry for the Game Rewards Contract.
+        MoralisInterface.InsertContractInstance("Rewards", Constants.MUG_ABI, Constants.MUG_CHAIN, Constants.MUG_CONTRACT_ADDRESS);
+    }
+
     /// <summary>
-    /// Hide the authentiucation button and blackout screen.
+    /// Must be referenced by the WalletConnect Game object
     /// </summary>
+    /// <param name="session"></param>
+    public void WalletConnectSessionEstablished(WalletConnectUnitySession session)
+    {
+        InitializeWeb3();
+    }
+
+    /// <summary>
+    /// Must be referenced by the WalletConnect Game object
+    /// </summary>
+    public void WalletConnectConnected()
+    {
+        InitializeWeb3();
+    }
+#endif
     private void AuthenticationButtonOff()
     {
         authenticationButton.SetActive(false);

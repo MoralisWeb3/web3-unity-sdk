@@ -1,6 +1,7 @@
 ﻿/**
- *           Module: EvmContractInstance.cs
- *  Descriptiontion: Class that wraps specifica copontract / chain instnace
+ *           Module: WalletSelectItem.cs
+ *  Descriptiontion: An child set object of the WalletConnect AppEntry object
+ *                   used to identify a specific Wallet menu option.
  *           Author: Moralis Web3 Technology AB, 559307-5988 - David B. Goodrich
  *  
  *  MIT License
@@ -25,35 +26,21 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-using Moralis;
 using System;
-#if !UNITY_WEBGL
-using Nethereum.Contracts;
-#endif
 
-namespace MoralisWeb3ApiSdk
+namespace Morlais
 {
-    /// <summary>
-    /// Defines specific copontract / chain instnace
-    /// </summary>
-    [Obsolete("This class has been deprecated.")]
-    public class EvmContractInstance
+    [Serializable]
+    public class WalletSelectItem
     {
-        /// <summary>
-        /// Contract address on this chain.
-        /// </summary>
-        public string ContractAddress { get; set; }
+        public string Id;
+        public string Name;
+        public bool Selected = false;
 
-#if !UNITY_WEBGL
-        /// <summary>
-        /// Contract Instance derived from ABI
-        /// </summary>
-        public Contract ContractInstance { get; set; }
-
-#endif
-        /// <summary>
-        /// Evm Chain information.
-        /// </summary>
-        public ChainEntry ChainInfo { get; set; }
+        public WalletSelectItem(string id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }

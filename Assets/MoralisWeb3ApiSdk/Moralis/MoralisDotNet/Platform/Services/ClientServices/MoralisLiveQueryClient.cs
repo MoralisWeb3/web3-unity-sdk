@@ -13,7 +13,6 @@ using Moralis.Platform.Objects;
 using Moralis.Platform.Queries;
 using Moralis.Platform.Queries.Live;
 using Moralis.Platform.Utilities;
-using UnityEngine;
 using static Moralis.Platform.Exceptions.MoralisFailureException;
 
 namespace Moralis.Platform.Services.ClientServices
@@ -227,7 +226,7 @@ namespace Moralis.Platform.Services.ClientServices
 
                 // Convert buffer to string - hopefully this is well formed JSON.
                 string json = Encoding.UTF8.GetString(buffer);
-                Debug.Log($"Handling message: {json}");
+
                 // First convert to a basic event message so that
                 QueryEventMessage opMsg = (QueryEventMessage)JsonSerializer.Deserialize<QueryEventMessage>(json);
 
