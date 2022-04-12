@@ -140,7 +140,7 @@ namespace MoralisWeb3ApiSdk
         {
             var destinationFolder = Path.GetFullPath("Assets/WebGLTemplates/MoralisWebGL");
 
-            var sourceFolder = Path.GetFullPath("Packages/io.moralis.metaversesdk/Resources/WebGLTemplates/MoralisWebGL");
+            var sourceFolder = Path.GetFullPath("Packages/io.moralis.web3-unity-sdk/Resources/WebGLTemplates/MoralisWebGL");
 
             if (!Directory.Exists(destinationFolder))
             {

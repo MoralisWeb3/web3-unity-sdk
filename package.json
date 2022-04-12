@@ -1,34 +1,43 @@
 {
-  "name": "io.moralis.metaversesdk",
-  "version": "1.0.9",
-  "displayName": "MoralisMetaverseSDK",
-  "description": "Provides integration with Moralis' SDK and Web3API; providing backend services, and seemless EVM (ethereum Compatible) blockchain integration.",
-  "unity": "2020.3",
-  "license": "See LICENSE.md file",
-  "documentationUrl": "https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate",
-  "changelogUrl": "https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/ethereum-boilerplate/ethereum-unity-boilerplate/blob/main/LICENSE.md",
-  "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "2.0.0"
-  },
-  "type": "module",
-  "samples": [
-	{
-		"displayName": "Moralis Sdk Demo Application",
-		"description": "Contains a sample application that show how to use the Moralis SDK within a Unity Application.",
-		"path": "Samples/MoralisDemo"
-	}
-  ],
-  "keywords": [
-    "Moralis",
-    "Ethereum",
-	"EVM",
-    "NFT",
-	"Blockchain"
-  ],
-  "author": {
-    "name": "Moralis Web3 Technology AB, 559307-5988 - David B. Goodrich",
-    "email": "david@moralis.io",
-    "url": "https://www.moralis.io"
-  }
+    "name": "io.moralis.web3-unity-sdk",
+    "version": "1.1.0",
+    "displayName": "Moralis Web3 Unity SDK",
+    "description": "Provides integration with Moralis SDK and Web3API; providing backend services, and seemless blockchain integration.",
+    "unity": "2020.3",
+    "hideInEditor": false,
+    "license": "MIT License",
+    "documentationUrl": "https://docs.moralis.io/unity/",
+    "changelogUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/CHANGELOG.md",
+    "licensesUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/LICENSE.md",
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.1"
+    },
+    "samples": [
+        {
+            "displayName": "Moralis Demo Application",
+            "description": "Contains a sample application that show how to use the Moralis SDK within a Unity Application.",
+            "path": "Samples~/MoralisDemo"
+        }
+    ],
+    "keywords": [
+        "Moralis",
+        "Web3",
+        "Blockchain",
+        "Ethereum",
+        "Binance",
+        "Polygon",
+        "Avalanche",
+        "Fantom",
+        "Solana",
+        "EVM",
+        "NFT",
+        "ERC-20",
+        "ERC-721",
+        "ERC-1155"
+    ],
+    "author": {
+        "name": "Moralis Web3",
+        "email": "unity@moralis.io",
+        "url": "https://www.moralis.io"
+    }
 }
