@@ -1,6 +1,6 @@
 {
     "name": "io.moralis.web3-unity-sdk",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "displayName": "Moralis Web3 Unity SDK",
     "description": "Provides integration with Moralis SDK and Web3API; providing backend services, and seemless blockchain integration.",
     "unity": "2020.3",
