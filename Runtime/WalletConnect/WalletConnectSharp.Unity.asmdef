@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "endel.nativewebsocket",
-        "Nethereum"
+        "Nethereum",
+        "MoralisSdk"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

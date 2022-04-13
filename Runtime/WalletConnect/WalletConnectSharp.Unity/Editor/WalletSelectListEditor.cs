@@ -1,4 +1,4 @@
-﻿/**
+/**
  *           Module: WalletSelectListEditor.cs
  *  Descriptiontion: Editor tool that forms a menu of wallet options giving the 
  *                   developer the means of choosing which wallet images should 
@@ -59,7 +59,7 @@ namespace Assets.Scripts.EditorTools
             }
 
             serializedObject.Update();
-           
+
             EditorGUILayout.PropertyField(serializedObject.FindProperty("buttonPrefab"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("buttonGridTransform"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("loadingText"));
@@ -85,7 +85,7 @@ namespace Assets.Scripts.EditorTools
 
             currentWalletViewPosition = EditorGUILayout.BeginScrollView(currentWalletViewPosition, GUILayout.Height(250));
             EditorGUI.indentLevel++;
-            
+
             for (int i = 0; i < arraySizeProp.intValue; i++)
             {
                 SerializedProperty name = property.GetArrayElementAtIndex(i).FindPropertyRelative("Name");

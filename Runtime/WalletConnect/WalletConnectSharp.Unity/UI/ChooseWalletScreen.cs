@@ -1,8 +1,13 @@
+using Assets.Scripts;
 using Assets.Scripts.WalletConnectSharp.Unity.UI;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Moralis;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace WalletConnectSharp.Unity.UI
 {
@@ -16,12 +21,9 @@ namespace WalletConnectSharp.Unity.UI
         [SerializeField]
         public WalletSelectItem[] wallets;
 
-        private void Start()
-        {
-            StartCoroutine(BuildWalletButtons());
-        }
+        private bool walletButtonsCreated = false;
 
-        private IEnumerator BuildWalletButtons()
+        private void Start()
         {
 #if UNITY_IOS
             // Set wallet filter to those wallets selected by the developer.
@@ -39,9 +41,25 @@ namespace WalletConnectSharp.Unity.UI
             {
                 Debug.Log("No wallets selected for filter.");
             }
-#endif
-            
+#endif              
+            //StartCoroutine(BuildWalletButtons());
+            //BuildWalletButtons();
+        }
+
+        private void Update()
+        {
+            if (!walletButtonsCreated && WalletConnect.SupportedWallets != null && WalletConnect.SupportedWallets.Count > 1)
+            {
+                walletButtonsCreated = true;
+                StartCoroutine(BuildWalletButtons());
+            }
+        }
+
+        private IEnumerator  BuildWalletButtons()
+        {
             yield return WalletConnect.FetchWalletList();
+
+            Debug.Log("Building wallet buttons.");
 
             foreach (var walletId in WalletConnect.SupportedWallets.Keys)
             {

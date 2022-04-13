@@ -40,17 +40,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6266890725912523103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 411f905c051c23f4fb5890879a506219, type: 3}
+  m_Script: {fileID: 11500000, guid: 327d4fc630ad3714c96d7fb1d8b9d9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoralisServerURI: SERVER URI
   MoralisApplicationId: APPLICATION ID
-  MoralisServerURI: MORALIS SERVER ID
   ApplicationName: Moralis Boilerplate
-  Version: 1.0.0
+  Version: 1.0.9
   ApplicationDescription: This application provdies an example of how to you Moralis
     in a Unity 3D Game
   ApplicationIcons:
   - https://moralis.io/wp-content/uploads/2021/06/Powered-by-Moralis-Badge-Black.svg
   ApplicationUrl: https://www.moralis.io
-  Web3RpcNodeUrl: SPEEDY NODE URL
   walletConnect: {fileID: 0}

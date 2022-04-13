@@ -1,11 +1,11 @@
 {
-    "name": "MoralisMetaverseSdk",
+    "name": "MoralisWeb3ApiSdk",
     "rootNamespace": "",
     "references": [
+        "MoralisSdk",
         "UniTask",
         "Nethereum",
-        "WalletConnectSharp.Unity",
-        "MoralisSdk"
+        "WalletConnectSharp.Unity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

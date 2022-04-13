@@ -1,5 +1,0 @@
-{
-    "dependencies": {
-        "io.moralis.sdk": "https://github.com/MoralisWeb3/Moralis-CSharp-DotNet.git#upm"
-    }
-}
