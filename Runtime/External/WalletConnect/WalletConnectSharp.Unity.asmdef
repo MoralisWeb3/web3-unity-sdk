@@ -1,11 +1,9 @@
 {
-    "name": "MoralisWeb3ApiSdk",
+    "name": "WalletConnectSharp.Unity",
     "rootNamespace": "",
     "references": [
-        "MoralisSdk",
-        "UniTask",
-        "Nethereum",
-        "WalletConnectSharp.Unity"
+        "endel.nativewebsocket",
+        "Nethereum"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
