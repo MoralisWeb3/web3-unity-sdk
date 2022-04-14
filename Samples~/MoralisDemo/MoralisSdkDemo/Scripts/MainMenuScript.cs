@@ -116,43 +116,45 @@ public class MainMenuScript : MonoBehaviour
     /// </summary>
     public async void Play()
     {
-        AuthenticationButtonOff();
+        await Task.Run(() => {
+            AuthenticationButtonOff();
 
-        // If the user is still logged in just show game.
-        if (MoralisInterface.IsLoggedIn())
-        {
-            Debug.Log("User is already logged in to Moralis.");
-        }
-        // User is not logged in, depending on build target, begin wallect connection.
-        else
-        {
-            Debug.Log("User is not logged in.");
-            //mainMenu.SetActive(false);
+            // If the user is still logged in just show game.
+            if (MoralisInterface.IsLoggedIn())
+            {
+                Debug.Log("User is already logged in to Moralis.");
+            }
+            // User is not logged in, depending on build target, begin wallect connection.
+            else
+            {
+                Debug.Log("User is not logged in.");
+                //mainMenu.SetActive(false);
 
-            // The mobile solutions for iOS and Android will be different once we
-            // smooth out the interaction with Wallet Connect. For now the duplicated 
-            // code below is on purpose just to keep the iOS and Android authentication
-            // processes separate.
-#if UNITY_ANDROID
-            // Use Wallet Connect for now.
-            androidMenu.SetActive(true);
+                // The mobile solutions for iOS and Android will be different once we
+                // smooth out the interaction with Wallet Connect. For now the duplicated 
+                // code below is on purpose just to keep the iOS and Android authentication
+                // processes separate.
+    #if UNITY_ANDROID
+                // Use Wallet Connect for now.
+                androidMenu.SetActive(true);
 
-            // Use Moralis Connect page for authentication as we work to make the Wallet 
-            // Connect experience better.
-            //await LoginViaConnectionPage();
-#elif UNITY_IOS
-            // Use Wallet Connect for now.
-            iosMenu.SetActive(true);
+                // Use Moralis Connect page for authentication as we work to make the Wallet 
+                // Connect experience better.
+                //await LoginViaConnectionPage();
+    #elif UNITY_IOS
+                // Use Wallet Connect for now.
+                iosMenu.SetActive(true);
 
-            // Use Moralis Connect page for authentication as we work to make the Wallet 
-            // Connect experience better.
-            //await LoginViaConnectionPage();
-#elif UNITY_WEBGL
-            await LoginWithWeb3();
-#else
-            qrMenu.SetActive(true);
-#endif
-        }
+                // Use Moralis Connect page for authentication as we work to make the Wallet 
+                // Connect experience better.
+                //await LoginViaConnectionPage();
+    #elif UNITY_WEBGL
+                await LoginWithWeb3();
+    #else
+                qrMenu.SetActive(true);
+    #endif
+            }
+        });
     }
 
 #if UNITY_WEBGL
