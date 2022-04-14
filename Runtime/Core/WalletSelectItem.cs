@@ -1,6 +1,7 @@
 ﻿/**
- *           Module: MoralisSessionTokenResponse.cs
- *  Descriptiontion: Response returned for a REST Session Token request.
+ *           Module: WalletSelectItem.cs
+ *  Descriptiontion: An child set object of the WalletConnect AppEntry object
+ *                   used to identify a specific Wallet menu option.
  *           Author: Moralis Web3 Technology AB, 559307-5988 - David B. Goodrich
  *  
  *  MIT License
@@ -25,14 +26,21 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
+using System;
+
 namespace Moralis.Web3UnitySdk
 {
-    /// <summary>
-    /// Response returned for a REST Session Token request.
-    /// </summary>
-    public class MoralisSessionTokenResponse
+    [Serializable]
+    public class WalletSelectItem
     {
-        public string sessionToken;
-        public string loginToken;
+        public string Id;
+        public string Name;
+        public bool Selected = false;
+
+        public WalletSelectItem(string id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }

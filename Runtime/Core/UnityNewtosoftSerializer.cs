@@ -34,7 +34,7 @@ using Newtonsoft.Json;
 #if UNITY_WEBGL
 using Moralis.WebGL.Platform.Abstractions;
 
-namespace Moralis
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Defines a Newtonsoft wrapper around the Unity specific Newtonsoft library so that is
@@ -92,7 +92,7 @@ namespace Moralis
 #else
 using Moralis.Platform.Abstractions;
 
-namespace Moralis
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Defines a Newtonsoft wrapper around the Unity specific Newtonsoft library so that is

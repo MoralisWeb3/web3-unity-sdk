@@ -7,6 +7,6 @@ namespace Moralis.WebGL.Platform.Objects
         public MoralisSession() : base("_Session") { }
 
        // [JsonProperty("sessionToken")]
-        public string sessionToken { get; set; }
+        public new string sessionToken { get; set; }
     }
 }

@@ -119,7 +119,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			path = path.Replace("{format}", "json");
 
 			if(addresses != null) queryParams.Add("addresses", ApiClient.ParameterToString(addresses));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(subdomain != null) queryParams.Add("subdomain", ApiClient.ParameterToString(subdomain));
 			if(providerUrl != null) queryParams.Add("providerUrl", ApiClient.ParameterToString(providerUrl));
 
@@ -176,7 +176,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/trades";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(fromBlock != null) queryParams.Add("from_block", ApiClient.ParameterToString(fromBlock));
 			if(toBlock != null) queryParams.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if(fromDate != null) queryParams.Add("from_date", ApiClient.ParameterToString(fromDate));
@@ -227,7 +227,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/lowestprice";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(days != null) queryParams.Add("days", ApiClient.ParameterToString(days));
 			if(providerUrl != null) queryParams.Add("provider_url", ApiClient.ParameterToString(providerUrl));
 			if(marketplace != null) queryParams.Add("marketplace", ApiClient.ParameterToString(marketplace));
@@ -270,7 +270,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			path = path.Replace("{format}", "json");
 
 			if(symbols != null) queryParams.Add("symbols", ApiClient.ParameterToString(symbols));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(subdomain != null) queryParams.Add("subdomain", ApiClient.ParameterToString(subdomain));
 
 			// Authentication setting, if any
@@ -312,7 +312,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/erc20/{address}/price";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(providerUrl != null) queryParams.Add("providerUrl", ApiClient.ParameterToString(providerUrl));
 			if(exchange != null) queryParams.Add("exchange", ApiClient.ParameterToString(exchange));
 			if(toBlock != null) queryParams.Add("to_block", ApiClient.ParameterToString(toBlock));
@@ -372,7 +372,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/erc20/{address}/transfers";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(subdomain != null) queryParams.Add("subdomain", ApiClient.ParameterToString(subdomain));
 			if(fromBlock != null) queryParams.Add("from_block", ApiClient.ParameterToString(fromBlock));
 			if(toBlock != null) queryParams.Add("to_block", ApiClient.ParameterToString(toBlock));
@@ -428,7 +428,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
 			if(ownerAddress != null) queryParams.Add("owner_address", ApiClient.ParameterToString(ownerAddress));
 			if(spenderAddress != null) queryParams.Add("spender_address", ApiClient.ParameterToString(spenderAddress));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(providerUrl != null) queryParams.Add("providerUrl", ApiClient.ParameterToString(providerUrl));
 
 			// Authentication setting, if any
@@ -488,7 +488,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			path = path.Replace("{format}", "json");
 
 			if(q != null) queryParams.Add("q", ApiClient.ParameterToString(q));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
 			if(filter != null) queryParams.Add("filter", ApiClient.ParameterToString(filter));
 			if(fromBlock != null) queryParams.Add("from_block", ApiClient.ParameterToString(fromBlock));
@@ -549,7 +549,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/transfers";
 			path = path.Replace("{format}", "json");
 
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(fromBlock != null) queryParams.Add("from_block", ApiClient.ParameterToString(fromBlock));
 			if(toBlock != null) queryParams.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if(fromDate != null) queryParams.Add("from_date", ApiClient.ParameterToString(fromDate));
@@ -600,7 +600,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
 			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
@@ -644,7 +644,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/transfers";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
 			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
@@ -692,7 +692,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/owners";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
 			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
@@ -735,7 +735,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/metadata";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };
@@ -780,7 +780,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/{token_id}";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));			path = path.Replace("{" + "token_id" + "}", ApiClient.ParameterToString(tokenId));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
 
 			// Authentication setting, if any
@@ -830,7 +830,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/{token_id}/owners";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));			path = path.Replace("{" + "token_id" + "}", ApiClient.ParameterToString(tokenId));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
 			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
@@ -879,7 +879,7 @@ namespace Moralis.WebGL.Web3Api.Api
 			var path = "/nft/{address}/{token_id}/transfers";
 			path = path.Replace("{format}", "json");
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));			path = path.Replace("{" + "token_id" + "}", ApiClient.ParameterToString(tokenId));
-			if(chain != null) queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
 			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));

@@ -1,5 +1,5 @@
-
-namespace MoralisWeb3ApiSdk
+﻿
+namespace Moralis.Web3UnitySdk
 {
     public class Constants
     {

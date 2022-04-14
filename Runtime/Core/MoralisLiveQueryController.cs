@@ -35,7 +35,7 @@ using Moralis.WebGL;
 using Moralis.WebGL.Platform.Queries;
 using Moralis.WebGL.Platform.Objects;
 
-namespace Moralis
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// A class that autonmates subscription handling for vaious 
@@ -108,7 +108,7 @@ namespace Moralis
         /// <param name="q"></param>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static ISubscriptionQuery AddSubscription<T>(string keyName, MoralisQuery<T> q, MoralisLiveQueryCallbacks<T> c) where T : MoralisObject
+        public static ISubscriptionQuery AddSubscription<T>(string keyName, MoralisQuery<T> q, Moralis.WebGL.MoralisLiveQueryCallbacks<T> c) where T : MoralisObject
         {
             ISubscriptionQuery resp = null;
 
@@ -163,7 +163,7 @@ using Moralis.Platform.Queries;
 using Moralis;
 using Moralis.Platform.Objects;
 
-namespace Assets.Scripts
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// A class that autonmates subscription handling for vaious 

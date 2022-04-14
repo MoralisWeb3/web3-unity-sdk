@@ -97,7 +97,7 @@ namespace Moralis.WebGL.SolanaApi
                 responseStatus = (HttpStatusCode)Enum.ToObject(typeof(HttpStatusCode), webRequest.responseCode);
             }
 
-            if (webRequest.isNetworkError)
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
                 Debug.Log("Error Getting Wallet Info: " + webRequest.error);
                 responseText = webRequest.error;

@@ -31,7 +31,7 @@ using System;
 using Nethereum.Contracts;
 #endif
 
-namespace MoralisWeb3ApiSdk
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Defines specific copontract / chain instnace

@@ -1,5 +1,5 @@
 {
-    "name": "MoralisWeb3UnitySdk",
+    "name": "Moralis.Web3UnitySdk",
     "rootNamespace": "",
     "references": [
         "Moralis.DotnetSdk",

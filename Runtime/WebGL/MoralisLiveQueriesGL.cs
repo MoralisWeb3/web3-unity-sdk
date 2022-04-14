@@ -96,7 +96,6 @@ namespace Moralis.WebGL
         public async static UniTask<string> CloseWebsocket(string key)
         {
             string closeResp = String.Empty;
-            bool resp = false;
             int waitLoops = 240; 
             int loop = 0;
 

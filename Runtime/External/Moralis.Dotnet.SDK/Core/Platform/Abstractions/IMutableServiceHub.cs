@@ -4,19 +4,19 @@ namespace Moralis.Platform.Abstractions
 {
     public interface IMutableServiceHub<TUser> : IServiceHub<TUser> where TUser : MoralisUser
     {
-        IServerConnectionData ServerConnectionData { set; }
-        IMetadataService MetadataService { set; }
-        IJsonSerializer JsonSerializer { set; }
+        new IServerConnectionData ServerConnectionData { set; }
+        new IMetadataService MetadataService { set; }
+        new IJsonSerializer JsonSerializer { set; }
         //IServiceHubCloner Cloner { set; }
 
-        IWebClient WebClient { set; }
-        ICacheService CacheService { set; }
+        new IWebClient WebClient { set; }
+        new ICacheService CacheService { set; }
         //IParseObjectClassController ClassController { set; }
 
         //IParseDataDecoder Decoder { set; }
 
         //IParseInstallationController InstallationController { set; }
-        IMoralisCommandRunner CommandRunner { set; }
+        new IMoralisCommandRunner CommandRunner { set; }
 
         //IParseCloudCodeController CloudCodeController { set; }
         //IParseConfigurationController ConfigurationController { set; }
@@ -24,8 +24,8 @@ namespace Moralis.Platform.Abstractions
         //IParseObjectController ObjectController { set; }
         //IParseQueryController QueryController { set; }
         //IParseSessionController SessionController { set; }
-        IUserService<TUser> UserService { set; }
-        ICurrentUserService<TUser> CurrentUserService { get; }
+        new IUserService<TUser> UserService { set; }
+        new ICurrentUserService<TUser> CurrentUserService { get; }
 
         //IParseAnalyticsController AnalyticsController { set; }
 

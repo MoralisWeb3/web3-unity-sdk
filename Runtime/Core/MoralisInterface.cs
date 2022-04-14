@@ -59,7 +59,7 @@ using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
 #endif
 
-namespace MoralisWeb3ApiSdk
+namespace Moralis.Web3UnitySdk
 {
 #if UNITY_WEBGL
     /// <summary>
@@ -275,7 +275,7 @@ namespace MoralisWeb3ApiSdk
 
                 Debug.Log($"Transfered {value.Value} WEI from {recipientAddress} to {recipientAddress}.  TxnHash: {txnHash}");
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 Debug.Log($"Transfer of {value.Value} WEI from {recipientAddress} to {recipientAddress} failed!");
             }

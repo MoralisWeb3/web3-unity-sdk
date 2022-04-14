@@ -124,7 +124,7 @@ namespace Moralis.WebGL.Web3Api.CloudApi
 			if (toBlock != null) postBody.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if (toDate != null) postBody.Add("to_date", ApiClient.ParameterToString(toDate));
 			if (providerUrl != null) postBody.Add("provider_url", ApiClient.ParameterToString(providerUrl));
-			if(chain != null) postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
+			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };
@@ -180,7 +180,7 @@ namespace Moralis.WebGL.Web3Api.CloudApi
 			if (token1Address != null) postBody.Add("token1_address", ApiClient.ParameterToString(token1Address));
 			if (toBlock != null) postBody.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if (toDate != null) postBody.Add("to_date", ApiClient.ParameterToString(toDate));
-			if(chain != null) postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
+			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
 			// Authentication setting, if any
 			String[] authSettings = new String[] { "ApiKeyAuth" };

@@ -39,17 +39,13 @@ using System.Threading.Tasks;
 using WalletConnectSharp.Core.Models;
 #endif
 using UnityEngine;
-using UnityEditor;
 using WalletConnectSharp.Unity;
 using Moralis.Web3Api.Models;
-using System.IO;
-using System;
 
-namespace MoralisWeb3ApiSdk
+namespace Moralis.Web3UnitySdk
 {
     public class MoralisController : MonoBehaviour
     {
-        private static bool runSetup = true;
         public string MoralisServerURI;
         public string MoralisApplicationId;
         public string ApplicationName;
@@ -59,18 +55,9 @@ namespace MoralisWeb3ApiSdk
         public string ApplicationUrl;
 
         public WalletConnect walletConnect;
-
         private void OnValidate()
-        {           
-#if UNITY_EDITOR
-            if (runSetup)
-            {
-                Debug.Log("Running package setup ...");
-                CopyWebGLTemplate();
-                runSetup = false;
-                Debug.Log("Package setup complete.");
-            }
-#endif
+        {
+
         }
 
 #if UNITY_WEBGL
@@ -127,33 +114,5 @@ namespace MoralisWeb3ApiSdk
         }
 #endif
 
-#if UNITY_EDITOR
-        /// <summary>
-        /// Copies Moralis WebGLTemplate to required Assets/WebGLTemplate folder.
-        /// </summary>
-        private static void CopyWebGLTemplate()
-        {
-            var destinationFolder = Path.GetFullPath("Assets/WebGLTemplates/MoralisWebGL");
-
-            var sourceFolder = Path.GetFullPath("Packages/io.moralis.web3-unity-sdk/Resources/WebGLTemplates/MoralisWebGL");
-
-            if (!Directory.Exists(destinationFolder))
-            {
-                Debug.Log($"Copying template from {sourceFolder} ...");
-                Directory.CreateDirectory(destinationFolder);
-
-                // Perform the copy
-                FileUtil.ReplaceDirectory(sourceFolder, destinationFolder);
-            }
-
-            AssetDatabase.Refresh();
-
-            Debug.Log($"Setting webgl template, old was = {PlayerSettings.WebGL.template}");
-
-            PlayerSettings.WebGL.template = "MoralisWebGL";
-
-            Debug.Log($"Set webgl template to {PlayerSettings.WebGL.template}");
-        }
-#endif
     }
 }

@@ -1,14 +1,6 @@
-﻿
-
-#if UNITY_WEBGL
-using Moralis.WebGL.Platform.Abstractions;
-using Moralis.WebGL.Platform.Objects;
-using Moralis.WebGL.Platform.Queries.Live;
-#else
-using Moralis.Platform.Abstractions;
+﻿using Moralis.Platform.Abstractions;
 using Moralis.Platform.Objects;
 using Moralis.Platform.Queries.Live;
-#endif
 
 namespace Moralis
 {

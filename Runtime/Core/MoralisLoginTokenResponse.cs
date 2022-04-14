@@ -25,7 +25,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-namespace MoralisWeb3ApiSdk
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Response to REST request for a Login Token.

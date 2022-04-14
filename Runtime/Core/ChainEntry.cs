@@ -32,7 +32,7 @@ using Moralis.WebGL.Web3Api.Models;
 using Moralis.Web3Api.Models;
 #endif
 
-namespace Moralis
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Provides detail around a supported EVM chain.

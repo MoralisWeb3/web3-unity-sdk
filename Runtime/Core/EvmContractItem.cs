@@ -34,7 +34,7 @@ using Moralis;
 using Nethereum.Contracts;
 using Nethereum.Web3;
 
-namespace MoralisWeb3ApiSdk
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Wraps a list on Nethereum contract instances by chain

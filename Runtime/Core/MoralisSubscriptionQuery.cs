@@ -36,7 +36,7 @@ using Moralis.WebGL.Platform.Objects;
 using Moralis.WebGL.Platform.Queries;
 using Moralis.WebGL.Platform.Services.ClientServices;
 
-namespace Moralis
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Provides a wrapper around the query subscription process to facilitate automated
@@ -50,7 +50,7 @@ namespace Moralis
         /// <summary>
         /// The client event handlers used to react to this subscription.
         /// </summary>
-        public MoralisLiveQueryCallbacks<T> Callbacks { get; private set; }
+        public Moralis.WebGL.MoralisLiveQueryCallbacks<T> Callbacks { get; private set; }
 
         /// <summary>
         /// Query against which the subscription is made.
@@ -73,7 +73,7 @@ namespace Moralis
         /// </summary>
         public string SubscriptionName { get; private set; }
 
-        public MoralisSubscriptionQuery(string keyName, MoralisQuery<T> q, MoralisLiveQueryCallbacks<T> c)
+        public MoralisSubscriptionQuery(string keyName, MoralisQuery<T> q, Moralis.WebGL.MoralisLiveQueryCallbacks<T> c)
         {
             Query = q;
             Callbacks = c;
@@ -133,7 +133,7 @@ using Moralis.Platform.Objects;
 using Moralis.Platform.Queries;
 using Moralis.Platform.Services.ClientServices;
 
-namespace Assets.Scripts
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Provides a wrapper around the query subscription process to facilitate automated

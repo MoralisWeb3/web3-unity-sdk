@@ -41,12 +41,11 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
 #endif
 
-namespace MoralisWeb3ApiSdk
+namespace Moralis.Web3UnitySdk
 {
     /// <summary>
     /// Creates a simple way to create and access a set of contracts by chain.
     /// </summary>
-    [Obsolete("This class has been deprecated.")]
     public class EvmContractManager
     {
 #if !UNITY_WEBGL
