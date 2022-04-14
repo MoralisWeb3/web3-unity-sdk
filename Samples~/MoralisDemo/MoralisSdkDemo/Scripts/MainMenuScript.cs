@@ -34,7 +34,7 @@ using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
 using Moralis;
 using Assets;
-using MoralisWeb3ApiSdk;
+using Moralis.Web3UnitySdk;
 using Moralis.WebGL.Hex.HexTypes;
 using System.Numerics;
 using System;
