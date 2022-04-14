@@ -46,7 +46,7 @@ MonoBehaviour:
   MoralisServerURI: SERVER URI
   MoralisApplicationId: APPLICATION ID
   ApplicationName: Moralis Boilerplate
-  Version: 1.0.9
+  Version: 0.0.1
   ApplicationDescription: This application provdies an example of how to you Moralis
     in a Unity 3D Game
   ApplicationIcons:
