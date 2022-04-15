@@ -45,10 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoralisServerURI: SERVER URI
   MoralisApplicationId: APPLICATION ID
-  ApplicationName: Moralis Boilerplate
+  ApplicationName: Your application name
   Version: 0.0.1
-  ApplicationDescription: This application provdies an example of how to you Moralis
-    in a Unity 3D Game
+  ApplicationDescription: Your description
   ApplicationIcons:
   - https://moralis.io/wp-content/uploads/2021/06/Powered-by-Moralis-Badge-Black.svg
   ApplicationUrl: https://www.moralis.io

@@ -114,7 +114,11 @@ public class MainMenuScript : MonoBehaviour
     /// user has a valid Moralis session thes user is redirected to the next 
     /// scene.
     /// </summary>
+#if !UNITY_WEBGL
     public void Play()
+#else
+    public async void Play()
+#endif
     {
         AuthenticationButtonOff();
 
@@ -234,7 +238,7 @@ public class MainMenuScript : MonoBehaviour
         string address = data.accounts[0].ToLower();
         string appId = MoralisInterface.GetClient().ApplicationId;
         long serverTime = 0;
-        
+
         // Retrieve server time from Moralis Server for message signature
         Dictionary<string, object> serverTimeResponse = await MoralisInterface.GetClient().Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
@@ -253,7 +257,7 @@ public class MainMenuScript : MonoBehaviour
         Debug.Log($"Signature {response} for {address} was returned.");
 
         // Create moralis auth data from message signing response.
-        Dictionary<string, object> authData = new Dictionary<string, object> { { "id", address }, { "signature", response }, { "data", signMessage } }; 
+        Dictionary<string, object> authData = new Dictionary<string, object> { { "id", address }, { "signature", response }, { "data", signMessage } };
 
         Debug.Log("Logging in user.");
 
@@ -296,7 +300,7 @@ public class MainMenuScript : MonoBehaviour
             // Send error to the log but not as an error as this is expected behavior from W.C.
             Debug.Log($"Quit Error - Has quit already been called? Error: {exp.Message}");
         }
-        
+
         // Close out the application.
         Application.Quit();
     }
