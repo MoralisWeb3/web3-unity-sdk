@@ -10,10 +10,8 @@ namespace Moralis.Web3UnitySdk.Editor
     public class MoralisWeb3SdkEditor : EditorWindow
     {
         private static string[] pages = { "Page_1", "Page_2" };
-        //private static string MoralisDataFilename = "MoralisDataScriptableObject";
         private static string ServerUriDefaultText = "SERVER URI";
         private static string ApplicationIdDefaultText = "APPLICATION ID";
-        //private static MoralisDataScriptableObject moralisData;
 
         private int currentPageIndex = 0;
         private VisualElement rootElement;
@@ -72,71 +70,6 @@ namespace Moralis.Web3UnitySdk.Editor
             Debug.Log("InitializeOnLoadMethod()");
             EditorApplication.delayCall += OnDelayCall;
         }
-
-        /// <summary>
-        /// Loads the Moralis Data Setting sasset. If it does not exist, create it.
-        /// </summary>
-        /// <param name="reload"></param>
-//        public static void LoadOrCreateSettings(bool reload = false)
-//        {
-//            if (reload)
-//            {
-//                // Force reload of the MoralisData Settings.
-//                moralisData = null;    
-//            }
-//            else if (moralisData != null)
-//            {
-//                // Moralis Data setting have already been loaded.
-//                return;
-//            }
-
-
-//            // Try to load the resource / asset (MoralisDataScriptableObject
-//            // a.k.a. Moralis Data Settings)
-//            moralisData = (MoralisDataScriptableObject)Resources.Load(MoralisDataFilename, typeof(MoralisDataScriptableObject));
-            
-//            // If Moralis Data Setting were loaded successfully, all is well,
-//            // exit the method.
-//            if (moralisData != null)
-//            {
-//                return;
-//            }
-
-//            // The MoralisDataScriptableObject a.k.a Moralis Data Settings does not exist so create it.
-//            if (moralisData == null)
-//            {
-//                // Create a fresh instance of the Moralis Datat Setting sasset.
-//                moralisData = (MoralisDataScriptableObject)MoralisDataScriptableObject.CreateInstance("MoralisDataScriptableObject");
-                
-//                if (moralisData == null)
-//                {
-//                    Debug.LogError("Failed to create MoralisDataScriptableObject. Moralis is unable to run this way. If you deleted it from the project, reload the Editor.");
-//                    return;
-//                }
-//            }
-
-//#if UNITY_EDITOR
-//            string punResourcesDirectory = UnityFileHelper.FindMoralisAssetFolder() + "Resources/";
-//            string serverSettingsAssetPath = punResourcesDirectory + MoralisDataFilename + ".asset";
-//            string serverSettingsDirectory = Path.GetDirectoryName(serverSettingsAssetPath);
-
-//            if (!Directory.Exists(serverSettingsDirectory))
-//            {
-//                Directory.CreateDirectory(serverSettingsDirectory);
-//                AssetDatabase.ImportAsset(serverSettingsDirectory);
-//            }
-
-//            if (!File.Exists(serverSettingsAssetPath))
-//            {
-//                AssetDatabase.CreateAsset(moralisData, serverSettingsAssetPath);
-//            }
-
-//            AssetDatabase.SaveAssets();
-
-//            // if the project does not have PhotonServerSettings yet, enable "Development Build" to use the Dev Region.
-//            EditorUserBuildSettings.development = true;
-//#endif
-//        }
 
         /// <summary>
         /// Menu show event - displays the setup window when menu selection made.
