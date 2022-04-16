@@ -46,8 +46,6 @@ namespace Moralis.Web3UnitySdk
 {
     public class MoralisController : MonoBehaviour
     {
-        public string MoralisServerURI;
-        public string MoralisApplicationId;
         public string ApplicationName;
         public string Version;
         public string ApplicationDescription;
@@ -63,6 +61,12 @@ namespace Moralis.Web3UnitySdk
 #if UNITY_WEBGL
         public async UniTask Initialize()
         {
+            // Make sure the Moralis Setting data has been loaded.
+            if (MoralisSettings.MoralisData == null)
+            {
+                MoralisSettings.LoadOrCreateSettings(true);
+            }
+
             if (!MoralisInterface.Initialized)
             {
                 HostManifestData hostManifestData = new HostManifestData()
@@ -81,13 +85,19 @@ namespace Moralis.Web3UnitySdk
                     URL = ApplicationUrl
                 };
 
-                await MoralisInterface.Initialize(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
+                await MoralisInterface.Initialize(MoralisSettings.MoralisData.ApplicationId, MoralisSettings.MoralisData.ServerUri, hostManifestData, clientMeta);
             }
         }
 
 #else
         public async Task Initialize()
         {
+            // Make sure the Moralis Setting data has been loaded.
+            if (MoralisSettings.MoralisData == null)
+            {
+                MoralisSettings.LoadOrCreateSettings(true);
+            }
+
             if (!MoralisInterface.Initialized)
             {
                 HostManifestData hostManifestData = new HostManifestData()
@@ -109,7 +119,7 @@ namespace Moralis.Web3UnitySdk
                 walletConnect.AppData = clientMeta;
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                await MoralisInterface.Initialize(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
+                await MoralisInterface.Initialize(MoralisSettings.MoralisData.ApplicationId, MoralisSettings.MoralisData.ServerUri, hostManifestData, clientMeta);
             }
         }
 #endif
