@@ -75,7 +75,7 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
             
             if ((int)cmdResp.Item1 >= 400)
             {
-                Debug.LogErrpr($"SaveAsync failed: {cmdResp.Item2}");
+                Debug.LogError($"SaveAsync failed: {cmdResp.Item2}");
             }
         }
                

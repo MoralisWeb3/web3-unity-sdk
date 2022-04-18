@@ -587,7 +587,7 @@ namespace Moralis.Web3UnitySdk
         /// <param name="chainId">The The chain the contract is deployed on.</param>
         /// <param name="functionName">Name of the function to return</param>
         /// <returns>Function</returns>
-        [Obsolete("This method is deprecated. This method will not be replaced.")]
+        public static Function EvmContractFunctionInstance(string key, string chainId, string functionName)
         {
             Contract contract = EvmContractInstance(key, chainId);
             Function function = null;
