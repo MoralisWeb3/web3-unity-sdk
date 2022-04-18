@@ -135,12 +135,8 @@ namespace Moralis.Web3UnitySdk
             // For unity apps the local storage value must also be set.
             connectionData.LocalStoragePath = Application.persistentDataPath;
 
-            Debug.Log($"Set LocalStoragePath to {connectionData.LocalStoragePath}");
-
             // TODO Make this optional!
             connectionData.Key = "";
-
-            Debug.Log("Connecting to Moralis ...");
 
             // Set manifest / host data required so that the Moralis Client does not
             // attempt to infer them from Assembly values not available in Unity.
@@ -164,12 +160,11 @@ namespace Moralis.Web3UnitySdk
 
             if (moralis == null)
             {
-                Debug.Log("Moralis connection failed!");
+                Debug.LogError("Moralis connection failed!");
             }
             else
             {
                 Initialized = true;
-                Debug.Log("Connected to Moralis!");
                 user = await moralis.GetCurrentUserAsync();
             }
         }
@@ -243,7 +238,7 @@ namespace Moralis.Web3UnitySdk
         {
             if (clientMetaData == null)
             {
-                Debug.Log("Web3 Metadata not provided.");
+                Debug.LogError("Web3 Metadata not provided.");
                 return null;
             }
 
@@ -272,8 +267,6 @@ namespace Moralis.Web3UnitySdk
             try
             {
                 txnHash = await Web3GL.SendTransaction(recipientAddress, value.Value.ToString(), g, gp);
-
-                Debug.Log($"Transfered {value.Value} WEI from {recipientAddress} to {recipientAddress}.  TxnHash: {txnHash}");
             }
             catch (Exception)
             {
@@ -389,8 +382,6 @@ namespace Moralis.Web3UnitySdk
             // TODO Make this optional!
             connectionData.Key = "";
 
-            Debug.Log("Connecting to Moralis ...");
-
             // Set manifest / host data required so that the Moralis Client does not
             // attempt to infer them from Assembly values not available in Unity.
             MoralisClient.ManifestData = hostData;
@@ -413,12 +404,11 @@ namespace Moralis.Web3UnitySdk
 
             if (moralis == null)
             {
-                Debug.Log("Moralis connection failed!");
+                Debug.LogError("Moralis connection failed!");
             }
             else
             {
                 Initialized = true;
-                Debug.Log("Connected to Moralis!");
                 user = moralis.GetCurrentUser();
             }
         }
@@ -508,7 +498,7 @@ namespace Moralis.Web3UnitySdk
         {
             if (clientMetaData == null)
             {
-                Debug.Log("Wallet Connect Metadata not provided.");
+                Debug.LogError("Wallet Connect Metadata not provided.");
                 return;
             }
 
@@ -532,7 +522,6 @@ namespace Moralis.Web3UnitySdk
         /// <param name="abi">ABI of the contract in standard ABI json format</param>
         /// <param name="baseChainId">The initial chain Id used to interact with this contract</param>
         /// <param name="baseContractAddress">The initial contract address of the contract on specified chain</param>
-        [Obsolete("This method is deprecated. This method will not be replaced.")]
         public static void InsertContractInstance(string key, string abi, string baseChainId, string baseContractAddress)
         {
             if (Web3Client == null)
@@ -553,7 +542,6 @@ namespace Moralis.Web3UnitySdk
         /// <param name="key">How you identify the contract instance.</param>
         /// <param name="chainId">The The chain the contract is deployed on.</param>
         /// <param name="contractAddress">Address the contract is deployed at</param>
-        [Obsolete("This method is deprecated. This method will not be replaced.")]
         public static void AddContractChainAddress(string key, string chainId, string contractAddress)
         {
             if (Web3Client == null)
@@ -572,7 +560,6 @@ namespace Moralis.Web3UnitySdk
         /// <param name="key">How you identify the contract instance.</param>
         /// <param name="chainId">The The chain the contract is deployed on.</param>
         /// <returns>Nethereum.Contracts.Contract</returns>
-        [Obsolete("This method is deprecated. This method will not be replaced.")]
         public static Contract EvmContractInstance(string key, string chainId)
         {
             Contract contract = null;
@@ -601,7 +588,6 @@ namespace Moralis.Web3UnitySdk
         /// <param name="functionName">Name of the function to return</param>
         /// <returns>Function</returns>
         [Obsolete("This method is deprecated. This method will not be replaced.")]
-        public static Function EvmContractFunctionInstance(string key, string chainId, string functionName)
         {
             Contract contract = EvmContractInstance(key, chainId);
             Function function = null;
@@ -761,8 +747,6 @@ namespace Moralis.Web3UnitySdk
             {
                 // Execute the transaction.
                 txnHash = await MoralisInterface.Web3Client.Eth.TransactionManager.SendTransactionAsync(txnRequest);
-
-                Debug.Log($"Transfered {value.Value} WEI from {fromAddress} to {recipientAddress}.  TxnHash: {txnHash}");
             }
             catch (Exception exp)
             {

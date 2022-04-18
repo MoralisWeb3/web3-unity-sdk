@@ -99,7 +99,6 @@ namespace Moralis.WebGL.SolanaApi
 
             if (webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
-                Debug.Log("Error Getting Wallet Info: " + webRequest.error);
                 responseText = webRequest.error;
             }
             else

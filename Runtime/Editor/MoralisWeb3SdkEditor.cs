@@ -67,24 +67,21 @@ namespace Moralis.Web3UnitySdk.Editor
         [UnityEditor.InitializeOnLoadMethod]
         public static void InitializeOnLoadMethod()
         {
-            Debug.Log("InitializeOnLoadMethod()");
             EditorApplication.delayCall += OnDelayCall;
         }
 
         /// <summary>
         /// Menu show event - displays the setup window when menu selection made.
         /// </summary>
-        [MenuItem("Window/Moralis Web3 SDK/Server Connection Info %#&m", false, 0)]
+        [MenuItem("Window/Moralis/Web3 Unity SDK/Open Web3 Unity SDK Setup %#&m", false, 0)]
         public static void ShowWindow()
         {
-            Debug.Log("Window ShowWindow()");
             var window = GetWindow<MoralisWeb3SdkEditor>();
 
             window.isSetupWizard = false;
-            window.titleContent = new GUIContent("Moralis Unity Web3 SDK");
+            window.titleContent = new GUIContent("Unity Web3 SDK");
             window.minSize = new Vector2(750, 375);
             window.maxSize = new Vector2(750, 375);
-            Debug.Log("Window ShowWindow() leave");
         }
 
         /// <summary>
@@ -167,8 +164,6 @@ namespace Moralis.Web3UnitySdk.Editor
 
                 bool mdLoaded = MoralisSettings.MoralisData != null;
 
-                Debug.Log($"Moralis data was loaded: {mdLoaded}");
-
                 // Loads the page definition.
                 VisualTreeAsset original = AssetDatabase
                     .LoadAssetAtPath<VisualTreeAsset>(moralisEditorwindowPath + "MoralisWeb3SdkEditorWindow.uxml");
@@ -176,7 +171,6 @@ namespace Moralis.Web3UnitySdk.Editor
                 // If page not found, close and exit window
                 if (original == null)
                 {
-                    Debug.LogError("Moralis Setup Wizard could not be loaded.");
                     this.Close();
                     return;
                 }

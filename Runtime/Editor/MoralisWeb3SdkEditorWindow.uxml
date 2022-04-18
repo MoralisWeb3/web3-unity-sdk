@@ -20,7 +20,7 @@
 					<engine:TextElement class="page_title" text="Welcome to Moralis!" />
 					<engine:Box class="box_line"></engine:Box>
 					<engine:TextElement class="page_text"
-						text="The Moralis Unity Web3 SDK provides components and hooks to enable you to quickly build web3 games. With this SDK you can build web3 games for mobile, desktop, Xbox, Playstation and other platforms." />
+						text="The Unity Web3 SDK provides components and hooks to enable you to quickly build web3 games. With this SDK you can build web3 games for mobile, desktop, Xbox, Playstation and other platforms." />
 					<engine:TextElement class="page_text"
 						text="If you need help or have questions, don't hesitate to ask in either our Discord Channel (Morlais DAO) or our forum (https://forum.morails.io) and we will get back to you asap. The best thing about Moralis is the super active community that is ready to help at any time!" />
 					<engine:Box class="box">

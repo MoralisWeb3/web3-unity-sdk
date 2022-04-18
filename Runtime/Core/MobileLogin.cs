@@ -96,8 +96,6 @@ namespace Moralis.Web3UnitySdk
                     // Parse the response body. 
                     string responseBody = await response.Content.ReadAsStringAsync();
 
-                    Debug.Log($"Session Result: {responseBody}");
-
                     result = JsonConvert.DeserializeObject<MoralisSessionTokenResponse>(responseBody);
                 }
             }
@@ -205,8 +203,6 @@ namespace Moralis.Web3UnitySdk
                 {
                     // Parse the response body. 
                     string responseBody = await response.Content.ReadAsStringAsync();
-
-                    Debug.Log($"Session Result: {responseBody}");
 
                     result = JsonConvert.DeserializeObject<MoralisSessionTokenResponse>(responseBody);
                 }

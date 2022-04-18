@@ -39,7 +39,7 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
             }
             else
             {
-                Debug.Log($"SignUpAsync failed: {cmdResp.Item2}");
+                Debug.LogError($"SignUpAsync failed: {cmdResp.Item2}");
             }
 
             return resp;
@@ -59,7 +59,7 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
             }
             else
             {
-                Debug.Log($"LogInAsync failed: {cmdResp.Item2}");
+                Debug.LogError($"LogInAsync failed: {cmdResp.Item2}");
             }
 
             return result;
@@ -76,8 +76,6 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
 
             MoralisCommand cmd = new MoralisCommand("server/users", method: "POST", data: JsonSerializer.Serialize(new Dictionary<string, object> { [nameof(authData)] = authData }));
             Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(cmd, cancellationToken: cancellationToken);
-
-            Debug.Log($"LogInAsync cmdResp: {cmdResp.Item2}");
 
             if ((int)cmdResp.Item1 < 300)
             {
@@ -102,7 +100,6 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
 
         public async UniTask<TUser> GetUserAsync(string sessionToken, IServiceHub<TUser> serviceHub, CancellationToken cancellationToken = default)
         {
-            Debug.Log($"Get user using sessionToken: {sessionToken}");
             TUser user = default;
             Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(new MoralisCommand("server/users/me", method: "GET", sessionToken: sessionToken, data: default), cancellationToken: cancellationToken);
             if ((int)cmdResp.Item1 < 300)
@@ -110,10 +107,6 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
                 user = JsonSerializer.Deserialize<TUser>(cmdResp.Item2.ToString());
 
                 user.ObjectService = this.ObjectService;
-            }
-            else
-            {
-                Debug.Log($"GetUserAsync failed: {cmdResp.Item2}");
             }
 
             return user;
@@ -125,7 +118,7 @@ namespace Moralis.WebGL.Platform.Services.ClientServices
 
             if((int)cmdResp.Item1 >= 400)
             {
-                Debug.Log($"RequestPasswordResetAsync failed: {cmdResp.Item2}");
+                Debug.LogError($"RequestPasswordResetAsync failed: {cmdResp.Item2}");
             }
         }
     }
