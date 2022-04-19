@@ -1,5 +1,5 @@
 # Change Log
-# 1.2.0 (2022-04-22)
+## 1.2.0 (2022-04-19)
 - Changed namespace from MoralisWeb3ApiSdk to Moralis.Web3UnitySdk
 - Package now is visible in the Unity Editor as “Moralis Web3 Unity SDK”
 - No need to set the Allow ‘unsafe’ code in the project. This now gets handled in the new Assembly Definitions
@@ -10,7 +10,7 @@
 - Updated WalletConnect
 - Fixed warnings messages
 
-# 1.1.0 (2022-03-30)
+## 1.1.0 (2022-03-30)
 - Issue #90 - iOS Wallet Images not loaded and displayed
 - Issue #81 - WebGL LiveQuery Callbacks are not fired.
 - Issue #77 - How to login with just username/email and password?
@@ -19,26 +19,26 @@
 - Issue #41 - Error on quit
 - Issue #15 - Live Queries Throw Unexpected Exception when Network Connection is Dropped.
 
-# 1.0.9 (2022-03-09)
+## 1.0.9 (2022-03-09)
 - Issue #82 - Web3Api Native RunContractFunction Deserialization fails
 - Issue #80 - WebGL, LiveQuery - DELETE: Good response has an Empty content
 - Issue #75 - eature Request: CreateAsync
 - Issue #69 - Detecting failed SaveAsync
 - Issue #50 - On Object Create ACL not instantiated
 
-# 1.0.8 (2022-03-02)
+## 1.0.8 (2022-03-02)
 - Issue #32 - Replace Wallet Connect with In-Browser Wallet Interface for WebGL
 - Issue #70 - User Save Fails
 - Fixed WebGL error: Unsupported internal call for IL2CPP:RuntimeInformation::GetRuntimeArchitecture
 - Check if the user has setup the Server URI and Application Id
 - Remove Speedy Node Requirement and Defects
 
-# 1.0.7 (2022-02-18)
+## 1.0.7 (2022-02-18)
 - Issue #57 - WalletConnect.AppData not automatically set
 - Issue #59 - Web3Api.Native.GetContractEvents - invalid parameter
 - Issue #61 - Speedynode Should not be used in Client 
 
-# 1.0.6 (2022-02-14)
+## 1.0.6 (2022-02-14)
 - Critical auth bug.
 - Issue #49 - Cannot set public access in ACL
 
