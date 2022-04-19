@@ -103,8 +103,13 @@
 
 #View
 {
-	height: 375px;
+	height: auto; /*375px;*/
 	width: 750px;
+}
+
+.web3-settings-view
+{
+	height: 425px;
 }
 
 #Logo
