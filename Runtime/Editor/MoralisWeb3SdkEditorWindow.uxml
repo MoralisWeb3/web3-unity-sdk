@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+>
+	<engine:VisualElement name="View">
+		<engine:VisualElement name="Title">
+			<!-- 1 -->
+			<engine:VisualElement name="Logo" />
+			<engine:TextElement name="TitleText" class="title_text" text="Web3 Setup" />
+		</engine:VisualElement>
+
+		<engine:VisualElement class="container">
+
+			<engine:VisualElement name="LeftPanel">
+				<!-- page 1 -->
+				<engine:VisualElement name="Page_1" class="page">
+					<engine:TextElement class="page_title" text="Welcome to Moralis!" />
+					<engine:Box class="box_line"></engine:Box>
+					<engine:TextElement class="page_text"
+						text="The Unity Web3 SDK provides components and hooks to enable you to quickly build web3 games. With this SDK you can build web3 games for mobile, desktop, Xbox, Playstation and other platforms." />
+					<engine:TextElement class="page_text"
+						text="If you need help or have questions, don't hesitate to ask in either our Discord Channel (Morlais DAO) or our forum (https://forum.morails.io) and we will get back to you asap. The best thing about Moralis is the super active community that is ready to help at any time!" />
+					<engine:Box class="box">
+						<engine:TextElement text="Before using the SDK you will need to complete some setup steps:" />
+						<engine:TextElement text="1. In your browser, go to https://morails.io and create or login to your account."/>
+						<engine:TextElement text="2. In the Admin Panel of your server, create or select the server your game will target." />
+						<engine:TextElement text="3. Click the 'View Details' button to view your server's connection Information." />
+					</engine:Box>
+				</engine:VisualElement>
+				<!-- page 2 -->
+				<engine:VisualElement name="Page_2" class="page">
+					<engine:TextElement class="page_title" text="Server Information" />
+					<engine:Box class="box_line"></engine:Box>
+
+					<engine:Label class="field_label" text="Moralis Server URI" />
+					<engine:TextField class="text_field" name="ServerUriField" />
+
+					<engine:Label class="field_label" text="Moralis Application ID" />
+					<engine:TextField class="text_field" name="ApplicationIdField" />
+				</engine:VisualElement>
+
+				<engine:VisualElement class="button_row">
+					<!-- the button-end forces the buttons to float right -->
+					<engine:Button text="" class="button-end" />
+					<engine:Button name="BackButton" text="Back" class="button" />
+					<engine:Button name="NextButton" text="Next" class="button" />
+					<engine:Button name="SkipButton" text="Skip" class="button" />
+					<engine:Button name="DoneButton" text="Done" class="button" />
+				</engine:VisualElement>
+				<!-- 2 -->
+			</engine:VisualElement>
+
+		</engine:VisualElement>
+	</engine:VisualElement>
+
+</engine:UXML>

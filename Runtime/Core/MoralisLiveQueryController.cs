@@ -55,32 +55,27 @@ namespace Moralis.Web3UnitySdk
 
         private void OnDestroy()
         {
-            Debug.Log("MoralisLiveQueryController - OnDestroy called.");
             UnsubscribeFromAll();
             subscriptions.Clear();
         }
 
         private void OnApplicationQuit()
         {
-            Debug.Log("MoralisLiveQueryController - OnApplicationQuit called.");
             UnsubscribeFromAll();
             subscriptions.Clear();
         }
 
         private void OnApplicationPause(bool pauseStatus)
         {
-            Debug.Log("MoralisLiveQueryController - OnApplicationPause called.");
             UnsubscribeFromAll();
         }
 
         protected void Awake()
         {
-            Debug.Log("MoralisLiveQueryController - Awake called.");
             List<UniTask> tasks = new List<UniTask>();
 
             foreach (string key in subscriptions.Keys)
             {
-                Debug.Log($"Resubscribing to {key}");
                 tasks.Add(subscriptions[key].RenewSubscription());
             }
 
@@ -93,8 +88,7 @@ namespace Moralis.Web3UnitySdk
 
             foreach (string key in subscriptions.Keys)
             {
-                Debug.Log($"Unsubscribing from {key}");
-                tasks.Add(subscriptions[key].Unsubscribe());
+               tasks.Add(subscriptions[key].Unsubscribe());
             }
 
             UniTask.WhenAll(tasks.ToArray());
@@ -183,32 +177,27 @@ namespace Moralis.Web3UnitySdk
 
         private void OnDestroy()
         {
-            Debug.Log("MoralisLiveQueryController - OnDestroy called.");
             UnsubscribeFromAll();
             subscriptions.Clear();
         }
 
         private void OnApplicationQuit()
         {
-            Debug.Log("MoralisLiveQueryController - OnApplicationQuit called.");
             UnsubscribeFromAll();
             subscriptions.Clear();
         }
 
         private void OnApplicationPause(bool pauseStatus)
         {
-            Debug.Log("MoralisLiveQueryController - OnApplicationPause called.");
             UnsubscribeFromAll();
         }
 
         protected void Awake()
         {
-            Debug.Log("MoralisLiveQueryController - Awake called.");
             List<Task> tasks = new List<Task>();
 
             foreach (string key in subscriptions.Keys)
             {
-                Debug.Log($"Resubscribing to {key}");
                 tasks.Add(subscriptions[key].RenewSubscription());
             }
 
@@ -221,7 +210,6 @@ namespace Moralis.Web3UnitySdk
 
             foreach (string key in subscriptions.Keys)
             {
-                Debug.Log($"Unsubscribing from {key}");
                 tasks.Add(subscriptions[key].Unsubscribe());
             }
 

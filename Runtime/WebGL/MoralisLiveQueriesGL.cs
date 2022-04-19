@@ -59,7 +59,7 @@ namespace Moralis.WebGL
             }
 
             OpenWebsocketJs(key, path);
-            Debug.Log("Going into wait loop ...");
+            
             while (loop < waitLoops && String.IsNullOrEmpty(openResp))
             {
                 await UniTask.DelayFrame(30);
@@ -69,14 +69,12 @@ namespace Moralis.WebGL
                 if (r != null)
                 {
                     openResp = r;
-                    Debug.Log($"Create Subscription response: {openResp}");
+                    
                     break;
                 }
-                else Debug.Log("response is null!!!");
+                
                 loop++;
             }
-
-            Debug.Log($"Exiting wait loop resp is {openResp}");
             
             if (openResp.Length >  0 && openResp.Contains("\"isTrusted\":true"))
             {

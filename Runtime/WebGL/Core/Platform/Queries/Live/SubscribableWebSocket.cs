@@ -77,10 +77,6 @@ namespace Moralis.WebGL.Platform.Queries.Live
             {
                 throw new MoralisFailureException(ErrorCode.ServerUrlNullOrEmtpy, "");
             }
-            else
-            {
-                Debug.Log($"Using websocket url: {ConncetionData.LiveQueryServerURI}");
-            }
 
             ClientStatus = LiveQueryClientStatusTypes.New;
 
@@ -88,13 +84,8 @@ namespace Moralis.WebGL.Platform.Queries.Live
 
             if (resp)
             {
-                Console.WriteLine("Live Query WebSocket connected.");
                 connected = true;
                 string json = MoralisLiveQueriesGL.GetResponseQueue(RequestId.ToString());
-            }
-            else
-            {
-                Console.WriteLine("Live Query WebSocket connection attempt failed.");
             }
         }
 

@@ -123,16 +123,8 @@ public class MainMenuScript : MonoBehaviour
         AuthenticationButtonOff();
 
         // If the user is still logged in just show game.
-        if (MoralisInterface.IsLoggedIn())
+        if (!MoralisInterface.IsLoggedIn())
         {
-            Debug.Log("User is already logged in to Moralis.");
-        }
-        // User is not logged in, depending on build target, begin wallect connection.
-        else
-        {
-            Debug.Log("User is not logged in.");
-            //mainMenu.SetActive(false);
-
             // The mobile solutions for iOS and Android will be different once we
             // smooth out the interaction with Wallet Connect. For now the duplicated 
             // code below is on purpose just to keep the iOS and Android authentication
@@ -191,31 +183,18 @@ public class MainMenuScript : MonoBehaviour
             if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
                 !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
             {
-                Debug.Log("Failed to retrieve server time from Moralis Server!");
+                Debug.LogError("Failed to retrieve server time from Moralis Server!");
             }
 
             string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
 
             string signature = await Web3GL.Sign(signMessage);
 
-            Debug.Log($"Signature {signature} for {address} was returned.");
-
             // Create moralis auth data from message signing response.
             Dictionary<string, object> authData = new Dictionary<string, object> { { "id", address }, { "signature", signature }, { "data", signMessage } };
 
-            Debug.Log("Logging in user.");
-
             // Attempt to login user.
             MoralisUser user = await MoralisInterface.LogInAsync(authData);
-
-            if (user != null)
-            {
-                Debug.Log($"User {user.username}, session: {user.sessionToken} logged in successfully. ");
-            }
-            else
-            {
-                Debug.Log("User login failed.");
-            }
 
             // TODO: For your own app you may want to move / remove this.
             LogoutButtonOn();
@@ -233,7 +212,6 @@ public class MainMenuScript : MonoBehaviour
     /// <param name="data">WCSessionData</param>
     public async void WalletConnectHandler(WCSessionData data)
     {
-        Debug.Log("Wallet connection received");
         // Extract wallet address from the Wallet Connect Session data object.
         string address = data.accounts[0].ToLower();
         string appId = MoralisInterface.GetClient().ApplicationId;
@@ -245,33 +223,18 @@ public class MainMenuScript : MonoBehaviour
         if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
             !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
         {
-            Debug.Log("Failed to retrieve server time from Moralis Server!");
+            Debug.LogError("Failed to retrieve server time from Moralis Server!");
         }
 
         string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
 
-        Debug.Log($"Sending sign request for {address} ...");
-
         string response = await walletConnect.Session.EthPersonalSign(address, signMessage);
-
-        Debug.Log($"Signature {response} for {address} was returned.");
 
         // Create moralis auth data from message signing response.
         Dictionary<string, object> authData = new Dictionary<string, object> { { "id", address }, { "signature", response }, { "data", signMessage } };
 
-        Debug.Log("Logging in user.");
-
         // Attempt to login user.
         MoralisUser user = await MoralisInterface.LogInAsync(authData);
-
-        if (user != null)
-        {
-            Debug.Log($"User {user.username} logged in successfully. ");
-        }
-        else
-        {
-            Debug.Log("User login failed.");
-        }
 
         HideWalletSelection();
 
@@ -286,8 +249,6 @@ public class MainMenuScript : MonoBehaviour
     {
         try
         {
-            Debug.Log("QUIT");
-
             // Logout the Moralis User.
             await MoralisInterface.LogOutAsync();
             // Disconnect wallet subscription.
@@ -324,7 +285,7 @@ public class MainMenuScript : MonoBehaviour
     {
         // Use Moralis Connect page for authentication as we work to make the Wallet 
         // Connect experience better.
-        MoralisUser user = await MobileLogin.LogIn(moralisController.MoralisServerURI, moralisController.MoralisApplicationId);
+        MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId);
 
         if (user != null)
         {
