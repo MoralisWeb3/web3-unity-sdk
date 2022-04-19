@@ -9,8 +9,8 @@ namespace Moralis.Web3UnitySdk
 {
     public class MoralisSettings
     {
-        private static string MoralisDataFilename = "MoralisDataScriptableObject";
-        public static MoralisDataScriptableObject MoralisData;
+        private static string MoralisDataFilename = "MoralisServerSettings";
+        public static MoralisServerSettings MoralisData;
 
                 /// <summary>
         /// Loads the Moralis Data Setting sasset. If it does not exist, create it.
@@ -29,9 +29,9 @@ namespace Moralis.Web3UnitySdk
                 return;
             }
 
-            // Try to load the resource / asset (MoralisDataScriptableObject
+            // Try to load the resource / asset (MoralisServerSettings
             // a.k.a. Moralis Data Settings)
-            MoralisData = (MoralisDataScriptableObject)Resources.Load(MoralisDataFilename, typeof(MoralisDataScriptableObject));
+            MoralisData = (MoralisServerSettings)Resources.Load(MoralisDataFilename, typeof(MoralisServerSettings));
             
             // If Moralis Data Setting were loaded successfully, all is well,
             // exit the method.
@@ -41,15 +41,15 @@ namespace Moralis.Web3UnitySdk
             }
 
 #if UNITY_EDITOR
-            // The MoralisDataScriptableObject a.k.a Moralis Data Settings does not exist so create it.
+            // The MoralisServerSettings a.k.a Moralis Data Settings does not exist so create it.
             if (MoralisData == null)
             {
                 // Create a fresh instance of the Moralis Datat Setting sasset.
-                MoralisData = (MoralisDataScriptableObject)MoralisDataScriptableObject.CreateInstance("MoralisDataScriptableObject");
+                MoralisData = (MoralisServerSettings)MoralisServerSettings.CreateInstance("MoralisServerSettings");
                 
                 if (MoralisData == null)
                 {
-                    Debug.LogError("Failed to create MoralisDataScriptableObject. Moralis is unable to run this way. If you deleted it from the project, reload the Editor.");
+                    Debug.LogError("Failed to create MoralisServerSettings. Moralis is unable to run this way. If you deleted it from the project, reload the Editor.");
                     return;
                 }
             }

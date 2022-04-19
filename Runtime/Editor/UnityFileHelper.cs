@@ -74,7 +74,7 @@ namespace Moralis.Web3UnitySdk.Editor
         /// <returns>The pun asset folder.</returns>
         public static string FindMoralisAssetFolder()
         {
-            string path = FindPathFromAsset("MoralisDataScriptableObject", "Moralis Web3 Unity SDK");
+            string path = FindPathFromAsset("MoralisServerSettings", "Moralis Web3 Unity SDK");
 
             if (String.IsNullOrEmpty(path))
             {

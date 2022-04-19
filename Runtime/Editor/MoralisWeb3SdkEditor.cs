@@ -112,7 +112,7 @@ namespace Moralis.Web3UnitySdk.Editor
             // loaded, do not show the wizard.
             if (MoralisSettings.MoralisData == null)
             {
-                Debug.LogError("Could not load MoralisDataScriptableObject");
+                Debug.LogError("Could not load MoralisServerSettings");
 
                 return;
             }

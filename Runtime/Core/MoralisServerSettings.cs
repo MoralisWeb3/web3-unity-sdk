@@ -5,7 +5,7 @@ using UnityEngine;
 /// Provides a persistable object to hold Moralis related data.
 /// </summary>
 [Serializable]
-public class MoralisDataScriptableObject : ScriptableObject
+public class MoralisServerSettings : ScriptableObject
 {
     public string ServerUri;
     public string ApplicationId;
@@ -16,7 +16,7 @@ public class MoralisDataScriptableObject : ScriptableObject
     public string ApplicationUrl;
     public bool DisableAutoOpenWizard = false;
 
-    public MoralisDataScriptableObject()
+    public MoralisServerSettings()
     {
         ServerUri = String.Empty;
         ApplicationId = String.Empty;
