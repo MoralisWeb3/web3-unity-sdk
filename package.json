@@ -2,7 +2,7 @@
     "name": "io.moralis.web3-unity-sdk",
     "version": "1.2.0",
     "displayName": "Moralis Web3 Unity SDK",
-    "description": "Provides integration with Moralis SDK and Web3API; providing backend services, and seemless blockchain integration.",
+    "description": "Provides integration with Moralis SDK and Web3 API. Providing backend services, and seamless blockchain integration.",
     "unity": "2020.3",
     "hideInEditor": false,
     "license": "MIT License",
