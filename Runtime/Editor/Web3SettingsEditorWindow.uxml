@@ -27,6 +27,9 @@
 						<engine:Label class="field_label" text="Application Version" />
 						<engine:TextField class="text_field" name="ApplicationVersionField" />
 
+						<engine:Label class="field_label" text="Application Url" />
+						<engine:TextField class="text_field" name="ApplicationUrlField" />
+
 						<engine:Label class="field_label" text="Application IconUri" />
 						<engine:TextField class="text_field" name="ApplicationIconUriField" />
 					</engine:VisualElement>

@@ -34,8 +34,8 @@ namespace Moralis.Web3UnitySdk.Editor
 
             window.isSetupWizard = false;
             window.titleContent = new GUIContent("Web3 Request Settings");
-            window.minSize = new Vector2(750, 425);
-            window.maxSize = new Vector2(750, 425);
+            window.minSize = new Vector2(750, 500);
+            window.maxSize = new Vector2(750, 500);
 
             window.Show();
         }
@@ -131,6 +131,14 @@ namespace Moralis.Web3UnitySdk.Editor
                 applicationVersionField.RegisterValueChangedCallback(evt =>
                 {
                     MoralisSettings.MoralisData.ApplicationVersion = evt.newValue;
+                    SaveSettings();
+                });
+
+                var applicationUrlField = rootVisualElement.Q<TextField>("ApplicationUrlField");
+                applicationUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.ApplicationUrl);
+                applicationUrlField.RegisterValueChangedCallback(evt =>
+                {
+                    MoralisSettings.MoralisData.ApplicationUrl = evt.newValue;
                     SaveSettings();
                 });
 

@@ -109,7 +109,7 @@
 
 .web3-settings-view
 {
-	height: 425px;
+	height: 500px;
 }
 
 #Logo

@@ -46,11 +46,11 @@ namespace Moralis.Web3UnitySdk
 {
     public class MoralisController : MonoBehaviour
     {
-        public string ApplicationName;
-        public string Version;
-        public string ApplicationDescription;
-        public string[] ApplicationIcons;
-        public string ApplicationUrl;
+        //public string ApplicationName;
+        //public string Version;
+        //public string ApplicationDescription;
+        //public string[] ApplicationIcons;
+        //public string ApplicationUrl;
 
         public WalletConnect walletConnect;
         private void OnValidate()
@@ -102,18 +102,18 @@ namespace Moralis.Web3UnitySdk
             {
                 HostManifestData hostManifestData = new HostManifestData()
                 {
-                    Version = Version,
-                    Identifier = ApplicationName,
-                    Name = ApplicationName,
-                    ShortVersion = Version
+                    Version = MoralisSettings.MoralisData.ApplicationVersion,
+                    Identifier = MoralisSettings.MoralisData.ApplicationName,
+                    Name = MoralisSettings.MoralisData.ApplicationName,
+                    ShortVersion = MoralisSettings.MoralisData.ApplicationVersion
                 };
 
                 ClientMeta clientMeta = new ClientMeta()
                 {
-                    Name = ApplicationName,
-                    Description = ApplicationDescription,
-                    Icons = ApplicationIcons,
-                    URL = ApplicationUrl
+                    Name = MoralisSettings.MoralisData.ApplicationName,
+                    Description = MoralisSettings.MoralisData.ApplicationDescription,
+                    Icons = new string[] { MoralisSettings.MoralisData.ApplicationIconUri },
+                    URL = MoralisSettings.MoralisData.ApplicationUrl
                 };
 
                 walletConnect.AppData = clientMeta;
