@@ -5,7 +5,6 @@ using UnityEngine;
 /// Provides a persistable object to hold Moralis related data.
 /// </summary>
 [Serializable]
-[CreateAssetMenu(fileName = "MorlaisData", menuName = "ScriptableObjects/MoralisDataScriptableObject", order = 1)]
 public class MoralisDataScriptableObject : ScriptableObject
 {
     public string ServerUri;
@@ -19,8 +18,8 @@ public class MoralisDataScriptableObject : ScriptableObject
 
     public MoralisDataScriptableObject()
     {
-        ServerUri = "SERVER URI";
-        ApplicationId = "APPLICATION ID";
+        ServerUri = String.Empty;
+        ApplicationId = String.Empty;
         ApplicationName = "Moralis SDK Application";
         ApplicationDescription = "This application provdies an example of how to you Moralis in a Unity 3D Game";
         ApplicationVersion = "1.0.0";

@@ -73,7 +73,7 @@ namespace Moralis.Web3UnitySdk.Editor
         /// <summary>
         /// Menu show event - displays the setup window when menu selection made.
         /// </summary>
-        [MenuItem("Window/Moralis/Web3 Unity SDK/Open Web3 Unity SDK Setup %#&m", false, 0)]
+        [MenuItem("Window/Moralis Web3 Unity SDK/Open Web3 Setup", false, 0)]
         public static void ShowWindow()
         {
             var window = GetWindow<MoralisWeb3SdkEditor>();

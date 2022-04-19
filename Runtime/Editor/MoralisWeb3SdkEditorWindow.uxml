@@ -9,7 +9,7 @@
 		<engine:VisualElement name="Title">
 			<!-- 1 -->
 			<engine:VisualElement name="Logo" />
-			<engine:TextElement name="TitleText" class="title_text" text="Web3 SDK Setup" />
+			<engine:TextElement name="TitleText" class="title_text" text="Web3 Setup" />
 		</engine:VisualElement>
 
 		<engine:VisualElement class="container">
