@@ -103,7 +103,7 @@
 
 #View
 {
-	height: auto; /*375px;*/
+	height: auto;
 	width: 750px;
 }
 
@@ -136,35 +136,3 @@
 	width: auto;
 	height: 83%;
 }
-
-/*
-#preview
-{
-	height: 300px;
-	width:600px;
-	align-self: center;
-	background-image: url("Resources/game_slide_bg_a.png");
-}
-
-#card-info-scroll
-{
-	flex-grow: 1;
-}
-
-Box
-{
-	flex-grow: 1;
-}
-
-TemplateContainer
-{
-	flex-grow: 1;
-	flex-direction: row;
-}
-
-ListView
-{
-	width: 225px;
-	-unity-text-align: middle-center;
-}
-*/
