@@ -114,7 +114,6 @@ namespace Moralis.Web3Api.Client
         public async Task<Object> CallApi(String path, HttpMethod method, Dictionary<String, String> queryParams, String postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, object> fileParams, String[] authSettings)
-   //         Dictionary<String, FileParameter> fileParams, String[] authSettings)
         {
             return CallApi(path, method, postBody, headerParams, queryParams, authSettings);
             //    //var request = new RestRequest(path, method);

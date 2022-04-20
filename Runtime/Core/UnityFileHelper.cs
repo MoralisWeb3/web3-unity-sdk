@@ -31,7 +31,7 @@ using System;
 using System.IO;
 using UnityEditor;
 
-namespace Moralis.Web3UnitySdk.Editor
+namespace Moralis.Web3UnitySdk
 {
     public class UnityFileHelper
     {
@@ -78,7 +78,7 @@ namespace Moralis.Web3UnitySdk.Editor
 
             if (String.IsNullOrEmpty(path))
             {
-                return "Assets/Samples/Moralis Web3 Unity SDK/";
+                return "Assets/Moralis Web3 Unity SDK/Resources/";
             }
             else 
             {
@@ -96,7 +96,7 @@ namespace Moralis.Web3UnitySdk.Editor
 
             if (String.IsNullOrEmpty(path))
             {
-                return "Assets/Samples/Moralis Web3 Unity SDK/";
+                return "Assets/Moralis Web3 Unity SDK/Resources/";
             }
             else
             {

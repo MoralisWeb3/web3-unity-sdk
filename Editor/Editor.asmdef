@@ -1,17 +1,12 @@
 {
-    "name": "Moralis.Web3UnitySdk",
+    "name": "Editor",
     "rootNamespace": "",
     "references": [
-        "Moralis.DotnetSdk",
-        "UniTask",
-        "Nethereum",
-        "WalletConnectSharp.Unity"
+        "GUID:b7ec6c9c8dcdf484991e160de7fb2b02"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": true,
+    "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
