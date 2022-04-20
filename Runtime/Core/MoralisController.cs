@@ -45,13 +45,7 @@ using Moralis.Web3Api.Models;
 namespace Moralis.Web3UnitySdk
 {
     public class MoralisController : MonoBehaviour
-    {
-        //public string ApplicationName;
-        //public string Version;
-        //public string ApplicationDescription;
-        //public string[] ApplicationIcons;
-        //public string ApplicationUrl;
-
+    { 
         public WalletConnect walletConnect;
         private void OnValidate()
         {

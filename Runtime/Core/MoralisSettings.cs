@@ -53,7 +53,7 @@ namespace Moralis.Web3UnitySdk
                 }
             }
 
-            string punResourcesDirectory = Editor.UnityFileHelper.FindMoralisAssetFolder() + "Resources/";
+            string punResourcesDirectory = UnityFileHelper.FindMoralisAssetFolder() + "Resources/";
             string serverSettingsAssetPath = punResourcesDirectory + MoralisDataFilename + ".asset";
             string serverSettingsDirectory = Path.GetDirectoryName(serverSettingsAssetPath);
 
