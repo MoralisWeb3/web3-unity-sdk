@@ -30,22 +30,20 @@ using Cysharp.Threading.Tasks;
 using Moralis.Platform;
 using Moralis.Platform.Objects;
 using Moralis.SolanaApi.Client;
-using Moralis.Web3Api;
 using Moralis.Web3Api.Client;
-using Nethereum.Contracts;
-using Nethereum.Hex.HexTypes;
-using Nethereum.RPC.Eth.DTOs;
-using Nethereum.RPC.Eth.Transactions;
-using Nethereum.Web3;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using WalletConnectSharp.Core;
+
+#if UNITY_WEBGL
+using Moralis.Models;
+using Moralis.Hex.HexTypes;
+#else
 using WalletConnectSharp.Core.Models;
-using WalletConnectSharp.NEthereum;
-using WalletConnectSharp.Unity;
+using Nethereum.Hex.HexTypes;
+#endif
 
 namespace Moralis.Web3UnitySdk
 {
@@ -65,19 +63,19 @@ namespace Moralis.Web3UnitySdk
         /// Provide Web3 for WebGL client.
         /// </summary>
         public static Web3GL Web3Client { get; set; }
-
         private static string web3ClientRpcUrl;
 #else
         public static Web3 Web3Client { get; set; }
 #endif
+        private static ClientMeta clientMetaData;
+
         private static EvmContractManager contractManager;
 
         // Singleton instance of Moralis so that is it is available application 
         // wide after being initialized.
         private static MoralisClient client;
         private static ServerConnectionData connectionData;
-        private static ClientMeta clientMetaData;
-
+        
         // Since the user object is used so often, once the user is authenticated 
         // keep a local copy to save some cycles.
         private static MoralisUser user;
@@ -89,6 +87,7 @@ namespace Moralis.Web3UnitySdk
         /// <param name="serverUri"></param>
         /// <param name="hostData"></param>
         /// <param name="web3ApiKey"></param>
+        
         public static async UniTask Start(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
             // Application Id is requried.
@@ -127,12 +126,8 @@ namespace Moralis.Web3UnitySdk
             // For unity apps the local storage value must also be set.
             connectionData.LocalStoragePath = Application.persistentDataPath;
 
-            Debug.Log($"Set LocalStoragePath to {connectionData.LocalStoragePath}");
-
             // TODO Make this optional!
             connectionData.Key = "";
-
-            Debug.Log("Connecting to Moralis ...");
 
             // Set manifest / host data required so that the Moralis Client does not
             // attempt to infer them from Assembly values not available in Unity.
@@ -264,7 +259,7 @@ namespace Moralis.Web3UnitySdk
         {
             if (clientMetaData == null)
             {
-                Debug.Log("Web3 Metadata not provided.");
+                Debug.LogError("Web3 Metadata not provided.");
                 return null;
             }
 
@@ -272,8 +267,7 @@ namespace Moralis.Web3UnitySdk
 
             return userAcct;
         }
-
-        
+  
         /// <summary>
         /// Performs a transfer of value to receipient.
         /// </summary>
@@ -294,8 +288,6 @@ namespace Moralis.Web3UnitySdk
             try
             {
                 txnHash = await Web3GL.SendTransaction(recipientAddress, value.Value.ToString(), g, gp);
-
-                Debug.Log($"Transfered {value.Value} WEI from {recipientAddress} to {recipientAddress}.  TxnHash: {txnHash}");
             }
             catch (Exception)
             {
@@ -346,7 +338,7 @@ namespace Moralis.Web3UnitySdk
         {
             if (clientMetaData == null)
             {
-                Debug.Log("Wallet Connect Metadata not provided.");
+                Debug.LogError("Wallet Connect Metadata not provided.");
                 return;
             }
 

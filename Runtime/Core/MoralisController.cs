@@ -30,8 +30,12 @@
 using Cysharp.Threading.Tasks;
 using Moralis.Platform;
 using UnityEngine;
-using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
+#if UNITY_WEBGL
+using Moralis.Models;
+#else
+using WalletConnectSharp.Core.Models;
+#endif
 
 namespace Moralis.Web3UnitySdk
 {
@@ -66,8 +70,9 @@ namespace Moralis.Web3UnitySdk
                     URL = ApplicationUrl
                 };
 
+#if !UNITY_WEBGL
                 walletConnect.AppData = clientMeta;
-
+#endif
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
                 await MoralisWeb3UnitySdk.Start(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
             }
