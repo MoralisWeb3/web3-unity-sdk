@@ -11,11 +11,19 @@
 	flex-direction: row;
 }
 
+.box
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 16px;
+}
+
 .box_line
 {
 	width: auto;
 	height: 2px;
 	background-color: rgb(183, 232, 3);
+	margin-top: 2px;
 	margin-bottom: 10px;
 }
 
@@ -44,7 +52,7 @@
 {
 	display: flex;
 	flex-direction: row;
-	margin-top: 3px;
+	margin-top: 15px;
 }
 
 .page
@@ -73,7 +81,14 @@
 .page_text
 {
 	font-size: 16px;
+	margin-top: 5px;
 	margin-bottom: 10px;
+}
+
+.list-text
+{
+	margin-top: 2px;
+	margin-bottom: 2px;
 }
 
 .field_label
