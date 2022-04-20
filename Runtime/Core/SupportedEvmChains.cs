@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 #if UNITY_WEBGL
-using Moralis.WebGL.Web3Api.Models;
+using Moralis.Web3Api.Models;
 
 namespace Moralis.Web3UnitySdk
 {

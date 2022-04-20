@@ -26,11 +26,7 @@
  *  SOFTWARE.
  */
 
-#if UNITY_WEBGL
-using Moralis.WebGL.Web3Api.Models; 
-#else
 using Moralis.Web3Api.Models;
-#endif
 
 namespace Moralis.Web3UnitySdk
 {

@@ -35,17 +35,17 @@ using WalletConnectSharp.Unity;
 using Moralis;
 using Assets;
 using Moralis.Web3UnitySdk;
-using Moralis.WebGL.Hex.HexTypes;
+using Moralis.Hex.HexTypes;
 using System.Numerics;
 using System;
 
 #if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
 using Moralis.WebGL;
-using Moralis.WebGL.Platform;
-using Moralis.WebGL.Platform.Objects;
-using Moralis.WebGL.Web3Api.Models;
-using Moralis.WebGL.Platform.Services.ClientServices;
+using Moralis.Platform;
+using Moralis.Platform.Objects;
+using Moralis.Web3Api.Models;
+using Moralis.Platform.Services.ClientServices;
 #else
 using System.Threading.Tasks;
 using Moralis.Platform;

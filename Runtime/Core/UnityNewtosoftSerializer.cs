@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 
 #if UNITY_WEBGL
-using Moralis.WebGL.Platform.Abstractions;
+using Moralis.Platform.Abstractions;
 
 namespace Moralis.Web3UnitySdk
 {

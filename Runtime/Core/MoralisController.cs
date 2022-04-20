@@ -26,21 +26,12 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-#if UNITY_WEBGL
-using Moralis.WebGL.Models;
-using Moralis.WebGL.Platform;
-using Moralis.WebGL.Web3Api.Models;
-using System.Collections.Generic;
+
 using Cysharp.Threading.Tasks;
-#else
 using Moralis.Platform;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WalletConnectSharp.Core.Models;
-#endif
 using UnityEngine;
+using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
-using Moralis.Web3Api.Models;
 
 namespace Moralis.Web3UnitySdk
 {
@@ -53,42 +44,11 @@ namespace Moralis.Web3UnitySdk
         public string ApplicationDescription;
         public string[] ApplicationIcons;
         public string ApplicationUrl;
-
         public WalletConnect walletConnect;
-        private void OnValidate()
-        {
 
-        }
-
-#if UNITY_WEBGL
         public async UniTask Initialize()
         {
-            if (!MoralisInterface.Initialized)
-            {
-                HostManifestData hostManifestData = new HostManifestData()
-                {
-                    Version = Version,
-                    Identifier = ApplicationName,
-                    Name = ApplicationName,
-                    ShortVersion = Version
-                };
-
-                ClientMeta clientMeta = new ClientMeta()
-                {
-                    Name = ApplicationName,
-                    Description = ApplicationDescription,
-                    Icons = ApplicationIcons,
-                    URL = ApplicationUrl
-                };
-
-                await MoralisInterface.Initialize(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
-            }
-        }
-
-#else
-        public async Task Initialize()
-        {
-            if (!MoralisInterface.Initialized)
+            if (!MoralisWeb3UnitySdk.Initialized)
             {
                 HostManifestData hostManifestData = new HostManifestData()
                 {
@@ -109,10 +69,8 @@ namespace Moralis.Web3UnitySdk
                 walletConnect.AppData = clientMeta;
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                await MoralisInterface.Initialize(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
+                await MoralisWeb3UnitySdk.Start(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
             }
         }
-#endif
-
     }
 }
