@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Moralis.Models;
+using WalletConnectSharp.Core.Models;
 
 
 namespace Moralis

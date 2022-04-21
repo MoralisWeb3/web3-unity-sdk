@@ -31,19 +31,19 @@ using Moralis.Platform;
 using Moralis.Platform.Objects;
 using Moralis.SolanaApi.Client;
 using Moralis.Web3Api.Client;
+using Nethereum.Contracts;
+using Nethereum.Hex.HexTypes;
+using Nethereum.RPC.Eth.DTOs;
+using Nethereum.Web3;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
-#if UNITY_WEBGL
-using Moralis.Models;
-using Moralis.Hex.HexTypes;
-#else
+using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Models;
-using Nethereum.Hex.HexTypes;
-#endif
+using WalletConnectSharp.NEthereum;
+using WalletConnectSharp.Unity;
 
 namespace Moralis.Web3UnitySdk
 {
@@ -87,7 +87,6 @@ namespace Moralis.Web3UnitySdk
         /// <param name="serverUri"></param>
         /// <param name="hostData"></param>
         /// <param name="web3ApiKey"></param>
-        
         public static async UniTask Start(string applicationId, string serverUri, HostManifestData hostData, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
             // Application Id is requried.
@@ -238,7 +237,6 @@ namespace Moralis.Web3UnitySdk
             return client.UserService.LogInAsync(username, password, client.ServiceHub);
         }
 
-
         /// <summary>
         /// Logout the user session.
         /// </summary>
@@ -248,6 +246,7 @@ namespace Moralis.Web3UnitySdk
             return client.LogOutAsync();
         }
 
+        public static List<ChainEntry> SupportedChains => SupportedEvmChains.SupportedChains;
 
 #if UNITY_WEBGL
         /// <summary>
@@ -649,8 +648,5 @@ namespace Moralis.Web3UnitySdk
 
 #endif
 
-
-
-        public static List<ChainEntry> SupportedChains => SupportedEvmChains.SupportedChains;
     }
 }
