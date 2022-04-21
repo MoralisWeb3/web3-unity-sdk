@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using Moralis.Platform.Abstractions;
 
 namespace Moralis.Platform
@@ -14,8 +15,13 @@ namespace Moralis.Platform
         public static EnvironmentData Inferred => new EnvironmentData
         {
             TimeZone = TimeZoneInfo.Local.StandardName,
+            #if UNITY_WEBGL
             OSVersion = "unknown", // WebGL doesn't know the OS
             Platform = ".NET"
+            #else
+            OSVersion = RuntimeInformation.OSDescription ?? Environment.OSVersion.ToString(),
+            Platform = RuntimeInformation.FrameworkDescription ?? ".NET"
+            #endif
         };
 
         /// <summary>

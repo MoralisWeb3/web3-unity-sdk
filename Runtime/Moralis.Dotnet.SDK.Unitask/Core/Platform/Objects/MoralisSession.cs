@@ -6,7 +6,7 @@ namespace Moralis.Platform.Objects
     {
         public MoralisSession() : base("_Session") { }
 
-       // [JsonProperty("sessionToken")]
+       	// [JsonProperty("sessionToken")]
         public new string sessionToken { get; set; }
     }
 }

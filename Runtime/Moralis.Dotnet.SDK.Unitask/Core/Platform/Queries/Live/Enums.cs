@@ -1,4 +1,4 @@
-﻿
+﻿// TODO: UniTask check
 namespace Moralis.Platform.Queries.Live
 {
     public enum WebSocketStateType { 

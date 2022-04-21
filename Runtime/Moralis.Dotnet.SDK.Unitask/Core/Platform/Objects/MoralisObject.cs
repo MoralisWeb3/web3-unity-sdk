@@ -199,8 +199,8 @@ namespace Moralis.Platform.Objects
         }
 
 
-
-        //internal Task DeleteAsync(Task toAwait, CancellationToken cancellationToken)
+		// TODO: UniTask check
+        //internal UniTask DeleteAsync(Task toAwait, CancellationToken cancellationToken)
         //{
         //    if (ObjectId == null)
         //    {
