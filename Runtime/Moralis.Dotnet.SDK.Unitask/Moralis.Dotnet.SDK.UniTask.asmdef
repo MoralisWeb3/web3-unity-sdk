@@ -1,10 +1,9 @@
 {
-    "name": "Moralis.Web3UnitySdk",
+    "name": "Moralis.Dotnet.SDK.UniTask",
     "rootNamespace": "",
     "references": [
-        "Moralis.Dotnet.SDK.UniTask",
-        "Nethereum",
         "UniTask",
+        "Nethereum",
         "WalletConnectSharp.Unity"
     ],
     "includePlatforms": [],
