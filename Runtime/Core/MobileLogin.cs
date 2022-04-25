@@ -30,11 +30,11 @@ using Newtonsoft.Json;
 using UnityEngine;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Moralis.Web3UnitySdk;
+using MoralisUnity;
 using Cysharp.Threading.Tasks;
-using Moralis.Platform.Objects;
+using MoralisUnity.Platform.Objects;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     public class MobileLogin
     {
@@ -61,7 +61,7 @@ namespace Moralis.Web3UnitySdk
 
                     if (sessionResponse != null && !String.IsNullOrWhiteSpace(sessionResponse.sessionToken))
                     {
-                        user = await MoralisWeb3UnitySdk.GetClient().UserFromSession(sessionResponse.sessionToken);
+                        user = await Moralis.GetClient().UserFromSession(sessionResponse.sessionToken);
 
                         break;
                     }

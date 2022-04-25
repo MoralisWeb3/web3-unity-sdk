@@ -26,9 +26,9 @@
  *  SOFTWARE.
  */
 
-using Moralis.Web3Api.Models;
+using MoralisUnity.Web3Api.Models;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Provides detail around a supported EVM chain.

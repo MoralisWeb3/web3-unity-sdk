@@ -28,7 +28,7 @@
  */
 using System;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     [Serializable]
     public class WalletSelectItem

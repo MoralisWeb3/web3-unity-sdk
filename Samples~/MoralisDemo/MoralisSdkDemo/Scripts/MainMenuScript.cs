@@ -34,23 +34,23 @@ using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
 using Moralis;
 using Assets;
-using Moralis.Web3UnitySdk;
+using MoralisUnity;
 using Nethereum.Hex.HexTypes;
 using System.Numerics;
 using System;
 
 #if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
-using Moralis.WebGL;
-using Moralis.Platform;
-using Moralis.Platform.Objects;
-using Moralis.Web3Api.Models;
-using Moralis.Platform.Services.ClientServices;
+using MoralisUnity.WebGL;
+using MoralisUnity.Platform;
+using MoralisUnity.Platform.Objects;
+using MoralisUnity.Web3Api.Models;
+using MoralisUnity.Platform.Services.ClientServices;
 #else
 using System.Threading.Tasks;
-using Moralis.Platform;
-using Moralis.Platform.Objects;
-using Moralis.Web3Api.Models;
+using MoralisUnity.Platform;
+using MoralisUnity.Platform.Objects;
+using MoralisUnity.Web3Api.Models;
 #endif
 
 /// <summary>

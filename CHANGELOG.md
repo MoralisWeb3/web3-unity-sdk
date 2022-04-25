@@ -1,8 +1,8 @@
 # Change Log
 ## 1.2.0 (2022-04-19)
-- Changed namespace from MoralisWeb3ApiSdk to Moralis.Web3UnitySdk
-- Package now is visible in the Unity Editor as “Moralis Web3 Unity SDK”
-- No need to set the Allow ‘unsafe’ code in the project. This now gets handled in the new Assembly Definitions
+- Changed namespace from MoralisWeb3ApiSdk to MoralisUnity
+- Package now is visible in the Unity Editor as ï¿½Moralis Web3 Unity SDKï¿½
+- No need to set the Allow ï¿½unsafeï¿½ code in the project. This now gets handled in the new Assembly Definitions
 - Removed all the Unity specific code from the Dotnet SDK and moved it to the Runtime/Core folder
 - All external libraries are now under the Runtime/External folder
 - Renamed Samples folder to Samples~ to hide the folder in the package

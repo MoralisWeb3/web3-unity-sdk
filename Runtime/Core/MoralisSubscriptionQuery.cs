@@ -29,12 +29,11 @@
 using System;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using Moralis;
-using Moralis.Platform.Objects;
-using Moralis.Platform.Queries;
-using Moralis.Platform.Services.ClientServices;
+using MoralisUnity.Platform.Services.ClientServices;
+using MoralisUnity.Platform.Objects;
+using MoralisUnity.Platform.Queries;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Provides a wrapper around the query subscription process to facilitate automated
@@ -113,12 +112,16 @@ namespace Moralis.Web3UnitySdk
         {
             if (Subscribed)
             {
-                // Try to close down the subscription properly
-                subscription.Unsubscribe();
+                await UniTask.Run(() =>
+                {
+                    // Try to close down the subscription properly
+                    subscription.Unsubscribe();
                 
-                subscription.Dispose();
-                subscription = null;
-                Subscribed = false;
+                    subscription.Dispose();
+                    subscription = null;
+                    Subscribed = false;
+                });
+
             }
         }
     }

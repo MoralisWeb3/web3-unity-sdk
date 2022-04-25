@@ -29,11 +29,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using Moralis;
-using Moralis.Platform.Queries;
-using Moralis.Platform.Objects;
+using MoralisUnity.Platform.Objects;
+using MoralisUnity.Platform.Queries;
+using MoralisUnity;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// A class that autonmates subscription handling for vaious 
@@ -106,7 +106,7 @@ namespace Moralis.Web3UnitySdk
         /// <param name="q"></param>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static ISubscriptionQuery AddSubscription<T>(string keyName, MoralisQuery<T> q, Moralis.MoralisLiveQueryCallbacks<T> c) where T : MoralisObject
+        public static ISubscriptionQuery AddSubscription<T>(string keyName, MoralisQuery<T> q, MoralisLiveQueryCallbacks<T> c) where T : MoralisObject
         {
             ISubscriptionQuery resp = null;
 

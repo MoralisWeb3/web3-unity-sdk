@@ -8,6 +8,8 @@ using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Core.Network;
 using WalletConnectSharp.Core.Utils;
 
+#pragma warning disable 0612
+
 namespace WalletConnectSharp.Unity.Network
 {
     public class WebGlAESCipher : ICipher

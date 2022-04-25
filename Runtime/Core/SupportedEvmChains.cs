@@ -29,11 +29,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoralisUnity.Web3Api.Models;
 
 #if UNITY_WEBGL
-using Moralis.Web3Api.Models;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Provides a easy way to get detail about an EVM chain for all EVM chains 
@@ -131,9 +131,7 @@ namespace Moralis.Web3UnitySdk
     }
 }
 #else
-using Moralis.Web3Api.Models;
-
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Provides a easy way to get detail about an EVM chain for all EVM chains 

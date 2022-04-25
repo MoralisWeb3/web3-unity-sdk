@@ -5,7 +5,8 @@ using WalletConnectSharp.Core.Events;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Core.Network;
 using WalletConnectSharp.Core.Utils;
-
+#pragma warning disable 0067
+#pragma warning disable 0612
 namespace WalletConnectSharp.Core
 {
     public class WalletConnectProvider : WalletConnectProtocol

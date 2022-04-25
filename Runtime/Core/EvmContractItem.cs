@@ -27,19 +27,18 @@
  */
 using System;
 using System.Collections.Generic;
-using Moralis;
+using MoralisUnity;
 
 #if !UNITY_WEBGL
 
 using Nethereum.Contracts;
 using Nethereum.Web3;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Wraps a list on Nethereum contract instances by chain
     /// </summary>
-    [Obsolete("This class has been deprecated.")]
     public class EvmContractItem
     {
         /// <summary>

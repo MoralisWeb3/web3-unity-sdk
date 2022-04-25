@@ -2,6 +2,7 @@ using Nethereum.Hex.HexTypes;
 using Nethereum.Util;
 using Newtonsoft.Json.Linq;
 using System.Runtime.Serialization;
+#pragma warning disable 0659
 
 namespace Nethereum.RPC.Eth.DTOs
 {

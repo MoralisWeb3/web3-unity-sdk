@@ -11,7 +11,8 @@ using WalletConnectSharp.Core.Events.Request;
 using WalletConnectSharp.Core.Events.Response;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Core.Network;
-
+#pragma warning disable 0414
+#pragma warning disable 4014
 namespace WalletConnectSharp.Unity.Network
 {
     public class NativeWebSocketTransport : MonoBehaviour, ITransport

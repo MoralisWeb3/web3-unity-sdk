@@ -28,12 +28,12 @@
  */
 
 using Cysharp.Threading.Tasks;
-using Moralis.Platform;
+using MoralisUnity.Platform;
 using UnityEngine;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Core.Models;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     public class MoralisController : MonoBehaviour
     {
@@ -48,7 +48,7 @@ namespace Moralis.Web3UnitySdk
 
         public async UniTask Initialize()
         {
-            if (!MoralisWeb3UnitySdk.Initialized)
+            if (!Moralis.Initialized)
             {
                 HostManifestData hostManifestData = new HostManifestData()
                 {
@@ -69,7 +69,7 @@ namespace Moralis.Web3UnitySdk
                 walletConnect.AppData = clientMeta;
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                await MoralisWeb3UnitySdk.Start(MoralisApplicationId, MoralisServerURI, hostManifestData, clientMeta);
+                await Moralis.Start(MoralisServerURI, MoralisApplicationId, hostManifestData, clientMeta);
             }
         }
     }

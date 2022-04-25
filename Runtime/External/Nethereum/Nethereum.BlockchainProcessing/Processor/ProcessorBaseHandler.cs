@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+#pragma warning disable 1998
 namespace Nethereum.BlockchainProcessing.Processor
 {
     public abstract class ProcessorBaseHandler<T> : IProcessorHandler<T>

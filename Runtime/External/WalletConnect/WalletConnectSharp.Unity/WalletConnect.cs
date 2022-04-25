@@ -16,6 +16,8 @@ using WalletConnectSharp.Unity.Models;
 using WalletConnectSharp.Unity.Network;
 using WalletConnectSharp.Unity.Utils;
 
+#pragma warning disable 0618
+
 namespace WalletConnectSharp.Unity
 {
     [RequireComponent(typeof(NativeWebSocketTransport))]

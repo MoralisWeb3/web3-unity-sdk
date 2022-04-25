@@ -33,7 +33,7 @@ using Nethereum.Web3;
 using System;
 using System.Collections.Generic;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Creates a simple way to create and access a set of contracts by chain.

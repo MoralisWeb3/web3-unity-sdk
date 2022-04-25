@@ -10,7 +10,7 @@
     "changelogUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/CHANGELOG.md",
     "licensesUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/LICENSE.md",
     "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.1"
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
     },
     "samples": [
         {

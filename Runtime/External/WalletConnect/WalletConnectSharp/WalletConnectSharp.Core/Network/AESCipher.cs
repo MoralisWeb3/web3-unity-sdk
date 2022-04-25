@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Core.Utils;
-
+#pragma warning disable 0612
 namespace WalletConnectSharp.Core.Network
 {
     public class AESCipher : ICipher
