@@ -73,18 +73,18 @@ namespace MoralisUnity
 #else
         public static Web3 Web3Client { get; set; }
 #endif
-        private static ClientMeta clientMetaData;
+        private static ClientMeta _clientMetaData;
 
-        private static EvmContractManager contractManager;
+        private static EvmContractManager _contractManager;
 
         // Singleton instance of Moralis so that is it is available application 
         // wide after being initialized.
-        private static MoralisClient client;
-        private static ServerConnectionData connectionData;
+        private static MoralisClient _client;
+        private static ServerConnectionData _connectionData;
         
         // Since the user object is used so often, once the user is authenticated 
         // keep a local copy to save some cycles.
-        private static MoralisUser user;
+        private static MoralisUser _user;
 
         public static IWeb3Api Web3Api;
 
@@ -94,6 +94,7 @@ namespace MoralisUnity
         /// <param name="applicationId"></param>
         /// <param name="serverUri"></param>
         /// <param name="hostData"></param>
+        /// <param name="clientMeta"></param>
         /// <param name="web3ApiKey"></param>
         public static async UniTask Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
@@ -127,19 +128,19 @@ namespace MoralisUnity
             }
 
             // Create instance of Evm Contract Manager.
-            contractManager = new EvmContractManager();
+            _contractManager = new EvmContractManager();
 
             // Set Moralis conenction values.
-            connectionData = new ServerConnectionData();
-            connectionData.ApplicationID = applicationId;
-            connectionData.ServerURI = serverUri;
-            connectionData.ApiKey = web3ApiKey;
+            _connectionData = new ServerConnectionData();
+            _connectionData.ApplicationID = applicationId;
+            _connectionData.ServerURI = serverUri;
+            _connectionData.ApiKey = web3ApiKey;
 
             // For unity apps the local storage value must also be set.
-            connectionData.LocalStoragePath = Application.persistentDataPath;
+            _connectionData.LocalStoragePath = Application.persistentDataPath;
 
             // TODO Make this optional!
-            connectionData.Key = "";
+            _connectionData.Key = "";
 
             // Set manifest / host data required so that the Moralis Client does not
             // attempt to infer them from Assembly values not available in Unity.
@@ -157,20 +158,20 @@ namespace MoralisUnity
             // Web3Api REST API you can call the method with just connectionData
             // NOTE: If you are using a custom user object use 
             // new MoralisClient<YourUser>(connectionData, address, Web3ApiClient)
-            client = new MoralisClient(connectionData, new Web3ApiClient(), new SolanaApiClient(), jsonSerializer);
+            _client = new MoralisClient(_connectionData, new Web3ApiClient(), new SolanaApiClient(), jsonSerializer);
 
-            clientMetaData = clientMeta;
+            _clientMetaData = clientMeta;
 
-            if (client == null)
+            if (_client == null)
             {
                 Debug.Log("Moralis connection failed!");
             }
             else
             {
-                Web3Api = client.Web3Api;
+                Web3Api = _client.Web3Api;
                 Initialized = true;
                 Debug.Log("Connected to Moralis!");
-                user = await client.GetCurrentUserAsync();
+                _user = await _client.GetCurrentUserAsync();
             }
         }
 
@@ -179,7 +180,7 @@ namespace MoralisUnity
         /// </summary>
         public static void Dispose()
         {
-            client.Dispose();
+            _client.Dispose();
         }
 
         /// <summary>
@@ -188,7 +189,7 @@ namespace MoralisUnity
         /// <returns></returns>
         public static MoralisClient GetClient()
         {
-            return client;
+            return _client;
         }
 
         /// <summary>
@@ -198,12 +199,12 @@ namespace MoralisUnity
         /// <returns>MoralisUser</returns>
         public static async UniTask<MoralisUser> GetUser()
         {
-            if (user == null)
+            if (_user == null)
             {
-                user = await client.GetCurrentUser();
+                _user = await _client.GetCurrentUser();
             }
 
-            return user;
+            return _user;
         }
 
         /// <summary>
@@ -213,19 +214,19 @@ namespace MoralisUnity
         /// <returns>MoralisUser</returns>
         public static async UniTask<MoralisUser> GetUserAsync()
         {
-            if (user == null)
+            if (_user == null)
             {
-                user = await client.GetCurrentUserAsync();
+                _user = await _client.GetCurrentUserAsync();
             }
 
-            return user;
+            return _user;
         }
 
         /// <summary>
         /// Idicates if user is already logged in.
         /// </summary>
         /// <returns></returns>
-        public static bool IsLoggedIn() { return user != null; }
+        public static bool IsLoggedIn() { return _user != null; }
 
         /// <summary>
         /// Authenicate the user by logging into Moralis using message signed by 
@@ -237,7 +238,7 @@ namespace MoralisUnity
         /// <returns></returns>
         public static async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> authData)
         {
-            return await client.LogInAsync(authData, CancellationToken.None);
+            return await _client.LogInAsync(authData, CancellationToken.None);
         }
 
         /// <summary>
@@ -248,7 +249,7 @@ namespace MoralisUnity
         /// <returns>MoralisUser</returns>
         public static UniTask<MoralisUser> LogInAsync(string username, string password)
         {
-            return client.UserService.LogInAsync(username, password, client.ServiceHub);
+            return _client.UserService.LogInAsync(username, password, _client.ServiceHub);
         }
 
         /// <summary>
@@ -257,117 +258,34 @@ namespace MoralisUnity
         /// <returns></returns>
         public static UniTask LogOutAsync()
         {
-            return client.LogOutAsync();
+            return _client.LogOutAsync();
         }
 
         public static List<ChainEntry> SupportedChains => SupportedEvmChains.SupportedChains;
-
+        
+        /// <summary>
+        /// Initializes the Web3 connection to the supplied RPC Url. Call this to change the target chain.
+        /// </summary>
+        /// <returns></returns>
+        public static async UniTask SetupWeb3()
+        {
+            if (_clientMetaData == null)
+            {
+                Debug.LogError("Metadata not provided.");
+            }
 #if UNITY_WEBGL
-        /// <summary>
-        /// Initializes the Web3 connection to the supplied RPC Url. Call this to change the target chain.
-        /// </summary>
-        /// <param name="rpcUrl"></param>
-        /// <returns></returns>
-        public static async UniTask<string> SetupWeb3()
-        {
-            if (clientMetaData == null)
-            {
-                Debug.LogError("Web3 Metadata not provided.");
-                return null;
-            }
-
-            string userAcct = await Web3GL.Connect(clientMetaData);
-
-            return userAcct;
-        }
-  
-        /// <summary>
-        /// Performs a transfer of value to receipient.
-        /// </summary>
-        /// <param name="recipient"></param>
-        /// <param name="value"></param>
-        /// <param name="gas"></param>
-        /// <param name="gasPrice"></param>
-        /// <returns></returns>
-        public async static UniTask<string> SendTransactionAsync(string recipientAddress, HexBigInteger value, HexBigInteger gas = null, HexBigInteger gasPrice = null)
-        {
-            string g = "";
-            string gp = "";
-            string txnHash = null;
-
-            if (gas != null) g = gas.Value.ToString();
-            if (gasPrice != null) gp = gasPrice.Value.ToString();
-
-            try
-            {
-                txnHash = await Web3GL.SendTransaction(recipientAddress, value.Value.ToString(), g, gp);
-            }
-            catch (Exception)
-            {
-                Debug.Log($"Transfer of {value.Value} WEI from {recipientAddress} to {recipientAddress} failed!");
-            }
-
-            return txnHash;
-        }
-
-        /// <summary>
-        /// Executes a contract function.
-        /// </summary>
-        /// <param name="contractAddress"></param>
-        /// <param name="abi"></param>
-        /// <param name="functionName"></param>
-        /// <param name="args"></param>
-        /// <param name="value"></param>
-        /// <param name="gas"></param>
-        /// <param name="gasPrice"></param>
-        /// <returns></returns>
-        public async static UniTask<string> ExecuteContractFunction(string contractAddress,
-            string abi,
-            string functionName,
-            object[] args,
-            HexBigInteger value,
-            HexBigInteger gas,
-            HexBigInteger gasPrice)
-        {
-            string gasValue = gas.Value.ToString();
-            string gasPriceValue = gasPrice.ToString();
-
-            if (gasValue.Equals("0") || gasValue.Equals("0x0")) gasValue = "";
-
-            if (gasPriceValue.Equals("0") || gasPriceValue.Equals("0x0")) gasPriceValue = "";
-
-            string functionArgs = JsonConvert.SerializeObject(args);
-            string resp = await Web3GL.SendContract(functionName, abi, contractAddress, functionArgs, value.Value.ToString(), gasValue, gasPriceValue);
-
-            return resp;
-        }
+            await Web3GL.Connect(_clientMetaData);
 #else
-        /// <summary>
-        /// Initializes the Web3 connection to the supplied RPC Url. Call this to change the target chain.
-        /// </summary>
-        /// <param name="rpcUrl"></param>
-        /// <returns></returns>
-        public static void SetupWeb3()
-        {
-            if (clientMetaData == null)
+            await UniTask.Run(() =>
             {
-                Debug.LogError("Wallet Connect Metadata not provided.");
-                return;
-            }
+                WalletConnectSession client = WalletConnect.Instance.Session;
 
-            WalletConnectSession client = WalletConnect.Instance.Session;
-
-            // Create a web3 client using Wallet Connect as write client and a dummy client as read client.
-            // Read operations should be via Web3API. Read operation are not implemented in the Web3 Client
-            // Use the Web3API for read operations as available. If you must make run a read request that is
-            // not supported by Web3API you will need to use the Wallet Connect method:
-            // CreateProviderWithInfura(this WalletConnectProtocol protocol, string infruaId, string network = "mainnet", AuthenticationHeaderValue authenticationHeader = null)
-            // We do not recommned this though
-            Web3Client = new Web3(client.CreateProvider(new DeadRpcReadClient((string s) => {
-                Debug.LogError(s);
-            })));
+                // Create a web3 client using Wallet Connect as write client and a dummy client as read client.
+                Web3Client = new Web3(client.CreateProvider(new DeadRpcReadClient(Debug.LogError)));
+            });
+#endif
         }
-
+        
         /// <summary>
         /// Performs a transfer of value to receipient.
         /// </summary>
@@ -379,26 +297,34 @@ namespace MoralisUnity
         public async static UniTask<string> SendTransactionAsync(string recipientAddress, HexBigInteger value, HexBigInteger gas = null, HexBigInteger gasPrice = null)
         {
             string txnHash = null;
-
-            // Retrieve from address, the address used to athenticate the user.
+            
+            // Retrieve from address, the address used to authenticate the user.
             MoralisUser user = await Moralis.GetUserAsync();
             string fromAddress = user.authData["moralisEth"]["id"].ToString();
-
-            // Create transaction request.
-            TransactionInput txnRequest = new TransactionInput()
-            {
-                Data = String.Empty,
-                From = fromAddress,
-                To = recipientAddress,
-                Value = value
-            };
-
+            
             try
             {
+#if UNITY_WEBGL
+                string g = "";
+                string gp = "";
+                
+                if (gas != null) g = gas.Value.ToString();
+                if (gasPrice != null) gp = gasPrice.Value.ToString();
+                
+                txnHash = await Web3GL.SendTransaction(recipientAddress, value.Value.ToString(), g, gp);
+#else
+                // Create transaction request.
+                TransactionInput txnRequest = new TransactionInput()
+                {
+                    Data = String.Empty,
+                    From = fromAddress,
+                    To = recipientAddress,
+                    Value = value
+                };
+                
                 // Execute the transaction.
                 txnHash = await Moralis.Web3Client.Eth.TransactionManager.SendTransactionAsync(txnRequest);
-
-                Debug.Log($"Transfered {value.Value} WEI from {fromAddress} to {recipientAddress}.  TxnHash: {txnHash}");
+#endif              
             }
             catch (Exception exp)
             {
@@ -407,7 +333,7 @@ namespace MoralisUnity
 
             return txnHash;
         }
-
+        
         /// <summary>
         /// Executes a contract function.
         /// </summary>
@@ -430,14 +356,17 @@ namespace MoralisUnity
             string result = null;
             string gasValue = gas.Value.ToString();
             string gasPriceValue = gasPrice.ToString();
-
+            
             if (gasValue.Equals("0") || gasValue.Equals("0x0")) gasValue = "";
-
             if (gasPriceValue.Equals("0") || gasPriceValue.Equals("0x0")) gasPriceValue = "";
-
+            
             try
             {
-                // Retrieve from address, the address used to athenticate the user.
+#if UNITY_WEBGL
+                string functionArgs = JsonConvert.SerializeObject(args);
+                result = await Web3GL.SendContract(functionName, abi, contractAddress, functionArgs, value.Value.ToString(), gasValue, gasPriceValue);
+#else
+                // Retrieve from address, the address used to authenticate the user.
                 MoralisUser user = await Moralis.GetUserAsync();
                 string fromAddress = user.authData["moralisEth"]["id"].ToString();
 
@@ -447,18 +376,18 @@ namespace MoralisUnity
                 if (function != null)
                 {
                     result = await function.SendTransactionAsync(fromAddress, gas, value, args);
-
                 }
+#endif
             }
             catch (Exception exp)
             {
                 Debug.Log($"Call to {functionName} failed due to: {exp.Message}");
             }
-
+            
             return result;
         }
-
-
+        
+#if !UNITY_WEBGL
         /// <summary>
         /// Creates and adds a contract instance based on ABI and associates it to specified chain and address.
         /// </summary>
@@ -476,7 +405,7 @@ namespace MoralisUnity
             {
                 EvmContractItem eci = new EvmContractItem(Web3Client, abi, baseChainId, baseContractAddress);
 
-                contractManager.InsertContractInstance(key, eci);
+                _contractManager.InsertContractInstance(key, eci);
             }
         }
 
@@ -494,7 +423,7 @@ namespace MoralisUnity
             }
             else
             {
-                contractManager.AddChainInstanceToContract(key, Web3Client, chainId, contractAddress);
+                _contractManager.AddChainInstanceToContract(key, Web3Client, chainId, contractAddress);
             }
         }
 
@@ -514,10 +443,10 @@ namespace MoralisUnity
             }
             else
             {
-                if (contractManager.Contracts.ContainsKey(key) &&
-                    contractManager.Contracts[key].ChainContractMap.ContainsKey(chainId))
+                if (_contractManager.Contracts.ContainsKey(key) &&
+                    _contractManager.Contracts[key].ChainContractMap.ContainsKey(chainId))
                 {
-                    contract = contractManager.Contracts[key].ChainContractMap[chainId].ContractInstance;
+                    contract = _contractManager.Contracts[key].ChainContractMap[chainId].ContractInstance;
                 }
             }
 
@@ -566,10 +495,10 @@ namespace MoralisUnity
             }
             else
             {
-                if (contractManager.Contracts.ContainsKey(contractKey) &&
-                    contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
+                if (_contractManager.Contracts.ContainsKey(contractKey) &&
+                    _contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
                 {
-                    Tuple<bool, string, string> resp = await contractManager.SendTransactionAsync(contractKey, chainId, functionName, transactionInput, functionInput);
+                    Tuple<bool, string, string> resp = await _contractManager.SendTransactionAsync(contractKey, chainId, functionName, transactionInput, functionInput);
 
                     if (resp.Item1) result = resp.Item2;
                 }
@@ -600,10 +529,10 @@ namespace MoralisUnity
             }
             else
             {
-                if (contractManager.Contracts.ContainsKey(contractKey) &&
-                    contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
+                if (_contractManager.Contracts.ContainsKey(contractKey) &&
+                    _contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
                 {
-                    Tuple<bool, string, string> resp = await contractManager.SendTransactionAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
+                    Tuple<bool, string, string> resp = await _contractManager.SendTransactionAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
 
                     if (resp.Item1)
                     {
@@ -641,10 +570,10 @@ namespace MoralisUnity
             }
             else
             {
-                if (contractManager.Contracts.ContainsKey(contractKey) &&
-                    contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
+                if (_contractManager.Contracts.ContainsKey(contractKey) &&
+                    _contractManager.Contracts[contractKey].ChainContractMap.ContainsKey(chainId))
                 {
-                    Tuple<bool, string, string> resp = await contractManager.SendTransactionAndWaitForReceiptAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
+                    Tuple<bool, string, string> resp = await _contractManager.SendTransactionAndWaitForReceiptAsync(contractKey, chainId, functionName, fromaddress, gas, value, functionInput);
 
                     if (resp.Item1)
                     {
@@ -659,7 +588,6 @@ namespace MoralisUnity
 
             return result;
         }
-
 #endif
 
     }

@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 
+#pragma warning disable 1998
+
 namespace MoralisUnity.Platform.Utilities
 {
     /// <summary>
@@ -37,10 +39,7 @@ namespace MoralisUnity.Platform.Utilities
         public static async UniTask WriteContentAsync(this FileInfo file, string content)
         {
             // WARNING File cache will not work in WebGL at this time
-            await UniTask.Run(() =>
-            {
-                cacheData = content;
-            });
+            cacheData = content;
             //using FileStream stream = new FileStream(Path.GetFullPath(file.FullName), FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.SequentialScan | FileOptions.Asynchronous);
             //byte[] data = Encoding.Unicode.GetBytes(content);
             //await stream.WriteAsync(data, 0, data.Length);

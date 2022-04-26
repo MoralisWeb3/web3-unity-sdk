@@ -169,7 +169,8 @@ public class MainMenuScript : MonoBehaviour
         string userAddr = "";
         if (!Web3GL.IsConnected())
         {
-            userAddr = await MoralisInterface.SetupWeb3();
+            await Moralis.SetupWeb3();
+            userAddr = Web3GL.Account();
         }
         else
         {
