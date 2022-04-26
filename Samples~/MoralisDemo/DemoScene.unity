@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1631,12 +1631,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moralisController: {fileID: 47380417}
-  authenticationButton: {fileID: 787958077}
-  logoutButton: {fileID: 2059631859}
+  AuthenticationButton: {fileID: 787958077}
   walletConnect: {fileID: 71058177}
   qrMenu: {fileID: 4278207833480748682}
   androidMenu: {fileID: 486506178379430289}
   iosMenu: {fileID: 1065161406750258221}
+  joystick: {fileID: 0}
 --- !u!1 &1512139774
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,7 +2026,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2059631860
 RectTransform:
   m_ObjectHideFlags: 0

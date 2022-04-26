@@ -27,7 +27,7 @@
  */
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace MoralisUnity.MoralisDemo.Scripts
 {
     /// <summary>
     /// Extensions to make certain tasks easier to perform.
