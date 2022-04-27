@@ -44,8 +44,6 @@ namespace MoralisUnity.Platform.Services.Infrastructure
                 }
             }
 
-            // TODO: Check if the call to ToDictionary is necessary here considering contents is IDictionary<string object>.
-
             internal void Update(IDictionary<string, object> contents) => Lock(() => Storage = contents.ToDictionary(element => element.Key, element => element.Value));
 
             public async UniTask AddAsync(string key, object value)
@@ -184,8 +182,6 @@ namespace MoralisUnity.Platform.Services.Infrastructure
         /// <inheritdoc/>
         /// </summary>
         public void RefreshPaths() => Cache = new FileBackedCache(File = PersistentCacheFile);
-
-        // TODO: Attach the following method to AppDomain.CurrentDomain.ProcessExit if that actually ever made sense for anything except randomly generated file names, otherwise attach the delegate when it is known the file name is a randomly generated string.
 
         /// <summary>
         /// Clears the data controlled by this class.

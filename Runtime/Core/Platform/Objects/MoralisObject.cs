@@ -198,27 +198,6 @@ namespace MoralisUnity.Platform.Objects
             }
         }
 
-
-		// TODO: UniTask check
-        //internal UniTask DeleteAsync(Task toAwait, CancellationToken cancellationToken)
-        //{
-        //    if (ObjectId == null)
-        //    {
-        //        return Task.FromResult(0);
-        //    }
-
-        //    string sessionToken = GetCurrentSessionToken();
-
-        //    return toAwait.OnSuccess(_ => Services.ObjectController.DeleteAsync(State, sessionToken, cancellationToken)).Unwrap().OnSuccess(_ => IsDirty = true);
-        //}
-
-        //internal virtual Task<T> FetchAsyncInternal<T>(Task toAwait, CancellationToken cancellationToken) where T : MoralisObject => toAwait.OnSuccess(_ => ObjectId == null ? throw new InvalidOperationException("Cannot refresh an object that hasn't been saved to the server.") : Services.ObjectService.FetchAsync(this, GetCurrentSessionToken(), Services, cancellationToken)).Unwrap().OnSuccess(task =>
-        //{
-        //    HandleFetchResult(task.Result);
-        //    return this;
-        //});
-
-
         internal string GetCurrentSessionToken() => this.sessionToken;
 
         /// <summary>

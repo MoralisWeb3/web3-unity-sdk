@@ -1,5 +1,4 @@
-﻿// TODO: UniTask check
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -16,7 +15,6 @@ namespace MoralisUnity.Platform.Services.ClientServices
 {
     public class MoralisObjectService : IObjectService
     {
-        //IServiceHub<MoralisUser> Services { get; }
         IMoralisCommandRunner CommandRunner { get; }
 
         IServerConnectionData ServerConnectionData { get; }
@@ -29,8 +27,6 @@ namespace MoralisUnity.Platform.Services.ClientServices
             //Services = serviceHub;
             ServerConnectionData = serverConnectionData;
             JsonSerializer = jsonSerializer;
-
-            
         }
 
         public async UniTask<T> FetchAsync<T>(T item, string sessionToken, CancellationToken cancellationToken = default) where T : MoralisObject

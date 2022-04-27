@@ -821,7 +821,6 @@ namespace MoralisUnity.Platform.Queries
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode() =>
-            // TODO (richardross): Implement this.
-            0;
+            this.GetHashCode();
     }
 }

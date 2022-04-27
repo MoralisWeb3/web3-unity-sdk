@@ -1,4 +1,4 @@
-﻿// TODO: UniTask check
+﻿
 #if UNITY_WEBGL
 using System;
 using System.Text;

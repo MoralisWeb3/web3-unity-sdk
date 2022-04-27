@@ -40,8 +40,6 @@ namespace MoralisUnity.Platform.Services.ClientServices
         /// </summary>
         public override IServiceHub<TUser> Services { get; internal set; }
 
-        // TODO: Implement IServiceHubMutator in all IServiceHub-implementing classes in Moralis.Library and possibly require all implementations to do so as an efficiency improvement over instantiating an OrchestrationServiceHub, only for another one to be possibly instantiated when configurators are specified.
-
         /// <summary>
         /// Creates a new <see cref="MoralisClient"/> and authenticates it as belonging to your application. This class is a hub for interacting with the SDK. The recommended way to use this class on client applications is to instantiate it, then call <see cref="Publicize"/> on it in your application entry point. This allows you to access <see cref="Instance"/>.
         /// </summary>
