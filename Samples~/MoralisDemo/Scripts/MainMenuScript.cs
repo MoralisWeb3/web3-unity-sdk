@@ -46,19 +46,16 @@ namespace MoralisUnity.MoralisDemo.Scripts
     public class MainMenuScript : MonoBehaviour
     {
         public MoralisController moralisController;
-
-        //public string MoralisApplicationId;
-        //public string MoralisServerURI;
-        //public string ApplicationName;
-        //public string Version;
-        public GameObject AuthenticationButton;
+        public GameObject authenticationButton;
+        public GameObject logoutButton;
         public WalletConnect walletConnect;
         public GameObject qrMenu;
         public GameObject androidMenu;
         public GameObject iosMenu;
-        public GameObject joystick;
 
         Image menuBackground;
+
+        private bool signaturePending = false;
 
         void OnApplicationQuit()
         {
@@ -72,11 +69,6 @@ namespace MoralisUnity.MoralisDemo.Scripts
             qrMenu.SetActive(false);
             androidMenu.SetActive(false);
             iosMenu.SetActive(false);
-
-#if UNITY_ANDROID || UNITY_IOS
-        // We're in mobile so show the joystick.
-        joystick.SetActive(true);
-#endif
 
             // await MoralisUnity.Initialize(MoralisApplicationId, MoralisServerURI, hostManifestData);
             if (moralisController != null && moralisController)
@@ -92,7 +84,14 @@ namespace MoralisUnity.MoralisDemo.Scripts
             // If user is not logged in show the "Authenticate" button.
             if (!Moralis.IsLoggedIn())
             {
+                // CLear out the session so it is re-establish on sign-in.
+                walletConnect.CLearSession();
+
                 AuthenticationButtonOn();
+            }
+            else
+            {
+                LogoutButtonOn();
             }
         }
 
@@ -145,7 +144,7 @@ namespace MoralisUnity.MoralisDemo.Scripts
             // Connect experience better.
             //await LoginViaConnectionPage();
 #elif UNITY_WEBGL
-                await LoginWithWeb3();
+            await LoginWithWeb3();
 #else
             qrMenu.SetActive(true);
 #endif
@@ -213,6 +212,9 @@ namespace MoralisUnity.MoralisDemo.Scripts
                 {
                     Debug.Log("User login failed.");
                 }
+
+                // TODO: For your own app you may want to move / remove this.
+                LogoutButtonOn();
             }
         }
 #endif
@@ -227,7 +229,13 @@ namespace MoralisUnity.MoralisDemo.Scripts
         /// <param name="data">WCSessionData</param>
         public async void WalletConnectHandler(WCSessionData data)
         {
-            Debug.Log("Wallet connection received");
+            // In mobile, W.C. sometimes re-triggers this call on unpause.
+            // Make sure to not double send.
+            if (signaturePending)
+            {
+                return;
+            }
+
             // Extract wallet address from the Wallet Connect Session data object.
             string address = data.accounts[0].ToLower();
             string appId = Moralis.GetClient().ApplicationId;
@@ -245,20 +253,18 @@ namespace MoralisUnity.MoralisDemo.Scripts
 
             string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
 
-            Debug.Log($"Sending sign request for {address} ...");
+            signaturePending = true;
 
             string response = await walletConnect.Session.EthPersonalSign(address, signMessage);
-
-            Debug.Log($"Signature {response} for {address} was returned.");
 
             // Create moralis auth data from message signing response.
             Dictionary<string, object> authData = new Dictionary<string, object>
                 { { "id", address }, { "signature", response }, { "data", signMessage } };
 
-            Debug.Log("Logging in user.");
-
             // Attempt to login user.
             MoralisUser user = await Moralis.LogInAsync(authData);
+
+            signaturePending = false;
 
             if (user != null)
             {
@@ -270,6 +276,9 @@ namespace MoralisUnity.MoralisDemo.Scripts
             }
 
             HideWalletSelection();
+            
+            // TODO: For your own app you may want to move / remove this.
+            LogoutButtonOn();
         }
 
         /// <summary>
@@ -301,11 +310,6 @@ namespace MoralisUnity.MoralisDemo.Scripts
         private async void InitializeWeb3()
         {
             await Moralis.SetupWeb3();
-
-#if !UNITY_WEBGL
-        // Create an entry for the Game Rewards Contract.
-        Moralis.InsertContractInstance("Rewards", Constants.MUG_ABI, Constants.MUG_CHAIN, Constants.MUG_CONTRACT_ADDRESS);
-#endif
         }
 
         /// <summary>
@@ -326,33 +330,33 @@ namespace MoralisUnity.MoralisDemo.Scripts
         }
 
 #if !UNITY_WEBGL
-    /// <summary>
-    /// Display Moralis connector login page
-    /// </summary>
+        /// <summary>
+        /// Display Moralis connector login page
+        /// </summary>
 
-    private async void LoginViaConnectionPage()
-    {
-        // Use Moralis Connect page for authentication as we work to make the Wallet 
-        // Connect experience better.
-        MoralisUser user =
- await MobileLogin.LogIn(moralisController.MoralisServerURI, moralisController.MoralisApplicationId);
+        private async void LoginViaConnectionPage()
+        {
+            // Use Moralis Connect page for authentication as we work to make the Wallet 
+            // Connect experience better.
+            MoralisUser user =
+                await MobileLogin.LogIn(moralisController.MoralisServerURI, moralisController.MoralisApplicationId);
 
-        if (user != null)
-        {
-            // User is not null so login was successful, show first game scene.
-            //SceneManager.LoadScene(SceneMap.GAME_VIEW);
-            AuthenticationButtonOff();
+            if (user != null)
+            {
+                // User is not null so login was successful, show first game scene.
+                //SceneManager.LoadScene(SceneMap.GAME_VIEW);
+                AuthenticationButtonOff();
+            }
+            else
+            {
+                AuthenticationButtonOn();
+            }
         }
-        else
-        {
-            AuthenticationButtonOn();
-        }
-    }
 #endif
 
         private void AuthenticationButtonOff()
         {
-            AuthenticationButton.SetActive(false);
+            authenticationButton.SetActive(false);
             Color color = menuBackground.color;
             color = new Color(0f, 0f, 0f, 0f);
             menuBackground.color = color;
@@ -360,10 +364,26 @@ namespace MoralisUnity.MoralisDemo.Scripts
 
         private void AuthenticationButtonOn()
         {
-            AuthenticationButton.SetActive(true);
+            authenticationButton.SetActive(true);
             Color color = menuBackground.color;
             color = new Color(0f, 0f, 0f, 0.7f);
             menuBackground.color = color;
+        }    
+        
+        /// <summary>
+        /// Hide the logof button
+        /// </summary>
+        private void LogoutButtonOff()
+        {
+            logoutButton.SetActive(false);
+        }
+
+        /// <summary>
+        /// Display the logout button.
+        /// </summary>
+        private void LogoutButtonOn()
+        {
+            logoutButton.SetActive(true);
         }
     }
 }

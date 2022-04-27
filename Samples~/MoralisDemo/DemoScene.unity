@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -199,6 +199,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: autoSaveAndResume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
+      propertyPath: createNewSessionOnSessionDisconnect
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
@@ -211,7 +215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.size
@@ -223,7 +227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -268,7 +272,7 @@ PrefabInstance:
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1498574458}
+      objectReference: {fileID: 1498574462}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -299,12 +303,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: WalletConnectSessionEstablished
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1498574458}
+      objectReference: {fileID: 1498574462}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -327,7 +331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: WalletConnectSessionEstablished
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -339,7 +343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MoralisUnity.MoralisController, Assembly-CSharp
+      value: MoralisUnity.MoralisDemo.Scripts.MainMenuScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -351,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MoralisUnity.MoralisController, Assembly-CSharp
+      value: MoralisUnity.MoralisDemo.Scripts.MainMenuScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -465,7 +469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6266890725912523073, guid: 958a14a70d89994488f0fdb18166ba46, type: 3}
       propertyPath: MoralisApplicationId
-      value: APPLICATION ID
+      value: APPPLICATION ID
       objectReference: {fileID: 0}
     - target: {fileID: 6266890725912523102, guid: 958a14a70d89994488f0fdb18166ba46, type: 3}
       propertyPath: m_RootOrder
@@ -990,7 +994,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fcc64bb974d245744bf1268ca640af08, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c60a62957a920243a3a0460f03ce98c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1027,7 +1031,7 @@ MonoBehaviour:
   wallets:
   - Id: 09102e7bbbd3f92001eda104abe23803181629f695e8f1b95af96d88ff7d5890
     Name: 1inch Wallet
-    Selected: 0
+    Selected: 1
   - Id: a0718f5fb1493e4aaac72cff62d162cb85db40ed68fd8700298f36f1d5c4b73d
     Name: AirGap
     Selected: 0
@@ -1180,10 +1184,10 @@ MonoBehaviour:
     Selected: 0
   - Id: bae74827272509a6d63ea25514d9c68ad235c14e45e183518c7ded4572a1b0c4
     Name: Huobi Wallet
-    Selected: 0
+    Selected: 1
   - Id: 9d373b43ad4d2cf190fb1a774ec964a1addf406d6fd24af94ab7596e58c291b2
     Name: imToken
-    Selected: 0
+    Selected: 1
   - Id: d0387325e894a1c4244820260ad7c78bb20d79eeec2fd59ffe3529223f3f84c6
     Name: Infinito
     Selected: 0
@@ -1222,7 +1226,7 @@ MonoBehaviour:
     Selected: 0
   - Id: c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96
     Name: MetaMask
-    Selected: 0
+    Selected: 1
   - Id: 1e04cf5cddcd84edb1370b12eae1fcecedf125b77209fff80e7ef2a6d3c74719
     Name: Midas Wallet
     Selected: 0
@@ -1270,7 +1274,7 @@ MonoBehaviour:
     Selected: 0
   - Id: 1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369
     Name: Rainbow
-    Selected: 0
+    Selected: 1
   - Id: b13fcc7e3500a4580c9a5341ed64c49c17d7f864497881048eb160c089be5346
     Name: RWallet
     Selected: 0
@@ -1318,7 +1322,7 @@ MonoBehaviour:
     Selected: 0
   - Id: 4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0
     Name: Trust Wallet
-    Selected: 0
+    Selected: 1
   - Id: 1ce6dae0fea7114846382391d946784d95d9032460a857bb23b55bd9807259d1
     Name: Trustee Wallet
     Selected: 0
@@ -1632,12 +1636,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moralisController: {fileID: 47380417}
-  AuthenticationButton: {fileID: 787958077}
+  authenticationButton: {fileID: 787958077}
+  logoutButton: {fileID: 2059631859}
   walletConnect: {fileID: 71058177}
   qrMenu: {fileID: 4278207833480748682}
   androidMenu: {fileID: 486506178379430289}
   iosMenu: {fileID: 1065161406750258221}
-  joystick: {fileID: 0}
 --- !u!1 &1512139774
 GameObject:
   m_ObjectHideFlags: 0
@@ -2092,8 +2096,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+      - m_Target: {fileID: 1498574462}
+        m_TargetAssemblyTypeName: MoralisUnity.MoralisDemo.Scripts.MainMenuScript,
+          Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -2124,7 +2129,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fcc64bb974d245744bf1268ca640af08, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c60a62957a920243a3a0460f03ce98c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
