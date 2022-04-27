@@ -1,0 +1,153 @@
+.header
+{
+	-unity-font-style: bold;
+	font-size: 20px;
+}
+
+#Title
+{
+	font-size: 28px;
+	-unity-font-style: bold;
+	flex-direction: row;
+}
+
+.box
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 16px;
+}
+
+.box_line
+{
+	width: auto;
+	height: 2px;
+	background-color: rgb(183, 232, 3);
+	margin-top: 2px;
+	margin-bottom: 10px;
+}
+
+.button
+{
+	color: rgb(183, 232, 3);
+	background-color: rgb(04, 24, 54);
+	width: 150px;
+	height: 40px;
+	font-size: 18px;
+	-unity-font-style: bold;
+	margin-left: 5px;
+	margin-right: 0px;
+}
+
+.button-end
+{
+	width: 1px;
+	height: 40px;
+	margin-left: auto;
+	background-color: rgba(0, 0, 0, 0);
+	border-width: 0px;
+}
+
+.button_row
+{
+	display: flex;
+	flex-direction: row;
+	margin-top: 15px;
+}
+
+.page
+{
+	color: rgb(255, 255, 255);
+	background-color: rgba(54, 54, 54, 0.25);
+	padding: 10px;
+	width: 100%;
+	height: 100%;
+}
+
+.title_text
+{
+	margin-top: 6px;
+	margin-left: 15px;
+}
+
+.page_title
+{
+	font-size: 18px;
+	-unity-font-style: bold;
+	flex-direction: row;
+	margin-bottom: 3px;
+}
+
+.page_text
+{
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.list-text
+{
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.field_label
+{
+	color: rgb(255, 255, 255);
+	font-size: 16px;
+	-unity-font-style: bold;
+	margin-top: 5px;
+}
+
+.text_field
+{
+	font-size: 16px;
+	color: rgb(255, 0, 0);
+	height: 35px;
+	margin-left: 0px;
+	border-width: 1px;
+}
+
+#LeftPanel
+{
+	width: 100%;
+	height: 100%;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+#View
+{
+	height: auto;
+	width: 750px;
+}
+
+.web3-settings-view
+{
+	height: 500px;
+}
+
+#Logo
+{
+	height: 50px;
+	width: 200px;
+	background-image: url("Resources/Moralis Logo_Light_Large.png");
+}
+
+#ButtonHolder 
+{
+	height: 50px;
+	width: auto;
+	background-color: rgb(21, 232, 67);
+
+	display: flex;
+	flex-direction: row;
+}
+
+.container 
+{
+	display: flex;
+	flex-direction: row;
+	width: auto;
+	height: 83%;
+}

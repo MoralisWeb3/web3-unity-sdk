@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+>
+	<engine:VisualElement class="web3-settings-view">
+		<engine:VisualElement name="Title">
+			<engine:VisualElement name="Logo" />
+			<engine:TextElement name="TitleText" class="title_text" text="Web3 Connect Request Settings" />
+		</engine:VisualElement>
+
+		<engine:VisualElement class="container">
+			<engine:VisualElement name="LeftPanel">
+					<!-- page 1 -->
+					<engine:VisualElement name="Page_1" class="page">
+						<engine:TextElement class="page_title" text="Web3 Connect Request Settings" />
+						<engine:Box class="box_line"></engine:Box>
+
+						<engine:Label class="field_label" text="Application Name" />
+						<engine:TextField class="text_field" name="ApplicationNameField" />
+
+						<engine:Label class="field_label" text="Application Description" />
+						<engine:TextField class="text_field" name="ApplicationDescriptionField" />
+
+						<engine:Label class="field_label" text="Application Version" />
+						<engine:TextField class="text_field" name="ApplicationVersionField" />
+
+						<engine:Label class="field_label" text="Application Url" />
+						<engine:TextField class="text_field" name="ApplicationUrlField" />
+
+						<engine:Label class="field_label" text="Application IconUri" />
+						<engine:TextField class="text_field" name="ApplicationIconUriField" />
+					</engine:VisualElement>
+					<!-- 1 -->
+					<engine:VisualElement class="button_row">
+						<!-- the button-end forces the buttons to float right -->
+						<engine:Button text="" class="button-end" />
+						<engine:Button name="DoneButton" text="Done" class="button" />
+					</engine:VisualElement>
+			</engine:VisualElement>
+		</engine:VisualElement>
+	</engine:VisualElement>
+
+</engine:UXML>

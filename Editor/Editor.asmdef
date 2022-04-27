@@ -1,14 +1,10 @@
 {
-    "name": "MoralisUnity",
+    "name": "Editor",
     "rootNamespace": "",
     "references": [
-        "Nethereum",
-        "UniTask",
-        "WalletConnectSharp.Unity"
+        "GUID:b7ec6c9c8dcdf484991e160de7fb2b02"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
