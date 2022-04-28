@@ -62,7 +62,7 @@ namespace MoralisUnity
                 walletConnect.AppData = clientMeta;
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                await Moralis.Start(MoralisSettings.MoralisData.ApplicationUrl, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
+                await Moralis.Start(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
             }
         }
     }

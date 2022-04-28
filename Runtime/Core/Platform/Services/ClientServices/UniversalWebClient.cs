@@ -84,6 +84,7 @@ namespace MoralisUnity.Platform.Services
             }
             catch (Exception exp)
             {
+                Debug.LogError($"Target: {httpRequest.Target}");
                 Debug.LogError($"Error: {exp.Message}");
             }
 

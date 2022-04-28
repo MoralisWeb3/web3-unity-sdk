@@ -338,7 +338,7 @@ namespace MoralisUnity.MoralisDemo.Scripts
         {
             // Use Moralis Connect page for authentication as we work to make the Wallet 
             // Connect experience better.
-            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ApplicationUrl, MoralisSettings.MoralisData.ApplicationId);
+            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId);
 
             if (user != null)
             {
