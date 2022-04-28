@@ -28,7 +28,6 @@
  */
 
 using Cysharp.Threading.Tasks;
-using MoralisUnity.Platform;
 using UnityEngine;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Core.Models;
@@ -43,14 +42,6 @@ namespace MoralisUnity
         {
             if (!Moralis.Initialized)
             {
-                HostManifestData hostManifestData = new HostManifestData()
-                {
-                    Version = MoralisSettings.MoralisData.ApplicationVersion,
-                    Identifier = MoralisSettings.MoralisData.ApplicationName,
-                    Name = MoralisSettings.MoralisData.ApplicationName,
-                    ShortVersion = MoralisSettings.MoralisData.ApplicationVersion
-                };
-
                 ClientMeta clientMeta = new ClientMeta()
                 {
                     Name = MoralisSettings.MoralisData.ApplicationName,
@@ -61,9 +52,18 @@ namespace MoralisUnity
 
                 walletConnect.AppData = clientMeta;
 
-                // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                await Moralis.Start(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
+                // Initialize and register the Moralis, Moralis Web3Api and
+                // NEthereum Web3 clients
+                Moralis.Start();
+
+                // Trigger get user so that if user has been persisted, it is available.
+                await Moralis.GetUserAsync();
             }
+        }
+
+        public async void Start()
+        {
+            await Initialize();
         }
     }
 }
