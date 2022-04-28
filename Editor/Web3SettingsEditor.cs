@@ -6,15 +6,12 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using System.IO;
 
-namespace Moralis.Web3UnitySdk.Editor
+namespace MoralisUnity.Editor
 {
     public class Web3SettingsEditor : EditorWindow
     {
         private static string[] pages = { "Page_1", "Page_2" };
-        private static string ServerUriDefaultText = "SERVER URI";
-        private static string ApplicationIdDefaultText = "APPLICATION ID";
-
-        private int currentPageIndex = 0;
+        
         private VisualElement rootElement;
         private bool windowDrawn = false;
 
@@ -65,16 +62,7 @@ namespace Moralis.Web3UnitySdk.Editor
                 }
 
                 rootElement = rootVisualElement;
-
-                if (isSetupWizard)
-                {
-                    currentPageIndex = 0;
-                }
-                else
-                {
-                    currentPageIndex = 1;
-                }
-
+                
                 bool mdLoaded = MoralisSettings.MoralisData != null;
 
                 // Loads the page definition.

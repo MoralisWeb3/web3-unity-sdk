@@ -25,7 +25,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Response returned for a REST Session Token request.

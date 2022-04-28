@@ -25,23 +25,15 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-using System;
-using System.Collections.Generic;
-
-#if UNITY_WEBGL
-using Moralis.WebGL;
-using Moralis.WebGL.Models;
-using Moralis.WebGL.Hex.HexTypes;
 using Cysharp.Threading.Tasks;
-#else
-using System.Threading.Tasks;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
-#endif
+using System;
+using System.Collections.Generic;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Creates a simple way to create and access a set of contracts by chain.
@@ -58,8 +50,6 @@ namespace Moralis.Web3UnitySdk
         {
             Contracts = new Dictionary<string, EvmContractItem>();
         }
-
-
 
         /// <summary>
         /// Adds a chain instance of a contract to a specific contract set. 
@@ -167,7 +157,7 @@ namespace Moralis.Web3UnitySdk
         /// <param name="transactionInput"></param>
         /// <param name="functionInput"></param>
         /// <returns></returns>
-        public async Task<Tuple<bool, string, string>> SendTransactionAsync(string contractKey, string chainId, string functionName, TransactionInput transactionInput, object[] functionInput)
+        public async UniTask<Tuple<bool, string, string>> SendTransactionAsync(string contractKey, string chainId, string functionName, TransactionInput transactionInput, object[] functionInput)
         {
             Tuple<bool, string, string> result = new Tuple<bool, string, string>(false, "", "");
 
@@ -190,7 +180,7 @@ namespace Moralis.Web3UnitySdk
             return result;
         }
 
-        public async Task<Tuple<bool,string,string>> SendTransactionAsync(string contractKey, string chainId, string functionName, string fromAddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
+        public async UniTask<Tuple<bool,string,string>> SendTransactionAsync(string contractKey, string chainId, string functionName, string fromAddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
         {
             Tuple<bool, string, string> result = new Tuple<bool, string, string>(false,"","");
 
@@ -212,7 +202,7 @@ namespace Moralis.Web3UnitySdk
             return result;
         }
 
-        public async Task<Tuple<bool, string, string>> SendTransactionAndWaitForReceiptAsync(string contractKey, string chainId, string functionName, string fromAddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
+        public async UniTask<Tuple<bool, string, string>> SendTransactionAndWaitForReceiptAsync(string contractKey, string chainId, string functionName, string fromAddress, HexBigInteger gas, HexBigInteger value, object[] functionInput)
         {
             Tuple<bool, string, string> result = new Tuple<bool, string, string>(false, "", "");
 

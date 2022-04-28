@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
-
+#pragma warning disable 03021
 namespace Nethereum.Util.Keccak
 {
     internal class KeccakDigest

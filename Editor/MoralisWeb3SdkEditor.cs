@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using System.IO;
 
-namespace Moralis.Web3UnitySdk.Editor
+namespace MoralisUnity.Editor
 {
     public class MoralisWeb3SdkEditor : EditorWindow
     {

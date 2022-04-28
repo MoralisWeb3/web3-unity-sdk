@@ -25,18 +25,17 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-using Moralis;
+using MoralisUnity;
 using System;
 #if !UNITY_WEBGL
 using Nethereum.Contracts;
 #endif
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Defines specific copontract / chain instnace
     /// </summary>
-    [Obsolete("This class has been deprecated.")]
     public class EvmContractInstance
     {
         /// <summary>

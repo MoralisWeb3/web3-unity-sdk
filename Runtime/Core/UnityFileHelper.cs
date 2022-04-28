@@ -31,7 +31,7 @@ using System;
 using System.IO;
 using UnityEditor;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     public class UnityFileHelper
     {
@@ -69,9 +69,9 @@ namespace Moralis.Web3UnitySdk
         }
 
         /// <summary>
-        /// Finds the pun asset folder. Something like Assets/Photon Unity Networking/Resources/
+        /// Finds the Moralis asset folder. Something like Assets/Moralis Web3 Unity SDK/Resources/
         /// </summary>
-        /// <returns>The pun asset folder.</returns>
+        /// <returns>The Moralis asset folder.</returns>
         public static string FindMoralisAssetFolder()
         {
             string path = FindPathFromAsset("MoralisServerSettings", "Moralis Web3 Unity SDK");

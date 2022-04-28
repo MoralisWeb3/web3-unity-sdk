@@ -3,6 +3,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
+#pragma warning disable 0618
+
 namespace WalletConnectSharp.Unity.Models
 {
     public class NFTTokenData

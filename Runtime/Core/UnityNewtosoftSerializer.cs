@@ -29,12 +29,12 @@
  *  SOFTWARE.
  */
 using System.Collections.Generic;
+using MoralisUnity.Platform.Abstractions;
 using Newtonsoft.Json;
 
 #if UNITY_WEBGL
-using Moralis.WebGL.Platform.Abstractions;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Defines a Newtonsoft wrapper around the Unity specific Newtonsoft library so that is
@@ -90,9 +90,8 @@ namespace Moralis.Web3UnitySdk
     }
 }
 #else
-using Moralis.Platform.Abstractions;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Defines a Newtonsoft wrapper around the Unity specific Newtonsoft library so that is

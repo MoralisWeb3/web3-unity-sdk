@@ -1,17 +1,30 @@
-
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using Moralis.Web3UnitySDK;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     public class MoralisSettings
     {
-        private static string MoralisDataFilename = "MoralisServerSettings";
-        public static MoralisServerSettings MoralisData;
+ 		private static MoralisServerSettings moralisData;
+        
+        public static MoralisServerSettings MoralisData
+        {
+            get
+            {
+                if (moralisData == null)
+                {
+                    LoadOrCreateSettings();
+                }
 
-                /// <summary>
+                return moralisData;
+            }
+            private set { moralisData = value; }
+        }
+
+        private static string MoralisDataFilename = "MoralisServerSettings";
+
+        /// <summary>
         /// Loads the Moralis Data Setting sasset. If it does not exist, create it.
         /// </summary>
         /// <param name="reload"></param>
@@ -19,10 +32,10 @@ namespace Moralis.Web3UnitySdk
         {
             if (reload)
             {
-                // Force reload of the MoralisData Settings.
-                MoralisData = null;    
+                // Force reload of the moralisData Settings.
+                moralisData = null;    
             }
-            else if (MoralisData != null)
+            else if (moralisData != null)
             {
                 // Moralis Data setting have already been loaded.
                 return;
@@ -30,31 +43,31 @@ namespace Moralis.Web3UnitySdk
 
             // Try to load the resource / asset (MoralisServerSettings
             // a.k.a. Moralis Data Settings)
-            MoralisData = (MoralisServerSettings)Resources.Load(MoralisDataFilename, typeof(MoralisServerSettings));
+            moralisData = (MoralisServerSettings)Resources.Load(MoralisDataFilename, typeof(MoralisServerSettings));
             
             // If Moralis Data Setting were loaded successfully, all is well,
             // exit the method.
-            if (MoralisData != null)
+            if (moralisData != null)
             {
                 return;
             }
 
 #if UNITY_EDITOR
             // The MoralisServerSettings a.k.a Moralis Data Settings does not exist so create it.
-            if (MoralisData == null)
+            if (moralisData == null)
             {
                 // Create a fresh instance of the Moralis Datat Setting sasset.
-                MoralisData = (MoralisServerSettings)MoralisServerSettings.CreateInstance("MoralisServerSettings");
+                moralisData = (MoralisServerSettings)MoralisServerSettings.CreateInstance("MoralisServerSettings");
                 
-                if (MoralisData == null)
+                if (moralisData == null)
                 {
                     Debug.LogError("Failed to create MoralisServerSettings. Moralis is unable to run this way. If you deleted it from the project, reload the Editor.");
                     return;
                 }
             }
 
-            string punResourcesDirectory = UnityFileHelper.FindMoralisAssetFolder() ;
-            string serverSettingsAssetPath = punResourcesDirectory + MoralisDataFilename + ".asset";
+            string moralisResourcesDirectory = UnityFileHelper.FindMoralisAssetFolder() ;
+            string serverSettingsAssetPath = moralisResourcesDirectory + MoralisDataFilename + ".asset";
             string serverSettingsDirectory = Path.GetDirectoryName(serverSettingsAssetPath);
 
             if (!Directory.Exists(serverSettingsDirectory))
@@ -65,13 +78,10 @@ namespace Moralis.Web3UnitySdk
 
             if (!File.Exists(serverSettingsAssetPath))
             {
-                AssetDatabase.CreateAsset(MoralisData, serverSettingsAssetPath);
+                AssetDatabase.CreateAsset(moralisData, serverSettingsAssetPath);
             }
 
             AssetDatabase.SaveAssets();
-
-            // if the project does not have PhotonServerSettings yet, enable "Development Build" to use the Dev Region.
-            EditorUserBuildSettings.development = true;
 #endif
         }
     }

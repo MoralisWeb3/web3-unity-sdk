@@ -28,112 +28,12 @@
  */
 using System;
 using UnityEngine;
-
-#if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
-using Moralis.WebGL;
-using Moralis.WebGL.Platform.Objects;
-using Moralis.WebGL.Platform.Queries;
-using Moralis.WebGL.Platform.Services.ClientServices;
+using MoralisUnity.Platform.Services.ClientServices;
+using MoralisUnity.Platform.Objects;
+using MoralisUnity.Platform.Queries;
 
-namespace Moralis.Web3UnitySdk
-{
-    /// <summary>
-    /// Provides a wrapper around the query subscription process to facilitate automated
-    /// subscribe and suspension processes.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class MoralisSubscriptionQuery<T> : ISubscriptionQuery where T : MoralisObject
-    {
-        private MoralisLiveQueryClient<T> subscription;
-
-        /// <summary>
-        /// The client event handlers used to react to this subscription.
-        /// </summary>
-        public Moralis.WebGL.MoralisLiveQueryCallbacks<T> Callbacks { get; private set; }
-
-        /// <summary>
-        /// Query against which the subscription is made.
-        /// </summary>
-        public  MoralisQuery<T> Query { get; private set; }
-
-        /// <summary>
-        /// Indicates if a connection the server was established.
-        /// </summary>
-        public bool Connected { get; private set; }
-
-        /// <summary>
-        /// Indicates if a subscription for the query has been established.
-        /// </summary>
-        public bool Subscribed { get; private set; }
-
-        /// <summary>
-        /// Key name used to identify this subscription and included in any 
-        /// error logs generated.
-        /// </summary>
-        public string SubscriptionName { get; private set; }
-
-        public MoralisSubscriptionQuery(string keyName, MoralisQuery<T> q, Moralis.WebGL.MoralisLiveQueryCallbacks<T> c)
-        {
-            Query = q;
-            Callbacks = c;
-            SubscriptionName = keyName;
-
-            // Internally track connection state
-            Callbacks.OnConnectedEvent += (() => { Connected = true; });
-            // Internally track subscription state
-            Callbacks.OnSubscribedEvent += ((requestId) => { Subscribed = true; });
-            Callbacks.OnUnsubscribedEvent += ((requestId) => { Subscribed = false; });
-
-            // Create initial subscription.
-            subscription = Query.Subscribe<T>(Callbacks);
-        }
-
-        /// <summary>
-        /// Attempts to re-establish a previous subscriptions. If the 
-        /// subscription is already active, unsubscribe is called.
-        /// Subscription is then re-created.
-        /// </summary>
-        /// <returns></returns>
-        public async UniTask RenewSubscription()
-        {
-            // Make sure the subscription is not active.
-            if (Subscribed)
-            {
-                await Unsubscribe();
-            }
-
-            // Re-establish the subscription.
-            subscription = Query.Subscribe<T>(Callbacks);
-        }
-
-        /// <summary>
-        /// Unsubscribes from and disposes of the subscription.
-        /// </summary>
-        /// <returns></returns>
-        public async UniTask Unsubscribe()
-        {
-            if (Subscribed)
-            {
-                // Try to close down the subscription properly
-                subscription.Unsubscribe();
-                
-                subscription.Dispose();
-                subscription = null;
-                Subscribed = false;
-            }
-        }
-    }
-}
-#else
-using System.Threading;
-using System.Threading.Tasks;
-using Moralis;
-using Moralis.Platform.Objects;
-using Moralis.Platform.Queries;
-using Moralis.Platform.Services.ClientServices;
-
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// Provides a wrapper around the query subscription process to facilitate automated
@@ -192,7 +92,7 @@ namespace Moralis.Web3UnitySdk
         /// Subscription is then re-created.
         /// </summary>
         /// <returns></returns>
-        public async Task RenewSubscription()
+        public async UniTask RenewSubscription()
         {
             // Make sure the subscription is not active.
             if (Subscribed)
@@ -208,40 +108,21 @@ namespace Moralis.Web3UnitySdk
         /// Unsubscribes from and disposes of the subscription.
         /// </summary>
         /// <returns></returns>
-        public async Task Unsubscribe()
+        public async UniTask Unsubscribe()
         {
             if (Subscribed)
             {
-                // Spin this off into a seperate thread so it does not block.
-                await Task.Run(() =>
+                await UniTask.Run(() =>
                 {
                     // Try to close down the subscription properly
                     subscription.Unsubscribe();
-                    // Max time to wait 
-                    // TODO replace magic number
-                    DateTime start = DateTime.Now.AddSeconds(3);
-
-                    // Wait until unscribe succeeds or time up.
-                    while (Subscribed && start > DateTime.Now)
-                    {
-                        Thread.Sleep(100);
-                    }
-
-                    if (Subscribed)
-                    {
-                        Debug.LogError($"Could unsubscribe from {SubscriptionName}, killing subscription.");
-                        subscription.Dispose();
-                        subscription = null;
-
-                        Subscribed = false;
-                    }
-                    else
-                    {
-                        subscription.Dispose();
-                    }
+                
+                    subscription.Dispose();
+                    subscription = null;
+                    Subscribed = false;
                 });
+
             }
         }
     }
 }
-#endif

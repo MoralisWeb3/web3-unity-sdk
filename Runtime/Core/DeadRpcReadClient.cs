@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Nethereum.JsonRpc.Client;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     /// <summary>
     /// 

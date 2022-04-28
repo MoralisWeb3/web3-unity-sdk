@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Moralis.Web3UnitySDK
+namespace MoralisUnity
 {
     /// <summary>
     /// Provides a persistable object to hold Moralis related data.
@@ -23,7 +23,7 @@ namespace Moralis.Web3UnitySDK
             ServerUri = String.Empty;
             ApplicationId = String.Empty;
             ApplicationName = "Moralis SDK Application";
-            ApplicationDescription = "This application provdies an example of how to you Moralis in a Unity 3D Game";
+            ApplicationDescription = "This application provides an example of how to you Moralis in a Unity 3D Game";
             ApplicationVersion = "1.0.0";
             ApplicationUrl = "https://moralis.io";
             ApplicationIconUri = "https://moralis.io/wp-content/uploads/2021/06/Powered-by-Moralis-Badge-Black.svg";

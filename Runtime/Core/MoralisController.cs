@@ -26,73 +26,22 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-#if UNITY_WEBGL
-using Moralis.WebGL.Models;
-using Moralis.WebGL.Platform;
-using Moralis.WebGL.Web3Api.Models;
-using System.Collections.Generic;
+
 using Cysharp.Threading.Tasks;
-#else
-using Moralis.Platform;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WalletConnectSharp.Core.Models;
-#endif
+using MoralisUnity.Platform;
 using UnityEngine;
 using WalletConnectSharp.Unity;
-using Moralis.Web3Api.Models;
+using WalletConnectSharp.Core.Models;
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     public class MoralisController : MonoBehaviour
-    { 
+    {
         public WalletConnect walletConnect;
-        private void OnValidate()
-        {
 
-        }
-
-#if UNITY_WEBGL
         public async UniTask Initialize()
         {
-            // Make sure the Moralis Setting data has been loaded.
-            if (MoralisSettings.MoralisData == null)
-            {
-                MoralisSettings.LoadOrCreateSettings(true);
-            }
-
-            if (!MoralisInterface.Initialized)
-            {
-                HostManifestData hostManifestData = new HostManifestData()
-                {
-                    Version = Version,
-                    Identifier = ApplicationName,
-                    Name = ApplicationName,
-                    ShortVersion = Version
-                };
-
-                ClientMeta clientMeta = new ClientMeta()
-                {
-                    Name = ApplicationName,
-                    Description = ApplicationDescription,
-                    Icons = ApplicationIcons,
-                    URL = ApplicationUrl
-                };
-
-                await MoralisInterface.Initialize(MoralisSettings.MoralisData.ApplicationId, MoralisSettings.MoralisData.ServerUri, hostManifestData, clientMeta);
-            }
-        }
-
-#else
-        public async Task Initialize()
-        {
-            // Make sure the Moralis Setting data has been loaded.
-            if (MoralisSettings.MoralisData == null)
-            {
-                MoralisSettings.LoadOrCreateSettings(true);
-            }
-
-            if (!MoralisInterface.Initialized)
+            if (!Moralis.Initialized)
             {
                 HostManifestData hostManifestData = new HostManifestData()
                 {
@@ -106,17 +55,15 @@ namespace Moralis.Web3UnitySdk
                 {
                     Name = MoralisSettings.MoralisData.ApplicationName,
                     Description = MoralisSettings.MoralisData.ApplicationDescription,
-                    Icons = new string[] { MoralisSettings.MoralisData.ApplicationIconUri },
+                    Icons = new[] { MoralisSettings.MoralisData.ApplicationIconUri },
                     URL = MoralisSettings.MoralisData.ApplicationUrl
                 };
 
                 walletConnect.AppData = clientMeta;
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                await MoralisInterface.Initialize(MoralisSettings.MoralisData.ApplicationId, MoralisSettings.MoralisData.ServerUri, hostManifestData, clientMeta);
+                await Moralis.Start(MoralisSettings.MoralisData.ApplicationUrl, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
             }
         }
-#endif
-
     }
 }

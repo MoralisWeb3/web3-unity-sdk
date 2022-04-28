@@ -27,13 +27,9 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-#if UNITY_WEBGL
 using Cysharp.Threading.Tasks;
-#else
-using System.Threading.Tasks;
-#endif
 
-namespace Moralis.Web3UnitySdk
+namespace MoralisUnity
 {
     public interface ISubscriptionQuery
     {
@@ -53,7 +49,6 @@ namespace Moralis.Web3UnitySdk
         /// </summary>
         string SubscriptionName { get; }
 
-#if UNITY_WEBGL
         /// <summary>
         /// Attempts to re-establish a previous subscriptions. If the 
         /// subscription is already active, unsubscribe is called.
@@ -67,21 +62,5 @@ namespace Moralis.Web3UnitySdk
         /// </summary>
         /// <returns></returns>
         UniTask Unsubscribe();
-#else
-
-        /// <summary>
-        /// Attempts to re-establish a previous subscriptions. If the 
-        /// subscription is already active, unsubscribe is called.
-        /// Subscription is then re-created.
-        /// </summary>
-        /// <returns></returns>
-        Task RenewSubscription();
-
-        /// <summary>
-        /// Unsubscribes from and disposes of the subscription.
-        /// </summary>
-        /// <returns></returns>
-        Task Unsubscribe();
-#endif
     }
 }

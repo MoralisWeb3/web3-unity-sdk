@@ -58,9 +58,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllowedWalletIds: []
   DefaultWallet: 2
-  autoSaveAndResume: 1
+  autoSaveAndResume: 0
   connectOnAwake: 0
-  connectOnStart: 1
+  connectOnStart: 0
   createNewSessionOnSessionDisconnect: 1
   connectSessionRetryCount: 3
   customBridgeUrl: 

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Infrastructure;
-
+#pragma warning disable 0108
 namespace Nethereum.RPC.Eth
 {
     public interface IEthSyncing: IGenericRpcRequestResponseHandlerNoParam<object>

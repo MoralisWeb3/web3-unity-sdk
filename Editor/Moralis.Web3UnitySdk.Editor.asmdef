@@ -1,0 +1,18 @@
+{
+    "name": "Moralis.Web3UnitySdk.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Moralis.Web3UnitySdk"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

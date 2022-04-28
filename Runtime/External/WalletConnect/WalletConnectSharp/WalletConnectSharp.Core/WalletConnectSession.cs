@@ -14,7 +14,7 @@ using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Core.Models.Ethereum;
 using WalletConnectSharp.Core.Network;
 using WalletConnectSharp.Core.Utils;
-
+#pragma warning disable 4014
 namespace WalletConnectSharp.Core
 {
     public class WalletConnectSession : WalletConnectProtocol
@@ -309,8 +309,6 @@ namespace WalletConnectSharp.Core
 
                 message = "0x" + hash.ToHex();
             }
-
-            Debug.Log(message);
             
             var request = new EthSign(address, message);
 
