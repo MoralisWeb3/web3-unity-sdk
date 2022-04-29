@@ -1,5 +1,5 @@
 using System;
-using Common.Logging;
+using log4net;
 using Nethereum.BlockchainProcessing.BlockProcessing;
 using Nethereum.BlockchainProcessing.BlockStorage.Repositories;
 using Nethereum.BlockchainProcessing.ProgressRepositories;

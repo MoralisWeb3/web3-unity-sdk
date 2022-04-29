@@ -1,4 +1,4 @@
-﻿using Common.Logging;
+﻿using log4net;
 using Nethereum.BlockchainProcessing.BlockProcessing;
 using Nethereum.BlockchainProcessing.ProgressRepositories;
 using Nethereum.RPC.Eth.Blocks;

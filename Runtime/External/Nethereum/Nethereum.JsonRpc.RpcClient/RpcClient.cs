@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Logging;
+using log4net;
 using Nethereum.JsonRpc.Client.RpcMessages;
 using Newtonsoft.Json;
 

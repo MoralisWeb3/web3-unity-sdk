@@ -106,7 +106,10 @@ namespace MoralisUnity.Platform.Services
             }
 
             result = new Tuple<HttpStatusCode, string>(responseStatus, responseText);
-
+            
+            // Signals that this UnityWebRequest is no longer being used, and should clean up any resources it is using.
+            webRequest.Dispose();
+            
             return result;
         }
 
