@@ -45,7 +45,6 @@ namespace MoralisUnity.MoralisDemo.Scripts
     /// </summary>
     public class MainMenuScript : MonoBehaviour
     {
-        public MoralisController moralisController;
         public GameObject authenticationButton;
         public GameObject logoutButton;
         public WalletConnect walletConnect;
