@@ -89,9 +89,9 @@ namespace MoralisUnity
         // keep a local copy to save some cycles.
         private static MoralisUser user;
 
-        public static IWeb3Api Web3Api;
+        private static IWeb3Api Web3ApiClient;
 
-        public static ISolanaApi SolanaApi;
+        private static ISolanaApi SolanaApiClient;
 
         public static void Start()
         {
@@ -222,6 +222,7 @@ namespace MoralisUnity
         /// <returns></returns>
         public static MoralisClient GetClient()
         {
+            EnsureClient();
             return client;
         }
 
@@ -267,6 +268,8 @@ namespace MoralisUnity
         /// <returns></returns>
         public static async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> authData, int chainId = -1)
         {
+            EnsureClient();
+
             if (chainId >= 0)
             {
                 CurrentChain = SupportedEvmChains.FromChainList(chainId);
@@ -285,6 +288,8 @@ namespace MoralisUnity
         /// <returns>MoralisUser</returns>
         public static async UniTask<MoralisUser> LogInAsync(string username, string password)
         {
+            EnsureClient();
+
             user = await client.UserService.LogInAsync(username, password, client.ServiceHub);
 
             return user;
@@ -320,9 +325,12 @@ namespace MoralisUnity
         {
             get
             {
+                EnsureClient();
+
                 return client.Cloud;
             }
         }
+
         /// <summary>
         /// Shortcut to MoralisClient.BuildAndQuery<T> 
         /// </summary>
@@ -332,6 +340,8 @@ namespace MoralisUnity
         /// <returns></returns>
         public static MoralisQuery<T> BuildAndQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
         {
+            EnsureClient();
+
             return client.BuildAndQuery<T>(source, queries);
         }
 
@@ -344,6 +354,8 @@ namespace MoralisUnity
         /// <returns></returns>
         public static MoralisQuery<T> BuildNorQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
         {
+            EnsureClient();
+
             return client.BuildNorQuery<T>(source, queries);
         }
 
@@ -356,6 +368,8 @@ namespace MoralisUnity
         /// <returns></returns>
         public static MoralisQuery<T> BuildOrQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
         {
+            EnsureClient();
+
             return client.BuildOrQuery<T>(source, queries);
         }
 
@@ -367,6 +381,8 @@ namespace MoralisUnity
         /// <returns></returns>
         public static T Create<T>(object[] parameters = null) where T : MoralisObject
         {
+            EnsureClient();
+
             return client.Create<T>(parameters);
         }
 
@@ -377,6 +393,8 @@ namespace MoralisUnity
         /// <param name="target"></param>
         public static async void DeleteAsync<T>(T target) where T : MoralisObject
         {
+            EnsureClient();
+
             await client.DeleteAsync(target);
         }
 
@@ -387,7 +405,41 @@ namespace MoralisUnity
         /// <returns></returns>
         public static UniTask<MoralisQuery<T>> Query<T>() where T : MoralisObject
         {
+            EnsureClient();
+
             return client.Query<T>();
+        }
+
+        /// <summary>
+        /// Web3Api Client
+        /// </summary>
+        public static IWeb3Api Web3Api
+        {
+            get
+            {
+                EnsureClient();
+                return Web3ApiClient;
+            }
+            set
+            {
+                Web3ApiClient = value;
+            }
+        }
+
+        /// <summary>
+        /// SolanApi Client
+        /// </summary>
+        public static ISolanaApi SolanaApi
+        {
+            get
+            {
+                EnsureClient();
+                return SolanaApiClient;
+            }
+            set
+            {
+                SolanaApiClient = value;
+            }
         }
         #endregion
 
@@ -719,5 +771,13 @@ namespace MoralisUnity
             return result;
         }
 #endif
+
+        private static void EnsureClient()
+        {
+            if (client == null)
+            {
+                Start();
+            }
+        }
     }
 }
