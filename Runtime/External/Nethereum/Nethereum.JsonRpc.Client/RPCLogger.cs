@@ -1,7 +1,26 @@
 #if !DOTNET35
 using System;
-using Common.Logging;
+using log4net;
 using Nethereum.JsonRpc.Client.RpcMessages;
+
+public static class ILogExtentions
+{
+    public static bool IsTraceEnabled(this ILog log)
+    {
+        return log.Logger.IsEnabledFor(log4net.Core.Level.Trace);
+    }
+
+    public static void Trace(this ILog log, string message, Exception exception)
+    {
+        log.Logger.Log(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType,
+            log4net.Core.Level.Trace, message, exception);
+    }
+
+    public static void Trace(this ILog log, string message)
+    {
+        log.Trace(message, null);
+    }
+}
 
 namespace Nethereum.JsonRpc.Client
 {
@@ -73,7 +92,7 @@ namespace Nethereum.JsonRpc.Client
 
         private bool IsLogTraceEnabled()
         {
-            return Log != null && Log.IsTraceEnabled;
+            return Log != null && Log.IsTraceEnabled();
         }
 
     }

@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Logging;
+using log4net;
 using Nethereum.BlockchainProcessing.Orchestrator;
 using Nethereum.BlockchainProcessing.ProgressRepositories;
 using Nethereum.RPC.Eth.Blocks;

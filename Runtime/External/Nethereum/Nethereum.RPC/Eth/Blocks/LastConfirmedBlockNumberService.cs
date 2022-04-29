@@ -1,5 +1,5 @@
 ﻿#if !NET35
-using Common.Logging;
+using log4net;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Util;
 using System.Numerics;
