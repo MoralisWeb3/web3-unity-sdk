@@ -126,8 +126,7 @@ namespace MoralisUnity
         /// <param name="hostData"></param>
         /// <param name="clientMeta"></param>
         /// <param name="web3ApiKey"></param>
-        //public static async UniTask Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
-       public static void Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
+        public static void Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
             // Application Id is requried.
             if (string.IsNullOrEmpty(applicationId))
@@ -204,7 +203,6 @@ namespace MoralisUnity
                 
                 Initialized = true;
                 Debug.Log("Connected to Moralis!");
-                //user = await client.GetCurrentUserAsync();
             }
         }
 
