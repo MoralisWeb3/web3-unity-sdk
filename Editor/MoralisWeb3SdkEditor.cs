@@ -51,6 +51,8 @@ namespace MoralisUnity.Editor
             }
 
             win.isSetupWizard = true;
+            win.minSize = new Vector2(750, 500);
+            win.maxSize = new Vector2(750, 500);
             win.Show();
         }
 

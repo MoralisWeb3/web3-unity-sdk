@@ -48,6 +48,8 @@ using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.NEthereum;
 using WalletConnectSharp.Unity;
+using MoralisUnity.SolanaApi.Interfaces;
+using MoralisUnity.Platform.Queries;
 
 namespace MoralisUnity
 {
@@ -62,7 +64,7 @@ namespace MoralisUnity
         /// </summary>
         public static bool Initialized { get; set; }
 
-        public static ChainList ChainList;
+        public static ChainEntry CurrentChain;
 
 #if UNITY_WEBGL
         /// <summary>
@@ -86,8 +88,35 @@ namespace MoralisUnity
         // keep a local copy to save some cycles.
         private static MoralisUser user;
 
-        public static IWeb3Api Web3Api;
-        
+        private static IWeb3Api Web3ApiClient;
+
+        private static ISolanaApi SolanaApiClient;
+
+        public static void Start()
+        {
+            if (!Initialized)
+            {
+                HostManifestData hostManifestData = new HostManifestData()
+                {
+                    Version = MoralisSettings.MoralisData.ApplicationVersion,
+                    Identifier = MoralisSettings.MoralisData.ApplicationName,
+                    Name = MoralisSettings.MoralisData.ApplicationName,
+                    ShortVersion = MoralisSettings.MoralisData.ApplicationVersion
+                };
+
+                ClientMeta clientMeta = new ClientMeta()
+                {
+                    Name = MoralisSettings.MoralisData.ApplicationName,
+                    Description = MoralisSettings.MoralisData.ApplicationDescription,
+                    Icons = new[] { MoralisSettings.MoralisData.ApplicationIconUri },
+                    URL = MoralisSettings.MoralisData.ApplicationUrl
+                };
+
+                // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
+                Moralis.Start(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
+            }
+        }
+
         /// <summary>
         /// Initializes the connection to a Moralis server.
         /// </summary>
@@ -96,7 +125,7 @@ namespace MoralisUnity
         /// <param name="hostData"></param>
         /// <param name="clientMeta"></param>
         /// <param name="web3ApiKey"></param>
-        public static async UniTask Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
+        public static void Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
             // Application Id is requried.
             if (string.IsNullOrEmpty(applicationId))
@@ -169,9 +198,10 @@ namespace MoralisUnity
             else
             {
                 Web3Api = client.Web3Api;
+                SolanaApi = client.SolanaApi;
+                
                 Initialized = true;
                 Debug.Log("Connected to Moralis!");
-                user = await client.GetCurrentUserAsync();
             }
         }
 
@@ -189,6 +219,7 @@ namespace MoralisUnity
         /// <returns></returns>
         public static MoralisClient GetClient()
         {
+            EnsureClient();
             return client;
         }
 
@@ -199,12 +230,7 @@ namespace MoralisUnity
         /// <returns>MoralisUser</returns>
         public static async UniTask<MoralisUser> GetUser()
         {
-            if (user == null)
-            {
-                user = await client.GetCurrentUser();
-            }
-
-            return user;
+            return await GetUserAsync();
         }
 
         /// <summary>
@@ -235,10 +261,20 @@ namespace MoralisUnity
         /// EXAMPLE: { { "id", address }, { "signature", response }, { "data", "Moralis Authentication" } }
         /// </summary>
         /// <param name="authData"></param>
+        /// <param name="chainId">Chain Id returned by authenticating Wallet</param>
         /// <returns></returns>
-        public static async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> authData)
+        public static async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> authData, int chainId = -1)
         {
-            return await client.LogInAsync(authData, CancellationToken.None);
+            EnsureClient();
+
+            if (chainId >= 0)
+            {
+                CurrentChain = SupportedEvmChains.FromChainList(chainId);
+            }
+
+            user = await client.LogInAsync(authData, CancellationToken.None);
+
+            return user;
         }
 
         /// <summary>
@@ -247,9 +283,13 @@ namespace MoralisUnity
         /// <param name="username">username / Email</param>
         /// <param name="password">user password</param>
         /// <returns>MoralisUser</returns>
-        public static UniTask<MoralisUser> LogInAsync(string username, string password)
+        public static async UniTask<MoralisUser> LogInAsync(string username, string password)
         {
-            return client.UserService.LogInAsync(username, password, client.ServiceHub);
+            EnsureClient();
+
+            user = await client.UserService.LogInAsync(username, password, client.ServiceHub);
+
+            return user;
         }
 
         /// <summary>
@@ -258,8 +298,147 @@ namespace MoralisUnity
         /// <returns></returns>
         public static UniTask LogOutAsync()
         {
+            user = null;
             return client.LogOutAsync();
         }
+
+        #region MoralisClient and other objects direct calls
+        /// <summary>
+        /// Shortcut to MoralisClient.ApplicationId
+        /// </summary>
+        public static string ApplicationId 
+        {
+            get
+            {
+                return client.ApplicationId;
+            }
+        }
+
+        /// <summary>
+        /// Shortcut to MoralisClient.Cloud 
+        /// </summary>
+        /// <returns></returns>
+        public static MoralisCloud<MoralisUser> Cloud
+        {
+            get
+            {
+                EnsureClient();
+
+                return client.Cloud;
+            }
+        }
+
+        /// <summary>
+        /// Shortcut to MoralisClient.BuildAndQuery<T> 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="queries"></param>
+        /// <returns></returns>
+        public static MoralisQuery<T> BuildAndQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
+        {
+            EnsureClient();
+
+            return client.BuildAndQuery<T>(source, queries);
+        }
+
+        /// <summary>
+        /// Shortcut to MoralisClient.BuildNorQuery<T> 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="queries"></param>
+        /// <returns></returns>
+        public static MoralisQuery<T> BuildNorQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
+        {
+            EnsureClient();
+
+            return client.BuildNorQuery<T>(source, queries);
+        }
+
+        /// <summary>
+        /// Shortcut to MoralisClient.BuildOrQuery<T> 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="queries"></param>
+        /// <returns></returns>
+        public static MoralisQuery<T> BuildOrQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
+        {
+            EnsureClient();
+
+            return client.BuildOrQuery<T>(source, queries);
+        }
+
+        /// <summary>
+        /// Shortcut to MoralisClient.Create<T> 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static T Create<T>(object[] parameters = null) where T : MoralisObject
+        {
+            EnsureClient();
+
+            return client.Create<T>(parameters);
+        }
+
+        /// <summary>
+        /// Shortcut to MoralisClient.DeleteAsync
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="target"></param>
+        public static async void DeleteAsync<T>(T target) where T : MoralisObject
+        {
+            EnsureClient();
+
+            await client.DeleteAsync(target);
+        }
+
+        /// <summary>
+        /// Shortcut to MoralisClient.Query
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static UniTask<MoralisQuery<T>> Query<T>() where T : MoralisObject
+        {
+            EnsureClient();
+
+            return client.Query<T>();
+        }
+
+        /// <summary>
+        /// Web3Api Client
+        /// </summary>
+        public static IWeb3Api Web3Api
+        {
+            get
+            {
+                EnsureClient();
+                return Web3ApiClient;
+            }
+            set
+            {
+                Web3ApiClient = value;
+            }
+        }
+
+        /// <summary>
+        /// SolanApi Client
+        /// </summary>
+        public static ISolanaApi SolanaApi
+        {
+            get
+            {
+                EnsureClient();
+                return SolanaApiClient;
+            }
+            set
+            {
+                SolanaApiClient = value;
+            }
+        }
+        #endregion
 
         public static List<ChainEntry> SupportedChains => SupportedEvmChains.SupportedChains;
         
@@ -589,5 +768,13 @@ namespace MoralisUnity
             return result;
         }
 #endif
+
+        private static void EnsureClient()
+        {
+            if (client == null)
+            {
+                Start();
+            }
+        }
     }
 }

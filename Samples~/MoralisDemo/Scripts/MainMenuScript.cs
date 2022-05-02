@@ -45,7 +45,6 @@ namespace MoralisUnity.MoralisDemo.Scripts
     /// </summary>
     public class MainMenuScript : MonoBehaviour
     {
-        public MoralisController moralisController;
         public GameObject authenticationButton;
         public GameObject logoutButton;
         public WalletConnect walletConnect;
@@ -62,24 +61,13 @@ namespace MoralisUnity.MoralisDemo.Scripts
             walletConnect.CLearSession();
         }
 
-        async void Start()
+        void Start()
         {
             menuBackground = (Image)gameObject.GetComponent(typeof(Image));
 
             qrMenu.SetActive(false);
             androidMenu.SetActive(false);
             iosMenu.SetActive(false);
-
-            // await MoralisUnity.Initialize(MoralisApplicationId, MoralisServerURI, hostManifestData);
-            if (moralisController != null && moralisController)
-            {
-                await moralisController.Initialize();
-            }
-            else
-            {
-                // Moralis values not set or initialized.
-                Debug.LogError("The MoralisWeb3 has not been set up, please check you MoralisController in the scene.");
-            }
 
             // If user is not logged in show the "Authenticate" button.
             if (!Moralis.IsLoggedIn())
@@ -176,11 +164,11 @@ namespace MoralisUnity.MoralisDemo.Scripts
             else
             {
                 string address = Web3GL.Account().ToLower();
-                string appId = Moralis.GetClient().ApplicationId;
+                string appId = Moralis.ApplicationId;
                 long serverTime = 0;
 
                 // Retrieve server time from Moralis Server for message signature
-                Dictionary<string, object> serverTimeResponse = await Moralis.GetClient().Cloud
+                Dictionary<string, object> serverTimeResponse = await Moralis.Cloud
                     .RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
                 if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
@@ -238,11 +226,11 @@ namespace MoralisUnity.MoralisDemo.Scripts
 
             // Extract wallet address from the Wallet Connect Session data object.
             string address = data.accounts[0].ToLower();
-            string appId = Moralis.GetClient().ApplicationId;
+            string appId = Moralis.ApplicationId;
             long serverTime = 0;
 
             // Retrieve server time from Moralis Server for message signature
-            Dictionary<string, object> serverTimeResponse = await Moralis.GetClient().Cloud
+            Dictionary<string, object> serverTimeResponse = await Moralis.Cloud
                 .RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
             if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
@@ -262,7 +250,7 @@ namespace MoralisUnity.MoralisDemo.Scripts
                 { { "id", address }, { "signature", response }, { "data", signMessage } };
 
             // Attempt to login user.
-            MoralisUser user = await Moralis.LogInAsync(authData);
+            MoralisUser user = await Moralis.LogInAsync(authData, data.chainId.Value);
 
             signaturePending = false;
 
