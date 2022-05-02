@@ -427,10 +427,10 @@ MonoBehaviour:
     Selected: 0
   - Id: bae74827272509a6d63ea25514d9c68ad235c14e45e183518c7ded4572a1b0c4
     Name: Huobi Wallet
-    Selected: 0
+    Selected: 1
   - Id: 9d373b43ad4d2cf190fb1a774ec964a1addf406d6fd24af94ab7596e58c291b2
     Name: imToken
-    Selected: 0
+    Selected: 1
   - Id: d0387325e894a1c4244820260ad7c78bb20d79eeec2fd59ffe3529223f3f84c6
     Name: Infinito
     Selected: 0
@@ -517,7 +517,7 @@ MonoBehaviour:
     Selected: 0
   - Id: 1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369
     Name: Rainbow
-    Selected: 0
+    Selected: 1
   - Id: b13fcc7e3500a4580c9a5341ed64c49c17d7f864497881048eb160c089be5346
     Name: RWallet
     Selected: 0
