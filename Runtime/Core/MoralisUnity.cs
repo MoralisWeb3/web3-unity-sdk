@@ -64,7 +64,6 @@ namespace MoralisUnity
         /// </summary>
         public static bool Initialized { get; set; }
 
-        //public static ChainList ChainList;
         public static ChainEntry CurrentChain;
 
 #if UNITY_WEBGL
