@@ -61,13 +61,16 @@ namespace MoralisUnity.MoralisDemo.Scripts
             walletConnect.CLearSession();
         }
 
-        void Start()
+        async void Start()
         {
             menuBackground = (Image)gameObject.GetComponent(typeof(Image));
 
             qrMenu.SetActive(false);
             androidMenu.SetActive(false);
             iosMenu.SetActive(false);
+
+            // Trigger get user so that if user has been persisted, it is available.
+            MoralisUser user = await Moralis.GetUserAsync();
 
             // If user is not logged in show the "Authenticate" button.
             if (!Moralis.IsLoggedIn())
