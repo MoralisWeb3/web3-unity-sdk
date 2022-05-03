@@ -59,7 +59,7 @@ namespace MoralisUnity
     /// Class that wraps moralis integration points. Provided as an example of 
     /// how Moralis can be integrated into Unity
     /// </summary>
-    public class Moralis // : MonoBehaviour
+    public class Moralis
     {
         public static MoralisStatus Status { get; private set; }
 
