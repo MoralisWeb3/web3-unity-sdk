@@ -222,7 +222,7 @@ namespace MoralisUnity
         /// <summary>
         /// Get the Moralis Server Client.
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         /// <returns></returns>
         public static MoralisClient GetClient()
         {
@@ -281,7 +281,7 @@ namespace MoralisUnity
         /// created.
         /// EXAMPLE: { { "id", address }, { "signature", response }, { "data", "Moralis Authentication" } }
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         /// <param name="authData"></param>
         /// <param name="chainId">Chain Id returned by authenticating Wallet</param>
         /// <returns></returns>
@@ -306,7 +306,7 @@ namespace MoralisUnity
         /// <summary>
         /// Login using username and password.
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         /// <param name="username">username / Email</param>
         /// <param name="password">user password</param>
         /// <returns>MoralisUser</returns>
@@ -326,7 +326,7 @@ namespace MoralisUnity
         /// <summary>
         /// Logout the user session.
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         /// <returns></returns>
         public static UniTask LogOutAsync()
         {
@@ -343,7 +343,7 @@ namespace MoralisUnity
         /// <summary>
         /// Creates a new MoralisUser on the Moralis server and returns the new user object.
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns>Moralis User</returns>
@@ -377,7 +377,7 @@ namespace MoralisUnity
         /// <summary>
         /// Shortcut to MoralisClient.Cloud 
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         /// <returns></returns>
         public static MoralisCloud<MoralisUser> Cloud
         {
@@ -501,7 +501,7 @@ namespace MoralisUnity
         /// <summary>
         /// Web3Api Client
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         public static IWeb3Api Web3Api
         {
             get
@@ -511,7 +511,7 @@ namespace MoralisUnity
                     return Web3ApiClient;
                 }
 
-                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
 
             }
             set
@@ -523,7 +523,7 @@ namespace MoralisUnity
         /// <summary>
         /// SolanApi Client
         /// </summary>
-        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         public static ISolanaApi SolanaApi
         {
             get
@@ -533,7 +533,7 @@ namespace MoralisUnity
                     return SolanaApiClient;
                 }
 
-                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
 
             }
             set
