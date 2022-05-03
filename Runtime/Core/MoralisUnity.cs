@@ -50,6 +50,8 @@ using WalletConnectSharp.NEthereum;
 using WalletConnectSharp.Unity;
 using MoralisUnity.SolanaApi.Interfaces;
 using MoralisUnity.Platform.Queries;
+using MoralisUnity.Platform.Utilities;
+using MoralisUnity.Platform.Exceptions;
 
 namespace MoralisUnity
 {
@@ -57,12 +59,14 @@ namespace MoralisUnity
     /// Class that wraps moralis integration points. Provided as an example of 
     /// how Moralis can be integrated into Unity
     /// </summary>
-    public class Moralis : MonoBehaviour
+    public class Moralis // : MonoBehaviour
     {
+        public static MoralisStatus Status { get; private set; }
+
         /// <summary>
         /// Indicates that the MoralisUnity has been initialized.
         /// </summary>
-        public static bool Initialized { get; set; }
+        public static bool Initialized => MoralisStatus.Connected.Equals(Status);
 
         public static ChainEntry CurrentChain;
 
@@ -83,7 +87,7 @@ namespace MoralisUnity
         // wide after being initialized.
         private static MoralisClient client;
         private static ServerConnectionData connectionData;
-        
+
         // Since the user object is used so often, once the user is authenticated 
         // keep a local copy to save some cycles.
         private static MoralisUser user;
@@ -92,7 +96,7 @@ namespace MoralisUnity
 
         private static ISolanaApi SolanaApiClient;
 
-        public static void Start()
+        public static async UniTask Start()
         {
             if (!Initialized)
             {
@@ -113,7 +117,7 @@ namespace MoralisUnity
                 };
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                Moralis.Start(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
+                await Moralis.Start(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
             }
         }
 
@@ -125,8 +129,10 @@ namespace MoralisUnity
         /// <param name="hostData"></param>
         /// <param name="clientMeta"></param>
         /// <param name="web3ApiKey"></param>
-        public static void Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
+        public static async UniTask Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
+            Status = MoralisStatus.Connecting;
+
             // Application Id is requried.
             if (string.IsNullOrEmpty(applicationId))
             {
@@ -193,15 +199,15 @@ namespace MoralisUnity
 
             if (client == null)
             {
+                Status = MoralisStatus.NotConnected;
                 Debug.Log("Moralis connection failed!");
             }
             else
             {
                 Web3Api = client.Web3Api;
                 SolanaApi = client.SolanaApi;
-                
-                Initialized = true;
-                Debug.Log("Connected to Moralis!");
+                user = await GetUserAsync();
+                Status = MoralisStatus.Connected;
             }
         }
 
@@ -216,11 +222,17 @@ namespace MoralisUnity
         /// <summary>
         /// Get the Moralis Server Client.
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <returns></returns>
         public static MoralisClient GetClient()
         {
-            EnsureClient();
-            return client;
+            if (EnsureClient())
+            {
+                return client;
+            }
+
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
+
         }
 
         /// <summary>
@@ -252,7 +264,10 @@ namespace MoralisUnity
         /// Idicates if user is already logged in.
         /// </summary>
         /// <returns></returns>
-        public static bool IsLoggedIn() { return user != null; }
+        public static bool IsLoggedIn() 
+        {
+            return user != null;
+        }
 
         /// <summary>
         /// Authenicate the user by logging into Moralis using message signed by 
@@ -260,162 +275,238 @@ namespace MoralisUnity
         /// created.
         /// EXAMPLE: { { "id", address }, { "signature", response }, { "data", "Moralis Authentication" } }
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <param name="authData"></param>
         /// <param name="chainId">Chain Id returned by authenticating Wallet</param>
         /// <returns></returns>
         public static async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> authData, int chainId = -1)
         {
-            EnsureClient();
-
-            if (chainId >= 0)
+            if (EnsureClient())
             {
-                CurrentChain = SupportedEvmChains.FromChainList(chainId);
+                if (chainId >= 0)
+                {
+                    CurrentChain = SupportedEvmChains.FromChainList(chainId);
+                }
+
+                user = await client.LogInAsync(authData, CancellationToken.None);
+
+                return user;
             }
 
-            user = await client.LogInAsync(authData, CancellationToken.None);
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
 
-            return user;
         }
 
         /// <summary>
         /// Login using username and password.
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <param name="username">username / Email</param>
         /// <param name="password">user password</param>
         /// <returns>MoralisUser</returns>
         public static async UniTask<MoralisUser> LogInAsync(string username, string password)
         {
-            EnsureClient();
+            if (EnsureClient())
+            {
+                user = await client.UserService.LogInAsync(username, password, client.ServiceHub);
 
-            user = await client.UserService.LogInAsync(username, password, client.ServiceHub);
+                return user;
+            }
 
-            return user;
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
+
         }
 
         /// <summary>
         /// Logout the user session.
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <returns></returns>
         public static UniTask LogOutAsync()
         {
-            user = null;
-            return client.LogOutAsync();
+            if (EnsureClient())
+            {
+                user = null;
+                return client.LogOutAsync();
+            }
+
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
+
+        }
+
+        /// <summary>
+        /// Creates a new MoralisUser on the Moralis server and returns the new user object.
+        /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>Moralis User</returns>
+        public static async UniTask SignUpAsync(string username, string password)
+        {
+            if (EnsureClient())
+            {
+                MoralisUser u = client.Create<MoralisUser>();
+                u.username = username;
+                u.password = password;
+
+                await u.SignUpAsync();
+            }
+
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
+
         }
 
         #region MoralisClient and other objects direct calls
         /// <summary>
         /// Shortcut to MoralisClient.ApplicationId
         /// </summary>
-        public static string ApplicationId 
+        public static string ApplicationId
         {
             get
             {
-                return client.ApplicationId;
+                return MoralisSettings.MoralisData.ApplicationId;
             }
         }
 
         /// <summary>
         /// Shortcut to MoralisClient.Cloud 
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <returns></returns>
         public static MoralisCloud<MoralisUser> Cloud
         {
             get
             {
-                EnsureClient();
+                if (EnsureClient())
+                {
+                    return client.Cloud;
+                }
 
-                return client.Cloud;
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
             }
         }
 
         /// <summary>
         /// Shortcut to MoralisClient.BuildAndQuery<T> 
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="queries"></param>
         /// <returns></returns>
         public static MoralisQuery<T> BuildAndQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
         {
-            EnsureClient();
+            if (EnsureClient(true))
+            {
+                return client.BuildAndQuery<T>(source, queries);
+            }
 
-            return client.BuildAndQuery<T>(source, queries);
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
         }
 
         /// <summary>
         /// Shortcut to MoralisClient.BuildNorQuery<T> 
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="queries"></param>
         /// <returns></returns>
         public static MoralisQuery<T> BuildNorQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
         {
-            EnsureClient();
+            if (EnsureClient(true))
+            {
+                return client.BuildNorQuery<T>(source, queries);
+            }
 
-            return client.BuildNorQuery<T>(source, queries);
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
         }
 
         /// <summary>
         /// Shortcut to MoralisClient.BuildOrQuery<T> 
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="queries"></param>
         /// <returns></returns>
         public static MoralisQuery<T> BuildOrQuery<T>(MoralisQuery<T> source, params MoralisQuery<T>[] queries) where T : MoralisObject
         {
-            EnsureClient();
+            if (EnsureClient(true))
+            {
+                return client.BuildOrQuery<T>(source, queries);
+            }
 
-            return client.BuildOrQuery<T>(source, queries);
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
         }
 
         /// <summary>
         /// Shortcut to MoralisClient.Create<T> 
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <typeparam name="T"></typeparam>
         /// <param name="parameters"></param>
         /// <returns></returns>
         public static T Create<T>(object[] parameters = null) where T : MoralisObject
         {
-            EnsureClient();
+            if (EnsureClient(true))
+            {
+                return client.Create<T>(parameters);
+            }
 
-            return client.Create<T>(parameters);
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
+
         }
 
         /// <summary>
         /// Shortcut to MoralisClient.DeleteAsync
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <typeparam name="T"></typeparam>
         /// <param name="target"></param>
         public static async void DeleteAsync<T>(T target) where T : MoralisObject
         {
-            EnsureClient();
+            if (EnsureClient(true))
+            {
+                await client.DeleteAsync(target);
+            }
 
-            await client.DeleteAsync(target);
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
+
         }
 
         /// <summary>
         /// Shortcut to MoralisClient.Query
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static UniTask<MoralisQuery<T>> Query<T>() where T : MoralisObject
         {
-            EnsureClient();
+            if (EnsureClient(true))
+            {
+                return client.Query<T>();
+            }
 
-            return client.Query<T>();
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
+
         }
 
         /// <summary>
         /// Web3Api Client
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         public static IWeb3Api Web3Api
         {
             get
             {
-                EnsureClient();
-                return Web3ApiClient;
+                if (EnsureClient())
+                {
+                    return Web3ApiClient;
+                }
+
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
+
             }
             set
             {
@@ -426,22 +517,29 @@ namespace MoralisUnity
         /// <summary>
         /// SolanApi Client
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started and user authenticated.</exception>
         public static ISolanaApi SolanaApi
         {
             get
             {
-                EnsureClient();
-                return SolanaApiClient;
+                if (EnsureClient())
+                {
+                    return SolanaApiClient;
+                }
+
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started and user authenticated before accessing this object.");
+
             }
             set
             {
                 SolanaApiClient = value;
             }
         }
+
         #endregion
 
         public static List<ChainEntry> SupportedChains => SupportedEvmChains.SupportedChains;
-        
+
         /// <summary>
         /// Initializes the Web3 connection to the supplied RPC Url. Call this to change the target chain.
         /// </summary>
@@ -464,7 +562,7 @@ namespace MoralisUnity
             });
 #endif
         }
-        
+
         /// <summary>
         /// Performs a transfer of value to receipient.
         /// </summary>
@@ -476,11 +574,11 @@ namespace MoralisUnity
         public async static UniTask<string> SendTransactionAsync(string recipientAddress, HexBigInteger value, HexBigInteger gas = null, HexBigInteger gasPrice = null)
         {
             string txnHash = null;
-            
+
             // Retrieve from address, the address used to authenticate the user.
             MoralisUser user = await Moralis.GetUserAsync();
             string fromAddress = user.authData["moralisEth"]["id"].ToString();
-            
+
             try
             {
 #if UNITY_WEBGL
@@ -500,7 +598,7 @@ namespace MoralisUnity
                     To = recipientAddress,
                     Value = value
                 };
-                
+
                 // Execute the transaction.
                 txnHash = await Moralis.Web3Client.Eth.TransactionManager.SendTransactionAsync(txnRequest);
 #endif              
@@ -512,7 +610,7 @@ namespace MoralisUnity
 
             return txnHash;
         }
-        
+
         /// <summary>
         /// Executes a contract function.
         /// </summary>
@@ -535,10 +633,10 @@ namespace MoralisUnity
             string result = null;
             string gasValue = gas.Value.ToString();
             string gasPriceValue = gasPrice.ToString();
-            
+
             if (gasValue.Equals("0") || gasValue.Equals("0x0")) gasValue = "";
             if (gasPriceValue.Equals("0") || gasPriceValue.Equals("0x0")) gasPriceValue = "";
-            
+
             try
             {
 #if UNITY_WEBGL
@@ -562,10 +660,10 @@ namespace MoralisUnity
             {
                 Debug.Log($"Call to {functionName} failed due to: {exp.Message}");
             }
-            
+
             return result;
         }
-        
+
 #if !UNITY_WEBGL
         /// <summary>
         /// Creates and adds a contract instance based on ABI and associates it to specified chain and address.
@@ -769,12 +867,21 @@ namespace MoralisUnity
         }
 #endif
 
-        private static void EnsureClient()
+        private static bool EnsureClient(bool requireUser=false)
         {
+            bool resp = true;
+
             if (client == null)
             {
-                Start();
+                resp = false;
             }
+            else if (requireUser && user == null)
+            {
+                resp = false;
+            }
+
+            return resp;
         }
+
     }
 }
