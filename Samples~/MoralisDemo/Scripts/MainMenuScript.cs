@@ -69,8 +69,25 @@ namespace MoralisUnity.MoralisDemo.Scripts
             androidMenu.SetActive(false);
             iosMenu.SetActive(false);
 
-            // Trigger get user so that if user has been persisted, it is available.
-            MoralisUser user = await Moralis.GetUserAsync();
+            // Make sure Moralis is connected
+            if (!Moralis.Initialized)
+            {
+                if (MoralisStatus.Connecting.Equals(Moralis.Status))
+                {
+                    DateTime timeoutBase = DateTime.Now;
+
+                    // Moralis is conection so wait a little bit to see if it completes.
+                    while (MoralisStatus.Connecting.Equals(Moralis.Status) &&
+                        DateTime.Now.Subtract(timeoutBase) < TimeSpan.FromMilliseconds(1000))
+                    {
+                        await UniTask.Delay(100);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Moralis has not been started.");
+                }
+            }
 
             // If user is not logged in show the "Authenticate" button.
             if (!Moralis.IsLoggedIn())
@@ -220,6 +237,12 @@ namespace MoralisUnity.MoralisDemo.Scripts
         /// <param name="data">WCSessionData</param>
         public async void WalletConnectHandler(WCSessionData data)
         {
+            // If user us already logged in no need to re-sign
+            if (Moralis.IsLoggedIn())
+            {
+                return;
+            }
+
             // In mobile, W.C. sometimes re-triggers this call on unpause.
             // Make sure to not double send.
             if (signaturePending)

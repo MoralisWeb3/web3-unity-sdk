@@ -54,10 +54,7 @@ namespace MoralisUnity
 
                 // Initialize and register the Moralis, Moralis Web3Api and
                 // NEthereum Web3 clients
-                Moralis.Start();
-
-                // Trigger get user so that if user has been persisted, it is available.
-                await Moralis.GetUserAsync();
+                await Moralis.Start();
             }
         }
 
