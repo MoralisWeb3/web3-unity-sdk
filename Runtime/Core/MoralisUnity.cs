@@ -263,9 +263,15 @@ namespace MoralisUnity
         /// <summary>
         /// Idicates if user is already logged in.
         /// </summary>
+        /// <exception cref="MoralisFailureException">Moralis must be started.</exception>
         /// <returns></returns>
         public static bool IsLoggedIn() 
         {
+            if (!Initialized)
+            {
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis muist be initialized before calling this function.");
+            }
+
             return user != null;
         }
 
