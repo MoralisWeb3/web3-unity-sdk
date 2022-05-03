@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using MoralisUnity.Platform.Abstractions;
 using MoralisUnity.Platform.Objects;
 using MoralisUnity.Platform.Utilities;
+using UnityEngine;
 using static MoralisUnity.Platform.ResourceWrapper;
 
 namespace MoralisUnity.Platform.Services.Infrastructure
@@ -29,19 +30,42 @@ namespace MoralisUnity.Platform.Services.Infrastructure
 
             internal async UniTask LoadAsync()
             {
-                string data = await File.ReadAllTextAsync();
+                Storage = new Dictionary<string, object> { };
 
-                lock (Mutex)
+#if !UNITY_WEBGL
+                if (File.Exists)
                 {
+                    string data = string.Empty;
+
                     try
                     {
-                        Storage = JsonUtilities.Parse(data) as Dictionary<string, object>;
+                        data = await File.ReadAllTextAsync();
                     }
-                    catch
+                    catch (Exception exp)
                     {
-                        Storage = new Dictionary<string, object> { };
+                        Debug.Log($"File read error: {exp.Message}");
+                    }
+
+                    lock (Mutex)
+                    {
+                        try
+                        {
+                            Storage = JsonUtilities.Parse(data) as Dictionary<string, object>;
+                        }
+                        catch
+                        {
+                            Storage = new Dictionary<string, object> { };
+                        }
                     }
                 }
+                else 
+                { 
+                    Storage = new Dictionary<string, object> { };
+                    using (File.Create())
+                    {
+                    }
+                }
+#endif
             }
 
             internal void Update(IDictionary<string, object> contents) => Lock(() => Storage = contents.ToDictionary(element => element.Key, element => element.Value));

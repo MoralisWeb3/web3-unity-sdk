@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using Cysharp.Threading.Tasks;
 
 #pragma warning disable 1998
@@ -22,9 +23,12 @@ namespace MoralisUnity.Platform.Utilities
         public static async UniTask<string> ReadAllTextAsync(this FileInfo file)
         {
             // WARNING File cache will not work in WebGL at this time
+#if UNITY_WEB_GL
             return await UniTask.FromResult<string>(cacheData);
-            //using StreamReader reader = new StreamReader(file.OpenRead(), Encoding.Unicode);
-            //return await reader.ReadToEndAsync();
+#else
+            using StreamReader reader = new StreamReader(file.OpenRead(), Encoding.Unicode);
+            return await reader.ReadToEndAsync();
+#endif
         }
 
         /// <summary>
@@ -35,11 +39,14 @@ namespace MoralisUnity.Platform.Utilities
         /// <returns>A task that completes once the write operation to the <paramref name="file"/> completes</returns>
         public static async UniTask WriteContentAsync(this FileInfo file, string content)
         {
+#if UNITY_WEBGL
             // WARNING File cache will not work in WebGL at this time
             cacheData = content;
-            //using FileStream stream = new FileStream(Path.GetFullPath(file.FullName), FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.SequentialScan | FileOptions.Asynchronous);
-            //byte[] data = Encoding.Unicode.GetBytes(content);
-            //await stream.WriteAsync(data, 0, data.Length);
+#else
+            using FileStream stream = new FileStream(Path.GetFullPath(file.FullName), FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.SequentialScan | FileOptions.Asynchronous);
+            byte[] data = Encoding.Unicode.GetBytes(content);
+            await stream.WriteAsync(data, 0, data.Length);
+#endif
         }
     }
 }

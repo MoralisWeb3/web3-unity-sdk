@@ -69,6 +69,9 @@ namespace MoralisUnity.MoralisDemo.Scripts
             androidMenu.SetActive(false);
             iosMenu.SetActive(false);
 
+            // Trigger get user so that if user has been persisted, it is available.
+            MoralisUser user = await Moralis.GetUserAsync();
+
             // If user is not logged in show the "Authenticate" button.
             if (!Moralis.IsLoggedIn())
             {
