@@ -12,6 +12,8 @@ using MoralisUnity.Platform.Utilities;
 using UnityEngine;
 using static MoralisUnity.Platform.ResourceWrapper;
 
+#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously
+
 namespace MoralisUnity.Platform.Services.Infrastructure
 {
     /// <summary>
