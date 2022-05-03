@@ -14,7 +14,9 @@ namespace MoralisUnity.Platform.Utilities
     /// </summary>
     internal static class FileUtilities
     {
+#if UNITY_WEBGL
         private static string cacheData = null;
+#endif
         /// <summary>
         /// Asynchronously read all of the little-endian 16-bit character units (UTF-16) contained within the file wrapped by the provided <see cref="FileInfo"/> instance.
         /// </summary>
@@ -23,7 +25,7 @@ namespace MoralisUnity.Platform.Utilities
         public static async UniTask<string> ReadAllTextAsync(this FileInfo file)
         {
             // WARNING File cache will not work in WebGL at this time
-#if UNITY_WEB_GL
+#if UNITY_WEBGL
             return await UniTask.FromResult<string>(cacheData);
 #else
             using StreamReader reader = new StreamReader(file.OpenRead(), Encoding.Unicode);

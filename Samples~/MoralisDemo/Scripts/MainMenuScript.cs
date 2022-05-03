@@ -61,7 +61,7 @@ namespace MoralisUnity.MoralisDemo.Scripts
             walletConnect.CLearSession();
         }
 
-        void Start()
+        async void Start()
         {
             menuBackground = (Image)gameObject.GetComponent(typeof(Image));
 
