@@ -269,7 +269,7 @@ namespace MoralisUnity
         {
             if (!Initialized)
             {
-                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis muist be initialized before calling this function.");
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be initialized before calling this function.");
             }
 
             return user != null;
