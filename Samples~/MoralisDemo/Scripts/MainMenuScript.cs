@@ -27,6 +27,7 @@
  *  SOFTWARE.
  */
 
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -76,7 +77,7 @@ namespace MoralisUnity.MoralisDemo.Scripts
                 {
                     DateTime timeoutBase = DateTime.Now;
 
-                    // Moralis is conection so wait a little bit to see if it completes.
+                    // Moralis is connection so wait a little bit to see if it completes.
                     while (MoralisStatus.Connecting.Equals(Moralis.Status) &&
                         DateTime.Now.Subtract(timeoutBase) < TimeSpan.FromMilliseconds(1000))
                     {
