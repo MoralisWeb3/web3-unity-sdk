@@ -31,6 +31,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Core.Models;
+using System;
 
 namespace MoralisUnity
 {
@@ -50,7 +51,9 @@ namespace MoralisUnity
                     URL = MoralisSettings.MoralisData.ApplicationUrl
                 };
 
+#if !UNITY_WEBGL
                 walletConnect.AppData = clientMeta;
+#endif
 
                 // Initialize and register the Moralis, Moralis Web3Api and
                 // NEthereum Web3 clients
@@ -60,6 +63,12 @@ namespace MoralisUnity
 
         public async void Start()
         {
+#if !UNITY_WEBGL
+            if (walletConnect == null)
+            {
+                throw new ArgumentException("WalletConnect object is required.");
+            }
+#endif
             await Initialize();
         }
     }
