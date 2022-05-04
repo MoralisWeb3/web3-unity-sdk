@@ -97,7 +97,7 @@ namespace WalletConnectSharp.Unity.Network
                 if (this.OpenReceived != null)
                     OpenReceived(this, null);
 
-                Debug.Log("[WebSocket] Opened " + url);
+                //Debug.Log("[WebSocket] Opened " + url);
                 
                 eventCompleted.SetResult(true);
             };
@@ -108,15 +108,15 @@ namespace WalletConnectSharp.Unity.Network
 #endif
             nextClient.OnError += (e) => {
 
-                Debug.Log("[WebSocket] OnError " + e);
+                Debug.LogError("[WebSocket] OnError " + e);
                 HandleError(new Exception(e));
             };
 
             nextClient.Connect().ContinueWith(t => HandleError(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
 
-            Debug.Log("[WebSocket] Waiting for Open " + url);
+            //Debug.Log("[WebSocket] Waiting for Open " + url);
             await eventCompleted.Task;
-            Debug.Log("[WebSocket] Open Completed");
+            //Debug.Log("[WebSocket] Open Completed");
         }
 
         private void HandleError(Exception e)
@@ -136,15 +136,15 @@ namespace WalletConnectSharp.Unity.Network
 
         private async void FlushQueue()
         {
-            Debug.Log("[WebSocket] Flushing Queue");
-            Debug.Log("[WebSocket] Queue Count: " + _queuedMessages.Count);
+            //Debug.Log("[WebSocket] Flushing Queue");
+            //Debug.Log("[WebSocket] Queue Count: " + _queuedMessages.Count);
             while (_queuedMessages.Count > 0)
             {
                 var msg = _queuedMessages.Dequeue();
                 await SendMessage(msg);
             }
 
-            Debug.Log("[WebSocket] Queue Flushed");
+            //Debug.Log("[WebSocket] Queue Flushed");
         }
 
         private void QueueSubscriptions()
@@ -154,14 +154,14 @@ namespace WalletConnectSharp.Unity.Network
                 this._queuedMessages.Enqueue(GenerateSubscribeMessage(topic));
             }
 
-            Debug.Log("[WebSocket] Queued " + subscribedTopics.Count + " subscriptions");
+            //Debug.Log("[WebSocket] Queued " + subscribedTopics.Count + " subscriptions");
         }
         
         private async void ClientTryReconnect(WebSocketCloseCode closeCode)
         {
             if (wasPaused)
             {
-                Debug.Log("[WebSocket] Application paused, retry attempt aborted");
+                //Debug.Log("[WebSocket] Application paused, retry attempt aborted");
                 return;
             }
             
@@ -195,9 +195,9 @@ namespace WalletConnectSharp.Unity.Network
                 if (this.MessageReceived != null)
                     MessageReceived(this, new MessageReceivedEventArgs(msg, this));
             }
-            catch(Exception e)
+            catch
             {
-                Debug.Log("[WebSocket] Exception " + e.Message);
+                //Debug.Log("[WebSocket] Exception " + e.Message);
             }   
         }
         
@@ -213,7 +213,7 @@ namespace WalletConnectSharp.Unity.Network
 
         public async Task Close()
         {
-            Debug.Log("Closing Websocket");
+            //Debug.Log("Closing Websocket");
             try
             {
                 if (client != null)
@@ -249,7 +249,7 @@ namespace WalletConnectSharp.Unity.Network
 
         public async Task Subscribe(string topic)
         {
-            Debug.Log("[WebSocket] Subscribe to " + topic);
+            //Debug.Log("[WebSocket] Subscribe to " + topic);
 
             var msg = GenerateSubscribeMessage(topic);
             
@@ -290,7 +290,7 @@ namespace WalletConnectSharp.Unity.Network
 
         public void ClearSubscriptions()
         {
-            Debug.Log("[WebSocket] Subs Cleared");
+            //Debug.Log("[WebSocket] Subs Cleared");
             subscribedTopics.Clear();
             _queuedMessages.Clear();
         }
@@ -300,7 +300,7 @@ namespace WalletConnectSharp.Unity.Network
         {
             if (pauseStatus)
             {
-                Debug.Log("[WebSocket] Pausing");
+                //Debug.Log("[WebSocket] Pausing");
                 wasPaused = true;
                 
                 //We need to close the Websocket Properly
@@ -310,7 +310,7 @@ namespace WalletConnectSharp.Unity.Network
             }
             else if (wasPaused)
             {
-                Debug.Log("[WebSocket] Resuming");
+                //Debug.Log("[WebSocket] Resuming");
                 var openTask = Task.Run(() => Open(currentUrl, false));
                 var coroutineInstruction = new WaitForTask(openTask);
                 yield return coroutineInstruction;
