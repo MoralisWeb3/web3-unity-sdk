@@ -78,7 +78,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         }
 
         
-		private void SetActiveUIJustPlatforms(bool isActive)
+		private async void SetActiveUIJustPlatforms(bool isActive)
 		{
 			// 1. Hide everything...
 			_androidPlatform.SetActive(false);
@@ -110,7 +110,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 					else
 					{
 						// Within here state changes through signing, signed, connected
-						_authenticationKit.Controller.LoginWithWeb3();
+						await _authenticationKit.Controller.LoginWithWeb3();
 					}
 				
 					break;
@@ -231,17 +231,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                // No UI changes here
                     break;
                 case AuthenticationKitState.Disconnected:
-
 	                // No UI changes here
-	                
-	                //TODO: Move this init call to the controller
-	                //When we disconnect, just initialize again
-	                await _authenticationKit.Controller.InitializeAsync();
-	                
-	                //TODO: Update this comment text with final state name
-	                //Users who care can hide the UI by listening for 
-	                //AuthenticationKitState.Disconnected from game code
-	                
                     break;
                 default:
 	                SwitchDefaultException.Throw(authenticationKitState);

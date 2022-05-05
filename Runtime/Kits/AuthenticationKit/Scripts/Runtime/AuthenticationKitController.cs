@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
 using MoralisUnity;
+using MoralisUnity.Data;
 using MoralisUnity.Exceptions;
 using MoralisUnity.Platform.Objects;
 using MoralisUnity.Platform.Services.ClientServices;
@@ -29,23 +30,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// </summary>
         public AuthenticationKitStateUnityEvent OnStateChanged = new AuthenticationKitStateUnityEvent();
     
+        
         //  Properties ------------------------------------
-        /// <summary>
-        /// Get the current <see cref="AuthenticationKitState"/>
-        /// </summary>
-        public AuthenticationKitState State 
-        {
-            get
-            {
-                return _state;
-            }
-            private set
-            {
-                _state = value;
-                OnStateChanged.Invoke(_state);
-            }
-        }
-
         /// <summary>
         /// Get the current <see cref="AuthenticationKitPlatform"/>
         /// </summary>
@@ -65,13 +51,30 @@ namespace MoralisUnity.Kits.AuthenticationKit
             }
         }
 
+        
+        /// <summary>
+        /// Get the current <see cref="AuthenticationKitState"/>
+        /// </summary>
+        public AuthenticationKitState State 
+        {
+            get
+            {
+                return _stateObservable.Value;
+            }
+            private set
+            {
+                _stateObservable.Value = value;
+            }
+        }
 
+        
         //  Fields ----------------------------------------
         [Header("3rd Party")]
         [SerializeField] 
         private WalletConnect _walletConnect;
+        
+        private AuthenticationKitStateObservable _stateObservable = new AuthenticationKitStateObservable();
 
-        private AuthenticationKitState _state = AuthenticationKitState.None;
         
         //  Unity Methods ---------------------------------
         public AuthenticationKitController ()
@@ -79,8 +82,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
             // Any state changes here are likely too 'early'
             // to be observed externally. That is ok. Just FYI.
             State = AuthenticationKitState.PreInitialized;
+            _stateObservable.OnValueChanged.AddListener(StateObservable_OnValueChanged);
         }
 
+        
         /// <summary>
         /// Initialize the <see cref="AuthenticationKitController"/>.
         ///
@@ -103,12 +108,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 Moralis.Start();
             }
             
-            //TODO: Add Moralis.Start() somewhere
-            //TODO: Remove/refactor the webgl stuff in this class?
-            //await InitializeMoralisInterfaceInitializer();
             State = AuthenticationKitState.Initialized;
             
-            //unlisten, then listen
+            // Safely, listen
             _walletConnect.ConnectedEventSession.RemoveListener(WalletConnect_OnConnectedEventSession);
             _walletConnect.ConnectedEventSession.AddListener(WalletConnect_OnConnectedEventSession);
             
@@ -119,6 +121,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             }
         }
         
+        
 #if UNITY_WEBGL
     private void FixedUpdate()
     {
@@ -126,6 +129,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
     }
 #endif
 
+        
         //  Methods ---------------------------------------
 
         /// <summary>
@@ -140,15 +144,15 @@ namespace MoralisUnity.Kits.AuthenticationKit
             State = AuthenticationKitState.Connecting;
         }
 
+        
         /// <summary>
         /// LogIn to Web3 session.
         /// </summary>
         public async UniTask LoginWithWeb3()
         {
-            //TODO: The State=blah should stay here, but IMHO, move the rest of this to Moralis.cs. - samr
+            //TODO: This was ported from MainMenuScript.cs...The State=blah should stay here, but IMHO, move the rest of this to Moralis.cs. - samr
             
 #if !UNITY_WEBGL
-            // Codepath calling LoginWithWeb3 yet WEBGL is not available per #ifdef
             new PlatformNotSupportedException();
 #else
             string userAddr = "";
@@ -203,6 +207,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 #endif
         }   
         
+        
         /// <summary>
         /// LogIn to Web3 session.
         /// </summary>
@@ -210,12 +215,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
         private async UniTask LoginViaConnectionPage()
         {
             //TODO: Is this method still needed on any platform? - samr
-            // Use Moralis Connect page for authentication as we work to make the Wallet 
-            // Connect experience better.
             MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUri,
                 MoralisSettings.MoralisData.ApplicationId);
 
-            //TODO: Can this be changed to MoralisInterface.IsLoggedIn()????
+            //TODO: Can this be changed to Moralis.IsLoggedIn()???? - samr
             if (user != null)
             {
                 State = AuthenticationKitState.Connected;
@@ -270,7 +273,24 @@ namespace MoralisUnity.Kits.AuthenticationKit
         }
 
         
+        
         //  Event Handlers --------------------------------
+        private async void StateObservable_OnValueChanged( AuthenticationKitState value)
+        {
+            // 1. Broadcast
+            OnStateChanged.Invoke(_stateObservable.Value);
+            
+            // 2. Step the state. Rarely.
+            switch (_stateObservable.Value)
+            {
+                case AuthenticationKitState.Disconnected:
+	                await InitializeAsync();
+                    break;
+                default:
+                    break;   
+            }
+        }
+        
         
         /// <summary>
         /// Handles when <see cref="WalletConnect"/> is connected.
@@ -311,6 +331,5 @@ namespace MoralisUnity.Kits.AuthenticationKit
             MoralisUser user = await Moralis.LogInAsync(authData);
             State = AuthenticationKitState.Connected;
         }
-
     }
 }
