@@ -304,7 +304,7 @@ namespace MoralisUnity
         {
             if (EnsureClient())
             {
-                user = await client.UserService.LogInAsync(username, password, client.ServiceHub);
+                user = await client.LogInAsync(username, password, CancellationToken.None);
 
                 return user;
             }
