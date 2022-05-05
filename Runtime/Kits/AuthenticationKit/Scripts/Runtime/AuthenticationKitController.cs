@@ -30,10 +30,16 @@ namespace MoralisUnity.Kits.AuthenticationKit
     public class AuthenticationKitController 
     {
         //  Events ----------------------------------------
+        
+        /// <summary>
+        /// Observe changes to the <see cref="AuthenticationKitState"/>
+        /// </summary>
         public AuthenticationKitStateUnityEvent OnStateChanged = new AuthenticationKitStateUnityEvent();
     
         //  Properties ------------------------------------
-       
+        /// <summary>
+        /// Get the current <see cref="AuthenticationKitState"/>
+        /// </summary>
         public AuthenticationKitState State 
         {
             get
@@ -47,6 +53,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
             }
         }
 
+        /// <summary>
+        /// Get the current <see cref="AuthenticationKitPlatform"/>
+        /// </summary>
         public AuthenticationKitPlatform AuthenticationKitPlatform
         {
             get
@@ -74,13 +83,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Unity Methods ---------------------------------
         public AuthenticationKitController ()
         {
+            // Any state changes here are likely too 'early'
+            // to be observed externally. That is ok. Just FYI.
             State = AuthenticationKitState.PreInitialized;
         }
 
         /// <summary>
-        /// IMPORTANT!!!
-        /// Some things WITHIN may be only once-per-session.
-        /// Some things WITHIN may be more than once-per-session.
+        /// Initialize the <see cref="AuthenticationKitController"/>.
+        ///
+        /// Calling > 1 time is indeed permitted.
+        ///     * Some subsystems may be initted 1 time-per-session.
+        ///     * Some subsystems may be initted >= 1 time-per-session.
         /// </summary>
         /// <returns></returns>
         public async UniTask InitializeAsync()
@@ -103,8 +116,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
             State = AuthenticationKitState.Initialized;
             
             //unlisten, then listen
-            _walletConnect.ConnectedEventSession.RemoveListener(WalletConnectHandler);
-            _walletConnect.ConnectedEventSession.AddListener(WalletConnectHandler);
+            _walletConnect.ConnectedEventSession.RemoveListener(WalletConnect_OnConnectedEventSession);
+            _walletConnect.ConnectedEventSession.AddListener(WalletConnect_OnConnectedEventSession);
             
             // If user is not logged in show the "Authenticate" button.
             if (Moralis.IsLoggedIn())
@@ -123,13 +136,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Methods ---------------------------------------
 
         /// <summary>
-        /// Used to start the authentication process and then run the game. If the 
-        /// user has a valid Moralis session thes user is redirected to the next 
-        /// scene.
+        /// Connect to Web3 session.
         /// </summary>
         public void Connect()
         {
-            //Limited validation
             if (State != AuthenticationKitState.Initialized)
             {
                 throw new UnexpectedStateException(State, AuthenticationKitState.Initialized);
@@ -138,9 +148,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
         }
 
         /// <summary>
-        /// Login using web3
+        /// LogIn to Web3 session.
         /// </summary>
-        /// <returns></returns>
         public async UniTask LoginWithWeb3()
         {
             
@@ -200,7 +209,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         }   
         
         /// <summary>
-        /// Display Moralis connector login page
+        /// LogIn to Web3 session.
         /// </summary>
 #if !UNITY_WEBGL
         private async UniTask LoginViaConnectionPage()
@@ -225,7 +234,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         
      
         /// <summary>
-        /// Closeout connections
+        /// Disconnect from Web3 session.
         /// </summary>
         public async void Disconnect()
         {
@@ -269,19 +278,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Event Handlers --------------------------------
         
         /// <summary>
-        /// Handles the Wallet Connect OnConnection event.
-        /// When user grants wallet connection to application this 
-        /// method is called. A request for signature is sent to wallet. 
-        /// If users agrees to sign the message the signed message is 
-        /// used to authenticate with Moralis.
+        /// Handles when <see cref="WalletConnect"/> is connected.
+        /// Here the local scope will start and finish the signing process.
         /// </summary>
-        /// <param name="data">WCSessionData</param>
-        public async void WalletConnectHandler(WCSessionData data)
+        /// <param name="wcSessionData"></param>
+        /// <returns></returns>
+        public async void WalletConnect_OnConnectedEventSession(WCSessionData wcSessionData)
         {
             State = AuthenticationKitState.Signing;
             
             // Extract wallet address from the Wallet Connect Session data object.
-            string address = data.accounts[0].ToLower();
+            string address = wcSessionData.accounts[0].ToLower();
             string appId = Moralis.GetClient().ApplicationId;
             long serverTime = 0;
 
@@ -292,7 +299,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
                 !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
             {
-                Debug.LogError("Failed to retrieve server time from Moralis Server!");
+                Debug.LogError("Failed to retrieve server time from Moralis Server!"); 
             }
 
             string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
