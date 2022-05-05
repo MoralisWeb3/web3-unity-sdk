@@ -42,6 +42,16 @@ public class WalletConnectQRImage : BindableMonoBehavior
         {
             registeredOnConnectionStartEvent = true;
             walletConnect.ConnectionStarted += WalletConnectOnConnectionStarted;
+            
+            /////////////////////////////////////////////////////////
+            /// WORKAROUND FOR: When OnEnable occurs after
+            /// walletConnect.ConnectionStarted. 
+            if (walletConnect.Session != null)
+            {
+                WalletConnectOnConnectionStarted(null, null);
+            }
+            /////////////////////////////////////////////////////////
+ 
         }
     }
     
@@ -58,7 +68,7 @@ public class WalletConnectQRImage : BindableMonoBehavior
         // good compromise between readability and data storage capacity.
         // See: https://www.qrcode.com/en/about/version.html
         var url = walletConnect.Session.URI;
-        Debug.Log("Connecting to: " + url);
+        //Debug.Log("Connecting to: " + url);
         QRCodeGenerator qrGenerator = new QRCodeGenerator();
         QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
         UnityQRCode qrCode = new UnityQRCode(qrCodeData);

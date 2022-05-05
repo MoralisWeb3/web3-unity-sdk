@@ -415,7 +415,22 @@ namespace WalletConnectSharp.Core
                 var response = @event.Response;
                 if (response.IsError)
                 {
-                    eventCompleted.SetException(new IOException(response.Error.Message));
+                    
+                    /////////////////////////////////////////////////////////
+                    /// Adding try/catch for a common exception of uknown origin
+                    try
+                    {
+                        eventCompleted.SetException(new IOException(response.Error.Message));
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.Message !=
+                            "An attempt was made to transition a task to a final state when it had already completed.")
+                        {
+                            throw (e);
+                        }
+                    }
+                    /////////////////////////////////////////////////////////
                 }
                 else
                 {
