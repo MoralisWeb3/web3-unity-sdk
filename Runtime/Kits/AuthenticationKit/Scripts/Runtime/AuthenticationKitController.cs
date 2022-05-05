@@ -1,21 +1,14 @@
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
-using UnityEngine.Events;
 using MoralisUnity;
 using MoralisUnity.Exceptions;
 using MoralisUnity.Platform.Objects;
-using UnityEditor.VersionControl;
-using System;
-
-#if UNITY_WEBGL
-#else
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
-#endif
+using MoralisUnity.Platform.Services.ClientServices;
 
 #pragma warning disable CS1998, CS4014
 namespace MoralisUnity.Kits.AuthenticationKit
@@ -152,6 +145,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// </summary>
         public async UniTask LoginWithWeb3()
         {
+            //TODO: The State=blah should stay here, but IMHO, move the rest of this to Moralis.cs. - samr
             
 #if !UNITY_WEBGL
             // Codepath calling LoginWithWeb3 yet WEBGL is not available per #ifdef
@@ -160,7 +154,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
             string userAddr = "";
             if (!Web3GL.IsConnected())
             {
-                userAddr = await MoralisInterface.SetupWeb3();
+                await Moralis.SetupWeb3();
+                userAddr = Web3GL.Account();
             }
             else
             {
@@ -176,12 +171,12 @@ namespace MoralisUnity.Kits.AuthenticationKit
             else 
             {
                 string address = Web3GL.Account().ToLower();
-                string appId = MoralisInterface.GetClient().ApplicationId;
+                string appId = Moralis.GetClient().ApplicationId;
                 long serverTime = 0;
 
                 // Retrieve server time from Moralis Server for message signature
                 Dictionary<string, object> serverTimeResponse =
-                    await MoralisInterface.GetClient().Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
+                    await Moralis.GetClient().Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
                 if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
                     !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
@@ -202,7 +197,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 };
 
                 // Attempt to login user.
-                MoralisUser user = await MoralisInterface.LogInAsync(authData);
+                MoralisUser user = await Moralis.LogInAsync(authData);
                 State = AuthenticationKitState.Connected;
             }
 #endif
