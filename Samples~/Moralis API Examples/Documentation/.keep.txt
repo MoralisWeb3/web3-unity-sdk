@@ -1,0 +1,5 @@
+Source Url: 
+* https://medium.com/@kinduff/hey-git-please-keep-those-folders-eb0ed37621c8
+
+Overview: 
+* This file exists only to keep the (otherwise empty) parent folder within the git repo.

@@ -15,7 +15,7 @@ using MoralisUnity.Platform.Services.ClientServices;
 namespace MoralisUnity.Kits.AuthenticationKit
 {
     /// <summary>
-    /// See <see cref="AuthenticationKit"/> comments for a feature overview.
+    /// See <see cref="Authenticati onKit"/> comments for a feature overview.
     ///
     /// This <see cref="AuthenticationKitController"/> manages state, events, and core implementation.
     /// 
