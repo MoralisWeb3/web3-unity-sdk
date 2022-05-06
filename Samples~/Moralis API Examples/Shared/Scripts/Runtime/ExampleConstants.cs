@@ -1,8 +1,7 @@
-﻿
-
-namespace MoralisUnity.Examples.Sdk.Shared
+﻿namespace MoralisUnity.Examples.Sdk.Shared
 {
     /// <summary>
+    /// Helper values
     /// </summary>
     public static class ExampleConstants
     {
@@ -11,7 +10,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
         public const string Chains = "Chains";
         public const string Main = "Main";
         public const string Details = "Details";
-        public const string CreateAssetMenu = "Moralis/Examples";
         public const string Loading = "Loading ...";
         public const string NothingAvailable = "Nothing available";
         public const string Authenticate = "Authenticate";
@@ -50,6 +48,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
         public static float GetBottomPanelHeightToLeaveTopPanelLines(int lineCount)
         {
             return 1600 - (lineCount * 100);
-        } 
+        }
     }
 }

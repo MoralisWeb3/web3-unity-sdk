@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using MoralisUnity.Sdk.Constants;
 
-namespace MoralisUnity.Sdk.UI
+namespace MoralisUnity.Sdk.UI.ReadMe
 {
     /// <summary>
     /// Custom-formatted readme file with markdown-like display. 
@@ -11,13 +12,10 @@ namespace MoralisUnity.Sdk.UI
     /// </summary>
     [CreateAssetMenu(
         fileName = Title,
-        menuName = CreateAssetMenu + "/" + Title,
+        menuName = MoralisConstants.PathMoralisCreateAssetMenu + "/" + Title,
         order = 0)]
     public class ReadMe : ScriptableObject
     {
-        //TODO: Move this to const file afterwards, if/when moving into SDK
-        public const string CreateAssetMenu = "Moralis/Examples";
-        
         private const string Title = "ReadMe";
         public Texture2D icon;
         public string title;
@@ -27,7 +25,7 @@ namespace MoralisUnity.Sdk.UI
         [Serializable]
         public class Section
         {
-            public string heading, subheading, text, linkText, url, pingObjectName, pingObjectPath, 
+            public string heading, subheading, text, linkText, url, pingObjectName, pingObjectGuid, 
                 openMenuName, openMenuNameId;
         }
     }

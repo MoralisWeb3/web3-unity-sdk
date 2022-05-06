@@ -3,7 +3,7 @@ using MoralisUnity.Sdk.Data;
 using UnityEngine;
 
 #pragma warning disable CS1998, CS4014
-namespace MoralisUnity.Examples.Example_AuthenticationKit
+namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 {
 	/// <summary>
 	/// Moralis "kits" each provide drag-and-drop functionality for developers.

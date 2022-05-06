@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace MoralisUnity.Examples.AuthenticationKitDemo
+namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 {
     /// <summary>
     /// Checks Moralis.IsLoggedIn() in standalone scene

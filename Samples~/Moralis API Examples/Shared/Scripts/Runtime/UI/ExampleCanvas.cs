@@ -130,10 +130,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
+            // Do not require initialization before this - samr
             string authenticationSceneName = ExampleHelper.GetSceneAssetName(_authenticationSceneAsset);
             return _sceneNameLoadedDirectly == authenticationSceneName;
          }

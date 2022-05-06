@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-//TODO: Change namespace if/when moving into SDK
-namespace MoralisUnity.Sdk.UI
+namespace MoralisUnity.Sdk.UI.ReadMe
 {
 	/// <summary>
 	/// Format a ReadMe for prettyfied viewing in the Unity Inspector
@@ -40,7 +39,13 @@ namespace MoralisUnity.Sdk.UI
 			return null;
 		}
 
-
+		public static ReadMe SelectReadmeGuid(string guid )
+		{
+			string path = AssetDatabase.GUIDToAssetPath(guid);
+			return SelectReadme(path);
+		} 
+		
+		
 		private static ReadMe SelectReadme(string pathToReadme)
 		{
 			if (string.IsNullOrEmpty (pathToReadme))
@@ -133,7 +138,8 @@ namespace MoralisUnity.Sdk.UI
 					GUILayout.Label("▶");
 					if (LinkLabel(new GUIContent(section.pingObjectName)))
 					{
-						var objectToSelect = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(section.pingObjectPath);
+						string path = AssetDatabase.GUIDToAssetPath(section.pingObjectGuid);
+						var objectToSelect = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
 						EditorGUIUtility.PingObject(objectToSelect);
 						
 						// Do not select it.

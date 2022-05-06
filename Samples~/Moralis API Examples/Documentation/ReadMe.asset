@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf97db7a39f7034cb1921274cbfaaaa, type: 3}
   m_Name: ReadMe
   m_EditorClassIdentifier: 
-  icon: {fileID: 2800000, guid: c6385d8f53e18a64f8561ca55d585ab0, type: 3}
+  icon: {fileID: 2800000, guid: 3f2157c8e2f264c4c8eeba93b9b7bfd2, type: 3}
   title: Moralis API Examples
   sections:
   - heading: What is Moralis?
@@ -36,8 +36,6 @@ MonoBehaviour:
     text: Paste the config into Unity
     linkText: 
     url: 
-    pingObjectName: 
-    pingObjectPath: 
     openMenuName: Web3 Setup Window
     openMenuNameId: Window/Moralis/Web3 Unity SDK/Open Web3 Setup
   - heading: 
@@ -45,8 +43,8 @@ MonoBehaviour:
     text: Play the scene and enjoy!
     linkText: 
     url: 
-    pingObjectName: Example_Authentication_01
-    pingObjectPath: Assets/Samples/Moralis Web3 Unity SDK/1.2.0/Moralis API Examples/Examples/API/Moralis/Example_Authentication_01/Example_Authentication_01.unity
+    pingObjectName: Example_MoralisClient_01
+    pingObjectGuid: b0e9bac8a166a4e46b7a813d050251cc
   - heading: Need Help?
     subheading: 
     text: Contact us in the Moralis Forum.
