@@ -1,9 +1,9 @@
 ﻿using MoralisUnity.Kits.AuthenticationKit;
+using MoralisUnity.Sdk.Data;
 using UnityEngine;
 
 #pragma warning disable CS1998, CS4014
-//TODO remove 'demo' from the name
-namespace MoralisUnity.Examples.AuthenticationKitDemo
+namespace MoralisUnity.Examples.Example_AuthenticationKit
 {
 	/// <summary>
 	/// Moralis "kits" each provide drag-and-drop functionality for developers.
@@ -36,7 +36,10 @@ namespace MoralisUnity.Examples.AuthenticationKitDemo
 			if (!_authenticationKit.WillAutoInitializeOnStart)
 			{
 				_authenticationKit.Controller.InitializeAsync();
+				_authenticationKit.Controller.Connect();
 			}
+
+
 		}
 		
 		//  Event Handlers --------------------------------

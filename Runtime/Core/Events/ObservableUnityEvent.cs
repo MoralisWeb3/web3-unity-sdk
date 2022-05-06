@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using MoralisUnity.Data;
+using MoralisUnity.Sdk.Data;
 using System;
 
-namespace MoralisUnity.Events
+namespace MoralisUnity.Sdk.Events
 {
     /// <summary>
     /// The main event for <see cref="Observable{t}"/>.

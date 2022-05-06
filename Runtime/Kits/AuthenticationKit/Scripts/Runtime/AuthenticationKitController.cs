@@ -6,8 +6,8 @@ using UnityEngine.UI;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
 using MoralisUnity;
-using MoralisUnity.Data;
-using MoralisUnity.Exceptions;
+using MoralisUnity.Sdk.Data;
+using MoralisUnity.Sdk.Exceptions;
 using MoralisUnity.Platform.Objects;
 using MoralisUnity.Platform.Services.ClientServices;
 
@@ -137,10 +137,15 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// </summary>
         public void Connect()
         {
+            //TODO: This check is no longer needed since it happens in
+            //AuthenticationKitStateObservable.
+            //Remove this, test again, and commit on a new PR
             if (State != AuthenticationKitState.Initialized)
             {
                 throw new UnexpectedStateException(State, AuthenticationKitState.Initialized);
             }
+            
+            //Keep this
             State = AuthenticationKitState.Connecting;
         }
 
@@ -220,8 +225,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             //TODO: Can this be changed to Moralis.IsLoggedIn()???? - samr
             if (user != null)
-            {
-                State = AuthenticationKitState.Connected;
+            { 
+               State = AuthenticationKitState.Connected;
             }
             else
             {

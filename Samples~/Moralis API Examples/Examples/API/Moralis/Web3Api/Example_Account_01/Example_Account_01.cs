@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using MoralisUnity.Examples.Sdk.Shared;
+using MoralisUnity.Sdk.Exceptions;
 using MoralisUnity.Sdk.Utilities;
 using MoralisUnity.Web3Api.Models;
 using UnityEngine;
@@ -398,6 +399,9 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 					break;
 				case UserOperationType.GetTokenInfoButton:
 					GetTokenInfoButton_OnClicked();
+					break;
+				default:
+					SwitchDefaultException.Throw(_lastUserOperationType);
 					break;
 			}
 			

@@ -19,7 +19,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
    /// use the public API to hide unneeded elements.
    /// 
    /// </summary>
-   public class ExampleCanvas : MonoBehaviour, IInitializable
+   public class ExampleCanvas : MonoBehaviour, IInitializableAsync
    {
 
       //  Properties  ------------------------------------
@@ -29,7 +29,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
             }
             return _header;
          }
@@ -41,7 +41,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
             }
             return _footer;
          }
@@ -53,7 +53,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
             }
             return _panels[0];
          }
@@ -65,7 +65,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
             }
             return _panels[1];
          }
@@ -77,7 +77,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
                
             }
             return _dialogSystem;
@@ -90,7 +90,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
             }
 
             return _backgroundImage;
@@ -103,7 +103,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
             }
             return _isInitialized;
          }
@@ -114,6 +114,10 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
+            if (!_isInitialized)
+            {
+               throw new InitializationRequiredException(this);
+            }
             return ExampleLocalStorage.instance.HasSceneNamePrevious;
          }
       }
@@ -126,6 +130,10 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
+            if (!_isInitialized)
+            {
+               throw new InitializationRequiredException(this);
+            }
             string authenticationSceneName = ExampleHelper.GetSceneAssetName(_authenticationSceneAsset);
             return _sceneNameLoadedDirectly == authenticationSceneName;
          }
@@ -168,13 +176,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
          _sceneNameLoadedDirectly = SceneManager.GetActiveScene().name;
       }
          
-      
-      public void Initialize()
-      {
-         throw new Exception("This implementation requires use of InitializeAsync() instead.");
-      }
-      
-      
       /// <summary>
       /// Anything that depends on Moralis being ready, put here.
       /// </summary>
@@ -417,7 +418,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
                
                break;
             default:
-               throw new Exception("TODO: replace this with switch-exception from auth kit branch");
+               SwitchDefaultException.Throw(state);
                break;
          }
       }

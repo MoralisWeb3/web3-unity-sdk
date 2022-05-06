@@ -10,7 +10,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
    /// <summary>
    /// Displays "Authenticate" button or the current "0x..." address
    /// </summary>
-   public class ExampleAuthenticationUI : MonoBehaviour , IInitializable
+   public class ExampleAuthenticationUI : MonoBehaviour , IInitializableAsync
    {
       //  Events  ---------------------------------------
       [HideInInspector]
@@ -70,7 +70,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             if (!_isInitialized)
             {
-               throw new NotInitializedException(this);
+               throw new InitializationRequiredException(this);
             }
             return ExampleLocalStorage.instance.ActiveAddress;
          }
@@ -85,7 +85,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          if (!_isInitialized)
          {
-            throw new NotInitializedException(this);
+            throw new InitializationRequiredException(this);
          }
          
          return await ExampleLocalStorage.instance.ResetActiveAddress();
@@ -104,18 +104,13 @@ namespace MoralisUnity.Examples.Sdk.Shared
       //  Unity Methods  --------------------------------
 
       //  General Methods  --------------------------------
-      public void Initialize()
-      {
-         throw new Exception("This implementation requires use of InitializeAsync() instead.");
-      }
-
       public async UniTask InitializeAsync()
       {
          if (_isInitialized)
          {
             // Some classes allow repeated calls to Initialize(),
             // But in this class - No.
-            throw new AlreadyInitializedException(this);
+            throw new InitializedAlreadyException(this);
          }
          
          ExampleLocalStorage.instance.OnActiveAddressChanged.AddListener(ExampleManager_OnActiveAddressChanged);
@@ -160,7 +155,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
                _button.Text.text = ExampleConstants.Authenticate;
                break;
             default:
-               throw new Exception("TODO: replace this with switch-exception from auth kit branch");
+               SwitchDefaultException.Throw(State);
                break;
          }
       }

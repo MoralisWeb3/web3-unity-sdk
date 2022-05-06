@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MoralisUnity.Exceptions
+namespace MoralisUnity.Sdk.Exceptions
 {
     /// <summary>
     /// Creates elegant exception flow for unintended states.
