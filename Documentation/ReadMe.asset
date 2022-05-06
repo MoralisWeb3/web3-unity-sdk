@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ReadMe
   m_EditorClassIdentifier: 
   icon: {fileID: 2800000, guid: c6385d8f53e18a64f8561ca55d585ab0, type: 3}
-  title: Moralis API Examples
+  title: Moralis Web3 Unity SDK
   sections:
   - heading: What is Moralis?
     subheading: Moralis
@@ -41,12 +41,12 @@ MonoBehaviour:
     openMenuName: Web3 Setup Window
     openMenuNameId: Window/Moralis/Web3 Unity SDK/Open Web3 Setup
   - heading: 
-    subheading: 3. Open Any Example Scene
-    text: Play the scene and enjoy!
-    linkText: 
-    url: 
-    pingObjectName: Example_Authentication_01
-    pingObjectPath: Assets/Samples/Moralis Web3 Unity SDK/1.2.0/Moralis API Examples/Examples/API/Moralis/Example_Authentication_01/Example_Authentication_01.unity
+    subheading: 3. Open Any New or Existing Scene
+    text: Learn how to add Moralis
+    linkText: docs.moralis.io/unity
+    url: https://docs.moralis.io/unity
+    pingObjectName: 
+    pingObjectPath: 
   - heading: Need Help?
     subheading: 
     text: Contact us in the Moralis Forum.
