@@ -3,7 +3,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Kits.AuthenticationKit;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_Authentication_01
 {
 	/// <summary>
@@ -75,7 +75,8 @@ namespace MoralisUnity.Examples.Sdk.Example_Authentication_01
 
 		private async UniTask RefreshUI()
 		{
-			// Do nothing
+			// Cosmetic delay for UI
+			await ExampleHelper.TaskDelayWaitForCosmeticEffect();
 		}
 
 		

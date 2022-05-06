@@ -11,8 +11,8 @@ namespace MoralisUnity.Sdk.Interfaces
         //  Properties  ------------------------------------
         public bool IsInitialized { get; }
 
-        
         //  General Methods  ------------------------------
         public UniTask InitializeAsync();
+        void RequireIsInitialized();
     }
 }

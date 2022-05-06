@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using MoralisUnity.Examples.Sdk.Shared;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_MoralisClient_01
 {
 	/// <summary>
@@ -52,7 +52,7 @@ namespace MoralisUnity.Examples.Sdk.Example_MoralisClient_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(4);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(4);
 			_topBodyText.Clear();
 			_topBodyText.AppendHeaderLine($"Moralis.GetClient()");
 			_topBodyText.AppendBullet(

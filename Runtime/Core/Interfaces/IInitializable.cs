@@ -10,5 +10,6 @@
 
         //  General Methods  ------------------------------
         public void Initialize();
+        void RequireIsInitialized();
     }
 }

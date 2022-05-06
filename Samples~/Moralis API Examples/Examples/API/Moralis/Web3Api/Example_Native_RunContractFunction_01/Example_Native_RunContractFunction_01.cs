@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UniTask = Cysharp.Threading.Tasks.UniTask;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_Native_RunContractFunction_01
 {
 	/// <summary>
@@ -64,7 +64,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Native_RunContractFunction_01
 			_exampleCanvas.Header.ChainsDropdown.SetSelectedChain(_chainListRequired);
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(5);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(5);
 		
 			// Footer
 			RunContractFunctionButton.IsVisible = true;
@@ -175,7 +175,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Native_RunContractFunction_01
 			await RefreshUI();
 		}
 		
-		private async void ChainsDropdown_OnValueChanged(ChainEntry chainEntry)
+		private void ChainsDropdown_OnValueChanged(ChainEntry chainEntry)
 		{
 			RunContractFunctionButton_OnClicked();
 		}

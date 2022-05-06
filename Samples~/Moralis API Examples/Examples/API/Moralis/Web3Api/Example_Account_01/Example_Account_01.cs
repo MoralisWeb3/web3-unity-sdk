@@ -8,7 +8,7 @@ using MoralisUnity.Sdk.Utilities;
 using MoralisUnity.Web3Api.Models;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_Account_01
 {
 	public enum UserOperationType
@@ -76,7 +76,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 			_exampleCanvas.Header.ChainsDropdown.SetSelectedChain(ChainList.eth);
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(8);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(8);
 		
 			// Footer
 			GetNativeInfoButton.IsVisible = true;

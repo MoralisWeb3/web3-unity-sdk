@@ -4,7 +4,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Web3Api.Models;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_ExampleChainsDropdown_01
 {
 	/// <summary>

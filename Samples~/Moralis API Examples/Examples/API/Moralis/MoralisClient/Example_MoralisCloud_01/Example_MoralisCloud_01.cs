@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using MoralisUnity.Examples.Sdk.Shared;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_MoralisCloud_01
 {
 	/// <summary>
@@ -58,7 +58,7 @@ namespace MoralisUnity.Examples.Sdk.Example_MoralisCloud_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(15);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(15);
 			_exampleCanvas.TopPanel.TitleText.text = "Server Side (JS)";
 			_exampleCanvas.BottomPanel.TitleText.text = "Client Side Output";
 			
@@ -160,7 +160,7 @@ namespace MoralisUnity.Examples.Sdk.Example_MoralisCloud_01
 		}
 		
 		
-		private async void OpenUrlButton_OnClicked()
+		private void OpenUrlButton_OnClicked()
 		{
 			Application.OpenURL(ExampleConstants.MoralisServersUrl);
 		}

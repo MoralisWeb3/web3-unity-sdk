@@ -217,7 +217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1383431712373484228, guid: 20c728d30911185429b3030f1242bcb2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -117.7497
+      value: -113.90763
       objectReference: {fileID: 0}
     - target: {fileID: 1684244995507688766, guid: 20c728d30911185429b3030f1242bcb2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -597,7 +597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7336697327156642869, guid: 20c728d30911185429b3030f1242bcb2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -117.7497
+      value: -113.90763
       objectReference: {fileID: 0}
     - target: {fileID: 8044699503107354826, guid: 20c728d30911185429b3030f1242bcb2, type: 3}
       propertyPath: m_AnchorMax.x
@@ -606,10 +606,6 @@ PrefabInstance:
     - target: {fileID: 8044699503107354826, guid: 20c728d30911185429b3030f1242bcb2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8044699503107354826, guid: 20c728d30911185429b3030f1242bcb2, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8569282285268050901, guid: 20c728d30911185429b3030f1242bcb2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -862,7 +858,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _exampleCanvas: {fileID: 838326247}
-  _counter: 0
 --- !u!1 &1390456657
 GameObject:
   m_ObjectHideFlags: 0

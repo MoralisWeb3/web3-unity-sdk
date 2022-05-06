@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using MoralisUnity.Examples.Sdk.Shared;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_ExampleDialog_01
 {
 	/// <summary>
@@ -136,11 +136,6 @@ namespace MoralisUnity.Examples.Sdk.Example_ExampleDialog_01
 				} );
 			
 			await RefreshUI();
-		}
-		
-		private async void CloseDialogButton_OnClicked()
-		{
-			CloseDialog();
 		}
 	}
 }

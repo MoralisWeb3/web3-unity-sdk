@@ -7,7 +7,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Platform.Queries;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_Query_01	
 {
 	/// <summary>
@@ -63,7 +63,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(8);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(8);
 			_topBodyText.Clear();
 			_topBodyText.AppendHeaderLine($"MoralisClient.Create<Hero>()");
 			_topBodyText.AppendBullet(
@@ -163,7 +163,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 
 			// Display
 			_bottomBodyText.Clear();
-			_bottomBodyText.AppendHeaderLine($"MoralisClient.Destroy<Hero>()");
+			_bottomBodyText.AppendHeaderLine($"MoralisClient.DeleteAsync<Hero>()");
 			if (results.Count > 0)
 			{
 				Hero heroToDelete = results[0];

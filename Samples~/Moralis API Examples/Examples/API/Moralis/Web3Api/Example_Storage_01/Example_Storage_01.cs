@@ -9,7 +9,7 @@ using MoralisUnity.Web3Api.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 {
 	/// <summary>
@@ -72,7 +72,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(4);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(4);
 			_bottomBodyText.Clear();
 			_topBodyText.Clear();
 			_topBodyText.AppendHeaderLine($"MoralisClient.Web3Api.Storage.UploadFolder(...)");
@@ -259,7 +259,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 			
 			// Display
 			_bottomBodyText.Clear();
-			_bottomBodyText.AppendHeaderLine($"Load Image ");
+			_bottomBodyText.AppendHeaderLine($"Load Image");
 
 			if (_spriteDestination == null)
 			{

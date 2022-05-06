@@ -6,7 +6,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Platform.Objects;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_MoralisUser_01	
 {
 	/// <summary>
@@ -57,7 +57,7 @@ namespace MoralisUnity.Examples.Sdk.Example_MoralisUser_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(5);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(5);
 			_topBodyText.AppendHeaderLine($"MoralisClient.GetUserAsync()");
 			_topBodyText.AppendBullet(
 				$"The user object contains information about the currently logged in user. " +

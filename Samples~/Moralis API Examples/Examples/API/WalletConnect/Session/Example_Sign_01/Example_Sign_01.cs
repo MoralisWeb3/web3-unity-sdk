@@ -4,7 +4,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 using UnityEngine;
 using WalletConnectSharp.Unity;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_Sign_01	
 {
 	/// <summary>
@@ -59,7 +59,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Sign_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = true;
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(3);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(3);
 			_topBodyText.Clear();
 			_topBodyText.AppendHeaderLine($"Session.EthPersonalSign(...)");
 			_topBodyText.AppendBullet("Call signing operation");

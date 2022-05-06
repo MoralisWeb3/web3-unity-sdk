@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using MoralisUnity.Sdk.Exceptions;
 using MoralisUnity.Sdk.Interfaces;
@@ -20,8 +19,21 @@ namespace MoralisUnity.Examples.Sdk.Shared
       public StringUnityEvent OnActiveAddressChanged = new StringUnityEvent();
 
       //  Properties  -----------------------------------
-      public ExampleButton Button { get { return _button; } }
       public bool IsInitialized { get { return _isInitialized;} }
+      
+      /// <summary>
+      /// Members can call this to ensure "Are we initialized?"
+      /// </summary>
+      void IInitializableAsync.RequireIsInitialized()
+      {
+         if (!_isInitialized)
+         {
+            throw new InitializationRequiredException(this);
+         }
+      }
+      
+      public ExampleButton Button { get { return _button; } }
+
       
       public ExampleAuthenticationUIState State
       {
@@ -68,10 +80,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
+            (this as IInitializableAsync).RequireIsInitialized();
             return ExampleLocalStorage.instance.ActiveAddress;
          }
          set
@@ -83,11 +92,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       //Wrap API for easier use by customers in root example scripts
       public async UniTask<string> ResetActiveAddress()
       {
-         if (!_isInitialized)
-         {
-            throw new InitializationRequiredException(this);
-         }
-         
+         (this as IInitializableAsync).RequireIsInitialized();
          return await ExampleLocalStorage.instance.ResetActiveAddress();
       }
       
@@ -108,8 +113,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          if (_isInitialized)
          {
-            // Some classes allow repeated calls to Initialize(),
-            // But in this class - No.
             throw new InitializedAlreadyException(this);
          }
          

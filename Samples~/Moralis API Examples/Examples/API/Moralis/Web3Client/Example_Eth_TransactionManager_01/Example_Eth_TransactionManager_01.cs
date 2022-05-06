@@ -9,7 +9,7 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
+
 namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01	
 {
 	/// <summary>
@@ -63,7 +63,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 				AuthenticationUI_OnActiveAddressChanged);
 			
 			// Panels
-			_exampleCanvas.SetMaxTextLinesForTopPanelHeight(5);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(5);
 			_topBodyText.Clear();
 			_topBodyText.AppendHeaderLine(
 				$"Moralis.Web3Client.Eth.TransactionManager.SendTransactionAsync(...)");
@@ -130,7 +130,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 		}
 		
 		//  Event Handlers --------------------------------
-		private async void AuthenticationUI_OnActiveAddressChanged(string address)
+		private void AuthenticationUI_OnActiveAddressChanged(string address)
 		{
 			TransferButton_OnClicked();
 		}

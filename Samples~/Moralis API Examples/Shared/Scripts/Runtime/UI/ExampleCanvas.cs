@@ -23,14 +23,24 @@ namespace MoralisUnity.Examples.Sdk.Shared
    {
 
       //  Properties  ------------------------------------
+      public bool IsInitialized { get { return _isInitialized; } }
+      
+      /// <summary>
+      /// Members can call this to ensure "Are we initialized?"
+      /// </summary>
+      void IInitializableAsync.RequireIsInitialized()
+      {
+         if (!_isInitialized)
+         {
+            throw new InitializationRequiredException(this);
+         }
+      }
+
       public ExampleHeader Header
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
+            (this as IInitializableAsync).RequireIsInitialized();
             return _header;
          }
       }
@@ -39,10 +49,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
+            (this as IInitializableAsync).RequireIsInitialized();
             return _footer;
          }
       }
@@ -51,10 +58,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
+            (this as IInitializableAsync).RequireIsInitialized();
             return _panels[0];
          }
       }
@@ -63,10 +67,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
+            (this as IInitializableAsync).RequireIsInitialized();
             return _panels[1];
          }
       }
@@ -75,11 +76,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-               
-            }
+            (this as IInitializableAsync).RequireIsInitialized();
             return _dialogSystem;
          }
       }
@@ -88,36 +85,18 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
-
+            (this as IInitializableAsync).RequireIsInitialized();
             return _backgroundImage;
          }
       }
-      
-      public bool IsInitialized
-      {
-         get
-         {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
-            return _isInitialized;
-         }
-      }
 
+      
       //Wrapped to hide complexity
       public bool HasSceneNamePrevious
       {
          get
          {
-            if (!_isInitialized)
-            {
-               throw new InitializationRequiredException(this);
-            }
+            (this as IInitializableAsync).RequireIsInitialized();
             return ExampleLocalStorage.instance.HasSceneNamePrevious;
          }
       }
@@ -180,8 +159,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          if (_isInitialized)
          {
-            //TODO; throw same exception as ExampleAuthenticationUI here?
-            return;
+            throw new InitializedAlreadyException(this);
          }
 
          // Sometimes the ExampleCanvas will be NOT active via Unity Inspector
@@ -249,6 +227,8 @@ namespace MoralisUnity.Examples.Sdk.Shared
       
       public void IsInteractable(bool isInteractable)
       {
+         (this as IInitializableAsync).RequireIsInitialized();
+         
          _header.ChainsDropdown.IsInteractable = isInteractable;
          _header.AuthenticationUI.IsInteractable = isInteractable;
          _footer.Button01.IsInteractable = isInteractable;
@@ -264,12 +244,16 @@ namespace MoralisUnity.Examples.Sdk.Shared
       /// <param name="lineCount"></param>
       public async UniTask SetMaxTextLinesForTopPanelHeight(int lineCount)
       {
+         (this as IInitializableAsync).RequireIsInitialized();
+         
          await SetBottomPanelHeight(ExampleConstants.GetBottomPanelHeightToLeaveTopPanelLines(lineCount));
       }
       
       
       public void LoadScenePrevious()
       {
+         (this as IInitializableAsync).RequireIsInitialized();
+         
          if (!HasSceneNamePrevious)
          {
             // Did you load the scene directly? Then this is expected.
@@ -316,7 +300,9 @@ namespace MoralisUnity.Examples.Sdk.Shared
 
       private async UniTask SetBottomPanelHeight(float nextBottomHeight)
       {
-         // Cosmetic delay for UI
+         (this as IInitializableAsync).RequireIsInitialized();
+         
+         // Delay so the UI triggers a rerender
          await ExampleHelper.TaskDelayWaitForCosmeticEffect();
 
          // There are 2 panels. Maintain the total nextBottomHeight.
