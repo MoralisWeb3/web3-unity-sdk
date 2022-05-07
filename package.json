@@ -2,7 +2,7 @@
     "name": "io.moralis.web3-unity-sdk",
     "version": "1.2.0",
     "displayName": "Moralis Web3 Unity SDK",
-    "description": "Provides integration with Moralis SDK and Web3 API. Providing backend services, and seamless blockchain integration.",
+    "description": "Moralis provides a single workflow for building high performance dapps. Fully compatible with your favorite web3 tools and services. This SDK brings the power of Moralis to your Unity projects.",
     "unity": "2020.3",
     "hideInEditor": false,
     "license": "MIT License",
@@ -14,9 +14,9 @@
     },
     "samples": [
         {
-            "displayName": "Moralis Demo Application",
-            "description": "Contains a sample application that show how to use the Moralis SDK within a Unity Application.",
-            "path": "Samples~/MoralisDemo"
+            "displayName": "Moralis AuthenticationKit Example",
+            "description": "Demonstrates the Moralis AuthenticationKit to connect Unity to Moralis.",
+            "path": "Samples~/Moralis AuthenticationKit Example"
         }
     ],
     "keywords": [

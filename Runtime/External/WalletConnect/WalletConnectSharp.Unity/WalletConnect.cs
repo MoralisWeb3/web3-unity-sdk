@@ -129,7 +129,14 @@ namespace WalletConnectSharp.Unity
                 return;
             }
 
+            /////////////////////////////////////////////////////////
+            /// WORKAROUND FOR: "DontDestroyOnLoad only works for root
+            /// GameObjects or components on root GameObjects."
+            Transform parent = gameObject.transform.parent;
+            gameObject.transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
+            gameObject.transform.SetParent(parent);
+            /////////////////////////////////////////////////////////
 
             _instance = this;
 
@@ -239,7 +246,7 @@ namespace WalletConnectSharp.Unity
             //Useful for debug logging
             Session.OnSessionConnect += (sender, session) =>
             {
-                Debug.Log("[WalletConnect] Session Connected");
+                //Debug.Log("[WalletConnect] Session Connected");
             };
             #endif
             
@@ -274,7 +281,7 @@ namespace WalletConnectSharp.Unity
 
         private async Task<WCSessionData> CompleteConnect()
         {
-            Debug.Log("Waiting for Wallet connection");
+            //Debug.Log("Waiting for Wallet connection");
             
             if (ConnectionStarted != null)
             {
@@ -346,7 +353,7 @@ namespace WalletConnectSharp.Unity
             {
                 SelectedWallet = wallet;
                 yield return DownloadImagesFor(wallet.id);
-                Debug.Log("Setup default wallet " + wallet.name);
+                //Debug.Log("Setup default wallet " + wallet.name);
             }
         }
 
@@ -363,7 +370,7 @@ namespace WalletConnectSharp.Unity
             {
                 var url = "https://registry.walletconnect.org/logo/" + size + "/" + id + ".jpeg";
 
-                Debug.Log($"Loading picture for {id}");
+                //Debug.Log($"Loading picture for {id}");
 
                 using (UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(url))
                 {
@@ -371,7 +378,7 @@ namespace WalletConnectSharp.Unity
 
                     if (imageRequest.isNetworkError)
                     {
-                        Debug.Log("Error Getting Wallet Icon: " + imageRequest.error);
+                        Debug.LogError("Error Getting Wallet Icon: " + imageRequest.error);
                     }
                     else
                     {
@@ -408,7 +415,7 @@ namespace WalletConnectSharp.Unity
 
                 if (webRequest.isNetworkError)
                 {
-                    Debug.Log("Error Getting Wallet Info: " + webRequest.error);
+                    Debug.LogError("Error Getting Wallet Info: " + webRequest.error);
                 }
                 else
                 {
@@ -533,7 +540,7 @@ namespace WalletConnectSharp.Unity
                 Application.OpenURL(signingUrl);
             }
 #else
-            Debug.Log("Platform does not support deep linking");
+            //Debug.Log("Platform does not support deep linking");
             return;
 #endif
         }
@@ -575,7 +582,7 @@ namespace WalletConnectSharp.Unity
                 Application.OpenURL(url);
             }
 #else
-            Debug.Log("Platform does not support deep linking");
+            //Debug.Log("Platform does not support deep linking");
             return;
 #endif
         }
