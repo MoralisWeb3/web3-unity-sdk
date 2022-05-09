@@ -81,11 +81,11 @@ namespace MoralisUnity.Examples.Sdk.Shared
          get
          {
             (this as IInitializableAsync).RequireIsInitialized();
-            return ExampleLocalStorage.instance.ActiveAddress;
+            return ExampleLocalStorage.Instance.ActiveAddress;
          }
          set
          {
-            ExampleLocalStorage.instance.ActiveAddress = value;
+            ExampleLocalStorage.Instance.ActiveAddress = value;
          }
       }
       
@@ -93,7 +93,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       public async UniTask<string> ResetActiveAddress()
       {
          (this as IInitializableAsync).RequireIsInitialized();
-         return await ExampleLocalStorage.instance.ResetActiveAddress();
+         return await ExampleLocalStorage.Instance.ResetActiveAddress();
       }
       
       //  Fields  ---------------------------------------
@@ -116,17 +116,17 @@ namespace MoralisUnity.Examples.Sdk.Shared
             throw new InitializedAlreadyException(this);
          }
          
-         ExampleLocalStorage.instance.OnActiveAddressChanged.AddListener(ExampleManager_OnActiveAddressChanged);
+         ExampleLocalStorage.Instance.OnActiveAddressChanged.AddListener(ExampleManager_OnActiveAddressChanged);
          OnStateChanged.AddListener(This_OnStateChanged);
          
          // Trigger refresh
-         if (ExampleLocalStorage.instance.HasActiveAddress)
+         if (ExampleLocalStorage.Instance.HasActiveAddress)
          {
-            ExampleManager_OnActiveAddressChanged(ExampleLocalStorage.instance.ActiveAddress);
+            ExampleManager_OnActiveAddressChanged(ExampleLocalStorage.Instance.ActiveAddress);
          }
          else
          {
-            await ExampleLocalStorage.instance.ResetActiveAddress();
+            await ExampleLocalStorage.Instance.ResetActiveAddress();
          }
          _isInitialized = true;
       }
@@ -134,7 +134,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       //  Event Handlers  --------------------------------
       private void ExampleManager_OnActiveAddressChanged(string address)
       {
-         if (ExampleLocalStorage.instance.MoralisInterfaceIsLoggedIn())
+         if (Moralis.IsLoggedIn())
          {
             State = ExampleAuthenticationUIState.Authenticated;
          }
@@ -152,7 +152,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          switch (State)
          {
             case ExampleAuthenticationUIState.Authenticated:
-               _button.Text.text = Formatters.GetWeb3AddressShortFormat(ExampleLocalStorage.instance.ActiveAddress);
+               _button.Text.text = Formatters.GetWeb3AddressShortFormat(ExampleLocalStorage.Instance.ActiveAddress);
                break;
             case ExampleAuthenticationUIState.NotAuthenticated:
                _button.Text.text = ExampleConstants.Authenticate;

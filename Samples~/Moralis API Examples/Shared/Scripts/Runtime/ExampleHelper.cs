@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using WalletConnectSharp.Unity;
-using Task = System.Threading.Tasks.Task;
 
 namespace MoralisUnity.Examples.Sdk.Shared
 {
@@ -107,7 +105,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
         /// </summary>
         public static async UniTask TaskDelayWaitForCosmeticEffect()
         {
-            await Task.Delay(100);
+            await UniTask.Delay(100);
         }
 
         /// <summary>
@@ -159,32 +157,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
             return serverTime;
         }
 
-
-        public static string GetSceneAssetName(SceneAsset sceneAsset)
-        {
-            string scenePath =  GetSceneAssetPath(sceneAsset);
-            string sceneName = string.Empty;
-            var sceneObj = AssetDatabase.LoadMainAssetAtPath(scenePath);
-            if (sceneObj != null)
-            {
-                sceneName = sceneObj.name;
-            }
-
-            return sceneName;
-
-        }
-        
-        
-        public static string GetSceneAssetPath(SceneAsset sceneAsset)
-        {
-            string scenePath = string.Empty;
-            if (sceneAsset != null)
-            {
-                scenePath = AssetDatabase.GetAssetPath(sceneAsset);
-            }
-            return scenePath;
-        }
-
         /// <summary>
         /// Send a simple sign request.
         /// 
@@ -199,7 +171,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
             string address, string message)
         {
 #if UNITY_WEBGL
-            return await Web3GL.Sign(myKnownMessage);
+            return await Web3GL.Sign(message);
 #else
             return await walletConnect.Session.EthPersonalSign(address, message);
 #endif

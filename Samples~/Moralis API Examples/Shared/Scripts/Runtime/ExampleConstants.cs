@@ -45,9 +45,6 @@
         public const string AddressForContractTesting = "0x698d7D745B7F5d8EF4fdB59CeB660050b3599AC3";
         public static string SceneSetupInstructions = "Scene Setup Instructions";
         
-        //
-        public const string ExamplePreferencesPath = "Moralis/Examples/Web3UnitySdkExamples/";
-
         public static float GetBottomPanelHeightToLeaveTopPanelLines(int lineCount)
         {
             return 1600 - (lineCount * 100);

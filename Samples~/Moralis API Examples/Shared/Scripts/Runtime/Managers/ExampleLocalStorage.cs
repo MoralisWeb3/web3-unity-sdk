@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using MoralisUnity.Platform.Objects;
-using UnityEditor;
+using MoralisUnity.Sdk.DesignPatterns.Creational.Singleton.SingletonMonobehaviour;
 using UnityEngine;
 
 namespace MoralisUnity.Examples.Sdk.Shared
@@ -9,11 +9,13 @@ namespace MoralisUnity.Examples.Sdk.Shared
    /// Example local storage which is written to disk
    /// and used throughout various examples to hold shared state.
    /// </summary>
-   [FilePath(ExampleConstants.ExamplePreferencesPath + "ExampleLocalStorage.json", FilePathAttribute.Location.PreferencesFolder)]
-   public class ExampleLocalStorage: ScriptableSingleton<ExampleLocalStorage>
+   public class ExampleLocalStorage : SingletonMonobehaviour<ExampleLocalStorage>
    {
+
       //  Events  ---------------------------------------
+      [HideInInspector]
       public StringUnityEvent OnActiveAddressChanged = new StringUnityEvent();
+      
       
       //  Properties  -----------------------------------
       public bool HasActiveAddress { get { return !string.IsNullOrEmpty(_activeAddress);}}
@@ -28,10 +30,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
             
             bool isChanging = _activeAddress != value;
             _activeAddress = value;
-            if (isChanging)
-            {
-               Save(true);
-            }
             OnActiveAddressChanged.Invoke(_activeAddress);
          }
       }
@@ -47,13 +45,10 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             bool isChanging = _sceneNamePrevious != value;
             _sceneNamePrevious = value;
-            if (isChanging)
-            {
-               Save(true);
-            }
          }
       }
 
+      
       //  Fields  ---------------------------------------
       [SerializeField] 
       private string _activeAddress = "";
@@ -61,17 +56,14 @@ namespace MoralisUnity.Examples.Sdk.Shared
       [SerializeField] 
       private string _sceneNamePrevious = "";
 
+      
       //  Unity Methods  --------------------------------
       
-      //  General Methods  ------------------------------
       
-      /// <summary>
-      /// Wrapper for API that may change soon
-      /// </summary>
-      /// <returns></returns>
-      public bool MoralisInterfaceIsLoggedIn()
+      //  General Methods  ------------------------------
+      public override void InstantiateCompleted()
       {
-         return  Moralis.IsLoggedIn();
+         //Debug.Log("InstantiateCompleted()");
       }
       
       
@@ -88,7 +80,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          // The default experience is...
          // To be logged in...
          // with active address set to the original
-         if (MoralisInterfaceIsLoggedIn())
+         if (Moralis.IsLoggedIn())
          {
             ActiveAddress = moralisUser.ethAddress;
          }

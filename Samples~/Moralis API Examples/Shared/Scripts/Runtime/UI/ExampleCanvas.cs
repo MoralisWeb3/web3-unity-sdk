@@ -4,10 +4,12 @@ using System.Text;
 using Cysharp.Threading.Tasks;
 using MoralisUnity.Sdk.Exceptions;
 using MoralisUnity.Sdk.Interfaces;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace MoralisUnity.Examples.Sdk.Shared
 {
@@ -97,7 +99,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          get
          {
             (this as IInitializableAsync).RequireIsInitialized();
-            return ExampleLocalStorage.instance.HasSceneNamePrevious;
+            return ExampleLocalStorage.Instance.HasSceneNamePrevious;
          }
       }
 
@@ -110,8 +112,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          get
          {
             // Do not require initialization before this - samr
-            string authenticationSceneName = ExampleHelper.GetSceneAssetName(_authenticationSceneAsset);
-            return _sceneNameLoadedDirectly == authenticationSceneName;
+            return _sceneNameLoadedDirectly == _authenticationSceneName;
          }
       }
 
@@ -139,19 +140,20 @@ namespace MoralisUnity.Examples.Sdk.Shared
 
       [Header("Assets")] 
       [SerializeField] 
-      private SceneAsset _authenticationSceneAsset = null;
-      private bool _isInitialized = false;
+      private string _authenticationSceneName = null;
 
+      private bool _isInitialized = false;
       private static string _sceneNameLoadedDirectly = string.Empty;
       
       //  General Methods  ------------------------------
-      
+#if UNITY_EDITOR
       [InitializeOnEnterPlayMode]
       static void OnEnterPlaymodeInEditor(EnterPlayModeOptions options)
       {
          _sceneNameLoadedDirectly = SceneManager.GetActiveScene().name;
       }
-         
+#endif
+
       /// <summary>
       /// Anything that depends on Moralis being ready, put here.
       /// </summary>
@@ -168,13 +170,17 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             gameObject.SetActive(true);
          }
+
+         if (string.IsNullOrEmpty(_authenticationSceneName))
+         {
+            Debug.LogError("ExampleCanvas _authenticationSceneName must not be empty. Set via Unity Inspector Window.");   
+         }
          
          // If we load directly into the AuthenticationScene. The clear out the concept of previous, 
          // which is only relevant when doing a RUNTIME change between scenes TO THE AuthenticationScene
-         string authenticationSceneName = ExampleHelper.GetSceneAssetName(_authenticationSceneAsset);
-         if (WasSceneLoadedDirectly && _sceneNameLoadedDirectly == authenticationSceneName)
+         if (WasSceneLoadedDirectly && _sceneNameLoadedDirectly == _authenticationSceneName)
          {
-            ExampleLocalStorage.instance.ResetSceneNamePrevious();
+            ExampleLocalStorage.Instance.ResetSceneNamePrevious();
          }
          
          // Set early in this method
@@ -209,9 +215,9 @@ namespace MoralisUnity.Examples.Sdk.Shared
             topBodyText.AppendErrorLine(ExampleConstants.YouAreNotLoggedIn);
             topBodyText.AppendLine();
             topBodyText.AppendLine(string.Format(ExampleConstants.TopPanelBodyTextMustLogInFirst1,
-               authenticationSceneName, currentSceneName));
+               _authenticationSceneName, currentSceneName));
             topBodyText.AppendLine(string.Format(ExampleConstants.TopPanelBodyTextMustLogInFirst2,
-               authenticationSceneName, currentSceneName));
+               _authenticationSceneName, currentSceneName));
             TopPanel.BodyText.Text.text = topBodyText.ToString();
          }
          
@@ -262,15 +268,14 @@ namespace MoralisUnity.Examples.Sdk.Shared
             return;
          }
          
-         SceneManager.LoadScene(ExampleLocalStorage.instance.SceneNamePrevious);
+         SceneManager.LoadScene(ExampleLocalStorage.Instance.SceneNamePrevious);
       }
 
       
       private void LoadSceneAuthentication()
       {
-         ExampleLocalStorage.instance.SceneNamePrevious = SceneManager.GetActiveScene().name;
-         string authenticationScenePath = ExampleHelper.GetSceneAssetPath(_authenticationSceneAsset);
-         SceneManager.LoadScene(authenticationScenePath);
+         ExampleLocalStorage.Instance.SceneNamePrevious = SceneManager.GetActiveScene().name;
+         SceneManager.LoadScene(_authenticationSceneName);
       }
 
       
@@ -327,8 +332,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
       {
          ExampleAuthenticationUIState state = _header.AuthenticationUI.State;
 
-         string authenticationSceneName= ExampleHelper.GetSceneAssetName(_authenticationSceneAsset);
-         
          DialogUI dialogUI = null;
          
          switch (state)
@@ -385,7 +388,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
                dialogUI = _dialogSystem.ShowDialogBoxCustomText(
                   ExampleConstants.DialogTitleTextAuthenticate,
                   string.Format(ExampleConstants.DialogBodyTextAuthenticate, 
-                     authenticationSceneName,
+                     _authenticationSceneName,
                      currentSceneName),
                   () =>
                   {

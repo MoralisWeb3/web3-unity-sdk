@@ -462,7 +462,7 @@ MonoBehaviour:
     _dialogParent: {fileID: 446552015527868035}
     _dialogUIPrefabWithText: {fileID: 5220585489638035969, guid: 6b811de0e6fcaf04698474ceb20394ad, type: 3}
     _dialogUIPrefabWithEditableText: {fileID: 5220585489638035969, guid: 51b644858ee351240849b708de053a00, type: 3}
-  _authenticationSceneAsset: {fileID: 102900000, guid: e86d776073058a543aa040dcc9919139, type: 3}
+  _authenticationSceneName: Example_Authentication_01
 --- !u!1 &6102711903321368106
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,11 +709,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1395564126163313935, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_Size
-      value: 0.9966096
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1395564126163313935, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1743879863302740891, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_SizeDelta.y
@@ -721,7 +721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1743879863302740891, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -117.722176
+      value: -117.75002
       objectReference: {fileID: 0}
     - target: {fileID: 4431435228936109470, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1015,7 +1015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1395564126163313935, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_Size
-      value: 0.9966095
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1395564126163313935, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_Value
@@ -1027,7 +1027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1743879863302740891, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -117.7222
+      value: -117.74998
       objectReference: {fileID: 0}
     - target: {fileID: 4431435228936109470, guid: 90434e4c020eac649a4db149d6688479, type: 3}
       propertyPath: m_AnchorMax.y

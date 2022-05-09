@@ -173,6 +173,10 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 			// Call SendTransactionAsync
 			if (isValidTransactionInput)
 			{
+
+#if UNITY_WEBGL
+				throw new PlatformNotSupportedException();
+#else
 				try
 				{
 					string result = await Moralis.Web3Client.Eth.TransactionManager.SendTransactionAsync(transactionInput);
@@ -184,6 +188,9 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 					_bottomBodyText.AppendBulletError($"Failed! Transfer of {amountToSendWei} " +
 					                                  $"WEI from {fromAddress} to {toAddress}, error = {exception.Message}");
 				}
+#endif
+
+
 			}
 			
 			// Display
