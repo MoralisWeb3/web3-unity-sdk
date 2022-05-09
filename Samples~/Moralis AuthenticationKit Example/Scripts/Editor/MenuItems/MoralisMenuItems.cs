@@ -13,7 +13,7 @@ namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit.MenuItems
 	{
 		private const string PathMoralisExamplesWindowMenu = MoralisConstants.PathMoralisExamplesWindowMenu + "/Moralis AuthKit Examples";
 		
-		[MenuItem(PathMoralisExamplesWindowMenu + "/" + MoralisConstants.Open + " " + "ReadMe", false, 10 )]
+		[MenuItem(PathMoralisExamplesWindowMenu + "/" + MoralisConstants.OpenReadMe , false, MoralisConstants.PriorityMoralisWindow_Examples )]
 		static void OpenReadMe()
 		{
 			ReadMeEditor.SelectReadmeGuid("299972cb71d26cb4cafdb8420e74287f");
