@@ -43,7 +43,8 @@
         
         //Compiled contract by Moralis via Remix
         public const string AddressForContractTesting = "0x698d7D745B7F5d8EF4fdB59CeB660050b3599AC3";
-        public static string SceneSetupInstructions = "Scene Setup Instructions";
+        public const string MoralisAPIExamples = "Moralis API Examples";
+        public const string SceneSetupInstructions = "Scene Setup Instructions";
         
         public static float GetBottomPanelHeightToLeaveTopPanelLines(int lineCount)
         {

@@ -9,7 +9,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
    /// Example local storage which is written to disk
    /// and used throughout various examples to hold shared state.
    /// </summary>
-   public class ExampleLocalStorage : SingletonMonobehaviour<ExampleLocalStorage>
+   public class ExampleRuntimeStorage : SingletonMonobehaviour<ExampleRuntimeStorage>
    {
 
       //  Events  ---------------------------------------
