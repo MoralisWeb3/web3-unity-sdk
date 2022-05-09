@@ -11,6 +11,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
    /// </summary>
    public class ExampleAuthenticationUI : MonoBehaviour , IInitializableAsync
    {
+      
       //  Events  ---------------------------------------
       [HideInInspector]
       public ExampleAuthenticationUIStateUnityEvent OnStateChanged = new ExampleAuthenticationUIStateUnityEvent();
@@ -18,6 +19,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       [HideInInspector]
       public StringUnityEvent OnActiveAddressChanged = new StringUnityEvent();
 
+      
       //  Properties  -----------------------------------
       public bool IsInitialized { get { return _isInitialized;} }
       
@@ -34,7 +36,6 @@ namespace MoralisUnity.Examples.Sdk.Shared
       
       public ExampleButton Button { get { return _button; } }
 
-      
       public ExampleAuthenticationUIState State
       {
          get
@@ -96,6 +97,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          return await ExampleLocalStorage.Instance.ResetActiveAddress();
       }
       
+      
       //  Fields  ---------------------------------------
       [SerializeField] 
       private ExampleButton _button = null;
@@ -106,8 +108,10 @@ namespace MoralisUnity.Examples.Sdk.Shared
 
       private bool _isInitialized = false;
       
+      
       //  Unity Methods  --------------------------------
 
+      
       //  General Methods  --------------------------------
       public async UniTask InitializeAsync()
       {
@@ -130,6 +134,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          }
          _isInitialized = true;
       }
+      
       
       //  Event Handlers  --------------------------------
       private void ExampleManager_OnActiveAddressChanged(string address)
