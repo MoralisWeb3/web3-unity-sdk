@@ -70,11 +70,6 @@ namespace MoralisUnity
     /// </summary>
     public static class Moralis
     {
-        /// <summary>
-        /// Setup events for the states 
-        /// </summary>   
-        public static event Action<MoralisState, MoralisState> OnStateChanged = delegate { };
-        
         private static MoralisState state = MoralisState.None;
         
         public static MoralisState State
@@ -89,9 +84,7 @@ namespace MoralisUnity
                 {
                     return;
                 }
-                MoralisState previousState = state;
                 state = value;
-                if (OnStateChanged != null) OnStateChanged(previousState, state);
             }
         }
         
