@@ -13,7 +13,7 @@ using UnityEngine;
 namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01	
 {
 	/// <summary>
-	/// Example: Queries
+	/// Example: ITransactionManager
 	/// </summary>
 	public class Example_Eth_TransactionManager_01 : MonoBehaviour
 	{

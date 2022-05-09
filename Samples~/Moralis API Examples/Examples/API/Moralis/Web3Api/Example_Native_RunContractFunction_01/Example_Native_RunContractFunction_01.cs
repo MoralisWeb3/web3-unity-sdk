@@ -12,7 +12,7 @@ using UniTask = Cysharp.Threading.Tasks.UniTask;
 namespace MoralisUnity.Examples.Sdk.Example_Native_RunContractFunction_01
 {
 	/// <summary>
-	/// Example: Run Contract Function
+	/// Example: INativeApi
 	/// </summary>
 	public class Example_Native_RunContractFunction_01 : MonoBehaviour
 	{

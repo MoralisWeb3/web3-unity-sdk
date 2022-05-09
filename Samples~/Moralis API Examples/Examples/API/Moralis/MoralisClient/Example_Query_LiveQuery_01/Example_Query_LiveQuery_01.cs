@@ -7,7 +7,7 @@ using UnityEngine;
 namespace MoralisUnity.Examples.Sdk.Example_Query_LiveQuery_01	
 {
 	/// <summary>
-	/// Example: Live Queries
+	/// Example: Query
 	/// </summary>
 	public class Example_Query_LiveQuery_01 : Example_Query_01.Example_Query_01
 	{

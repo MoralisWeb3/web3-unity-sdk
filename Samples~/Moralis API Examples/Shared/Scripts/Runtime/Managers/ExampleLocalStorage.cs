@@ -9,7 +9,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
    /// Example local storage which is written to disk
    /// and used throughout various examples to hold shared state.
    /// </summary>
-   [FilePath("Moralis/Examples/Web3UnitySdkExamples/ExampleLocalStorage.json", FilePathAttribute.Location.PreferencesFolder)]
+   [FilePath(ExampleConstants.ExamplePreferencesPath + "ExampleLocalStorage.json", FilePathAttribute.Location.PreferencesFolder)]
    public class ExampleLocalStorage: ScriptableSingleton<ExampleLocalStorage>
    {
       //  Events  ---------------------------------------

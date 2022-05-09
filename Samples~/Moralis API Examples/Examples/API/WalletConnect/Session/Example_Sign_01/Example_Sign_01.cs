@@ -8,7 +8,7 @@ using WalletConnectSharp.Unity;
 namespace MoralisUnity.Examples.Sdk.Example_Sign_01	
 {
 	/// <summary>
-	/// Example: Queries
+	/// Example: Sign
 	/// </summary>
 	public class Example_Sign_01 : MonoBehaviour
 	{

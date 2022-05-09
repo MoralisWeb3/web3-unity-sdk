@@ -20,7 +20,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 	}
 	
 	/// <summary>
-	/// Example: Account
+	/// Example: IAccountApi
 	/// </summary>
 	public class Example_Account_01 : MonoBehaviour
 	{

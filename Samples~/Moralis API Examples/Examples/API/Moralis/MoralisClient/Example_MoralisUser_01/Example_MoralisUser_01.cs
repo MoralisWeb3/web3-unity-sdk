@@ -10,7 +10,7 @@ using UnityEngine;
 namespace MoralisUnity.Examples.Sdk.Example_MoralisUser_01	
 {
 	/// <summary>
-	/// Example: User Objects
+	/// Example: MoralisUser
 	/// </summary>
 	public class Example_MoralisUser_01 : MonoBehaviour
 	{

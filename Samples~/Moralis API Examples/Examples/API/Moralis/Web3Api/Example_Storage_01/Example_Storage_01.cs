@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 {
 	/// <summary>
-	/// Example: Storage
+	/// Example: IStorageApi
 	/// </summary>
 	public class Example_Storage_01 : MonoBehaviour
 	{

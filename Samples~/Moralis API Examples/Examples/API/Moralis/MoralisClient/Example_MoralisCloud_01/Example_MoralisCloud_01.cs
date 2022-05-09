@@ -9,7 +9,7 @@ using UnityEngine;
 namespace MoralisUnity.Examples.Sdk.Example_MoralisCloud_01
 {
 	/// <summary>
-	/// Example: Cloud Functions
+	/// Example: MoralisCloud
 	/// </summary>
 	public class Example_MoralisCloud_01 : MonoBehaviour
 	{

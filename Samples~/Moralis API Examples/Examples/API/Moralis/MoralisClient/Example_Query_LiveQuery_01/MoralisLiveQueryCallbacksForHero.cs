@@ -4,7 +4,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 namespace MoralisUnity.Examples.Sdk.Example_Query_LiveQuery_01	
 {
 	/// <summary>
-	/// Example: Live Query Callbacks 
+	/// Example: Query 
 	/// </summary>
 	public class MoralisLiveQueryCallbacksForHero : MoralisLiveQueryCallbacks<Hero>
 	{

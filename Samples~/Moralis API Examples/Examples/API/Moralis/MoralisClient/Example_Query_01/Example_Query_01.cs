@@ -11,7 +11,7 @@ using UnityEngine;
 namespace MoralisUnity.Examples.Sdk.Example_Query_01	
 {
 	/// <summary>
-	/// Example: Queries
+	/// Example: Query
 	/// </summary>
 	public class Example_Query_01 : MonoBehaviour
 	{

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace MoralisUnity.Examples.Sdk.Example_MoralisClient_01
 {
 	/// <summary>
-	/// Example: Client
+	/// Example: MoralisClient
 	/// </summary>
 	public class Example_MoralisClient_01 : MonoBehaviour
 	{

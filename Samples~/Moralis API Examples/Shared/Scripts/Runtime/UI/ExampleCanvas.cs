@@ -12,8 +12,8 @@ using UnityEngine.UI;
 namespace MoralisUnity.Examples.Sdk.Shared
 {
    /// <summary>
-   /// This the main entry point for all UI within each
-   /// Example scene.
+   /// This the main entry point for the UI used within every
+   /// "Moralis API Examples" scene.
    ///
    /// It is designed to show 'all possible ui' and many scenes
    /// use the public API to hide unneeded elements.
