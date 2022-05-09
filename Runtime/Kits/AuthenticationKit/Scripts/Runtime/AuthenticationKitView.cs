@@ -154,7 +154,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         }
         
         
-        private async void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
+        private void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
         {
             switch (authenticationKitState)
             {
