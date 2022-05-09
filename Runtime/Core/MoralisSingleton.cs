@@ -29,6 +29,7 @@
 
 using System;
 using Cysharp.Threading.Tasks;
+using MoralisUnity.Platform.Services.ClientServices;
 using UnityEngine;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Core.Models;
@@ -97,21 +98,6 @@ namespace MoralisUnity
             }
             
             this.Client = Moralis.Client;
-        }
-        
-        void OnDisable()
-        {
-            // if (AppQuits)
-            // {
-            //     if (this.Client != null && this.Client.IsConnected)
-            //     {
-            //         this.Client.Disconnect();
-            //         this.Client.LoadBalancingPeer.StopThread();
-            //     }
-            //
-            //     SupportClass.StopAllBackgroundCalls();
-            // }
-            // this.Client.Dispose();
         }
         
 #if UNITY_WEBGL
