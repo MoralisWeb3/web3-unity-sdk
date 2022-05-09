@@ -69,7 +69,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
         
         //  Fields ----------------------------------------
-        [Header("3rd Party")]
         [SerializeField] 
         private WalletConnect _walletConnect;
         
@@ -100,12 +99,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
             Moralis.Start();
             State = AuthenticationKitState.Initialized;
             
-            // Safely, listen
-            _walletConnect.ConnectedEventSession.RemoveListener(WalletConnect_OnConnectedEventSession);
-            _walletConnect.ConnectedEventSession.AddListener(WalletConnect_OnConnectedEventSession);
-            
-            MoralisUser user = await Moralis.GetUserAsync();
-            
+			MoralisUser user = await Moralis.GetUserAsync();
+
             // If user is not logged in show the "Authenticate" button.
             if (user != null)
             {
@@ -120,10 +115,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// </summary>
         public void Connect()
         {
-            if (State != AuthenticationKitState.Initialized)
-            {
-                throw new UnexpectedStateException(State, AuthenticationKitState.Initialized);
-            }
             State = AuthenticationKitState.Connecting;
         }
 
@@ -259,15 +250,31 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Event Handlers --------------------------------
         private async void StateObservable_OnValueChanged( AuthenticationKitState value)
         {
+            // Order matters here.
+            
             // 1. Broadcast
             OnStateChanged.Invoke(_stateObservable.Value);
             
             // 2. Step the state. Rarely.
             switch (_stateObservable.Value)
             {
-                case AuthenticationKitState.Disconnected:
-	                await InitializeAsync();
+                case AuthenticationKitState.Connecting:
+                    
+                    // Safely observe
+                    _walletConnect.ConnectedEventSession.RemoveListener(WalletConnect_OnConnectedEventSession);
+                    _walletConnect.ConnectedEventSession.AddListener(WalletConnect_OnConnectedEventSession);
                     break;
+                
+                case AuthenticationKitState.Connected:
+                    
+                    // Unobserve
+                    _walletConnect.ConnectedEventSession.RemoveListener(WalletConnect_OnConnectedEventSession);
+                    break;
+                
+                case AuthenticationKitState.Disconnected:
+                    await InitializeAsync();
+                    break;
+                
                 default:
                     break;   
             }
@@ -282,6 +289,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// <returns></returns>
         public async void WalletConnect_OnConnectedEventSession(WCSessionData wcSessionData)
         {
+            //Debug.Log($"WalletConnect_OnConnectedEventSession() wcSessionData = {wcSessionData}");
+                
             State = AuthenticationKitState.Signing;
             
             // Extract wallet address from the Wallet Connect Session data object.

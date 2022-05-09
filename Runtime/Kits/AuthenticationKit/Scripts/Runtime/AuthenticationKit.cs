@@ -19,7 +19,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
     {
         //  Properties ------------------------------------
         public AuthenticationKitController Controller { get { return _authenticationKitController;}} 
-        public bool WillAutoInitializeOnStart { get { return _willAutoInitializeOnStart;}}
+        public bool WillInitializeOnStart { get { return _willInitializeOnStart;}}
         
         
         //  Fields ----------------------------------------
@@ -28,13 +28,13 @@ namespace MoralisUnity.Kits.AuthenticationKit
         
         [Header("Settings")] 
         [SerializeField] 
-        private bool _willAutoInitializeOnStart = true;
+        private bool _willInitializeOnStart = true;
 
                 
         //  Unity Methods ---------------------------------
         protected async void Start()
         {
-            if (_willAutoInitializeOnStart)
+            if (_willInitializeOnStart)
             {
                 await Controller.InitializeAsync();  
             }
