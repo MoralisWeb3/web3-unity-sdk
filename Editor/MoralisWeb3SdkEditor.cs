@@ -51,21 +51,24 @@ namespace MoralisUnity.Editor
             }
 
             win.isSetupWizard = true;
-            win.minSize = new Vector2(750, 500);
-            win.maxSize = new Vector2(750, 500);
+            win.minSize = new Vector2(750, 450);
+            win.maxSize = new Vector2(750, 450);
             win.Show();
         }
 
         // Called after OnLoad and displays the setup wizard.
         private static void OnDelayCall()
         {
+            EditorApplication.playModeStateChanged -= PlayModeStateChanged;
+            EditorApplication.playModeStateChanged += PlayModeStateChanged;
+            
             if (MoralisSettings.MoralisData == null)
             {
                 // Load or (when first run) create the settings scriptable object.
                 MoralisSettings.LoadOrCreateSettings(true);
             }
 
-            // If something horrible happened and moralis data setings were not
+            // If something horrible happened and moralis data settings were not
             // loaded, do not show the wizard.
             if (MoralisSettings.MoralisData == null)
             {
@@ -161,6 +164,19 @@ namespace MoralisUnity.Editor
                     SaveSettings();
                 });
                 #endregion
+            }
+        }
+        
+        private static void PlayModeStateChanged(PlayModeStateChange state)
+        {
+            if (EditorApplication.isPlaying || !EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                return;
+            }
+
+            if (MoralisSettings.MoralisData.ServerUrl.Equals(String.Empty) || MoralisSettings.MoralisData.ApplicationId.Equals(String.Empty))
+            {
+                EditorUtility.DisplayDialog("Warning", "You have not yet completed the Moralis setup wizard. Your game won't be able to connect. Click Oke to open the wizard.", "Oke");
             }
         }
     }
