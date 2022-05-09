@@ -240,16 +240,6 @@ namespace MoralisUnity
         /// authentication has been completed.
         /// </summary>
         /// <returns>MoralisUser</returns>
-        public static async UniTask<MoralisUser> GetUser()
-        {
-            return await GetUserAsync();
-        }
-
-        /// <summary>
-        /// Provides the current authenticated user if Moralis 
-        /// authentication has been completed.
-        /// </summary>
-        /// <returns>MoralisUser</returns>
         public static async UniTask<MoralisUser> GetUserAsync()
         {
             if (user == null)
@@ -314,7 +304,7 @@ namespace MoralisUnity
         {
             if (EnsureClient())
             {
-                user = await client.UserService.LogInAsync(username, password, client.ServiceHub);
+                user = await client.LogInAsync(username, password, CancellationToken.None);
 
                 return user;
             }

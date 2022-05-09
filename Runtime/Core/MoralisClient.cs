@@ -73,7 +73,7 @@ namespace MoralisUnity
         }
 
 
-        public string EthAddress { get; }
+        public string EthAddress { get; private set; }
 
         public IServiceHub<MoralisUser> ServiceHub => moralisService.Services;
 
@@ -217,9 +217,28 @@ namespace MoralisUnity
         /// <param name="data">Authentication data</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Task<MoralisUser></returns>
-        public UniTask<MoralisUser> LogInAsync(IDictionary<string, object> data, CancellationToken cancellationToken)
+        public async UniTask<MoralisUser> LogInAsync(IDictionary<string, object> data, CancellationToken cancellationToken)
         {
-            return this.ServiceHub.LogInWithAsync("moralisEth", data, cancellationToken);
+            MoralisUser u = await this.ServiceHub.LogInWithAsync("moralisEth", data, cancellationToken);
+
+            if (u != null)
+            {
+                EthAddress = u.ethAddress;
+            }
+
+            return u;
+        }
+
+        public async UniTask<MoralisUser> LogInAsync(string username, string password, CancellationToken cancellationToken = default)
+        {
+            MoralisUser u = await this.ServiceHub.LogInAsync(username, password, cancellationToken);
+
+            if (u != null && !String.IsNullOrEmpty(u.ethAddress))
+            {
+                EthAddress = u.ethAddress;
+            }
+
+            return u;
         }
 
         /// <summary>
