@@ -66,47 +66,57 @@ namespace MoralisUnity
     #endregion
     
     /// <summary>
-    /// Class that wraps Moralis integration points. Provided as an example of 
-    /// how Moralis can be integrated into Unity
+    /// Class that wraps Moralis integration points.
     /// </summary>
     public static class Moralis
     {
-        // Events
-        public static MoralisStateUnityEvent OnStateChanged = new MoralisStateUnityEvent();
+        /// <summary>
+        /// Setup events for the states 
+        /// </summary>   
+        public static event Action<MoralisState, MoralisState> OnStateChanged = delegate { };
         
-        private static MoralisState _state = MoralisState.None;
+        private static MoralisState state = MoralisState.None;
         
         public static MoralisState State
         {
             get
             {
-                return _state;
+                return state;
             }
             private set
             {
-                _state = value;
-                OnStateChanged.Invoke(_state);
+                if (state == value)
+                {
+                    return;
+                }
+                MoralisState previousState = state;
+                state = value;
+                if (OnStateChanged != null) OnStateChanged(previousState, state);
             }
         }
         
         public static ChainEntry CurrentChain;
 
+           
 #if UNITY_WEBGL
         /// <summary>
-        /// Provide Web3 for WebGL client.
-        /// </summary>
+        /// Setup Web3 for WebGL
+        /// </summary>   
         public static Web3GL Web3Client { get; set; }
         private static string web3ClientRpcUrl;
 #else
+        /// <summary>
+        /// Setup Web3
+        /// </summary>   
         public static Web3 Web3Client { get; set; }
 #endif
+        
         private static ClientMeta clientMetaData;
 
         private static EvmContractManager contractManager;
-
-        // Singleton instance of Moralis so that is it is available application 
-        // wide after being initialized.
+        
         public static MoralisClient Client;
+        
         private static ServerConnectionData connectionData;
 
         // Since the user object is used so often, once the user is authenticated 
@@ -116,11 +126,6 @@ namespace MoralisUnity
         private static IWeb3Api Web3ApiClient;
 
         private static ISolanaApi SolanaApiClient;
-        
-        static Moralis()
-        {
-            Start();
-        }
         
         public static void Start()
         {
@@ -159,7 +164,7 @@ namespace MoralisUnity
         {
              State = MoralisState.Initializing;
 
-            // Application Id is requried.
+            // Application Id is required.
             if (string.IsNullOrEmpty(applicationId))
             {
                 Debug.LogError("Application Id is required.");
@@ -172,7 +177,7 @@ namespace MoralisUnity
                 throw new ArgumentException("Server URI was not supplied.");
             }
 
-            // CHeck that requried Host data properties are set.
+            // Check that required Host data properties are set.
             if (hostData == null ||
                 string.IsNullOrEmpty(hostData.Version) ||
                 string.IsNullOrEmpty(hostData.Name) ||
@@ -191,7 +196,7 @@ namespace MoralisUnity
             // Create instance of Evm Contract Manager.
             contractManager = new EvmContractManager();
 
-            // Set Moralis conenction values.
+            // Set Moralis connection values.
             connectionData = new ServerConnectionData();
             connectionData.ApplicationID = applicationId;
             connectionData.ServerURI = serverUri;
@@ -230,7 +235,7 @@ namespace MoralisUnity
             }
             else
             {
-                // Using a MoralisSingleton to control the new client
+                // Using a MoralisSingleton to control the new client from a MonoBehaviour
                 MoralisSingleton.Instance.Client = Client;
                 
                 Web3Api = Client.Web3Api;
@@ -241,10 +246,15 @@ namespace MoralisUnity
         }
 
         /// <summary>
-        /// Properly dispose Moralis Client, shuts down any subscriptions, etc.
+        /// Properly disconnect Moralis Client, shuts down any subscriptions, etc.
         /// </summary>
-        public static void Dispose()
+        public static void Disconnect()
         {
+            if (Client == null)
+            {
+                return; // Suppress error when quitting playmode in the editor
+            }
+            
             Client.Dispose();
         }
 
@@ -281,12 +291,17 @@ namespace MoralisUnity
         /// <returns>MoralisUser</returns>
         public static async UniTask<MoralisUser> GetUserAsync()
         {
-            if (user == null)
+            if (EnsureClient())
             {
-                user = await Client.GetCurrentUserAsync();
+                if (user == null)
+                {
+                    user = await Client.GetCurrentUserAsync();
+                }
+
+                return user;
             }
 
-            return user;
+            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
         }
         
         /// <summary>

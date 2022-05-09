@@ -4,16 +4,20 @@ using UnityEngine;
 namespace MoralisUnity.Examples.AuthenticationKitDemo
 {
     /// <summary>
-    /// Checks Moralis.IsLoggedIn() in standalone scene
+    /// Checks for logged in user in a standalone scene
     /// </summary>
     public class Example_MoralisIsLoggedIn : MonoBehaviour
     {
         protected async void Start()
         {
-            //TODO HACK: Remove this delay. Needed due to SDK changes in SDK v1.2.0
-            await UniTask.Delay(500);
+            Moralis.Start();
+            
+            var user = await Moralis.GetUserAsync();
 
-            Debug.Log("IsLoggedIn: " + Moralis.IsLoggedIn());
+            if (user != null)
+            {
+                Debug.Log("User logged in");
+            }
         }
     }
 }
