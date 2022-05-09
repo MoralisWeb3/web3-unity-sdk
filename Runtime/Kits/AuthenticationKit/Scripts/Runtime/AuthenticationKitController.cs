@@ -198,7 +198,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         private async UniTask LoginViaConnectionPage()
         {
             //TODO: Is this method still needed on any platform? - samr
-            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUri,
+            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUrl,
                 MoralisSettings.MoralisData.ApplicationId);
             
             if (user != null)

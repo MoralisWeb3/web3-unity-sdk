@@ -35,8 +35,8 @@ namespace MoralisUnity.Editor
 
             window.isSetupWizard = false;
             window.titleContent = new GUIContent("Unity Web3 SDK");
-            window.minSize = new Vector2(750, 500);
-            window.maxSize = new Vector2(750, 500);
+            window.minSize = new Vector2(750, 450);
+            window.maxSize = new Vector2(750, 450);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace MoralisUnity.Editor
             // not already been filled in.
             if (!MoralisSettings.MoralisData.DisableAutoOpenWizard && 
                 (MoralisSettings.MoralisData.ApplicationId.Equals(String.Empty) ||
-                 MoralisSettings.MoralisData.ServerUri.Equals(String.Empty)))
+                 MoralisSettings.MoralisData.ServerUrl.Equals(String.Empty)))
             {
                 ShowSetupWizard();
             }
@@ -145,11 +145,11 @@ namespace MoralisUnity.Editor
                 #endregion
 
                 #region TextField Values Setup
-                var serverUriField = rootVisualElement.Q<TextField>("ServerUriField");
-                serverUriField.SetValueWithoutNotify(MoralisSettings.MoralisData.ServerUri);
-                serverUriField.RegisterValueChangedCallback(evt =>
+                var ServerUrlField = rootVisualElement.Q<TextField>("ServerUrlField");
+                ServerUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.ServerUrl);
+                ServerUrlField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ServerUri = evt.newValue;
+                    MoralisSettings.MoralisData.ServerUrl = evt.newValue;
                     SaveSettings();
                 });
 

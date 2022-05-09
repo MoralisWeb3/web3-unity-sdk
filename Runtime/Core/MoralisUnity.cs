@@ -141,7 +141,7 @@ namespace MoralisUnity
                 };
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                Start(MoralisSettings.MoralisData.ServerUri, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
+                Start(MoralisSettings.MoralisData.ServerUrl, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
             }
         }
 
@@ -149,11 +149,11 @@ namespace MoralisUnity
         /// Initializes the connection to a Moralis server.
         /// </summary>
         /// <param name="applicationId"></param>
-        /// <param name="serverUri"></param>
+        /// <param name="serverUrl"></param>
         /// <param name="hostData"></param>
         /// <param name="clientMeta"></param>
         /// <param name="web3ApiKey"></param>
-        public static void Start(string serverUri, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
+        public static void Start(string serverUrl, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
         {
              State = MoralisState.Initializing;
 
@@ -163,11 +163,11 @@ namespace MoralisUnity
                 Debug.LogError("Application Id is required.");
                 throw new ArgumentException("Application Id was not supplied.");
             }
-            // Server URI is required.
-            if (string.IsNullOrEmpty(serverUri))
+            // Server URL is required.
+            if (string.IsNullOrEmpty(serverUrl))
             {
-                Debug.LogError("Server URI is required.");
-                throw new ArgumentException("Server URI was not supplied.");
+                Debug.LogError("Server URL is required.");
+                throw new ArgumentException("Server URL was not supplied.");
             }
 
             // Check that required Host data properties are set.
@@ -192,7 +192,7 @@ namespace MoralisUnity
             // Set Moralis connection values.
             connectionData = new ServerConnectionData();
             connectionData.ApplicationID = applicationId;
-            connectionData.ServerURI = serverUri;
+            connectionData.ServerURI = serverUrl;
             connectionData.ApiKey = web3ApiKey;
 
             // For unity apps the local storage value must also be set.

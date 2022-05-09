@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MoralisUnity
 {
@@ -9,7 +10,7 @@ namespace MoralisUnity
     [Serializable]
     public class MoralisServerSettings : ScriptableObject
     {
-        public string ServerUri;
+        [FormerlySerializedAs("ServerUri")] public string ServerUrl;
         public string ApplicationId;
         public string ApplicationName;
         public string ApplicationDescription;
@@ -20,7 +21,7 @@ namespace MoralisUnity
 
         public MoralisServerSettings()
         {
-            ServerUri = String.Empty;
+            ServerUrl = String.Empty;
             ApplicationId = String.Empty;
             ApplicationName = "Moralis SDK Application";
             ApplicationDescription = "This application provides an example of how to you Moralis in a Unity 3D Game";
