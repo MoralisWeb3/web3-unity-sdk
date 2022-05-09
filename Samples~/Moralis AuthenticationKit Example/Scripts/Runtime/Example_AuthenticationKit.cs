@@ -14,13 +14,11 @@ namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 	/// </summary>
 	public class Example_AuthenticationKit : MonoBehaviour
 	{
-		//  Properties ------------------------------------
-
 		
 		//  Fields ----------------------------------------
 		[SerializeField] 
 		private AuthenticationKit _authenticationKit = null;
-		
+
 		
 		//  Unity Methods ---------------------------------
 		protected void Awake()
@@ -31,9 +29,9 @@ namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 		
 		protected void Start()
 		{
-			// Optionally, The demo itself can trigger init
-			// For advanced use cases
-			if (!_authenticationKit.WillAutoInitializeOnStart)
+			// Optionally, The Example_AuthenticationKit can trigger
+			// initialization for advanced use cases
+			if (!_authenticationKit.WillInitializeOnStart)
 			{
 				_authenticationKit.Controller.InitializeAsync();
 				_authenticationKit.Controller.Connect();
@@ -41,16 +39,17 @@ namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 
 
 		}
+
 		
 		//  Event Handlers --------------------------------
-		private void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
+		private async void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
 		{
 			//Debug.Log($"AuthenticationKit_OnStateChanged(), {authenticationKitState}");
 
 			if (authenticationKitState == AuthenticationKitState.Disconnected)
 			{
-				// Optionally, The demo itself can trigger destroy
-				// For advanced use cases
+				// Optionally, The Example_AuthenticationKit can trigger 
+				// destroy for advanced use cases
 				Destroy(_authenticationKit.gameObject);
 			}
 		}
