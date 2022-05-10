@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &342886890 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
-  m_PrefabInstance: {fileID: 1827039597}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 801bffbf4c62cc244b55ea230d19649d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &378399348
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,67 +291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb384506352d3142ae116763ba88fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1528333978
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2878382090029345463, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_Name
-      value: MoralisController
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3029100737904756540, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5316865264181520452, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
-      propertyPath: walletConnect
-      value: 
-      objectReference: {fileID: 342886890}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6c1d77f12a967064fac9784e26696c51, type: 3}
 --- !u!1 &1710304813
 GameObject:
   m_ObjectHideFlags: 0

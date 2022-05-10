@@ -96,34 +96,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public async UniTask InitializeAsync()
         {
             State = AuthenticationKitState.Initializing;
-
-            /////////////////////////////////////////////////////////
-            // TODO HACK: Remove this delay. Needed due to SDK changes in SDK v1.2.0
-            await UniTask.Delay(500);
-            /////////////////////////////////////////////////////////
-            
-            if (!Moralis.Initialized)
-            {
-                Moralis.Start();
-            }
-            
+            Moralis.Start();
             State = AuthenticationKitState.Initialized;
             
+			MoralisUser user = await Moralis.GetUserAsync();
+
             // If user is not logged in show the "Authenticate" button.
-            if (Moralis.IsLoggedIn())
+            if (user != null)
             {
                 State = AuthenticationKitState.Connected;
             }
         }
-        
-        
-#if UNITY_WEBGL
-    private void FixedUpdate()
-    {
-        MoralisLiveQueryManager.UpdateWebSockets();
-    }
-#endif
-
         
         //  Methods ---------------------------------------
 
@@ -206,10 +189,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
         private async UniTask LoginViaConnectionPage()
         {
             //TODO: Is this method still needed on any platform? - samr
-            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUri,
+            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUrl,
                 MoralisSettings.MoralisData.ApplicationId);
-
-            //TODO: Can this be changed to Moralis.IsLoggedIn()???? - samr
+            
             if (user != null)
             {
                 State = AuthenticationKitState.Connected;
