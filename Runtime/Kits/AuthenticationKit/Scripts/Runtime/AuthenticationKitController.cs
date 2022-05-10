@@ -10,6 +10,7 @@ using MoralisUnity.Data;
 using MoralisUnity.Exceptions;
 using MoralisUnity.Platform.Objects;
 using MoralisUnity.Platform.Services.ClientServices;
+using UnityEngine.Events;
 
 #pragma warning disable CS1998, CS4014
 namespace MoralisUnity.Kits.AuthenticationKit
@@ -26,11 +27,21 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Events ----------------------------------------
         
         /// <summary>
-        /// Observe changes to the <see cref="AuthenticationKitState"/>
+        /// Invoked upon any change to the <see cref="AuthenticationKitState"/>
         /// </summary>
+        [Header("Events")]
         public AuthenticationKitStateUnityEvent OnStateChanged = new AuthenticationKitStateUnityEvent();
     
+        /// <summary>
+        /// Invoked when State==AuthenticationKitState.Disconnected
+        /// </summary>
+        public UnityEvent OnConnected = new UnityEvent();
         
+        /// <summary>
+        /// Invoked when State==AuthenticationKitState.Disconnected
+        /// </summary>
+        public UnityEvent OnDisconnected = new UnityEvent();
+
         //  Properties ------------------------------------
         /// <summary>
         /// Get the current <see cref="AuthenticationKitPlatform"/>
@@ -69,6 +80,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
         
         //  Fields ----------------------------------------
+        [Header("3rd Party")]
         [SerializeField] 
         private WalletConnect _walletConnect;
         
@@ -287,10 +299,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     
                     // Unobserve
                     _walletConnect.ConnectedEventSession.RemoveListener(WalletConnect_OnConnectedEventSession);
+                    
+                    // Invoke redundant event
+                    OnConnected.Invoke();
                     break;
                 
                 case AuthenticationKitState.Disconnected:
+                    
                     await InitializeAsync();
+                    
+                    // Invoke redundant event
+                    OnDisconnected.Invoke();
                     break;
                 
                 default:
