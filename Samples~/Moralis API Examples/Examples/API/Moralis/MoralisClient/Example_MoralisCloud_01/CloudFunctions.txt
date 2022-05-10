@@ -1,0 +1,16 @@
+﻿// NOTE: This file does not run locally. It is included for reference.
+// DOCS: https://docs.moralis.io/moralis-server/cloud-code/cloud-functions
+// INSTRUCTIONS: 
+// 1) Copy local contents from 'CloudFunctions.txt' to Moralis Cloud. 2) Rerun this scene.
+
+Moralis.Cloud.define("myMethod01", 
+    async (request) => {
+        return "Hello World!";
+});
+
+Moralis.Cloud.define("myMethod02", 
+    async (request) => {
+        return request.params.a + 
+        request.params.b;
+});
+
