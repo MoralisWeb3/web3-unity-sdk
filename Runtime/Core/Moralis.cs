@@ -564,6 +564,12 @@ namespace MoralisUnity
         /// <returns></returns>
         public static async UniTask SetupWeb3()
         {
+            // Don't create a new web3 client if there is one
+            if (Web3Client != null)
+            {
+                return;
+            }
+            
             if (clientMetaData == null)
             {
                 Debug.LogError("Metadata not provided.");
