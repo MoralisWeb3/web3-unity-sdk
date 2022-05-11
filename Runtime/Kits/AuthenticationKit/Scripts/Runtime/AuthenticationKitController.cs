@@ -10,7 +10,7 @@ using MoralisUnity.Platform.Objects;
 namespace MoralisUnity.Kits.AuthenticationKit
 {
     /// <summary>
-    /// See <see cref="Authenticati onKit"/> comments for a feature overview.
+    /// See <see cref="AuthenticationKit"/> comments for a feature overview.
     ///
     /// This <see cref="AuthenticationKitController"/> manages state, events, and core implementation.
     /// 
@@ -110,16 +110,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 State = AuthenticationKitState.Connected;
             }
         }
-        
-        
-#if UNITY_WEBGL
-    private void FixedUpdate()
-    {
-        MoralisLiveQueryManager.UpdateWebSockets();
-    }
-#endif
-
-        
+                
         //  Methods ---------------------------------------
 
         /// <summary>
