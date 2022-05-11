@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
-using MoralisUnity.Exceptions;
-using MoralisUnity.Data;
+using MoralisUnity.Sdk.Exceptions;
+using MoralisUnity.Sdk.Data;
 using System.Collections.Generic;
+
+
 
 namespace MoralisUnity.Kits.AuthenticationKit
 {
@@ -26,7 +28,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         {
             if (!acceptableNewValues.Contains(newValue))
             {
-                throw new InvalidObservableValueException(oldValue, newValue);
+                throw new ObservableInvalidValueException(oldValue, newValue);
             }
         }
         

@@ -2,14 +2,9 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
-using MoralisUnity;
-using MoralisUnity.Data;
-using MoralisUnity.Exceptions;
 using MoralisUnity.Platform.Objects;
-using MoralisUnity.Platform.Services.ClientServices;
 using UnityEngine.Events;
 
 #pragma warning disable CS1998, CS4014
@@ -120,6 +115,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             }
         }
         
+        
         //  Methods ---------------------------------------
 
         /// <summary>
@@ -205,8 +201,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 MoralisSettings.MoralisData.ApplicationId);
             
             if (user != null)
-            {
-                State = AuthenticationKitState.Connected;
+            { 
+               State = AuthenticationKitState.Connected;
             }
             else
             {
@@ -295,6 +291,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     break;
                 
                 default:
+                    // Switch default is ok here since not all known conditions are declared above
                     break;   
             }
         }

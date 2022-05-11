@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 using System.IO;
+using MoralisUnity.Sdk.Constants;
 
 namespace MoralisUnity.Editor
 {
@@ -28,7 +29,7 @@ namespace MoralisUnity.Editor
         /// <summary>
         /// Menu show event - displays the setup window when menu selection made.
         /// </summary>
-        [MenuItem("Window/Moralis/Web3 Unity SDK/Open Web3 Setup", false, 0)]
+        [MenuItem( MoralisConstants.PathMoralisWindowMenu + "/" + MoralisConstants.Open + " " + "Web3 Setup", false, 5 )]
         public static void ShowWindow()
         {
             var window = GetWindow<MoralisWeb3SdkEditor>();

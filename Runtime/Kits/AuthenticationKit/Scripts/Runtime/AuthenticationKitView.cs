@@ -7,7 +7,7 @@ using WalletConnectSharp.Unity;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine.Events;
-using MoralisUnity.Exceptions;
+using MoralisUnity.Sdk.Exceptions;
 
 namespace MoralisUnity.Kits.AuthenticationKit
 {

@@ -1,16 +1,15 @@
 ﻿using MoralisUnity.Kits.AuthenticationKit;
+using MoralisUnity.Sdk.Data;
 using UnityEngine;
 
 #pragma warning disable CS1998, CS4014
-//TODO remove 'demo' from the name
-namespace MoralisUnity.Examples.AuthenticationKitDemo
+namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 {
 	/// <summary>
 	/// Moralis "kits" each provide drag-and-drop functionality for developers.
 	/// Developers add a kit at edit-time to give additional runtime functionality for users.
 	///
-	/// This <see cref="Example_AuthenticationKitEvents"/> class demonstrates usage, including
-	/// the Unity Inspector Window for observing events.
+	/// This <see cref="Example_AuthenticationKit"/> class demonstrates usage.
 	/// 
 	/// </summary>
 	public class Example_AuthenticationKit : MonoBehaviour
@@ -28,19 +27,22 @@ namespace MoralisUnity.Examples.AuthenticationKitDemo
 		}
 		
 		
-		protected async void Start()
+		protected void Start()
 		{
 			// Optionally, The Example_AuthenticationKit can trigger
 			// initialization for advanced use cases
 			if (!_authenticationKit.WillInitializeOnStart)
 			{
-				await _authenticationKit.Controller.InitializeAsync();
+				_authenticationKit.Controller.InitializeAsync();
+				_authenticationKit.Controller.Connect();
 			}
+
+
 		}
 
 		
 		//  Event Handlers --------------------------------
-		private void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
+		private async void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
 		{
 			//Debug.Log($"AuthenticationKit_OnStateChanged(), {authenticationKitState}");
 

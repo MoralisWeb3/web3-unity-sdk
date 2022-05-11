@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System;
 
-namespace MoralisUnity.Exceptions
+namespace MoralisUnity.Sdk.Exceptions
 {
     /// <summary>
     /// Thrown when changing from/to unacceptable values.
     /// </summary>
-    public class InvalidObservableValueException : Exception
+    public class ObservableInvalidValueException : Exception
     {
         //  Properties ------------------------------------
 
@@ -15,10 +15,9 @@ namespace MoralisUnity.Exceptions
 
         
         //  Constructor Methods ---------------------------
-        public InvalidObservableValueException(object oldValue, object newValue) :
+        public ObservableInvalidValueException(object oldValue, object newValue) :
             base($"Value cannot change from {oldValue} to {newValue}.")
         {
-            
         }
 
         //  Methods ---------------------------------------

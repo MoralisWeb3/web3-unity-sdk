@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace MoralisUnity.Exceptions
+namespace MoralisUnity.Sdk.Exceptions
 {
     /// <summary>
     /// Creates elegant exception flow for unintended Switch Defaults.
