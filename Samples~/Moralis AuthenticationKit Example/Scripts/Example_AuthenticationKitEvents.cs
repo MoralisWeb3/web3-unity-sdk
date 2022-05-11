@@ -1,19 +1,17 @@
 ﻿using MoralisUnity.Kits.AuthenticationKit;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
-//TODO remove 'demo' from the name
-namespace MoralisUnity.Examples.AuthenticationKitDemo
+namespace MoralisUnity.Examples.Example_AuthenticationKitEvents
 {
 	/// <summary>
 	/// Moralis "kits" each provide drag-and-drop functionality for developers.
 	/// Developers add a kit at edit-time to give additional runtime functionality for users.
 	///
 	/// This <see cref="Example_AuthenticationKitEvents"/> class demonstrates usage, including
-	/// the Unity Inspector Window for observing events.
+	/// the C# 'AddListener' syntax for observing events.
 	/// 
 	/// </summary>
-	public class Example_AuthenticationKit : MonoBehaviour
+	public class Example_AuthenticationKitEvents : MonoBehaviour
 	{
 		
 		//  Fields ----------------------------------------
@@ -22,12 +20,6 @@ namespace MoralisUnity.Examples.AuthenticationKitDemo
 
 		
 		//  Unity Methods ---------------------------------
-		protected void Awake()
-		{
-			_authenticationKit.Controller.OnStateChanged.AddListener(AuthenticationKit_OnStateChanged);
-		}
-		
-		
 		protected async void Start()
 		{
 			// Optionally, The Example_AuthenticationKit can trigger
@@ -40,16 +32,19 @@ namespace MoralisUnity.Examples.AuthenticationKitDemo
 
 		
 		//  Event Handlers --------------------------------
-		private void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
+		public void AuthenticationKit_OnConnected()
 		{
-			//Debug.Log($"AuthenticationKit_OnStateChanged(), {authenticationKitState}");
+			Debug.Log($"AuthenticationKit_OnConnected()");
+		}
+		
+		
+		public void AuthenticationKit_OnDisconnected()
+		{
+			Debug.Log($"AuthenticationKit_OnDisconnected()");
 
-			if (authenticationKitState == AuthenticationKitState.Disconnected)
-			{
-				// Optionally, The Example_AuthenticationKit can trigger 
-				// destroy for advanced use cases
-				Destroy(_authenticationKit.gameObject);
-			}
+			// Optionally, The Example_AuthenticationKit can trigger 
+			// destroy for advanced use cases
+			Destroy(_authenticationKit.gameObject);
 		}
 	}
 }
