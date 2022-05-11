@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System;
 using UnityEngine.Events;
 
 namespace MoralisUnity.Kits.AuthenticationKit
@@ -9,6 +9,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
     /// The main event for <see cref="AuthenticationKit"/>.
     /// 
     /// </summary>
+    [Serializable]
     public class AuthenticationKitStateUnityEvent : UnityEvent<AuthenticationKitState>
     {
     }
