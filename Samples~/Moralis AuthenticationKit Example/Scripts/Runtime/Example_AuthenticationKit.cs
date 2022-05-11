@@ -1,8 +1,6 @@
 ﻿using MoralisUnity.Kits.AuthenticationKit;
-using MoralisUnity.Sdk.Data;
 using UnityEngine;
 
-#pragma warning disable CS1998, CS4014
 namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 {
 	/// <summary>
@@ -42,7 +40,7 @@ namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 
 		
 		//  Event Handlers --------------------------------
-		private async void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
+		private void AuthenticationKit_OnStateChanged(AuthenticationKitState authenticationKitState)
 		{
 			//Debug.Log($"AuthenticationKit_OnStateChanged(), {authenticationKitState}");
 

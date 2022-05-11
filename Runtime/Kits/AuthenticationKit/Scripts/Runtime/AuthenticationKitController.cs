@@ -106,11 +106,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
             Moralis.Start();
             State = AuthenticationKitState.Initialized;
             
-			MoralisUser user = await Moralis.GetUserAsync();
-
-            // If user is not logged in show the "Authenticate" button.
-            if (user != null)
+            MoralisUser moralisUser = await Moralis.GetUserAsync();
+            bool HasMoralisUser = moralisUser != null;
+            if (HasMoralisUser)
             {
+                // If user exists, show the "Disconnect" button.
                 State = AuthenticationKitState.Connected;
             }
         }

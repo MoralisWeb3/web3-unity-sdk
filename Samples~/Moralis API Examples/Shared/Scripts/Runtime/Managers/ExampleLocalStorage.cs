@@ -76,11 +76,11 @@ namespace MoralisUnity.Examples.Sdk.Shared
       public async UniTask<string> ResetActiveAddress()
       {
          MoralisUser moralisUser = await Moralis.GetUserAsync();
-         
+
          // The default experience is...
          // To be logged in...
          // with active address set to the original
-         if (Moralis.IsLoggedIn())
+         if (moralisUser != null)
          {
             ActiveAddress = moralisUser.ethAddress;
          }

@@ -1,9 +1,8 @@
-using MoralisUnity;
 using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Platform.Queries;
 using UnityEngine;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_Query_LiveQuery_01	
 {
 	/// <summary>
@@ -27,7 +26,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_LiveQuery_01
 			await SetupMoralis();
 			await SetupUI();
 			
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}

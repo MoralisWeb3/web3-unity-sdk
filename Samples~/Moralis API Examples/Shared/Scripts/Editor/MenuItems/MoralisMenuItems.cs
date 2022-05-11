@@ -10,7 +10,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
 	/// </summary>
 	public static class MoralisMenuItems
 	{
-		[MenuItem( MoralisConstants.PathMoralisExamplesWindowMenu + "/Moralis API Examples" + "/" + MoralisConstants.Open + " " + "ReadMe", false, 10)]
+		[MenuItem( MoralisConstants.PathMoralisExamplesWindowMenu + "/Moralis API Examples" + "/" + MoralisConstants.Open + " " + "ReadMe", false, 11)]
 		static void OpenReadMe()
 		{
 			ReadMeEditor.SelectReadmeGuid("3b4d333465945474ea57ff6e62ba4f37");

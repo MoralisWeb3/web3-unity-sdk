@@ -1,4 +1,3 @@
-using MoralisUnity;
 using UnityEngine.UI;
 
 namespace MoralisUnity.Examples.Sdk.Shared

@@ -1,4 +1,3 @@
-using MoralisUnity;
 using UnityEngine.Events;
 
 namespace MoralisUnity.Examples.Sdk.Shared

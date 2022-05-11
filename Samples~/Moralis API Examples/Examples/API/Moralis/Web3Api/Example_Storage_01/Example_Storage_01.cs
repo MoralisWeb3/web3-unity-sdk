@@ -9,7 +9,7 @@ using MoralisUnity.Web3Api.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 {
 	/// <summary>
@@ -54,7 +54,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 		//  General Methods -------------------------------	
 		private async UniTask SetupMoralis()
 		{
-			await Moralis.Start();
+			Moralis.Start();
 		}
 		
 		
@@ -62,7 +62,8 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 		{
 			// Canvas
 			await _exampleCanvas.InitializeAsync();
-			if (!Moralis.IsLoggedIn())
+			
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -100,7 +101,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 		
 		private async UniTask RefreshUI()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -126,7 +127,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 
 		private async UniTask CallUploadFolder(string content)
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -178,7 +179,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 		
 		private async void RenderImage()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -196,7 +197,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 		//  Event Handlers --------------------------------
 		private async void ClearImageButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -220,7 +221,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 		
 		private async void SaveImageButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -244,7 +245,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 
 		private async void LoadImageButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}

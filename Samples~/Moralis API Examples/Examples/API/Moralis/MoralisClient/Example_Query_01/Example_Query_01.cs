@@ -7,7 +7,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Platform.Queries;
 using UnityEngine;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_Query_01	
 {
 	/// <summary>
@@ -44,7 +44,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 		//  General Methods -------------------------------	
 		protected async UniTask SetupMoralis()
 		{
-			await Moralis.Start();
+			Moralis.Start();
 		}
 
 		
@@ -52,7 +52,8 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 		{
 			// Canvas
 			await _exampleCanvas.InitializeAsync();
-			if (!Moralis.IsLoggedIn())
+			
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -92,7 +93,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 		
 		protected async UniTask RefreshUI()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -111,7 +112,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 		//  Event Handlers --------------------------------
 		private async void CreateHeroButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -143,7 +144,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 		
 		private async void DeleteHeroButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -181,7 +182,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 		
 		protected async void QueryHeroButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
