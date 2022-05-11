@@ -1,6 +1,8 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using MoralisUnity.Sdk.Constants;
 using MoralisUnity.Sdk.UI.ReadMe;
+using MoralisUnity.Sdk.Utilities;
 
 namespace MoralisUnity.Sdk.MenuItems
 {
@@ -14,6 +16,13 @@ namespace MoralisUnity.Sdk.MenuItems
 		public static void OpenReadMe()
 		{
 			ReadMeEditor.SelectReadmeGuid("f28fe356e1effe947938cac2b8ba360a");
+		}
+		
+		[MenuItem( MoralisConstants.PathMoralisWindowMenu + "/" + "Load Moralis Layout (10x16)", false, MoralisConstants.PriorityMoralisWindow_Secondary )]
+		public static void LoadMoralisLayout()
+		{
+			string path = Path.GetFullPath("Packages/io.moralis.web3-unity-sdk/Editor/Layouts/MoralisUnityLayout10x16.wlt");
+			UnityReflectionUtility.UnityEditor_WindowLayout_LoadWindowLayout(path);
 		}
 	}
 }
