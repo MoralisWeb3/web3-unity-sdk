@@ -59,7 +59,6 @@ namespace MoralisUnity.Examples.Sdk.Example_Query_01
 			}
 			
 			// Header
-			await _exampleCanvas.InitializeAsync();
 			_exampleCanvas.Header.TitleText.text = "Queries";
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
