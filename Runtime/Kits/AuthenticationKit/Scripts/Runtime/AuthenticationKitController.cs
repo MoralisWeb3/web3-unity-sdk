@@ -5,6 +5,7 @@ using UnityEngine;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
 using MoralisUnity.Platform.Objects;
+using UnityEngine.Events;
 
 #pragma warning disable CS1998, CS4014
 namespace MoralisUnity.Kits.AuthenticationKit
@@ -21,11 +22,21 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Events ----------------------------------------
         
         /// <summary>
-        /// Observe changes to the <see cref="AuthenticationKitState"/>
+        /// Invoked upon any change to the <see cref="AuthenticationKitState"/>
         /// </summary>
+        [Header("Events")]
         public AuthenticationKitStateUnityEvent OnStateChanged = new AuthenticationKitStateUnityEvent();
     
+        /// <summary>
+        /// Invoked when State==AuthenticationKitState.Disconnected
+        /// </summary>
+        public UnityEvent OnConnected = new UnityEvent();
         
+        /// <summary>
+        /// Invoked when State==AuthenticationKitState.Disconnected
+        /// </summary>
+        public UnityEvent OnDisconnected = new UnityEvent();
+
         //  Properties ------------------------------------
         /// <summary>
         /// Get the current <see cref="AuthenticationKitPlatform"/>
@@ -64,6 +75,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
         
         //  Fields ----------------------------------------
+        [Header("3rd Party")]
         [SerializeField] 
         private WalletConnect _walletConnect;
         
@@ -91,26 +103,19 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public async UniTask InitializeAsync()
         {
             State = AuthenticationKitState.Initializing;
-
-            /////////////////////////////////////////////////////////
-            // TODO HACK: Remove this delay. Needed due to SDK changes in SDK v1.2.0
-            await UniTask.Delay(500);
-            /////////////////////////////////////////////////////////
-            
-            if (!Moralis.Initialized)
-            {
-                Moralis.Start();
-            }
-            
+            Moralis.Start();
             State = AuthenticationKitState.Initialized;
             
+			MoralisUser user = await Moralis.GetUserAsync();
+
             // If user is not logged in show the "Authenticate" button.
-            if (Moralis.IsLoggedIn())
+            if (user != null)
             {
                 State = AuthenticationKitState.Connected;
             }
         }
-                
+        
+        
         //  Methods ---------------------------------------
 
         /// <summary>
@@ -192,10 +197,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
         private async UniTask LoginViaConnectionPage()
         {
             //TODO: Is this method still needed on any platform? - samr
-            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUri,
+            MoralisUser user = await MobileLogin.LogIn(MoralisSettings.MoralisData.ServerUrl,
                 MoralisSettings.MoralisData.ApplicationId);
-
-            //TODO: Can this be changed to Moralis.IsLoggedIn()???? - samr
+            
             if (user != null)
             { 
                State = AuthenticationKitState.Connected;
@@ -273,13 +277,21 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     
                     // Unobserve
                     _walletConnect.ConnectedEventSession.RemoveListener(WalletConnect_OnConnectedEventSession);
+                    
+                    // Invoke redundant event
+                    OnConnected.Invoke();
                     break;
                 
                 case AuthenticationKitState.Disconnected:
+                    
                     await InitializeAsync();
+                    
+                    // Invoke redundant event
+                    OnDisconnected.Invoke();
                     break;
                 
                 default:
+                    // Switch default is ok here since not all known conditions are declared above
                     break;   
             }
         }

@@ -30,7 +30,7 @@
 - Issue #32 - Replace Wallet Connect with In-Browser Wallet Interface for WebGL
 - Issue #70 - User Save Fails
 - Fixed WebGL error: Unsupported internal call for IL2CPP:RuntimeInformation::GetRuntimeArchitecture
-- Check if the user has setup the Server URI and Application Id
+- Check if the user has setup the Server URL and Application Id
 - Remove Speedy Node Requirement and Defects
 
 ## 1.0.7 (2022-02-18)
