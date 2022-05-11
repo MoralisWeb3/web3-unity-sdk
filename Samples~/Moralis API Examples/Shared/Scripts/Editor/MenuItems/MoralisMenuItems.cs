@@ -13,7 +13,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
 	public static class MoralisMenuItems
 	{
 		[MenuItem( MoralisConstants.PathMoralisExamplesWindowMenu + "/" + 
-		           ExampleConstants.MoralisAPIExamples + "/" + MoralisConstants.OpenReadMe, false, 
+		    ExampleConstants.MoralisAPIExamples + "/" + MoralisConstants.OpenReadMe, false, 
 			MoralisConstants.PriorityMoralisWindow_Examples)]
 		static void OpenReadMe()
 		{
