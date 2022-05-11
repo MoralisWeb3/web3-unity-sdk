@@ -110,11 +110,6 @@ namespace MoralisUnity.Examples.Sdk.Example_Sign_01
 			// Call
 			var result = await ExampleHelper.Sign(_walletConnect, address, signMessage);
 			
-			// TODO Remove this debugging block
-			_bottomBodyText.Clear();
-			_bottomBodyText.AppendLine($"Called Sign.");
-			await RefreshUI();
-			
 			// Display
 			_bottomBodyText.Clear();
 			_bottomBodyText.AppendHeaderLine($"Session.EthSign({address}, {signMessage})");

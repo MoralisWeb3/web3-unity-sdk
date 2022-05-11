@@ -55,11 +55,12 @@ namespace MoralisUnity.Examples.Sdk.Shared
         }
 
 
-        public static Image CreateNewImageUnderParentAsLastSibling(Transform parent)
+        public static Image CreateNewImageUnderParentAsLastSibling(Transform parent, Vector2 preferredSize)
         {
             GameObject imageGo = new GameObject("NewImage");
             LayoutElement layoutElement = imageGo.AddComponent<LayoutElement>();
-            layoutElement.preferredHeight = 50;
+            layoutElement.preferredWidth = preferredSize.x;
+            layoutElement.preferredHeight = preferredSize.y;
             Image image = imageGo.AddComponent<Image>();
             image.preserveAspect = true;
             imageGo.transform.SetParent(parent);
@@ -168,6 +169,8 @@ namespace MoralisUnity.Examples.Sdk.Shared
         /// <param name="walletConnect"></param>
         /// <param name="address"></param>
         /// <param name="message"></param>
+        ///
+        //TODO: If/when this method moves into the Moralis.cs, remove it from ExampleHelper.cs
         public static async UniTask<string> Sign(WalletConnect walletConnect, 
             string address, string message)
         {
@@ -183,7 +186,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
         /// Determines if Moralis is logged in with an active user.
         /// </summary>
         /// <returns></returns>
-        //TODO: Remove this and add a static *Copy* of this within every Example monobehaviour?  Yes = more visibility. No = more DRY.
+        //TODO: If/when this method moves into the Moralis.cs, remove it from ExampleHelper.cs
         public static async UniTask<bool> HasMoralisUser()
         {
             MoralisUser moralisUser = await Moralis.GetUserAsync();

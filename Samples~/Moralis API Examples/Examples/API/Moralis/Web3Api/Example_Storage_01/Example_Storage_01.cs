@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Platform.Objects;
@@ -81,7 +80,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 			
 			// Dynamically add, for the to-be-loaded Image
 			_imageDestination = ExampleHelper.CreateNewImageUnderParentAsLastSibling(
-				_panelForSpriteDestination.transform.parent);
+				_panelForSpriteDestination.transform.parent, new Vector2(300, 300));
 			_imageDestination.GetComponent<CanvasGroup>().SetIsVisible(false);
 			
 			// Footer
@@ -106,9 +105,6 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 				return;
 			}
 			
-			// Details
-			MoralisUser moralisUser = await Moralis.GetUserAsync();
-
 			// Text
 			_exampleCanvas.TopPanel.BodyText.Text.text = _topBodyText.ToString();
 			if (_bottomBodyTextError.Length == 0)
