@@ -402,7 +402,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 					GetTokenInfoButton_OnClicked();
 					break;
 				default:
-					SwitchDefaultException.Throw(_lastUserOperationType);
+					// Allow default
 					break;
 			}
 			

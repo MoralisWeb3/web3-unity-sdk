@@ -158,7 +158,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 			var amountToSendWei = UnitConversion.Convert.ToWei(amountToSendNative);
 			string fromAddress = _exampleCanvas.Header.AuthenticationUI.ActiveAddress;
 			
-			// User Must: Hardcode a valid toAddress here...
+			// Moralis Customer TODO: Hardcode a valid toAddress here...
 			string toAddress = fromAddress; 
 			
 			// Validation
