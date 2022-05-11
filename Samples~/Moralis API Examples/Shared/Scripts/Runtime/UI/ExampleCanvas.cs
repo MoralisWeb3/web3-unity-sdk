@@ -200,13 +200,13 @@ namespace MoralisUnity.Examples.Sdk.Shared
          Footer.Button02.IsVisible = false;
          Footer.Button03.IsVisible = false;
 
-         if (!Moralis.Initialized)
+         if (!await ExampleHelper.HasMoralisUser())
          {
-            await Moralis.Start();
+            Moralis.Start();
          }
          
          // Defaults depend on IsLoggedIn...
-         bool isLoggedIn = Moralis.IsLoggedIn();
+         bool isLoggedIn = await ExampleHelper.HasMoralisUser();
          Header.ChainsDropdown.IsVisible = isLoggedIn;
          if (!isLoggedIn)
          {

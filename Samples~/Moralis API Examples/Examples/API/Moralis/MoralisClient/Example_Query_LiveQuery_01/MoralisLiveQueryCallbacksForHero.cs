@@ -1,6 +1,6 @@
 using MoralisUnity.Examples.Sdk.Shared;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_Query_LiveQuery_01	
 {
 	/// <summary>

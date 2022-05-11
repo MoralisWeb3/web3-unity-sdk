@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using MoralisUnity.Examples.Sdk.Shared;
 using UnityEngine;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_ExampleCanvas_01
 {
 	/// <summary>
@@ -34,7 +34,7 @@ namespace MoralisUnity.Examples.Sdk.Example_ExampleCanvas_01
 		//  General Methods -------------------------------	
 		private async UniTask SetupMoralis()
 		{
-			await Moralis.Start();
+			Moralis.Start();
 		}
 		
 		
@@ -42,7 +42,8 @@ namespace MoralisUnity.Examples.Sdk.Example_ExampleCanvas_01
 		{
 			// Canvas
 			await _exampleCanvas.InitializeAsync();
-			if (!Moralis.IsLoggedIn())
+
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -65,7 +66,7 @@ namespace MoralisUnity.Examples.Sdk.Example_ExampleCanvas_01
 
 		private async UniTask RefreshUI()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}

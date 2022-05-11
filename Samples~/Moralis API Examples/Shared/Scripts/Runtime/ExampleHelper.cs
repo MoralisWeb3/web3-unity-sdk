@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using MoralisUnity.Platform.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -175,6 +176,18 @@ namespace MoralisUnity.Examples.Sdk.Shared
 #else
             return await walletConnect.Session.EthPersonalSign(address, message);
 #endif
+        }
+
+        
+        /// <summary>
+        /// Determines if Moralis is logged in with an active user.
+        /// </summary>
+        /// <returns></returns>
+        //TODO: Remove this and add a static *Copy* of this within every Example monobehaviour?  Yes = more visibility. No = more DRY.
+        public static async UniTask<bool> HasMoralisUser()
+        {
+            MoralisUser moralisUser = await Moralis.GetUserAsync();
+            return moralisUser != null;
         }
 
     }

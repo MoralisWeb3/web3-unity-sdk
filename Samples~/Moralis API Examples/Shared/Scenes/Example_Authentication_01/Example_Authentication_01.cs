@@ -3,7 +3,7 @@ using MoralisUnity.Examples.Sdk.Shared;
 using MoralisUnity.Kits.AuthenticationKit;
 using UnityEngine;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_Authentication_01
 {
 	/// <summary>
@@ -48,8 +48,9 @@ namespace MoralisUnity.Examples.Sdk.Example_Authentication_01
 		//  General Methods -------------------------------	
 		private async UniTask SetupMoralis()
 		{
-			await Moralis.Start();
-			_wasLoggedInAtSetupMoralis = Moralis.IsLoggedIn();
+			Moralis.Start();
+			
+			_wasLoggedInAtSetupMoralis = await ExampleHelper.HasMoralisUser();
 		}
 
 		

@@ -9,7 +9,7 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
 using UnityEngine;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01	
 {
 	/// <summary>
@@ -43,7 +43,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 		//  General Methods -------------------------------	
 		private async UniTask SetupMoralis()
 		{
-			await Moralis.Start();
+			Moralis.Start();
 		}
 
 		
@@ -51,7 +51,8 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 		{
 			// Canvas
 			await _exampleCanvas.InitializeAsync();
-			if (!Moralis.IsLoggedIn())
+			
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -79,7 +80,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 		
 		private async UniTask RefreshUI()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -137,7 +138,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Eth_TransactionManager_01
 		
 		private async void TransferButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}

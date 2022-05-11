@@ -137,9 +137,10 @@ namespace MoralisUnity.Examples.Sdk.Shared
       
       
       //  Event Handlers  --------------------------------
-      private void ExampleManager_OnActiveAddressChanged(string address)
+      private async void ExampleManager_OnActiveAddressChanged(string address)
       {
-         if (Moralis.IsLoggedIn())
+         
+         if (await ExampleHelper.HasMoralisUser())
          {
             State = ExampleAuthenticationUIState.Authenticated;
          }

@@ -10,10 +10,12 @@ namespace MoralisUnity.Sdk.UI.ReadMe
     /// Inspired by Unity's "Learn" Sample Projects
     /// 
     /// </summary>
-    [CreateAssetMenu(
-        fileName = Title,
-        menuName = MoralisConstants.PathMoralisCreateAssetMenu + "/" + Title,
-        order = 0)]
+    
+    // Now that one has been created. Comment-out the CreateAssetMenu unless needed by developers
+    // [CreateAssetMenu(
+    //     fileName = Title,
+    //     menuName = MoralisConstants.PathMoralisCreateAssetMenu + "/" + Title,
+    //     order = 0)]
     public class ReadMe : ScriptableObject
     {
         private const string Title = "ReadMe";

@@ -44,11 +44,11 @@ namespace MoralisUnity.Platform.Services.ClientServices
         /// Creates a new <see cref="MoralisClient"/> and authenticates it as belonging to your application. This class is a hub for interacting with the SDK. The recommended way to use this class on client applications is to instantiate it, then call <see cref="Publicize"/> on it in your application entry point. This allows you to access <see cref="Instance"/>.
         /// </summary>
         /// <param name="applicationID">The Application ID provided in the Moralis dashboard.</param>
-        /// <param name="serverURI">The server URI provided in the Moralis dashboard.</param>
+        /// <param name="serverURL">The server URL provided in the Moralis dashboard.</param>
         /// <param name="key">The .NET Key provided in the Moralis dashboard.</param>
         /// <param name="serviceHub">A service hub to override internal services and thereby make the Moralis SDK operate in a custom manner.</param>
         /// <param name="configurators">A set of <see cref="IServiceHubMutator"/> implementation instances to tweak the behaviour of the SDK.</param>
-        public MoralisService(string applicationID, string serverURI, string key, IJsonSerializer jsonSerializer, IServiceHub<TUser> serviceHub = default, params IServiceHubMutator[] configurators) : this(new ServerConnectionData { ApplicationID = applicationID, ServerURI = serverURI, Key = key }, jsonSerializer, serviceHub, configurators) { }
+        public MoralisService(string applicationID, string serverURL, string key, IJsonSerializer jsonSerializer, IServiceHub<TUser> serviceHub = default, params IServiceHubMutator[] configurators) : this(new ServerConnectionData { ApplicationID = applicationID, ServerURI = serverURL, Key = key }, jsonSerializer, serviceHub, configurators) { }
 
         /// <summary>
         /// Creates a new <see cref="MoralisClient"/> and authenticates it as belonging to your application. This class is a hub for interacting with the SDK. The recommended way to use this class on client applications is to instantiate it, then call <see cref="Publicize"/> on it in your application entry point. This allows you to access <see cref="Instance"/>.
@@ -78,7 +78,7 @@ namespace MoralisUnity.Platform.Services.ClientServices
                 _ => throw new InvalidOperationException("The IServerConnectionData implementation instance provided to the MoralisClient constructor must be populated with the information needed to connect to a Moralis server instance.")
             };
 
-            // If a WS/WSS URI is not supplied create it from the server URI.
+            // If a WS/WSS URI is not supplied create it from the server URL.
             if (String.IsNullOrWhiteSpace(configuration.LiveQueryServerURI))
             {
                 configuration.LiveQueryServerURI = Conversion.WebUriToWsURi(configuration.ServerURI);

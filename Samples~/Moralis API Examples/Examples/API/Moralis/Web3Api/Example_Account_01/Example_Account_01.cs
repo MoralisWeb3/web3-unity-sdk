@@ -8,7 +8,7 @@ using MoralisUnity.Sdk.Utilities;
 using MoralisUnity.Web3Api.Models;
 using UnityEngine;
 
-
+#pragma warning disable CS1998
 namespace MoralisUnity.Examples.Sdk.Example_Account_01
 {
 	public enum UserOperationType
@@ -56,7 +56,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 		//  General Methods -------------------------------	
 		private async UniTask SetupMoralis()
 		{
-			await Moralis.Start();
+			Moralis.Start();
 		}
 		
 		
@@ -64,7 +64,8 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 		{
 			// Canvas
 			await _exampleCanvas.InitializeAsync();
-			if (!Moralis.IsLoggedIn())
+			
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -95,7 +96,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 		
 		private async UniTask RefreshUI()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -119,7 +120,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 		//  Event Handlers --------------------------------
 		private async void GetNativeInfoButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -191,7 +192,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 		
 		private async void GetTokenInfoButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
@@ -273,7 +274,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Account_01
 		
 		private async void GetNFTInfoButton_OnClicked()
 		{
-			if (!Moralis.IsLoggedIn())
+			if (await ExampleHelper.HasMoralisUser() == false)
 			{
 				return;
 			}
