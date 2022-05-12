@@ -49,6 +49,9 @@ namespace MoralisUnity
 
         [DllImport("__Internal")]
         private static extern string ConnectAccount();
+        
+        [DllImport("__Internal")]
+        private static extern string SetConnectAccount(string value);
 
         [DllImport("__Internal")]
         private static extern bool SetDebugMode(bool mode);
@@ -76,12 +79,12 @@ namespace MoralisUnity
             {
                 await UniTask.DelayFrame(30);
 
-                account = Account();
+                account = ConnectAccount();
 
                 loop++;
             }
 
-            if (account.Length >  0)
+            if (account.Length > 0 && account != "false")
             {
                 isConnected = true;
 
@@ -89,6 +92,8 @@ namespace MoralisUnity
             }
             else
             {
+                // Reset account after error
+                SetConnectAccount("");
                 throw new Exception("Web3 Login timed out or failed.");
             }
         }

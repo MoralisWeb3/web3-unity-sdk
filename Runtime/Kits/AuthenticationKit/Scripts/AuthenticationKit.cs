@@ -142,14 +142,25 @@ namespace MoralisUnity.Kits.AuthenticationKit
             new PlatformNotSupportedException();
 #else
             string userAddr = "";
-            if (!Web3GL.IsConnected())
+            
+            // Try to sign and catch the Exception when a user cancels the request
+            try
             {
-                await Moralis.SetupWeb3();
-                userAddr = Web3GL.Account();
+                if (!Web3GL.IsConnected())
+                {
+                    await Moralis.SetupWeb3();
+                    userAddr = Web3GL.Account();
+                }
+                else
+                {
+                    userAddr = Web3GL.Account();
+                }
             }
-            else
+            catch (Exception e)
             {
-                userAddr = Web3GL.Account();
+                // Disconnect and start over if a user cancels the connecting request or there is an error
+                Disconnect();
+                return;
             }
             
             State = AuthenticationKitState.Signing;
