@@ -378,13 +378,32 @@ namespace MoralisUnity.Kits.AuthenticationKit
             // 2. Step the state. Rarely.
             switch (_stateObservable.Value)
             {
+                case AuthenticationKitState.Initialized:
+                    
+                    switch (AuthenticationKitPlatform)
+                    {
+                        case AuthenticationKitPlatform.Android:
+                            _walletConnect.autoSaveAndResume = true;
+                            // Don't await this task it won't finish until a session has been established 
+                            _walletConnect.Connect();
+                            break;
+                    }
+                    break;
+                
                 case AuthenticationKitState.Connecting:
 
                     switch (AuthenticationKitPlatform)
                     {
                         case AuthenticationKitPlatform.Android:
+                            _walletConnect.OpenDeepLink();
+                            break;
                         case AuthenticationKitPlatform.iOS:
+                            _walletConnect.autoSaveAndResume = true;
+                            // Don't await this task it won't finish until a session has been established 
+                            _walletConnect.Connect();
+                            break;
                         case AuthenticationKitPlatform.WalletConnect:
+                            // Don't await this task it won't finish until a session has been established 
                             _walletConnect.Connect();
                             break;
                         case AuthenticationKitPlatform.WebGL:
@@ -397,8 +416,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
                             break;  
                     }
-
-                    _walletConnect.Connect();
                     break;
                 
                 case AuthenticationKitState.Connected:

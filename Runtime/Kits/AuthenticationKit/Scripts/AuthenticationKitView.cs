@@ -29,9 +29,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
         
         [Header("Platforms")]
         [SerializeField] 
-        private GameObject _androidPlatform = null;
-
-        [SerializeField] 
         private GameObject _iosPlatform = null;
         
         [SerializeField] 
@@ -76,12 +73,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 _backgroundImage.color = _backgroundImageColor;
             }
         }
-
         
 		private async void SetActiveUIJustPlatforms(bool isActive)
 		{
 			// 1. Hide everything...
-			_androidPlatform.SetActive(false);
 			_iosPlatform.SetActive(false);
 			_walletConnectPlatform.SetActive(false);
 
@@ -94,7 +89,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
 			switch (_authenticationKit.AuthenticationKitPlatform)
 			{
 				case AuthenticationKitPlatform.Android:
-					_androidPlatform.SetActive(true);
 					break;
 				case AuthenticationKitPlatform.iOS:
 					_iosPlatform.SetActive(true);
