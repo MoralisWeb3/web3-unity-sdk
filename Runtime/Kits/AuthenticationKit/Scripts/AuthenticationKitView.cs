@@ -100,20 +100,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
 					_iosPlatform.SetActive(true);
 					break;
 				case AuthenticationKitPlatform.WebGL:
-					if (!Application.isEditor)
-					{
-						// Within here state changes through signing, signed, connected
-						await _authenticationKit.LoginWithWeb3();
-					}
-					else
-					{
-						// TODO Add WalletConnect option for easy play testing when developing for WebGL
-
-						// Resolving this is possible. Just out of scope for now.
-						// Debug.LogError($"AuthenticationKit works in editor except when " +
-						//                $"AuthenticationKitPlatform == {_authenticationKit.AuthenticationKitPlatform}. " +
-						//                $"Make a build with WebGL or change platform.");
-					}
 					break;
 				case AuthenticationKitPlatform.WalletConnect:
 					_walletConnectPlatform.SetActive(true);
@@ -194,7 +180,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 			                else
 			                {
 				                // TODO Add WalletConnect option for easy play testing when developing for WebGL
-				                _statusText.text = "Please build your project to test WebGL"; 
+				                _statusText.text = "Please build your WebGL project to connect"; 
 			                }
 			                break;
 		                case AuthenticationKitPlatform.WalletConnect:
@@ -222,20 +208,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 					// Show Button "Disconnect"
 					SetActiveUIAllParts(false);
         			_disconnectButton.gameObject.SetActive(true);
-					
-					// Show custom more text for SOME platform(s)
-					switch (_authenticationKit.AuthenticationKitPlatform)
-					{
-						case AuthenticationKitPlatform.WebGL:
-							_statusText.gameObject.SetActive(true);
-							_statusText.text = "Connected"; 
-							break;
-						default:
-							//Do nothing for other states
-							break;
-					}
-					
-                    break;
+					break;
                 case AuthenticationKitState.Disconnecting:
 	                // No UI changes here
                     break;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using MoralisUnity.Platform.Objects;
+using MoralisUnity.Sdk.Exceptions;
 using UnityEngine;
 using UnityEngine.Events;
 using WalletConnectSharp.Core.Models;
@@ -130,7 +131,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public void Connect()
         {
             State = AuthenticationKitState.Connecting;
-            _walletConnect.Connect();
         }
 
         /// <summary>
@@ -161,12 +161,12 @@ namespace MoralisUnity.Kits.AuthenticationKit
             else 
             {
                 string address = Web3GL.Account().ToLower();
-                string appId = Moralis.GetClient().ApplicationId;
+                string appId = Moralis.ApplicationId;
                 long serverTime = 0;
 
                 // Retrieve server time from Moralis Server for message signature
                 Dictionary<string, object> serverTimeResponse =
-                    await Moralis.GetClient().Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
+                    await Moralis.Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
                 if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
                     !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
@@ -175,12 +175,25 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 }
 
                 string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
-
                 
-                string signature = await Web3GL.Sign(signMessage);
+                string signature = null;
+                
+                // Try to sign and catch the Exception when a user cancels the request
+                try
+                {
+                    signature = await Web3GL.Sign(signMessage);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                    // Disconnect and start over if a user cancels the singing request or there is an error
+                    Disconnect();
+                    return;
+                }
+                
                 State = AuthenticationKitState.Signed;
                 
-                // Create moralis auth data from message signing response.
+                // Create Moralis auth data from message signing response.
                 Dictionary<string, object> authData = new Dictionary<string, object>
                 {
                     { "id", address }, { "signature", signature }, { "data", signMessage }
@@ -188,7 +201,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
                 // Attempt to login user.
                 MoralisUser user = await Moralis.LogInAsync(authData);
-                State = AuthenticationKitState.Connected;
+
+                if (user != null)
+                {
+                    State = AuthenticationKitState.Connected;
+                }
             }
 #endif
         }
@@ -215,11 +232,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             // Extract wallet address from the Wallet Connect Session data object.
             string address = wcSessionData.accounts[0].ToLower();
-            string appId = Moralis.GetClient().ApplicationId;
+            string appId = Moralis.ApplicationId;
             long serverTime = 0;
 
             // Retrieve server time from Moralis Server for message signature
-            Dictionary<string, object> serverTimeResponse = await Moralis.GetClient().Cloud
+            Dictionary<string, object> serverTimeResponse = await Moralis.Cloud
                 .RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
             if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
@@ -230,12 +247,12 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
 
-            string response = null;
+            string signature = null;
                 
             // Try to sign and catch the Exception when a user cancels the request
             try
             {
-                response = await _walletConnect.Session.EthPersonalSign(address, signMessage);
+                signature = await _walletConnect.Session.EthPersonalSign(address, signMessage);
             }
             catch (Exception e)
             {
@@ -246,9 +263,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
             
             State = AuthenticationKitState.Signed;
             
-            // Create moralis auth data from message signing response.
+            // Create Moralis auth data from message signing response.
             Dictionary<string, object> authData = new Dictionary<string, object>
-                { { "id", address }, { "signature", response }, { "data", signMessage } };
+            {
+                { "id", address }, { "signature", signature }, { "data", signMessage }
+            };
 
             // Attempt to login user.
             MoralisUser user = await Moralis.LogInAsync(authData);
@@ -348,6 +367,29 @@ namespace MoralisUnity.Kits.AuthenticationKit
             // 2. Step the state. Rarely.
             switch (_stateObservable.Value)
             {
+                case AuthenticationKitState.Connecting:
+
+                    switch (AuthenticationKitPlatform)
+                    {
+                        case AuthenticationKitPlatform.Android:
+                        case AuthenticationKitPlatform.iOS:
+                        case AuthenticationKitPlatform.WalletConnect:
+                            _walletConnect.Connect();
+                            break;
+                        case AuthenticationKitPlatform.WebGL:
+                            if (!Application.isEditor)
+                            {
+                                await LoginWithWeb3();
+                            }
+                            break;
+                        default:
+                            SwitchDefaultException.Throw(AuthenticationKitPlatform);
+                            break;  
+                    }
+
+                    _walletConnect.Connect();
+                    break;
+                
                 case AuthenticationKitState.Connected:
 
                     // Invoke OnConnected event
