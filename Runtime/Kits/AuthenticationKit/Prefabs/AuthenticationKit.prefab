@@ -1604,18 +1604,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c8fa24db406244db3ad98c3d511c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _authenticationKitController:
-    OnStateChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    OnConnected:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDisconnected:
-      m_PersistentCalls:
-        m_Calls: []
-    _walletConnect: {fileID: 5302162188967417741}
   _willInitializeOnStart: 1
+  OnConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _walletConnect: {fileID: 0}
 --- !u!1 &1028142497531407197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2441,16 +2440,20 @@ PrefabInstance:
       value: Moralis SDK Application
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
+      propertyPath: DefaultWallet
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: connectOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: connectOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: autoSaveAndResume
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: AppData.Description
@@ -2467,23 +2470,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectionFailedEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2495,7 +2498,7 @@ PrefabInstance:
       objectReference: {fileID: 1028142497502137021}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -2510,6 +2513,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
+      propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7582086179482937505}
+    - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
@@ -2523,12 +2530,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectionFailedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1028142497262709264}
+      objectReference: {fileID: 7582086179482937505}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -2544,11 +2551,15 @@ PrefabInstance:
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7582086179482937505}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectionFailedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1028142496686647994}
+      objectReference: {fileID: 7582086179482937505}
+    - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
+      propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: WalletConnect_OnDisconnectedEvent
+      objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
@@ -2559,12 +2570,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: WalletConnect_OnNewSessionConnected
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1028142497262709264}
+      objectReference: {fileID: 7582086179482937505}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -2575,11 +2586,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: WalletConnectHandler
+      value: WalletConnect_OnConnectedEventSession
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectionFailedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: WalletConnect_OnConnectionFailedEvent
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2587,7 +2598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: WalletConnect_OnResumedSessionConnected
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2598,24 +2609,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
+      propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MoralisUnity.Kits.AuthenticationKit.AuthenticationKit, Moralis.Web3UnitySdk
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MoralisWeb3ApiSdk.MoralisController, Assembly-CSharp
+      value: MoralisUnity.Kits.AuthenticationKit.AuthenticationKit, Moralis.Web3UnitySdk
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEventSession.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Moralis.Kits.AuthenticationKit.AuthenticationKit, Moralis.Web3UnitySdk
+      value: MoralisUnity.Kits.AuthenticationKit.AuthenticationKit, Moralis.Web3UnitySdk
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectionFailedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: MoralisUnity.Kits.AuthenticationKit.AuthenticationKit, Moralis.Web3UnitySdk
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ResumedSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MoralisWeb3ApiSdk.MoralisController, Assembly-CSharp
+      value: MoralisUnity.Kits.AuthenticationKit.AuthenticationKit, Moralis.Web3UnitySdk
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: ConnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
+      propertyPath: DisconnectedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5175095894888145821, guid: ce99fd52594d5e54f972689a083ac409, type: 3}
       propertyPath: NewSessionConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
