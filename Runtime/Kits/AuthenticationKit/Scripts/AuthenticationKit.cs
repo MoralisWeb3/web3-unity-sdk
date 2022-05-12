@@ -262,7 +262,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
         // If the user cancels the connect Disconnect and start over
         public async void WalletConnect_OnDisconnectedEvent(WalletConnectUnitySession session)
         {
-            Debug.Log("WalletConnect_OnDisconnectedEvent");
+            // Debug.Log("WalletConnect_OnDisconnectedEvent");
+            
             // Only run if we are not already disconnecting
             if (!AuthenticationKitState.Disconnecting.Equals(State))
             {
@@ -273,7 +274,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
         // If something goes wrong Disconnect and start over
         public async void WalletConnect_OnConnectionFailedEvent(WalletConnectUnitySession session)
         {
-            Debug.Log("WalletConnect_OnConnectionFailedEvent");
+            // Debug.Log("WalletConnect_OnConnectionFailedEvent");
+            
             // Only run if we are not already disconnecting
             if (!AuthenticationKitState.Disconnecting.Equals(State))
             {
@@ -284,14 +286,16 @@ namespace MoralisUnity.Kits.AuthenticationKit
         // If there is a new WalletConnect session setup Web3
         public async void WalletConnect_OnNewSessionConnected(WalletConnectUnitySession session)
         {
-            Debug.Log("WalletConnect_OnNewSessionConnected");
+            // Debug.Log("WalletConnect_OnNewSessionConnected");
+            
             await Moralis.SetupWeb3();
         }
 
         // If there is a resumed WalletConnect session setup Web3
         public async void WalletConnect_OnResumedSessionConnected(WalletConnectUnitySession session)
         {
-            Debug.Log("WalletConnect_OnResumedSessionConnected");
+            // Debug.Log("WalletConnect_OnResumedSessionConnected");
+            
             await Moralis.SetupWeb3();
         }
 

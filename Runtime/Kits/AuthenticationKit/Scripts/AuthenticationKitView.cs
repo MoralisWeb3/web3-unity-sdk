@@ -189,8 +189,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 			                _statusText.text = "Connecting With Your Device"; 
 			                break;
 		                case AuthenticationKitPlatform.WalletConnect:
-			                _statusText.gameObject.SetActive(true);
-			                _statusText.text = "Scan QR Code With Your Device";
+			                _statusText.gameObject.SetActive(false);
 			                break;
 		                default:
 			                //Do nothing for other states
