@@ -100,19 +100,20 @@ namespace MoralisUnity.Kits.AuthenticationKit
 					_iosPlatform.SetActive(true);
 					break;
 				case AuthenticationKitPlatform.WebGL:
-					if (Application.isEditor)
-					{
-						// Resolving this is possible. Just out of scope for now.
-						Debug.LogError($"AuthenticationKit works in editor except when " +
-						                 $"AuthenticationKitPlatform == {_authenticationKit.AuthenticationKitPlatform}. " +
-						                 $"Make a build with WebGL or change platform.");
-					}
-					else
+					if (!Application.isEditor)
 					{
 						// Within here state changes through signing, signed, connected
 						await _authenticationKit.LoginWithWeb3();
 					}
-				
+					else
+					{
+						// TODO Add WalletConnect option for easy play testing when developing for WebGL
+
+						// Resolving this is possible. Just out of scope for now.
+						// Debug.LogError($"AuthenticationKit works in editor except when " +
+						//                $"AuthenticationKitPlatform == {_authenticationKit.AuthenticationKitPlatform}. " +
+						//                $"Make a build with WebGL or change platform.");
+					}
 					break;
 				case AuthenticationKitPlatform.WalletConnect:
 					_walletConnectPlatform.SetActive(true);
@@ -186,9 +187,18 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                {
 		                case AuthenticationKitPlatform.WebGL:
 			                _statusText.gameObject.SetActive(true);
-			                _statusText.text = "Connecting With Your Device"; 
+			                if (!Application.isEditor)
+			                {
+				                _statusText.text = "Connecting With Your Device"; 
+			                }
+			                else
+			                {
+				                // TODO Add WalletConnect option for easy play testing when developing for WebGL
+				                _statusText.text = "Please build your project to test WebGL"; 
+			                }
 			                break;
 		                case AuthenticationKitPlatform.WalletConnect:
+			                // Hide status text because the QR has it own status text
 			                _statusText.gameObject.SetActive(false);
 			                break;
 		                default:
