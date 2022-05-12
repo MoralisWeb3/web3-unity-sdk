@@ -64,7 +64,11 @@ namespace MoralisUnity.Examples.Sdk.Example_Authentication_01
 
 			// Panels
 			_exampleCanvas.TopPanel.IsVisible = false;
+			_exampleCanvas.TopPanel.IsInteractable = false;
+			_exampleCanvas.TopPanel.IsBlockRaycasts = false;
 			_exampleCanvas.BottomPanel.IsVisible = false;
+			_exampleCanvas.BottomPanel.IsInteractable = false;
+			_exampleCanvas.BottomPanel.IsBlockRaycasts = false;
 			_exampleCanvas.BackgroundImage.IsVisible = false;
 			
 			// Footer

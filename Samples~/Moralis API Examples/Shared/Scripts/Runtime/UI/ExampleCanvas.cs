@@ -214,10 +214,9 @@ namespace MoralisUnity.Examples.Sdk.Shared
             StringBuilder topBodyText = new StringBuilder();
             topBodyText.AppendErrorLine(ExampleConstants.YouAreNotLoggedIn);
             topBodyText.AppendLine();
-            topBodyText.AppendLine(string.Format(ExampleConstants.TopPanelBodyTextMustLogInFirst1,
-               _authenticationSceneName, currentSceneName));
-            topBodyText.AppendLine(string.Format(ExampleConstants.TopPanelBodyTextMustLogInFirst2,
-               _authenticationSceneName, currentSceneName));
+            topBodyText.AppendFormat(ExampleConstants.DialogBodyTextAuthenticate,
+               _authenticationSceneName,
+               currentSceneName);
             TopPanel.BodyText.Text.text = topBodyText.ToString();
          }
          
@@ -315,15 +314,13 @@ namespace MoralisUnity.Examples.Sdk.Shared
          float bottomHeight = ExampleHelper.GetExamplePanelActualSize(BottomPanel, _canvas).y;
          float totalHeight = topHeight + bottomHeight;
 
-         if (nextBottomHeight <= 0 || nextBottomHeight >= totalHeight)
+         if (nextBottomHeight > 0 || nextBottomHeight < totalHeight)
          {
-            throw new Exception($"SetBottomPanelHeight({nextBottomHeight}) with invalid argument.");
+            float nextTopHeight = totalHeight - nextBottomHeight;
+
+            ExampleHelper.SetExamplePanelPreferredHeight(TopPanel, nextTopHeight);
+            ExampleHelper.SetExamplePanelPreferredHeight(BottomPanel, nextBottomHeight);
          }
-
-         float nextTopHeight = totalHeight - nextBottomHeight;
-
-         ExampleHelper.SetExamplePanelPreferredHeight(TopPanel, nextTopHeight);
-         ExampleHelper.SetExamplePanelPreferredHeight(BottomPanel, nextBottomHeight);
       }
       
 

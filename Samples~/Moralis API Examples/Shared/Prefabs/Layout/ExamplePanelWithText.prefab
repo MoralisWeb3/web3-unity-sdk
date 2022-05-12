@@ -375,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010224121873108270, guid: 49576a17599ae4b4ba4879afa254b076, type: 3}
       propertyPath: m_BlocksRaycasts
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5145085079843298243, guid: 49576a17599ae4b4ba4879afa254b076, type: 3}
       propertyPath: m_AnchorMax.y

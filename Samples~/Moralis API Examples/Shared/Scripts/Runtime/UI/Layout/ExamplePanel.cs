@@ -49,6 +49,30 @@ namespace MoralisUnity.Examples.Sdk.Shared
             _canvasGroup.SetIsVisible(value);
          }
       }
+      
+      public bool IsInteractable
+      {
+         get
+         {
+            return _canvasGroup.interactable;
+         }
+         set
+         {
+            _canvasGroup.interactable = value;
+         }
+      }
+      
+      public bool IsBlockRaycasts
+      {
+         get
+         {
+            return _canvasGroup.blocksRaycasts;
+         }
+         set
+         {
+            _canvasGroup.blocksRaycasts = value;
+         }
+      }
 
       
       //  Fields  ---------------------------------------

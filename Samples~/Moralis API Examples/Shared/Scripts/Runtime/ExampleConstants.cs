@@ -18,9 +18,8 @@
         public const string LogOut = "Log Out";
         public const string NotExpectedSoFix = "Not Expected. Fix.";
         public const string CloudFunctionNotFound = "Empty result. Ensure Cloud Function exists on server.";
-        public const string TopPanelBodyTextMustLogInFirst1 = "Load the '{0}' Scene to Log In. Then return to the '{1}' Scene to continue.\n";
+        public const string TopPanelBodyTextMustLogInFirst1 = "load the '{0}' Scene to Log In. Then return to the '{1}' Scene to continue.\n"; //starts lower case on purpose
         public const string YouAreNotLoggedIn = "You are not logged in.";
-        public static readonly string TopPanelBodyTextMustLogInFirst2 = $"Or click '{Authenticate}' above.";
         //
         public const string DialogConfirmation = "Confirmation";
         public const string DialogAreYouSure = "Are you sure?";
