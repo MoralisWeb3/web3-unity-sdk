@@ -36,8 +36,8 @@ namespace MoralisUnity.Editor
 
             window.isSetupWizard = false;
             window.titleContent = new GUIContent("Unity Web3 SDK");
-            window.minSize = new Vector2(750, 450);
-            window.maxSize = new Vector2(750, 450);
+            window.minSize = new Vector2(750, 500);
+            window.maxSize = new Vector2(750, 500);
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace MoralisUnity.Editor
             }
 
             win.isSetupWizard = true;
-            win.minSize = new Vector2(750, 450);
-            win.maxSize = new Vector2(750, 450);
+            win.minSize = new Vector2(750, 500);
+            win.maxSize = new Vector2(750, 500);
             win.Show();
         }
 

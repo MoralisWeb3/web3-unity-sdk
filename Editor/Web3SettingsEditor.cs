@@ -32,8 +32,8 @@ namespace MoralisUnity.Editor
 
             window.isSetupWizard = false;
             window.titleContent = new GUIContent("Web3 Request Settings");
-            window.minSize = new Vector2(750, 500);
-            window.maxSize = new Vector2(750, 500);
+            window.minSize = new Vector2(750, 510);
+            window.maxSize = new Vector2(750, 510);
 
             window.Show();
         }
