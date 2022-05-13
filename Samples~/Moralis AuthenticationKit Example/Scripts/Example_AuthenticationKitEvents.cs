@@ -26,7 +26,7 @@ namespace MoralisUnity.Examples.Example_AuthenticationKitEvents
 			// initialization for advanced use cases
 			if (!_authenticationKit.WillInitializeOnStart)
 			{
-				await _authenticationKit.Controller.InitializeAsync();
+				await _authenticationKit.InitializeAsync();
 			}
 		}
 
