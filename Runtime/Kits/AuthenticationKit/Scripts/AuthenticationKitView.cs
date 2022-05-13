@@ -74,7 +74,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             }
         }
         
-		private async void SetActiveUIJustPlatforms(bool isActive)
+		private void SetActiveUIJustPlatforms(bool isActive)
 		{
 			// 1. Hide everything...
 			_iosPlatform.SetActive(false);
@@ -165,11 +165,16 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                // Show custom more text for SOME platform(s)
 	                switch (_authenticationKit.AuthenticationKitPlatform)
 	                {
+		                case AuthenticationKitPlatform.Android:
+			                _statusText.gameObject.SetActive(true);
+			                _statusText.text = "Connecting With Your Wallet";
+			                // TODO show message if there is no wallet installed on the device
+			                break;
 		                case AuthenticationKitPlatform.WebGL:
 			                _statusText.gameObject.SetActive(true);
 			                if (!Application.isEditor)
 			                {
-				                _statusText.text = "Connecting With Your Device"; 
+				                _statusText.text = "Connecting With Your Wallet"; 
 			                }
 			                else
 			                {
@@ -188,18 +193,15 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                
                     break;
                 case AuthenticationKitState.Signing:
-	                
 	                SetActiveUIAllParts(false);
 	                _statusText.gameObject.SetActive(true);
-	                _statusText.text = "Sign With Your Device";
+	                _statusText.text = "Signing With Your Wallet";
                     break;
                 case AuthenticationKitState.Signed:
-	                
 	                SetActiveUIAllParts(false);
                     break;
                 case AuthenticationKitState.Connected:
-
-					// Show Button "Disconnect"
+	                // Show Button "Disconnect"
 					SetActiveUIAllParts(false);
         			_disconnectButton.gameObject.SetActive(true);
 					break;
