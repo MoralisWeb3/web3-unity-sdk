@@ -519,10 +519,10 @@ RectTransform:
   m_Father: {fileID: 5957851012723837252}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -30, y: 100}
+  m_SizeDelta: {x: 295, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1028142496811023467
 CanvasRenderer:
@@ -748,10 +748,10 @@ RectTransform:
   m_Father: {fileID: 5957851012723837252}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -30, y: 100}
+  m_SizeDelta: {x: 295, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1028142497362570658
 CanvasRenderer:
@@ -1166,6 +1166,7 @@ MonoBehaviour:
   OnStateChanged:
     m_PersistentCalls:
       m_Calls: []
+  isPaused: 0
   _walletConnect: {fileID: 5302162188967417741}
 --- !u!1 &1028142497531407197
 GameObject:

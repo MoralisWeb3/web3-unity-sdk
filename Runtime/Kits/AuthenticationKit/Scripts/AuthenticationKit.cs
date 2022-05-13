@@ -37,7 +37,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Events ----------------------------------------
 
         /// <summary>
-        /// Invoked when State==AuthenticationKitState.Disconnected
+        /// Invoked when State==AuthenticationKitState.Connected
         /// </summary>
         [Header("Events")] public UnityEvent OnConnected = new UnityEvent();
 
@@ -50,6 +50,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// Invoked upon any change to the <see cref="AuthenticationKitState"/>
         /// </summary>
         public AuthenticationKitStateUnityEvent OnStateChanged = new AuthenticationKitStateUnityEvent();
+
+        /// <summary>
+        /// Invoked upon any change to <see cref="OnApplicationFocus"/> and <see cref="OnApplicationPause"/>
+        /// </summary>
+        public bool isPaused = false;
 
         /// <summary>
         /// Get the current <see cref="AuthenticationKitState"/>
@@ -100,6 +105,38 @@ namespace MoralisUnity.Kits.AuthenticationKit
             {
                 await InitializeAsync();
             }
+        }
+
+        async void OnApplicationFocus(bool hasFocus)
+        {
+            isPaused = !hasFocus;
+#if UNITY_ANDROID
+            // On android check if the state has changed from connecting after it returns from the wallet.
+            // If not the wallet failed and we need to start over.
+            if (AuthenticationKitState.Connecting.Equals(State))
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(30));
+                if (AuthenticationKitState.Connecting.Equals(State))
+                {
+                    Disconnect();
+                }
+            }
+            // On android check if the state has changed from signing after it returns from the wallet.
+            // If not the wallet failed and we need to start over.
+            if (AuthenticationKitState.Signing.Equals(State))
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(30));
+                if (AuthenticationKitState.Signing.Equals(State))
+                {
+                    Disconnect();
+                }
+            }
+#endif
+        }
+
+        void OnApplicationPause(bool pauseStatus)
+        {
+            isPaused = pauseStatus;
         }
 
         /// <summary>
@@ -259,21 +296,21 @@ namespace MoralisUnity.Kits.AuthenticationKit
             string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
 
             string signature = null;
-                
+
             // Try to sign and catch the Exception when a user cancels the request
             try
             {
                 signature = await _walletConnect.Session.EthPersonalSign(address, signMessage);
             }
-            catch (Exception e)
+            catch
             {
                 // Disconnect and start over if a user cancels the singing request or there is an error
                 Disconnect();
                 return;
             }
-            
+
             State = AuthenticationKitState.Signed;
-            
+
             // Create Moralis auth data from message signing response.
             Dictionary<string, object> authData = new Dictionary<string, object>
             {
@@ -293,7 +330,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public async void WalletConnect_OnDisconnectedEvent(WalletConnectUnitySession session)
         {
             // Debug.Log("WalletConnect_OnDisconnectedEvent");
-            
+
             // Only run if we are not already disconnecting
             if (!AuthenticationKitState.Disconnecting.Equals(State))
             {
@@ -305,7 +342,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public async void WalletConnect_OnConnectionFailedEvent(WalletConnectUnitySession session)
         {
             // Debug.Log("WalletConnect_OnConnectionFailedEvent");
-            
+
             // Only run if we are not already disconnecting
             if (!AuthenticationKitState.Disconnecting.Equals(State))
             {
@@ -317,7 +354,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public async void WalletConnect_OnNewSessionConnected(WalletConnectUnitySession session)
         {
             // Debug.Log("WalletConnect_OnNewSessionConnected");
-            
+
             await Moralis.SetupWeb3();
         }
 
@@ -325,7 +362,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public async void WalletConnect_OnResumedSessionConnected(WalletConnectUnitySession session)
         {
             // Debug.Log("WalletConnect_OnResumedSessionConnected");
-            
+
             await Moralis.SetupWeb3();
         }
 
@@ -349,8 +386,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
             try
             {
                 // Disconnect the WalletConnect session
-                await _walletConnect.Session.DisconnectSession("Session Disconnected",false);
-                
+                await _walletConnect.Session.DisconnectSession("Session Disconnected", false);
+
                 // CLear out the session so it is re-establish on sign-in.
                 _walletConnect.CLearSession();
             }
@@ -379,45 +416,50 @@ namespace MoralisUnity.Kits.AuthenticationKit
             switch (_stateObservable.Value)
             {
                 case AuthenticationKitState.Initialized:
-                    
+
                     switch (AuthenticationKitPlatform)
                     {
                         case AuthenticationKitPlatform.Android:
                             _walletConnect.autoSaveAndResume = true;
-                            // Don't await this task it won't finish until a session has been established 
-                            _walletConnect.Connect();
+                            // Warning the _walletConnect.Connect() won't finish until a Wallet connection has been established
+                            await _walletConnect.Connect();
                             break;
                     }
+
                     break;
-                
+
                 case AuthenticationKitState.Connecting:
 
                     switch (AuthenticationKitPlatform)
                     {
                         case AuthenticationKitPlatform.Android:
+                            // Only works if a users has a app installed that handles "wc:" links
                             _walletConnect.OpenDeepLink();
+                            // TODO check if the is paused with OnApplicationPause to see if the link working  
                             break;
                         case AuthenticationKitPlatform.iOS:
                             _walletConnect.autoSaveAndResume = true;
-                            // Don't await this task it won't finish until a session has been established 
-                            _walletConnect.Connect();
+                            // Warning the _walletConnect.Connect() won't finish until a Wallet connection has been established 
+                            await _walletConnect.Connect();
                             break;
                         case AuthenticationKitPlatform.WalletConnect:
-                            // Don't await this task it won't finish until a session has been established 
-                            _walletConnect.Connect();
+                            // Warning the _walletConnect.Connect() won't finish until a Wallet connection has been established
+                            await _walletConnect.Connect();
                             break;
                         case AuthenticationKitPlatform.WebGL:
                             if (!Application.isEditor)
                             {
                                 await LoginWithWeb3();
                             }
+
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
-                            break;  
+                            break;
                     }
+
                     break;
-                
+
                 case AuthenticationKitState.Connected:
 
                     // Invoke OnConnected event

@@ -23,7 +23,7 @@ namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 		//  Unity Methods ---------------------------------
 		protected void Awake()
 		{
-			_authenticationKit.Controller.OnStateChanged.AddListener(AuthenticationKit_OnStateChanged);
+			_authenticationKit.OnStateChanged.AddListener(AuthenticationKit_OnStateChanged);
 		}
 		
 		
@@ -33,8 +33,8 @@ namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit
 			// initialization for advanced use cases
 			if (!_authenticationKit.WillInitializeOnStart)
 			{
-				_authenticationKit.Controller.InitializeAsync();
-				_authenticationKit.Controller.Connect();
+				_authenticationKit.InitializeAsync();
+				_authenticationKit.Connect();
 			}
 
 
