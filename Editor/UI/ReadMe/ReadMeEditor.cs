@@ -193,6 +193,7 @@ namespace MoralisUnity.Sdk.UI.ReadMe
 			
 			m_TitleStyle = new GUIStyle(m_BodyStyle);
 			m_TitleStyle.fontSize = 26;
+			m_TitleStyle.margin.top = 25;
 
 			m_HeadingStyle = new GUIStyle(m_BodyStyle);
 			m_HeadingStyle.fontSize = 18;
@@ -204,7 +205,7 @@ namespace MoralisUnity.Sdk.UI.ReadMe
 			m_LinkStyle = new GUIStyle(m_BodyStyle);
 			m_LinkStyle.wordWrap = false;
 			// Match selection color which works nicely for both light and dark skins
-			m_LinkStyle.normal.textColor = new Color(0x00 / 255f, 0x78 / 255f, 0xDA / 255f, 1f);
+			m_LinkStyle.normal.textColor = new Color(0x00 / 255f, 0xC3 / 255f, 0xF8 / 255f, 0xFF);
 			m_LinkStyle.stretchWidth = false;
 
 			m_Initialized = true;
