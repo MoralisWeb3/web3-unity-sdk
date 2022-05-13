@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using MoralisUnity.Sdk.Constants;
 using MoralisUnity.Sdk.UI.ReadMe;
 
-namespace MoralisUnity.Examples.Kits.Example_AuthenticationKit.MenuItems
+namespace MoralisUnity.Examples.MoralisAuthenticationKit
 {
 	/// <summary>
 	/// The MenuItem attribute allows you to add menu items to the main menu and inspector context menus.

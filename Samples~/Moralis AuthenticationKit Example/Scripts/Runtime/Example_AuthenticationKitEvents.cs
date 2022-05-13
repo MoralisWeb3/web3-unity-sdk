@@ -1,19 +1,18 @@
 ﻿using MoralisUnity.Kits.AuthenticationKit;
 using UnityEngine;
 
-namespace MoralisUnity.Examples.Example_AuthenticationKitEvents
+namespace MoralisUnity.Examples.Kits.Example_AuthenticationKitEvents
 {
 	/// <summary>
 	/// Moralis "kits" each provide drag-and-drop functionality for developers.
 	/// Developers add a kit at edit-time to give additional runtime functionality for users.
 	///
 	/// This <see cref="Example_AuthenticationKitEvents"/> class demonstrates usage, including
-	/// the C# 'AddListener' syntax for observing events.
+	/// the Unity Inspector View for observing events.
 	/// 
 	/// </summary>
 	public class Example_AuthenticationKitEvents : MonoBehaviour
 	{
-		
 		//  Fields ----------------------------------------
 		[SerializeField] 
 		private AuthenticationKit _authenticationKit = null;
