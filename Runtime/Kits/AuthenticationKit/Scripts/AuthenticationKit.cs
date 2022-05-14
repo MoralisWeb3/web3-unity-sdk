@@ -424,6 +424,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             // Warning the _walletConnect.Connect() won't finish until a Wallet connection has been established
                             await _walletConnect.Connect();
                             break;
+                        case AuthenticationKitPlatform.iOS:
+                            _walletConnect.autoSaveAndResume = true;
+                            // Warning the _walletConnect.Connect() won't finish until a Wallet connection has been established
+                            await _walletConnect.Connect();
+                            break;
                     }
 
                     break;
@@ -438,9 +443,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             // TODO check if the is paused with OnApplicationPause to see if the link working  
                             break;
                         case AuthenticationKitPlatform.iOS:
-                            _walletConnect.autoSaveAndResume = true;
-                            // Warning the _walletConnect.Connect() won't finish until a Wallet connection has been established 
-                            await _walletConnect.Connect();
                             break;
                         case AuthenticationKitPlatform.WalletConnect:
                             // Warning the _walletConnect.Connect() won't finish until a Wallet connection has been established
