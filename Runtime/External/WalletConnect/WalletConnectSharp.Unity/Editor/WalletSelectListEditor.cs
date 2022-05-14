@@ -59,8 +59,7 @@ namespace Assets.Scripts.EditorTools
             }
 
             serializedObject.Update();
-
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("buttonPrefab"));
+            
             EditorGUILayout.PropertyField(serializedObject.FindProperty("buttonGridTransform"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("loadingText"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("WalletConnect"));

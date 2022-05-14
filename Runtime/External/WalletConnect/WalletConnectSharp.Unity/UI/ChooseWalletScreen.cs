@@ -13,7 +13,6 @@ namespace WalletConnectSharp.Unity.UI
     public class ChooseWalletScreen : MonoBehaviour
     {
         public WalletConnect WalletConnect;
-        public GameObject buttonPrefab;
         public Transform buttonGridTransform;
         public Text loadingText;
 
@@ -59,6 +58,10 @@ namespace WalletConnectSharp.Unity.UI
             yield return WalletConnect.FetchWalletList();
 
             Debug.Log("Building wallet buttons.");
+            
+            GameObject buttonPrefab = new GameObject("buttonPrefab");
+            buttonPrefab.AddComponent<Image>();
+            buttonPrefab.AddComponent<Button>();
 
             foreach (var walletId in WalletConnect.SupportedWallets.Keys)
             {
