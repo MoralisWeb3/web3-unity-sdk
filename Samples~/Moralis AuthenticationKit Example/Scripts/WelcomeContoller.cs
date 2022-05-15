@@ -9,11 +9,16 @@ using UnityEngine.UI;
 
 public class WelcomeContoller : MonoBehaviour
 {
+    [Header("Texts")]
     [SerializeField]
     private Text addressText;
 
     [SerializeField]
     private Text balanceText;
+
+    [Header("Buttons")]
+    [SerializeField]
+    private Button backButton = null;
 
     // Start is called before the first frame update
     async void Start()
@@ -29,6 +34,14 @@ public class WelcomeContoller : MonoBehaviour
             Debug.LogError("Balance Text not set.");
             return;
         }
+
+        if (backButton == null)
+        {
+            Debug.LogError("Back Button not set.");
+            return;
+        }
+
+        backButton.onClick.AddListener(BackButton_OnClicked);
 
         if (MoralisState.Initialized.Equals(Moralis.State))
         {
@@ -63,7 +76,7 @@ public class WelcomeContoller : MonoBehaviour
         }
     }
 
-    public void Back()
+    private void BackButton_OnClicked()
     {
         Debug.Log("Back called!");
         SceneManager.LoadScene(0);
