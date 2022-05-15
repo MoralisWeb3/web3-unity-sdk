@@ -1,0 +1,71 @@
+using MoralisUnity;
+using MoralisUnity.Platform.Objects;
+using MoralisUnity.Web3Api.Models;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class WelcomeContoller : MonoBehaviour
+{
+    [SerializeField]
+    private Text addressText;
+
+    [SerializeField]
+    private Text balanceText;
+
+    // Start is called before the first frame update
+    async void Start()
+    {
+        if (addressText == null)
+        {
+            Debug.LogError("Address Text not set.");
+            return;
+        }
+
+        if (balanceText == null)
+        {
+            Debug.LogError("Balance Text not set.");
+            return;
+        }
+
+        if (MoralisState.Initialized.Equals(Moralis.State))
+        {
+            MoralisUser user = await Moralis.GetUserAsync();
+
+            if (user == null)
+            {
+                // User is null so go back to the authentication scene.
+                SceneManager.LoadScene(0);
+            }
+
+            addressText.text = user.ethAddress;
+
+            // Retrienve the user's native balance;
+            NativeBalance balanceResponse = await Moralis.Web3Api.Account.GetNativeBalance(user.ethAddress, Moralis.CurrentChain.EnumValue);
+            
+            double balance = 0.0;
+            float decimals = Moralis.CurrentChain.Decimals * 1.0f;
+            string sym = Moralis.CurrentChain.Symbol;
+
+            // Make sure a response to the balanace request weas received. The 
+            // IsNullOrWhitespace check may not be necessary ...
+            if (balanceResponse != null && !string.IsNullOrWhiteSpace(balanceResponse.Balance))
+            {
+                double.TryParse(balanceResponse.Balance, out balance);
+            }
+
+            // Display native token amount token in fractions of token.
+            // NOTE: May be better to link this to chain since some tokens may have
+            // more than 18 sigjnificant figures.
+            balanceText.text = string.Format("{0:0.####} {1}", (balance / (double)Mathf.Pow(10.0f, decimals)), sym);
+        }
+    }
+
+    public void Back()
+    {
+        Debug.Log("Back called!");
+        SceneManager.LoadScene(0);
+    }
+}
