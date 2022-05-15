@@ -41,7 +41,7 @@ public class WelcomeContoller : MonoBehaviour
             return;
         }
 
-        backButton.onClick.AddListener(BackButton_OnClicked);
+        backButton.onClick.AddListener(BackButton_OnClicked); 
 
         if (MoralisState.Initialized.Equals(Moralis.State))
         {
@@ -76,9 +76,10 @@ public class WelcomeContoller : MonoBehaviour
         }
     }
 
-    private void BackButton_OnClicked()
+    private async void BackButton_OnClicked()
     {
-        Debug.Log("Back called!");
+        // Logout the Moralis User.
+        await Moralis.LogOutAsync();
         SceneManager.LoadScene(0);
     }
 }
