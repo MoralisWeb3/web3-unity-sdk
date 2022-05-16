@@ -31,7 +31,7 @@ namespace WalletConnectSharp.Unity
             private set;
         }
 
-        [FormerlySerializedAs("AllowedWalletIds")] public List<string> AllowedWalletNames;
+        public List<string> AllowedWalletNames;
 
         public AppEntry SelectedWallet { get; set; }
 
