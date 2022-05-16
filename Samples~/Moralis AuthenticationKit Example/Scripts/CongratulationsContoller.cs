@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class WelcomeContoller : MonoBehaviour
+public class CongratulationsContoller : MonoBehaviour
 {
     [Header("Texts")]
     [SerializeField]
@@ -41,8 +41,6 @@ public class WelcomeContoller : MonoBehaviour
             return;
         }
 
-        backButton.onClick.AddListener(BackButton_OnClicked); 
-
         if (MoralisState.Initialized.Equals(Moralis.State))
         {
             MoralisUser user = await Moralis.GetUserAsync();
@@ -74,12 +72,5 @@ public class WelcomeContoller : MonoBehaviour
             // more than 18 sigjnificant figures.
             balanceText.text = string.Format("{0:0.####} {1}", (balance / (double)Mathf.Pow(10.0f, decimals)), sym);
         }
-    }
-
-    private async void BackButton_OnClicked()
-    {
-        // Logout the Moralis User.
-        await Moralis.LogOutAsync();
-        SceneManager.LoadScene(0);
     }
 }
