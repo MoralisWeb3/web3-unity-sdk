@@ -47,5 +47,13 @@ namespace MoralisUnity
         /// Chain Id as Enum value.
         /// </summary>
         public ChainList EnumValue;
+        /// <summary>
+        /// Number of decimals in the currency.
+        /// </summary>
+        public int Decimals;
+        /// <summary>
+        /// Native currency's symbol.
+        /// </summary>
+        public string Symbol;
     }
 }
