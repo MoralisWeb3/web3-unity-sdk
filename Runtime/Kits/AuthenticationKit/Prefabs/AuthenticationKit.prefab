@@ -1060,7 +1060,6 @@ MonoBehaviour:
   OnStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  isPaused: 0
   _walletConnect: {fileID: 5302162188967417741}
 --- !u!1 &1028142497531407197
 GameObject:
@@ -1119,8 +1118,6 @@ MonoBehaviour:
   loadingText: {fileID: 1028142496299264557}
   statusText: {fileID: 4021814769362688991}
   wallets:
-  - Name: "\U0001F9D1\u200D\U0001F3A4 PunkWallet"
-    Selected: 0
   - Name: 1inch Wallet
     Selected: 1
   - Name: AirGap
@@ -1131,15 +1128,11 @@ MonoBehaviour:
     Selected: 0
   - Name: AlphaWallet
     Selected: 0
-  - Name: Ambire Wallet
-    Selected: 0
   - Name: Ancrypto Wallet
     Selected: 0
   - Name: Anybit
     Selected: 0
   - Name: ApolloX
-    Selected: 0
-  - Name: ArchiPage
     Selected: 0
   - Name: Argent
     Selected: 1
@@ -1151,17 +1144,11 @@ MonoBehaviour:
     Selected: 0
   - Name: Atomic
     Selected: 0
-  - Name: Authereum
-    Selected: 0
   - Name: Autonomy
     Selected: 0
   - Name: Avacus
     Selected: 0
   - Name: Ballet Crypto
-    Selected: 0
-  - Name: BCERTin wallet
-    Selected: 0
-  - Name: BeeWallet
     Selected: 0
   - Name: Binana
     Selected: 0
@@ -1181,15 +1168,11 @@ MonoBehaviour:
     Selected: 0
   - Name: Bridge Wallet
     Selected: 0
-  - Name: BRISE Wallet
-    Selected: 0
   - Name: Bull App
     Selected: 0
   - Name: Bycoin
     Selected: 0
   - Name: Card Wallet
-    Selected: 0
-  - Name: Celo Wallet
     Selected: 0
   - Name: CeloDance
     Selected: 0
@@ -1223,8 +1206,6 @@ MonoBehaviour:
     Selected: 0
   - Name: D'CENT Wallet
     Selected: 0
-  - Name: Defiant
-    Selected: 0
   - Name: Dentacoin Wallet
     Selected: 0
   - Name: DID Wallet
@@ -1234,7 +1215,7 @@ MonoBehaviour:
   - Name: EasyPocket
     Selected: 0
   - Name: Edge Wallet
-    Selected: 0
+    Selected: 1
   - Name: Eidoo
     Selected: 0
   - Name: Elastos Essentials
@@ -1263,11 +1244,7 @@ MonoBehaviour:
     Selected: 0
   - Name: GoldBit
     Selected: 0
-  - Name: GridPlus
-    Selected: 0
   - Name: Guarda Wallet
-    Selected: 0
-  - Name: HaloDeFi Wallet
     Selected: 0
   - Name: HashKey Me
     Selected: 0
@@ -1278,8 +1255,6 @@ MonoBehaviour:
   - Name: imToken
     Selected: 1
   - Name: Infinito
-    Selected: 0
-  - Name: Infinity Wallet
     Selected: 0
   - Name: ioPay
     Selected: 0
@@ -1294,8 +1269,6 @@ MonoBehaviour:
   - Name: KryptoGO Wallet
     Selected: 0
   - Name: Krystal
-    Selected: 0
-  - Name: KyberSwap
     Selected: 0
   - Name: Lead Wallet
     Selected: 0
@@ -1319,19 +1292,11 @@ MonoBehaviour:
     Selected: 0
   - Name: Midas Wallet
     Selected: 0
-  - Name: Minerva Wallet
-    Selected: 0
   - Name: Monarch Wallet
     Selected: 0
   - Name: MYKEY
     Selected: 0
-  - Name: MyWalliD
-    Selected: 0
   - Name: Nash
-    Selected: 0
-  - Name: NEFTiPEDiA
-    Selected: 0
-  - Name: NeftiWallet
     Selected: 0
   - Name: Nitrogen Wallet
     Selected: 0
@@ -1340,8 +1305,6 @@ MonoBehaviour:
   - Name: ONTO
     Selected: 0
   - Name: Opera Crypto Browser
-    Selected: 0
-  - Name: Orange
     Selected: 0
   - Name: Ownbit
     Selected: 0
@@ -1361,13 +1324,11 @@ MonoBehaviour:
     Selected: 0
   - Name: QuiverX
     Selected: 0
-  - Name: Rabby
+  - Name: Rainbow
     Selected: 0
   - Name: Rainbow
     Selected: 1
   - Name: RealT Wallet
-    Selected: 0
-  - Name: RiceWallet
     Selected: 0
   - Name: RWallet
     Selected: 0
@@ -1387,13 +1348,9 @@ MonoBehaviour:
     Selected: 0
   - Name: S-ONE Wallet
     Selected: 0
-  - Name: SparkPoint
-    Selected: 0
   - Name: Spatium
     Selected: 0
   - Name: Spot
-    Selected: 0
-  - Name: StarBase
     Selected: 0
   - Name: Stasis
     Selected: 0
@@ -1417,7 +1374,7 @@ MonoBehaviour:
     Selected: 0
   - Name: Tongue Wallet
     Selected: 0
-  - Name: Torus
+  - Name: Trust Wallet
     Selected: 0
   - Name: Trust Wallet
     Selected: 1
@@ -1427,13 +1384,11 @@ MonoBehaviour:
     Selected: 0
   - Name: TTM Wallet
     Selected: 0
-  - Name: Uniblow
-    Selected: 0
   - Name: Unstoppable Wallet
     Selected: 0
-  - Name: UvToken
-    Selected: 0
   - Name: Uvtoken
+    Selected: 0
+  - Name: UvToken
     Selected: 0
   - Name: Valora
     Selected: 0
@@ -1443,17 +1398,11 @@ MonoBehaviour:
     Selected: 0
   - Name: 'Vision: Crypto Wallet'
     Selected: 0
-  - Name: Wallet 3
-    Selected: 0
   - Name: wallet.io
-    Selected: 0
-  - Name: WallETH
     Selected: 0
   - Name: WATT ME
     Selected: 0
   - Name: XFUN Wallet
-    Selected: 0
-  - Name: XinFin XDC Network
     Selected: 0
   - Name: yiToken
     Selected: 0
@@ -1462,7 +1411,7 @@ MonoBehaviour:
   - Name: Zelus
     Selected: 0
   - Name: ZenGo
-    Selected: 0
+    Selected: 1
 --- !u!1 &1028142497593629182
 GameObject:
   m_ObjectHideFlags: 0

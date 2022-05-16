@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Unity.Models;
@@ -23,7 +24,11 @@ namespace Assets.Scripts.WalletConnectSharp.Unity.UI
 
             foreach (var id in data.Keys)
             {
-                result.Add(new WalletSelectItem(id, data[id].name));
+                if (data[id].app != null && data[id].app.ios != null && data[id].app.ios.Length > 0)
+                {
+                    result.Add(new WalletSelectItem(id, data[id].name));
+                }
+                
             }
 
             result.Sort(new WalletCompare());
