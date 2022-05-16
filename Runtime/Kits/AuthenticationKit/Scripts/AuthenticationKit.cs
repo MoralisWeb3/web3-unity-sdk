@@ -247,8 +247,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     { "id", address }, { "signature", signature }, { "data", signMessage }
                 };
 
+                // Get chain Id
+                int chainId = Web3GL.ChainId();
+
                 // Attempt to login user.
-                MoralisUser user = await Moralis.LogInAsync(authData);
+                MoralisUser user = await Moralis.LogInAsync(authData, chainId);
 
                 if (user != null)
                 {
@@ -318,7 +321,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             };
 
             // Attempt to login user.
-            MoralisUser user = await Moralis.LogInAsync(authData);
+            MoralisUser user = await Moralis.LogInAsync(authData, wcSessionData.chainId.Value);
 
             if (user != null)
             {

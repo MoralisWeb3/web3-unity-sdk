@@ -70,6 +70,7 @@ namespace MoralisUnity
     /// </summary>
     public static class Moralis
     {
+        private const string ChainIdPlayerPrefsKey = "CHAIN_ID";
         private static MoralisState state = MoralisState.None;
         
         public static MoralisState State
@@ -278,6 +279,13 @@ namespace MoralisUnity
                 if (user == null)
                 {
                     user = await Client.GetCurrentUserAsync();
+
+                    // Since we are loading the user from cache, check PlayerPrefs for last chainId.
+                    if(PlayerPrefs.HasKey(ChainIdPlayerPrefsKey))
+                    { 
+                        int cid = PlayerPrefs.GetInt(ChainIdPlayerPrefsKey);
+                        CurrentChain = SupportedEvmChains.FromChainList(cid);
+                    }
                 }
 
                 return user;
@@ -303,6 +311,10 @@ namespace MoralisUnity
                 if (chainId >= 0)
                 {
                     CurrentChain = SupportedEvmChains.FromChainList(chainId);
+
+                    // Also store the chainId in playerPrefs so it is available if user
+                    // leaves app without logging out.
+                    PlayerPrefs.SetInt(ChainIdPlayerPrefsKey, chainId);
                 }
 
                 user = await Client.LogInAsync(authData, CancellationToken.None);
