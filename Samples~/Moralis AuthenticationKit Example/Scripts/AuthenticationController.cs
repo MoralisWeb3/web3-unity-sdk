@@ -7,6 +7,6 @@ public class AuthenticationController : MonoBehaviour
 {
     public static void ShowMainScene()
     {
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(1);
     }
 }
