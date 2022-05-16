@@ -62,6 +62,7 @@ namespace Assets.Scripts.EditorTools
             
             EditorGUILayout.PropertyField(serializedObject.FindProperty("buttonGridTransform"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("loadingText"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("statusText"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("WalletConnect"));
 
             EditorGUILayout.Separator();

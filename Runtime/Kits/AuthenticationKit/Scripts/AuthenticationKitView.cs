@@ -166,7 +166,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                switch (_authenticationKit.AuthenticationKitPlatform)
 	                {
 		                case AuthenticationKitPlatform.iOS:
-			                _statusText.gameObject.SetActive(true);
+			                // Hide statusText first will be turned on by WalletConnect when a user click on a wallet
+			                _statusText.gameObject.SetActive(false);
 			                _statusText.text = "Connecting With Your Wallet";
 			                // TODO show message if there is no wallet installed on the device
 			                break;

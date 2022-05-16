@@ -329,7 +329,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 236}
+  m_AnchoredPosition: {x: 0, y: 300}
   m_SizeDelta: {x: -30, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1028142496089569010
@@ -648,8 +648,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -65}
-  m_SizeDelta: {x: -30, y: 520}
+  m_AnchoredPosition: {x: 0, y: -40}
+  m_SizeDelta: {x: -30, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1028142497025101312
 MonoBehaviour:
@@ -1092,8 +1092,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1028142496089569008}
-  - {fileID: 1028142496299264559}
   - {fileID: 1028142497025101439}
+  - {fileID: 1028142496299264559}
   m_Father: {fileID: 5640527196320936181}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1117,6 +1117,7 @@ MonoBehaviour:
   WalletConnect: {fileID: 5302162188967417741}
   buttonGridTransform: {fileID: 1028142497025101439}
   loadingText: {fileID: 1028142496299264557}
+  statusText: {fileID: 4021814769362688991}
   wallets:
   - Name: "\U0001F9D1\u200D\U0001F3A4 PunkWallet"
     Selected: 0

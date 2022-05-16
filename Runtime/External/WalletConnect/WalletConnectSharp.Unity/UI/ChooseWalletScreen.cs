@@ -15,7 +15,8 @@ namespace WalletConnectSharp.Unity.UI
         public WalletConnect WalletConnect;
         public Transform buttonGridTransform;
         public Text loadingText;
-
+        public Text statusText;
+        
         [SerializeField]
         public WalletSelectItem[] wallets;
 
@@ -77,6 +78,8 @@ namespace WalletConnectSharp.Unity.UI
                     WalletConnect.OpenDeepLink(walletData);
                     // hide wallets after 
                     gameObject.SetActive(false);
+                    // show status text
+                    statusText.gameObject.SetActive(true);
                 });
             }
             
