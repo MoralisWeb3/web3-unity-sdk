@@ -110,9 +110,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
         async void OnApplicationFocus(bool hasFocus)
         {
             isPaused = !hasFocus;
-#if UNITY_ANDROID
-            // On android check if the state has changed from connecting after it returns from the wallet.
-            // If not the wallet failed and we need to start over.
+#if UNITY_ANDROID || UNITY_IOS
+            // On Android and IOS when the user returns to the app after connecting check if the state changes after 30 seconds   
+            // If not assume it has failed and restart the connection
             if (AuthenticationKitState.Connecting.Equals(State))
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(30));
@@ -121,8 +121,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     Disconnect();
                 }
             }
-            // On android check if the state has changed from signing after it returns from the wallet.
-            // If not the wallet failed and we need to start over.
+            // On Android and IOS when the user returns to the app after signing check if the state changes after 30 seconds   
+            // If not assume it has failed and restart the connection
             if (AuthenticationKitState.Signing.Equals(State))
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(30));
@@ -209,7 +209,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             else 
             {
                 string address = Web3GL.Account().ToLower();
-                string appId = Moralis.ApplicationId;
+                string appId = Moralis.DappId;
                 long serverTime = 0;
 
                 // Retrieve server time from Moralis Server for message signature
@@ -280,7 +280,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             // Extract wallet address from the Wallet Connect Session data object.
             string address = wcSessionData.accounts[0].ToLower();
-            string appId = Moralis.ApplicationId;
+            string appId = Moralis.DappId;
             long serverTime = 0;
 
             // Retrieve server time from Moralis Server for message signature

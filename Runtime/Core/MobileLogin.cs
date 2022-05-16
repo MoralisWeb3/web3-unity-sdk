@@ -41,10 +41,10 @@ namespace MoralisUnity
         private static string TOKEN_REQUEST_URL = "server/requestLoginToken";
         private static string REMOTE_SESSION_URL = "server/getRemoteSession?login_token={0}&_ApplicationId={1}";
 
-        public static async UniTask<MoralisUser> LogIn(string moralisServerUrl, string applicationId)
+        public static async UniTask<MoralisUser> LogIn(string moralisDappUrl, string dappId)
         {
             MoralisUser user = null;
-            MoralisLoginTokenResponse tokenResponse = await RequestLoginToken(moralisServerUrl, applicationId);
+            MoralisLoginTokenResponse tokenResponse = await RequestLoginToken(moralisDappUrl, dappId);
 
             if (tokenResponse != null)
             {
@@ -57,7 +57,7 @@ namespace MoralisUnity
                 {
                     await UniTask.Delay(TimeSpan.FromSeconds(500), ignoreTimeScale: false);
 
-                    MoralisSessionTokenResponse sessionResponse = await CheckSessionResult(moralisServerUrl, tokenResponse.loginToken, applicationId);
+                    MoralisSessionTokenResponse sessionResponse = await CheckSessionResult(moralisDappUrl, tokenResponse.loginToken, dappId);
 
                     if (sessionResponse != null && !String.IsNullOrWhiteSpace(sessionResponse.sessionToken))
                     {
@@ -71,22 +71,22 @@ namespace MoralisUnity
             return user;
         }
 
-        private async static UniTask<MoralisSessionTokenResponse> CheckSessionResult(string moralisServerUrl, string tokenId, string applicationId)
+        private async static UniTask<MoralisSessionTokenResponse> CheckSessionResult(string moralisDappUrl, string tokenId, string dappId)
         {
             MoralisSessionTokenResponse result = null;
 
             MoralisLoginTokenRequest payload = new MoralisLoginTokenRequest()
             {
-                _ApplicationId = applicationId
+                _ApplicationId = dappId
             };
 
             string data = JsonConvert.SerializeObject(payload);
 
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(moralisServerUrl);
+                client.BaseAddress = new Uri(moralisDappUrl);
 
-                HttpResponseMessage response = client.GetAsync(String.Format(REMOTE_SESSION_URL, tokenId, applicationId)).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+                HttpResponseMessage response = client.GetAsync(String.Format(REMOTE_SESSION_URL, tokenId, dappId)).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -102,20 +102,20 @@ namespace MoralisUnity
             return result;
         }
 
-        private async static UniTask<MoralisLoginTokenResponse> RequestLoginToken(string moralisServerUrl, string applicationId)
+        private async static UniTask<MoralisLoginTokenResponse> RequestLoginToken(string moralisDappUrl, string dappId)
         {
             MoralisLoginTokenResponse result = null;
 
             MoralisLoginTokenRequest payload = new MoralisLoginTokenRequest()
             {
-                _ApplicationId = applicationId
+                _ApplicationId = dappId
             };
 
             string data = JsonConvert.SerializeObject(payload);
 
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(moralisServerUrl);
+                client.BaseAddress = new Uri(moralisDappUrl);
 
                 // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(
