@@ -110,8 +110,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
         async void OnApplicationFocus(bool hasFocus)
         {
             isPaused = !hasFocus;
-#if UNITY_ANDROID || UNITY_IOS
-            // On Android and IOS when the user returns to the app after connecting check if the state changes after 30 seconds   
+#if UNITY_ANDROID
+            // On Android when the user returns to the app after connecting check if the state changes after 30 seconds   
             // If not assume it has failed and restart the connection
             if (AuthenticationKitState.Connecting.Equals(State))
             {
@@ -121,7 +121,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     Disconnect();
                 }
             }
-            // On Android and IOS when the user returns to the app after signing check if the state changes after 30 seconds   
+            // On Android when the user returns to the app after signing check if the state changes after 30 seconds   
             // If not assume it has failed and restart the connection
             if (AuthenticationKitState.Signing.Equals(State))
             {
