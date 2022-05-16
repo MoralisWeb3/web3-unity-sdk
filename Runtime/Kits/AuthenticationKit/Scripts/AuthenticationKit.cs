@@ -53,16 +53,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public AuthenticationKitStateUnityEvent OnStateChanged = new AuthenticationKitStateUnityEvent();
 
         /// <summary>
-        /// Invoked upon any change to <see cref="OnApplicationFocus"/> and <see cref="OnApplicationPause"/>
-        /// </summary>
-        public bool isPaused = false;
-
-        /// <summary>
-        /// Invoked upon any change to <see cref="OnApplicationFocus"/> and <see cref="OnApplicationPause"/>
-        /// </summary>
-        private CancellationTokenSource onApplicationFocusCancelSource = new CancellationTokenSource();
-
-        /// <summary>
         /// Get the current <see cref="AuthenticationKitState"/>
         /// </summary>
         public AuthenticationKitState State
@@ -111,53 +101,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
             {
                 await InitializeAsync();
             }
-        }
-
-        async void OnApplicationFocus(bool hasFocus)
-        {
-            isPaused = !hasFocus;
-#if UNITY_ANDROID || UNITY_IOS
-            // On Android and IOS when the user returns to the app after connecting check if the state changes after 30 seconds   
-            // If not assume it has failed and restart the connection
-            if (AuthenticationKitState.Connecting.Equals(State))
-            {
-                await UniTask.Delay(TimeSpan.FromSeconds(30), cancellationToken: onApplicationFocusCancelSource.Token)
-                    .ContinueWith(
-                        () =>
-                        {
-                            if (AuthenticationKitState.Connecting.Equals(State))
-                            {
-                                Disconnect();
-                            }
-                        });
-            }
-
-            // On Android and IOS when the user returns to the app after signing check if the state changes after 30 seconds   
-            // If not assume it has failed and restart the connection
-            if (AuthenticationKitState.Signing.Equals(State))
-            {
-                await UniTask.Delay(TimeSpan.FromSeconds(30), cancellationToken: onApplicationFocusCancelSource.Token)
-                    .ContinueWith(
-                        () =>
-                        {
-                            if (AuthenticationKitState.Signing.Equals(State))
-                            {
-                                Disconnect();
-                            }
-                        });
-            }
-#endif
-        }
-
-        void OnApplicationPause(bool pauseStatus)
-        {
-            isPaused = pauseStatus;
-#if UNITY_ANDROID || UNITY_IOS
-            // On Android and IOS when the user opens the wallet cancel the tasks and "Reset" the cancellation token source
-            onApplicationFocusCancelSource.Cancel();
-            onApplicationFocusCancelSource.Dispose(); 
-            onApplicationFocusCancelSource = new CancellationTokenSource();
-#endif
         }
 
         /// <summary>
@@ -505,11 +448,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     // Switch default is ok here since not all known conditions are declared above
                     break;
             }
-
-#if UNITY_ANDROID || UNITY_IOS
-            // On Android and iOS if the state changes cancel the onApplicationFocus Task
-            onApplicationFocusCancelSource.Cancel();
-#endif
         }
     }
 }
