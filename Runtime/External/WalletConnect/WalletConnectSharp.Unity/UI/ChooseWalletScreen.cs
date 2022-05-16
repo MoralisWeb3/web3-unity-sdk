@@ -27,13 +27,11 @@ namespace WalletConnectSharp.Unity.UI
             // Set wallet filter to those wallets selected by the developer.
             IEnumerable<string> walletFilter = from w in wallets
                                                where w.Selected == true
-                                               select w.Id;
+                                               select w.Name;
             // For iOS Set wallet filter to speed up wallet button display.
             if (walletFilter.Count() > 0)
             {
-                WalletConnect.AllowedWalletIds = walletFilter.ToList();
-
-                foreach (string i in WalletConnect.AllowedWalletIds) Debug.Log($"Filter for {i}");
+                WalletConnect.AllowedWalletNames = walletFilter.ToList();
             }
             else
             {
@@ -53,7 +51,7 @@ namespace WalletConnectSharp.Unity.UI
             }
         }
 
-        private IEnumerator  BuildWalletButtons()
+        private IEnumerator BuildWalletButtons()
         {
             yield return WalletConnect.FetchWalletList();
 
@@ -77,6 +75,8 @@ namespace WalletConnectSharp.Unity.UI
                 walletButton.onClick.AddListener(delegate
                 {
                     WalletConnect.OpenDeepLink(walletData);
+                    // hide wallets after 
+                    gameObject.SetActive(false);
                 });
             }
             

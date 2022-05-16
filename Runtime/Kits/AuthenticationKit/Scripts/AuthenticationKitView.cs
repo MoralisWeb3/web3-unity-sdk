@@ -165,6 +165,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                // Show custom more text for SOME platform(s)
 	                switch (_authenticationKit.AuthenticationKitPlatform)
 	                {
+		                case AuthenticationKitPlatform.iOS:
+			                _statusText.gameObject.SetActive(true);
+			                _statusText.text = "Connecting With Your Wallet";
+			                // TODO show message if there is no wallet installed on the device
+			                break;
 		                case AuthenticationKitPlatform.Android:
 			                _statusText.gameObject.SetActive(true);
 			                _statusText.text = "Connecting With Your Wallet";

@@ -31,7 +31,7 @@ namespace WalletConnectSharp.Unity
             private set;
         }
 
-        public List<string> AllowedWalletIds;
+        [FormerlySerializedAs("AllowedWalletIds")] public List<string> AllowedWalletNames;
 
         public AppEntry SelectedWallet { get; set; }
 
@@ -425,15 +425,15 @@ namespace WalletConnectSharp.Unity
 
 #if UNITY_IOS
                     // Filter wallets by the allowed wallets list.
-                    if (AllowedWalletIds != null && AllowedWalletIds.Count > 0)
+                    if (AllowedWalletNames != null && AllowedWalletNames.Count > 0)
                     {
                         Dictionary<string, AppEntry> temp = new Dictionary<string, AppEntry>();
 
-                        foreach (string k in SupportedWallets.Keys)
+                        foreach (var supportedWallet in SupportedWallets)
                         {
-                            if (AllowedWalletIds.Contains(k))
+                            if (AllowedWalletNames.Contains(supportedWallet.Value.name))
                             {
-                                temp.Add(k, SupportedWallets[k]);
+                                temp.Add(supportedWallet.Key, supportedWallet.Value);
                             }
                         }
 
