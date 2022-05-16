@@ -6,6 +6,7 @@ using MoralisUnity.Platform.Objects;
 using MoralisUnity.Sdk.Exceptions;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
 
@@ -97,6 +98,12 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
         protected async void Start()
         {
+            // Add the EventSystem if there is none
+            if (FindObjectOfType<EventSystem>() == null)
+            {
+                var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            }
+            
             if (_willInitializeOnStart)
             {
                 await InitializeAsync();
