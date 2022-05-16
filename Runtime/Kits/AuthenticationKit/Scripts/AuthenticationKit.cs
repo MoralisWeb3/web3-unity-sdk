@@ -153,7 +153,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
         {
             isPaused = pauseStatus;
 #if UNITY_ANDROID || UNITY_IOS
-            // On Android and IOS when the user opens the wallet "Reset" the cancellation token source
+            // On Android and IOS when the user opens the wallet cancel the tasks and "Reset" the cancellation token source
+            onApplicationFocusCancelSource.Cancel();
             onApplicationFocusCancelSource.Dispose(); 
             onApplicationFocusCancelSource = new CancellationTokenSource();
 #endif
