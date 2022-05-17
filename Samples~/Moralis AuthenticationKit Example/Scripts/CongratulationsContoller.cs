@@ -51,7 +51,8 @@ public class CongratulationsContoller : MonoBehaviour
                 SceneManager.LoadScene(0);
             }
 
-            addressText.text = user.ethAddress;
+            // Display User's wallet address.
+            addressText.text = FormatUserAddressForDisplay(user.ethAddress);
 
             // Retrienve the user's native balance;
             NativeBalance balanceResponse = await Moralis.Web3Api.Account.GetNativeBalance(user.ethAddress, Moralis.CurrentChain.EnumValue);
@@ -72,5 +73,17 @@ public class CongratulationsContoller : MonoBehaviour
             // more than 18 sigjnificant figures.
             balanceText.text = string.Format("{0:0.####} {1}", (balance / (double)Mathf.Pow(10.0f, decimals)), sym);
         }
+    }
+
+    private string FormatUserAddressForDisplay(string addr)
+    {
+        string resp = addr;
+
+        if (resp.Length > 13)
+        {
+            resp = string.Format("{0}...{1}", resp.Substring(0,6), resp.Substring(resp.Length - 4, 4));
+        }
+
+        return resp;
     }
 }
