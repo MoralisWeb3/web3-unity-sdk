@@ -10,24 +10,26 @@ namespace MoralisUnity
     [Serializable]
     public class MoralisServerSettings : ScriptableObject
     {
-        [FormerlySerializedAs("ServerUri")] public string ServerUrl;
-        public string ApplicationId;
-        public string ApplicationName;
-        public string ApplicationDescription;
-        public string ApplicationVersion;
-        public string ApplicationIconUri;
-        public string ApplicationUrl;
+        [FormerlySerializedAs("ServerUrl")]
+        [FormerlySerializedAs("ServerUri")] 
+        public string DappUrl;
+        [FormerlySerializedAs("ApplicationId")] public string DappId;
+        [FormerlySerializedAs("ApplicationName")] public string DappName;
+        [FormerlySerializedAs("ApplicationDescription")] public string DappDescription;
+        [FormerlySerializedAs("ApplicationVersion")] public string DappVersion;
+        [FormerlySerializedAs("DappIconUri")] [FormerlySerializedAs("ApplicationIconUri")] public string DappIconUrl;
+        [FormerlySerializedAs("DappWebsite")] [FormerlySerializedAs("ApplicationUrl")] public string DappWebsiteUrl;
         public bool DisableAutoOpenWizard = false;
 
         public MoralisServerSettings()
         {
-            ServerUrl = String.Empty;
-            ApplicationId = String.Empty;
-            ApplicationName = "Moralis SDK Application";
-            ApplicationDescription = "This application provides an example of how to you Moralis in a Unity 3D Game";
-            ApplicationVersion = "1.0.0";
-            ApplicationUrl = "https://moralis.io";
-            ApplicationIconUri = "https://moralis.io/wp-content/uploads/2021/06/Powered-by-Moralis-Badge-Black.svg";
+            DappUrl = String.Empty;
+            DappId = String.Empty;
+            DappName = "Moralis SDK Application";
+            DappDescription = "This application provides an example of how to you Moralis in a Unity 3D Game";
+            DappVersion = "1.0.0";
+            DappWebsiteUrl = "https://moralis.io";
+            DappIconUrl = "https://moralis.io/wp-content/uploads/2021/06/Powered-by-Moralis-Badge-Black.svg";
         }
     }
 }

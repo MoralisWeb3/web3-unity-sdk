@@ -17,19 +17,19 @@
 			<engine:VisualElement name="LeftPanel">
 				<!-- page 1 -->
 				<engine:VisualElement name="Page_1" class="page mt-2">
-					<engine:TextElement class="page_title" text="Server Information" />
+					<engine:TextElement class="page_title" text="Dapp Information" />
 					<engine:Box class="box_line"></engine:Box>
 					
-					<engine:Label class="field_label" text="Server URL" />
-					<engine:TextField class="text_field" name="ServerUrlField" />
+					<engine:Label class="field_label" text="Dapp URL" />
+					<engine:TextField class="text_field" name="DappUrlField" />
 
-					<engine:Label class="field_label" text="Application ID" />
-					<engine:TextField class="text_field" name="ApplicationIdField" />
+					<engine:Label class="field_label" text="Dapp ID" />
+					<engine:TextField class="text_field" name="DappIdField" />
 					
-					<engine:TextElement class="page_text bold mt-3 mb-1" text="Don't have a Moralis server yet? No problem create one now for free:" />
+					<engine:TextElement class="page_text bold mt-3 mb-1" text="Don't have a Moralis dapp yet? No problem create one now for free:" />
 					<engine:TextElement class="page_text list-text text-small" text="1. Go to https://moralis.io and create or login to your account"/>
-					<engine:TextElement class="page_text list-text text-small" text="2. Create a new server" />
-					<engine:TextElement class="page_text list-text text-small" text="3. Click 'View Details' and copy the server information" />
+					<engine:TextElement class="page_text list-text text-small" text="2. Create a new dapp" />
+					<engine:TextElement class="page_text list-text text-small" text="3. Click 'View Details' and copy the dapp information" />
 
 					<engine:TextElement class="page_text text-small mt-3"
 						text="If you need help or have questions, don't hesitate to ask in either our Discord Channel (Moralis DAO) or our forum (https://forum.moralis.io) and we will get back to you asap. The best thing about Moralis is the super active community that is ready to help at any time!" />

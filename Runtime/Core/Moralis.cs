@@ -70,6 +70,7 @@ namespace MoralisUnity
     /// </summary>
     public static class Moralis
     {
+        private const string ChainIdPlayerPrefsKey = "CHAIN_ID";
         private static MoralisState state = MoralisState.None;
         
         public static MoralisState State
@@ -126,48 +127,47 @@ namespace MoralisUnity
             {
                 HostManifestData hostManifestData = new HostManifestData()
                 {
-                    Version = MoralisSettings.MoralisData.ApplicationVersion,
-                    Identifier = MoralisSettings.MoralisData.ApplicationName,
-                    Name = MoralisSettings.MoralisData.ApplicationName,
-                    ShortVersion = MoralisSettings.MoralisData.ApplicationVersion
+                    Version = MoralisSettings.MoralisData.DappVersion,
+                    Identifier = MoralisSettings.MoralisData.DappName,
+                    Name = MoralisSettings.MoralisData.DappName,
+                    ShortVersion = MoralisSettings.MoralisData.DappVersion
                 };
 
                 ClientMeta clientMeta = new ClientMeta()
                 {
-                    Name = MoralisSettings.MoralisData.ApplicationName,
-                    Description = MoralisSettings.MoralisData.ApplicationDescription,
-                    Icons = new[] { MoralisSettings.MoralisData.ApplicationIconUri },
-                    URL = MoralisSettings.MoralisData.ApplicationUrl
+                    Name = MoralisSettings.MoralisData.DappName,
+                    Description = MoralisSettings.MoralisData.DappDescription,
+                    Icons = new[] { MoralisSettings.MoralisData.DappIconUrl },
+                    URL = MoralisSettings.MoralisData.DappWebsiteUrl
                 };
 
                 // Initialize and register the Moralis, Moralis Web3Api and NEthereum Web3 clients
-                Start(MoralisSettings.MoralisData.ServerUrl, MoralisSettings.MoralisData.ApplicationId, hostManifestData, clientMeta);
+                Start(MoralisSettings.MoralisData.DappUrl, MoralisSettings.MoralisData.DappId, hostManifestData, clientMeta);
             }
         }
 
         /// <summary>
         /// Initializes the connection to a Moralis server.
         /// </summary>
-        /// <param name="applicationId"></param>
-        /// <param name="serverUrl"></param>
+        /// <param name="dappId"></param>
+        /// <param name="dappUrl"></param>
         /// <param name="hostData"></param>
         /// <param name="clientMeta"></param>
         /// <param name="web3ApiKey"></param>
-        public static void Start(string serverUrl, string applicationId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
-        {
-             State = MoralisState.Initializing;
+        public static void Start(string dappUrl, string dappId, HostManifestData hostData = null, ClientMeta clientMeta = null, string web3ApiKey = null)
+        { 
+            State = MoralisState.Initializing;
 
-            // Application Id is required.
-            if (string.IsNullOrEmpty(applicationId))
-            {
-                Debug.LogError("Application Id is required.");
-                throw new ArgumentException("Application Id was not supplied.");
+            // Dapp URL is required.
+            if (string.IsNullOrEmpty(dappUrl))
+            { 
+                throw new ArgumentException("Dapp URL was not supplied.");
             }
-            // Server URL is required.
-            if (string.IsNullOrEmpty(serverUrl))
+            
+            // Dapp ID is required.
+            if (string.IsNullOrEmpty(dappId))
             {
-                Debug.LogError("Server URL is required.");
-                throw new ArgumentException("Server URL was not supplied.");
+                throw new ArgumentException("Dapp ID was not supplied.");
             }
 
             // Check that required Host data properties are set.
@@ -191,8 +191,8 @@ namespace MoralisUnity
 
             // Set Moralis connection values.
             connectionData = new ServerConnectionData();
-            connectionData.ApplicationID = applicationId;
-            connectionData.ServerURI = serverUrl;
+            connectionData.ApplicationID = dappId;
+            connectionData.ServerURI = dappUrl;
             connectionData.ApiKey = web3ApiKey;
 
             // For unity apps the local storage value must also be set.
@@ -279,6 +279,13 @@ namespace MoralisUnity
                 if (user == null)
                 {
                     user = await Client.GetCurrentUserAsync();
+
+                    // Since we are loading the user from cache, check PlayerPrefs for last chainId.
+                    if(PlayerPrefs.HasKey(ChainIdPlayerPrefsKey))
+                    { 
+                        int cid = PlayerPrefs.GetInt(ChainIdPlayerPrefsKey);
+                        CurrentChain = SupportedEvmChains.FromChainList(cid);
+                    }
                 }
 
                 return user;
@@ -304,6 +311,10 @@ namespace MoralisUnity
                 if (chainId >= 0)
                 {
                     CurrentChain = SupportedEvmChains.FromChainList(chainId);
+
+                    // Also store the chainId in playerPrefs so it is available if user
+                    // leaves app without logging out.
+                    PlayerPrefs.SetInt(ChainIdPlayerPrefsKey, chainId);
                 }
 
                 user = await Client.LogInAsync(authData, CancellationToken.None);
@@ -376,13 +387,13 @@ namespace MoralisUnity
 
         #region MoralisClient and other objects direct calls
         /// <summary>
-        /// Shortcut to MoralisClient.ApplicationId
+        /// Shortcut to MoralisClient.DappId
         /// </summary>
-        public static string ApplicationId
+        public static string DappId
         {
             get
             {
-                return MoralisSettings.MoralisData.ApplicationId;
+                return MoralisSettings.MoralisData.DappId;
             }
         }
 
@@ -564,6 +575,12 @@ namespace MoralisUnity
         /// <returns></returns>
         public static async UniTask SetupWeb3()
         {
+            // Don't create a new web3 client if there is one
+            if (Web3Client != null)
+            {
+                return;
+            }
+            
             if (clientMetaData == null)
             {
                 Debug.LogError("Metadata not provided.");

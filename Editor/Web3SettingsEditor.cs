@@ -98,44 +98,44 @@ namespace MoralisUnity.Editor
                 #endregion
 
                 #region TextField Values Setup
-                var applicationNameField = rootVisualElement.Q<TextField>("ApplicationNameField");
-                applicationNameField.SetValueWithoutNotify(MoralisSettings.MoralisData.ApplicationName);
-                applicationNameField.RegisterValueChangedCallback(evt =>
+                var DappNameField = rootVisualElement.Q<TextField>("DappNameField");
+                DappNameField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappName);
+                DappNameField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ApplicationName = evt.newValue;
+                    MoralisSettings.MoralisData.DappName = evt.newValue;
                     SaveSettings();
                 });
 
-                var applicationDescriptionField = rootVisualElement.Q<TextField>("ApplicationDescriptionField");
-                applicationDescriptionField.SetValueWithoutNotify(MoralisSettings.MoralisData.ApplicationDescription);
-                applicationDescriptionField.RegisterValueChangedCallback(evt =>
+                var DappDescriptionField = rootVisualElement.Q<TextField>("DappDescriptionField");
+                DappDescriptionField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappDescription);
+                DappDescriptionField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ApplicationDescription = evt.newValue;
+                    MoralisSettings.MoralisData.DappDescription = evt.newValue;
                     SaveSettings();
                 });
 
 
-                var applicationVersionField = rootVisualElement.Q<TextField>("ApplicationVersionField");
-                applicationVersionField.SetValueWithoutNotify(MoralisSettings.MoralisData.ApplicationVersion);
-                applicationVersionField.RegisterValueChangedCallback(evt =>
+                var DappVersionField = rootVisualElement.Q<TextField>("DappVersionField");
+                DappVersionField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappVersion);
+                DappVersionField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ApplicationVersion = evt.newValue;
+                    MoralisSettings.MoralisData.DappVersion = evt.newValue;
                     SaveSettings();
                 });
 
-                var applicationUrlField = rootVisualElement.Q<TextField>("ApplicationUrlField");
-                applicationUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.ApplicationUrl);
-                applicationUrlField.RegisterValueChangedCallback(evt =>
+                var DappWebsiteUrlField = rootVisualElement.Q<TextField>("DappWebsiteUrlField");
+                DappWebsiteUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappWebsiteUrl);
+                DappWebsiteUrlField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ApplicationUrl = evt.newValue;
+                    MoralisSettings.MoralisData.DappWebsiteUrl = evt.newValue;
                     SaveSettings();
                 });
 
-                var applicationIconUriField = rootVisualElement.Q<TextField>("ApplicationIconUriField");
-                applicationIconUriField.SetValueWithoutNotify(MoralisSettings.MoralisData.ApplicationIconUri);
-                applicationIconUriField.RegisterValueChangedCallback(evt =>
+                var DappIconUrlField = rootVisualElement.Q<TextField>("DappIconUrlField");
+                DappIconUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappIconUrl);
+                DappIconUrlField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ApplicationIconUri = evt.newValue;
+                    MoralisSettings.MoralisData.DappIconUrl = evt.newValue;
                     SaveSettings();
                 });
                 #endregion

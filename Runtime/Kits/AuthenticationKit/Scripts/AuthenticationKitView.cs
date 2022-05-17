@@ -29,9 +29,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
         
         [Header("Platforms")]
         [SerializeField] 
-        private GameObject _androidPlatform = null;
-
-        [SerializeField] 
         private GameObject _iosPlatform = null;
         
         [SerializeField] 
@@ -58,10 +55,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Unity Methods ---------------------------------
         protected void Start()
         {
-            _authenticationKit.Controller.OnStateChanged.AddListener(AuthenticationKit_OnStateChanged);
+            _authenticationKit.OnStateChanged.AddListener(AuthenticationKit_OnStateChanged);
             
             // Local scope is 'late', so rebroadcast the state
-            AuthenticationKit_OnStateChanged(_authenticationKit.Controller.State);
+            AuthenticationKit_OnStateChanged(_authenticationKit.State);
             
             _connectButton.onClick.AddListener(ConnectButton_OnClicked);
             _disconnectButton.onClick.AddListener(DisconnectButton_OnClicked);
@@ -69,19 +66,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
         protected void OnValidate()
         {
-	        //This works at edit time and thus at runtime
-	        //Note: At edit time the image may be NOT active (to unclutter UI). That is ok.
+	        // This works at edit time and thus at runtime
+	        // Note: At edit time the image may be NOT active (to unclutter UI). That is ok.
             if (_backgroundImageColor != null && _backgroundImage != null)
             {
                 _backgroundImage.color = _backgroundImageColor;
             }
         }
-
         
-		private async void SetActiveUIJustPlatforms(bool isActive)
+		private void SetActiveUIJustPlatforms(bool isActive)
 		{
 			// 1. Hide everything...
-			_androidPlatform.SetActive(false);
 			_iosPlatform.SetActive(false);
 			_walletConnectPlatform.SetActive(false);
 
@@ -91,40 +86,26 @@ namespace MoralisUnity.Kits.AuthenticationKit
 			}
 			
 			// 2. Show something...
-			switch (_authenticationKit.Controller.AuthenticationKitPlatform)
+			switch (_authenticationKit.AuthenticationKitPlatform)
 			{
 				case AuthenticationKitPlatform.Android:
-					_androidPlatform.SetActive(true);
 					break;
 				case AuthenticationKitPlatform.iOS:
 					_iosPlatform.SetActive(true);
 					break;
 				case AuthenticationKitPlatform.WebGL:
-					if (Application.isEditor)
-					{
-						// Resolving this is possible. Just out of scope for now.
-						Debug.LogError($"AuthenticationKit works in editor except when " +
-						                 $"AuthenticationKitPlatform == {_authenticationKit.Controller.AuthenticationKitPlatform}. " +
-						                 $"Make a build with WebGL or change platform.");
-					}
-					else
-					{
-						// Within here state changes through signing, signed, connected
-						await _authenticationKit.Controller.LoginWithWeb3();
-					}
-				
 					break;
 				case AuthenticationKitPlatform.WalletConnect:
 					_walletConnectPlatform.SetActive(true);
 					break;
 				default:
-					SwitchDefaultException.Throw(_authenticationKit.Controller.AuthenticationKitPlatform);
+					SwitchDefaultException.Throw(_authenticationKit.AuthenticationKitPlatform);
 					break;   
 			}
 		}
 
 		
-		private void SetActiveUIAllParts (bool isActive)
+		private void SetActiveUIAllParts(bool isActive)
 		{
 			// Platforms
 			SetActiveUIJustPlatforms(isActive);
@@ -144,13 +125,13 @@ namespace MoralisUnity.Kits.AuthenticationKit
         //  Event Handlers --------------------------------
         private void ConnectButton_OnClicked()
         {
-	        _authenticationKit.Controller.Connect();
+	        _authenticationKit.Connect();
         }
         
         
         private void DisconnectButton_OnClicked()
         {
-	        _authenticationKit.Controller.Disconnect();
+	        _authenticationKit.Disconnect();
         }
         
         
@@ -182,15 +163,34 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                SetActiveUIJustPlatforms(true);
 	                
 	                // Show custom more text for SOME platform(s)
-	                switch (_authenticationKit.Controller.AuthenticationKitPlatform)
+	                switch (_authenticationKit.AuthenticationKitPlatform)
 	                {
+		                case AuthenticationKitPlatform.iOS:
+			                // Hide statusText first will be turned on by WalletConnect when a user click on a wallet
+			                _statusText.gameObject.SetActive(false);
+			                _statusText.text = "Connecting With Your Wallet";
+			                // TODO show message if there is no wallet installed on the device
+			                break;
+		                case AuthenticationKitPlatform.Android:
+			                _statusText.gameObject.SetActive(true);
+			                _statusText.text = "Connecting With Your Wallet";
+			                // TODO show message if there is no wallet installed on the device
+			                break;
 		                case AuthenticationKitPlatform.WebGL:
 			                _statusText.gameObject.SetActive(true);
-			                _statusText.text = "Connecting With Your Device"; 
+			                if (!Application.isEditor)
+			                {
+				                _statusText.text = "Connecting With Your Wallet"; 
+			                }
+			                else
+			                {
+				                // TODO Add WalletConnect option for easy play testing when developing for WebGL
+				                _statusText.text = "Please build your WebGL project to connect"; 
+			                }
 			                break;
 		                case AuthenticationKitPlatform.WalletConnect:
-			                _statusText.gameObject.SetActive(true);
-			                _statusText.text = "Scan QR Code With Your Device";
+			                // Hide status text because the QR has it own status text
+			                _statusText.gameObject.SetActive(false);
 			                break;
 		                default:
 			                //Do nothing for other states
@@ -199,34 +199,18 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                
                     break;
                 case AuthenticationKitState.Signing:
-	                
 	                SetActiveUIAllParts(false);
 	                _statusText.gameObject.SetActive(true);
-	                _statusText.text = "Sign With Your Device";
+	                _statusText.text = "Signing With Your Wallet";
                     break;
                 case AuthenticationKitState.Signed:
-	                
 	                SetActiveUIAllParts(false);
                     break;
                 case AuthenticationKitState.Connected:
-
-					// Show Button "Disconnect"
+	                // Show Button "Disconnect"
 					SetActiveUIAllParts(false);
         			_disconnectButton.gameObject.SetActive(true);
-					
-					// Show custom more text for SOME platform(s)
-					switch (_authenticationKit.Controller.AuthenticationKitPlatform)
-					{
-						case AuthenticationKitPlatform.WebGL:
-							_statusText.gameObject.SetActive(true);
-							_statusText.text = "Connected"; 
-							break;
-						default:
-							//Do nothing for other states
-							break;
-					}
-					
-                    break;
+					break;
                 case AuthenticationKitState.Disconnecting:
 	                // No UI changes here
                     break;

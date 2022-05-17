@@ -194,7 +194,7 @@ namespace MoralisUnity
         }
 
         /// <summary>
-        /// Provid async user login.
+        /// Provide async user login.
         /// data: 
         ///     id: Address
         ///     signature: Signature from wallet
@@ -206,9 +206,8 @@ namespace MoralisUnity
         {
             return this.LogInAsync(data, CancellationToken.None);
         }
-
-
-        /// Provid async user login.
+        
+        /// Provide async user login.
         /// data: 
         ///     id: Address
         ///     signature: Signature from wallet

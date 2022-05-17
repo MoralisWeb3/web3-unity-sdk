@@ -79,8 +79,8 @@ namespace MoralisUnity.Editor
             // Only show the wizard if it is not disabled and the information has
             // not already been filled in.
             if (!MoralisSettings.MoralisData.DisableAutoOpenWizard && 
-                (MoralisSettings.MoralisData.ApplicationId.Equals(String.Empty) ||
-                 MoralisSettings.MoralisData.ServerUrl.Equals(String.Empty)))
+                (MoralisSettings.MoralisData.DappId.Equals(String.Empty) ||
+                 MoralisSettings.MoralisData.DappUrl.Equals(String.Empty)))
             {
                 ShowSetupWizard();
             }
@@ -149,19 +149,19 @@ namespace MoralisUnity.Editor
                 #endregion
 
                 #region TextField Values Setup
-                var ServerUrlField = rootVisualElement.Q<TextField>("ServerUrlField");
-                ServerUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.ServerUrl);
-                ServerUrlField.RegisterValueChangedCallback(evt =>
+                var DappUrlField = rootVisualElement.Q<TextField>("DappUrlField");
+                DappUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappUrl);
+                DappUrlField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ServerUrl = evt.newValue;
+                    MoralisSettings.MoralisData.DappUrl = evt.newValue;
                     SaveSettings();
                 });
 
-                var applicationIdField = rootVisualElement.Q<TextField>("ApplicationIdField");
-                applicationIdField.SetValueWithoutNotify(MoralisSettings.MoralisData.ApplicationId);
-                applicationIdField.RegisterValueChangedCallback(evt =>
+                var DappIdField = rootVisualElement.Q<TextField>("DappIdField");
+                DappIdField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappId);
+                DappIdField.RegisterValueChangedCallback(evt =>
                 {
-                    MoralisSettings.MoralisData.ApplicationId = evt.newValue;
+                    MoralisSettings.MoralisData.DappId = evt.newValue;
                     SaveSettings();
                 });
                 #endregion
@@ -175,7 +175,7 @@ namespace MoralisUnity.Editor
                 return;
             }
 
-            if (MoralisSettings.MoralisData.ServerUrl.Equals(String.Empty) || MoralisSettings.MoralisData.ApplicationId.Equals(String.Empty))
+            if (MoralisSettings.MoralisData.DappUrl.Equals(String.Empty) || MoralisSettings.MoralisData.DappId.Equals(String.Empty))
             {
                 EditorUtility.DisplayDialog("Warning", "You have not yet completed the Moralis setup wizard. Your game won't be able to connect. Click Oke to open the wizard.", "Oke");
             }
