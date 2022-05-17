@@ -359,11 +359,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             try
             {
-                // Disconnect the WalletConnect session
-                await _walletConnect.Session.DisconnectSession("Session Disconnected", false);
-
                 // CLear out the session so it is re-establish on sign-in.
                 _walletConnect.CLearSession();
+
+                // Disconnect the WalletConnect session
+                await _walletConnect.Session.DisconnectSession("Session Disconnected", false);
             }
             catch (Exception e)
             {
