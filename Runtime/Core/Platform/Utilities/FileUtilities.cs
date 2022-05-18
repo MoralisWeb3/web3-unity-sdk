@@ -14,6 +14,7 @@ namespace MoralisUnity.Platform.Utilities
     /// </summary>
     internal static class FileUtilities
     {
+        private static string lockObj = "\0";
 #if UNITY_WEBGL
         private static string cacheData = null;
 #endif
@@ -28,8 +29,14 @@ namespace MoralisUnity.Platform.Utilities
 #if UNITY_WEBGL
             return await UniTask.FromResult<string>(cacheData);
 #else
-            using StreamReader reader = new StreamReader(file.OpenRead(), Encoding.Unicode);
-            return await reader.ReadToEndAsync();
+            string data = null;
+            lock (lockObj)
+            { 
+                using StreamReader reader = new StreamReader(file.OpenRead(), Encoding.Unicode);
+                data = reader.ReadToEnd();
+            }
+
+            return data;
 #endif
         }
 
@@ -39,15 +46,19 @@ namespace MoralisUnity.Platform.Utilities
         /// <param name="file">The <see cref="FileInfo"/> instance wrapping the target file that is to be written to</param>
         /// <param name="content">The little-endian 16-bit Unicode character string (UTF-16) that is to be written to the <paramref name="file"/></param>
         /// <returns>A task that completes once the write operation to the <paramref name="file"/> completes</returns>
-        public static async UniTask WriteContentAsync(this FileInfo file, string content)
+        public static void WriteContent(this FileInfo file, string content)
         {
 #if UNITY_WEBGL
             // WARNING File cache will not work in WebGL at this time
             cacheData = content;
 #else
-            using FileStream stream = new FileStream(Path.GetFullPath(file.FullName), FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.SequentialScan | FileOptions.Asynchronous);
-            byte[] data = Encoding.Unicode.GetBytes(content);
-            await stream.WriteAsync(data, 0, data.Length);
+            lock (lockObj)
+            {
+                using FileStream stream = new FileStream(Path.GetFullPath(file.FullName), FileMode.Create, FileAccess.Write, FileShare.Read, 4096, FileOptions.SequentialScan | FileOptions.Asynchronous);
+                byte[] data = Encoding.Unicode.GetBytes(content);
+                
+                stream.Write(data, 0, data.Length);
+            }
 #endif
         }
     }
