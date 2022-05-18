@@ -25,9 +25,9 @@ namespace MoralisUnity.Platform.Services.Infrastructure
         {
             public FileBackedCache(FileInfo file) => File = file;
 
-            internal async UniTask SaveAsync()
-            { 
-                await File.WriteContentAsync(JsonUtilities.Encode(Storage));
+            internal void Save()
+            {
+                File.WriteContent(JsonUtilities.Encode(Storage));
             }
 
             internal async UniTask LoadAsync()
@@ -75,13 +75,13 @@ namespace MoralisUnity.Platform.Services.Infrastructure
             public async UniTask AddAsync(string key, object value)
             {
                 Storage[key] = value;
-                await SaveAsync();
+                Save();
             }
 
             public async UniTask RemoveAsync(string key)
             {
                 Storage.Remove(key);
-                await SaveAsync();
+                Save();
             }
 
             public void Add(string key, object value) => throw new NotSupportedException(FileBackedCacheSynchronousMutationNotSupportedMessage);
@@ -200,7 +200,7 @@ namespace MoralisUnity.Platform.Services.Infrastructure
         public async UniTask<IDataCache<string, object>> SaveAsync(IDictionary<string, object> contents)
         {
             EnsureCacheExists();
-            await Cache.SaveAsync();
+            Cache.Save();
             return Cache as IDataCache<string, object>;
         }
 
