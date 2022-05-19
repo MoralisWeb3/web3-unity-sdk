@@ -14,9 +14,11 @@ namespace MoralisUnity.Platform.Utilities
     /// </summary>
     internal static class FileUtilities
     {
-        private static string lockObj = "\0";
+        
 #if UNITY_WEBGL
         private static string cacheData = null;
+#else
+        private static string lockObj = "\0";
 #endif
         /// <summary>
         /// Asynchronously read all of the little-endian 16-bit character units (UTF-16) contained within the file wrapped by the provided <see cref="FileInfo"/> instance.

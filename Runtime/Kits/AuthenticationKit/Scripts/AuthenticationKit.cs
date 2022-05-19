@@ -164,7 +164,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     userAddr = Web3GL.Account();
                 }
             }
-            catch (Exception e)
+            catch
             {
                 // Disconnect and start over if a user cancels the connecting request or there is an error
                 Disconnect();
