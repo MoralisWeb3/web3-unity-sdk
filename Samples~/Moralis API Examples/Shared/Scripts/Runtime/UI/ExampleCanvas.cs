@@ -99,7 +99,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          get
          {
             (this as IInitializableAsync).RequireIsInitialized();
-            return ExampleLocalStorage.Instance.HasSceneNamePrevious;
+            return ExampleRuntimeStorage.Instance.HasSceneNamePrevious;
          }
       }
 
@@ -180,7 +180,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          // which is only relevant when doing a RUNTIME change between scenes TO THE AuthenticationScene
          if (WasSceneLoadedDirectly && _sceneNameLoadedDirectly == _authenticationSceneName)
          {
-            ExampleLocalStorage.Instance.ResetSceneNamePrevious();
+            ExampleRuntimeStorage.Instance.ResetSceneNamePrevious();
          }
          
          // Set early in this method
@@ -267,13 +267,13 @@ namespace MoralisUnity.Examples.Sdk.Shared
             return;
          }
          
-         SceneManager.LoadScene(ExampleLocalStorage.Instance.SceneNamePrevious);
+         SceneManager.LoadScene(ExampleRuntimeStorage.Instance.SceneNamePrevious);
       }
 
       
       private void LoadSceneAuthentication()
       {
-         ExampleLocalStorage.Instance.SceneNamePrevious = SceneManager.GetActiveScene().name;
+         ExampleRuntimeStorage.Instance.SceneNamePrevious = SceneManager.GetActiveScene().name;
          SceneManager.LoadScene(_authenticationSceneName);
       }
 

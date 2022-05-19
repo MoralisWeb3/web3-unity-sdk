@@ -82,11 +82,11 @@ namespace MoralisUnity.Examples.Sdk.Shared
          get
          {
             (this as IInitializableAsync).RequireIsInitialized();
-            return ExampleLocalStorage.Instance.ActiveAddress;
+            return ExampleRuntimeStorage.Instance.ActiveAddress;
          }
          set
          {
-            ExampleLocalStorage.Instance.ActiveAddress = value;
+                ExampleRuntimeStorage.Instance.ActiveAddress = value;
          }
       }
       
@@ -94,7 +94,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
       public async UniTask<string> ResetActiveAddress()
       {
          (this as IInitializableAsync).RequireIsInitialized();
-         return await ExampleLocalStorage.Instance.ResetActiveAddress();
+         return await ExampleRuntimeStorage.Instance.ResetActiveAddress();
       }
       
       
@@ -119,18 +119,18 @@ namespace MoralisUnity.Examples.Sdk.Shared
          {
             throw new InitializedAlreadyException(this);
          }
-         
-         ExampleLocalStorage.Instance.OnActiveAddressChanged.AddListener(ExampleManager_OnActiveAddressChanged);
+
+         ExampleRuntimeStorage.Instance.OnActiveAddressChanged.AddListener(ExampleManager_OnActiveAddressChanged);
          OnStateChanged.AddListener(This_OnStateChanged);
          
          // Trigger refresh
-         if (ExampleLocalStorage.Instance.HasActiveAddress)
+         if (ExampleRuntimeStorage.Instance.HasActiveAddress)
          {
-            ExampleManager_OnActiveAddressChanged(ExampleLocalStorage.Instance.ActiveAddress);
+            ExampleManager_OnActiveAddressChanged(ExampleRuntimeStorage.Instance.ActiveAddress);
          }
          else
          {
-            await ExampleLocalStorage.Instance.ResetActiveAddress();
+            await ExampleRuntimeStorage.Instance.ResetActiveAddress();
          }
          _isInitialized = true;
       }
@@ -158,7 +158,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
          switch (State)
          {
             case ExampleAuthenticationUIState.Authenticated:
-               _button.Text.text = Formatters.GetWeb3AddressShortFormat(ExampleLocalStorage.Instance.ActiveAddress);
+               _button.Text.text = Formatters.GetWeb3AddressShortFormat(ExampleRuntimeStorage.Instance.ActiveAddress);
                break;
             case ExampleAuthenticationUIState.NotAuthenticated:
                _button.Text.text = ExampleConstants.Authenticate;
