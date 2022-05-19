@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using MoralisUnity.Sdk.Constants;
 using UnityEditor;
@@ -62,3 +63,4 @@ namespace MoralisUnity.Examples.Sdk.Shared
         //  Methods ---------------------------------------
     }
 }
+#endif // UNITY_EDITOR
