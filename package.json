@@ -22,6 +22,11 @@
             "displayName": "AuthenticationKit",
             "description": "Demonstrates the Moralis AuthenticationKit to connect Unity to Moralis and Web3.",
             "path": "Samples~/AuthenticationKit"
+        },
+        {
+            "displayName": "Moralis API Examples",
+            "description": "Demonstrates many Moralis features for Unity.",
+            "path": "Samples~/Moralis API Examples"
         }
     ],
     "keywords": [

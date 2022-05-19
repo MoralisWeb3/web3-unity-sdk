@@ -1,0 +1,3 @@
+﻿// This example runs because there is already a contact deployed to mumbai.
+// To develop your own contracts, see the docs.
+// See https://docs.moralis.io/moralis-dapp/cloud-code/cloud-functions#contract-abi
