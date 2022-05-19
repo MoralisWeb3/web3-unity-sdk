@@ -357,6 +357,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 Debug.LogError($"Disconnect() failed. Error: {e.Message}");
             }
 
+#if !UNITY_WEBGL
             try
             {
                 // CLear out the session so it is re-establish on sign-in.
@@ -374,6 +375,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     Debug.LogWarning($"[WalletConnect] Error = {e.Message}");
                 }
             }
+#endif
 
             State = AuthenticationKitState.Disconnected;
         }
