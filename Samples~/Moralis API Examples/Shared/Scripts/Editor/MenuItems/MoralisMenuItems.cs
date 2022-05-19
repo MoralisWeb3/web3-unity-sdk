@@ -4,6 +4,7 @@ using MoralisUnity.Sdk.Constants;
 using MoralisUnity.Sdk.UI.ReadMe;
 using MoralisUnity.Sdk.Utilities;
 using UnityEngine;
+using System.IO;
 
 namespace MoralisUnity.Examples.Sdk.Shared
 {
@@ -13,6 +14,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
 	/// </summary>
 	public static class MoralisMenuItems
 	{
+
 		[MenuItem(MoralisConstants.PathMoralisExamplesWindowMenu + "/" +
 			ExampleConstants.MoralisAPIExamples + "/" + MoralisConstants.OpenReadMe, false,
 			MoralisConstants.PriorityMoralisWindow_Examples)]
@@ -20,6 +22,7 @@ namespace MoralisUnity.Examples.Sdk.Shared
 		{
 			ReadMeEditor.SelectReadmeGuid("3b4d333465945474ea57ff6e62ba4f37");
 		}
+
 
 		[MenuItem(MoralisConstants.PathMoralisExamplesWindowMenu + "/" +
 				   ExampleConstants.MoralisAPIExamples + "/" + "Add Example Scenes To Build Settings", false,
@@ -30,6 +33,16 @@ namespace MoralisUnity.Examples.Sdk.Shared
 
 			Debug.Log($"AddAllScenesToBuildSettings() sceneAssets.Count={sceneAssets.Count}");
 			EditorBuildSettingsUtility.AddScenesToBuildSettings(sceneAssets);
+		}
+
+
+		[MenuItem(MoralisConstants.PathMoralisExamplesWindowMenu + "/" +
+				   ExampleConstants.MoralisAPIExamples + "/" + "Load Example Layout (10x16)", false,
+			MoralisConstants.PriorityMoralisWindow_Examples)]
+		public static void LoadExampleLayout()
+		{
+			string path = Path.GetFullPath("Packages/io.moralis.web3-unity-sdk/Editor/Layouts/MoralisUnityLayout10x16.wlt");
+			UnityReflectionUtility.UnityEditor_WindowLayout_LoadWindowLayout(path);
 		}
 	}
 }
