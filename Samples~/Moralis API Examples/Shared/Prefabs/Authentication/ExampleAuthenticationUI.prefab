@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 150
+  m_MinWidth: 260
   m_MinHeight: -1
   m_PreferredWidth: -1
   m_PreferredHeight: -1
@@ -84,6 +84,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnActiveAddressChanged:
     m_PersistentCalls:
       m_Calls: []
   _button: {fileID: 2506787993818140307}

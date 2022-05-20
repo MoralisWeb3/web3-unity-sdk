@@ -48,7 +48,9 @@
         
         public static float GetBottomPanelHeightToLeaveTopPanelLines(int lineCount)
         {
-            return 1600 - (lineCount * 100);
+            const int hardCodedFontSize = 30; // Manually, match this to ui text font size
+            const float kluge = 3.2f;
+            return 2350 - (lineCount * kluge * hardCodedFontSize);
         }
     }
 }

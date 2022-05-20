@@ -59,7 +59,7 @@ namespace MoralisUnity.Examples.Sdk.Example_MoralisCloud_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
 			// Panels
-			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(15);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(18);
 			_exampleCanvas.TopPanel.TitleText.text = "Server Side (JS)";
 			_exampleCanvas.BottomPanel.TitleText.text = "Client Side Output";
 			

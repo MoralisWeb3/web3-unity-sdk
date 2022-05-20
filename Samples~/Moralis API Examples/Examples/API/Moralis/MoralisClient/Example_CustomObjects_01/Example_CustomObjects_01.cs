@@ -66,7 +66,7 @@ namespace MoralisUnity.Examples.Sdk.Example_CustomObjects_01
 			_exampleCanvas.Header.ChainsDropdown.IsVisible = false;
 			
 			// Panels
-			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(7);
+			await _exampleCanvas.SetMaxTextLinesForTopPanelHeight(8);
 			_topBodyText.Clear();
 			_topBodyText.AppendHeaderLine($"MoralisClient.Create<Hero>()");
 			_topBodyText.AppendBullet(

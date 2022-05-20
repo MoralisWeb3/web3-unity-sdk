@@ -80,7 +80,7 @@ namespace MoralisUnity.Examples.Sdk.Example_Storage_01
 			
 			// Dynamically add, for the to-be-loaded Image
 			_imageDestination = ExampleHelper.CreateNewImageUnderParentAsLastSibling(
-				_panelForSpriteDestination.transform.parent, new Vector2(300, 300));
+				_panelForSpriteDestination.transform.parent, new Vector2(200, 200));
 			_imageDestination.GetComponent<CanvasGroup>().SetIsVisible(false);
 			
 			// Footer
