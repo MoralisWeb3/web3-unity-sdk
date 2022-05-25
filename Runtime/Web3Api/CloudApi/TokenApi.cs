@@ -883,5 +883,89 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<NftTransferCollection>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<NftTransferCollection>), response.Item2)).Result;
 		}
+
+
+		/// <summary>
+		/// ReSync the metadata for an NFT
+		/// * The metadata flag will request a resync of the metadata for an nft
+		/// * The uri flag will request fetch the token_uri for an NFT and then fetch it's metadata. To be used when the token uri get updated
+		/// 
+		/// </summary>
+		/// <param name="address">Address of the contract</param>
+		/// <param name="tokenId">The id of the token</param>
+		/// <param name="chain">The chain to query</param>
+		/// <param name="flag">the type of resync to operate</param>
+		public async UniTask<bool> ReSyncMetadata(string address, string tokenId, ChainList chain)
+		{
+
+			// Verify the required parameter 'address' is set
+			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling ReSyncMetadata");
+
+			// Verify the required parameter 'tokenId' is set
+			if (tokenId == null) throw new ApiException(400, "Missing required parameter 'tokenId' when calling ReSyncMetadata");
+
+			var postBody = new Dictionary<String, String>();
+			var queryParams = new Dictionary<String, String>();
+			var headerParams = new Dictionary<String, String>();
+			var formParams = new Dictionary<String, String>();
+			var fileParams = new Dictionary<String, FileParameter>();
+
+			var path = "/functions/reSyncMetadata";
+			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
+			if (tokenId != null) postBody.Add("token_id", ApiClient.ParameterToString(tokenId));
+			//if (flag != null) postBody.Add("flag", ApiClient.ParameterToString(flag));
+			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
+
+			// Authentication setting, if any
+			String[] authSettings = new String[] { "ApiKeyAuth" };
+
+			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
+
+			var response = (await ApiClient.CallApi(path, Method.POST, queryParams, bodyData, headerParams, formParams, fileParams, authSettings));
+
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling ReSyncMetadata: " + response.Item2, response.Item2);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling ReSyncMetadata: " + response.Item3, response.Item3);
+
+			return true;
+		}
+
+		/// <summary>
+		/// Sync a Contract for NFT Index
+		/// 
+		/// </summary>
+		/// <param name="address">Address of the contract</param>
+		/// <param name="chain">The chain to query</param>
+		public async UniTask<bool> SyncNFTContract(string address, ChainList chain)
+		{
+
+			// Verify the required parameter 'address' is set
+			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling SyncNFTContract");
+
+			var postBody = new Dictionary<String, String>();
+			var queryParams = new Dictionary<String, String>();
+			var headerParams = new Dictionary<String, String>();
+			var formParams = new Dictionary<String, String>();
+			var fileParams = new Dictionary<String, FileParameter>();
+
+			var path = "/functions/syncNFTContract";
+			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
+			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
+
+			// Authentication setting, if any
+			String[] authSettings = new String[] { "ApiKeyAuth" };
+
+			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
+
+			var response = (await ApiClient.CallApi(path, Method.POST, queryParams, bodyData, headerParams, formParams, fileParams, authSettings));
+
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling SyncNFTContract: " + response.Item2, response.Item2);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling SyncNFTContract: " + response.Item3, response.Item3);
+
+			return true;
+		}
 	}
 }
