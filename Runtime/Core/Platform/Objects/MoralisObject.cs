@@ -15,6 +15,8 @@ namespace MoralisUnity.Platform.Objects
     /// </summary>
     public class MoralisObject
     {
+        private IObjectService objectService = null;
+
         public MoralisObject()
         {
             this.ClassName = this.GetType().Name;
@@ -24,7 +26,6 @@ namespace MoralisUnity.Platform.Objects
             this.ACL = new MoralisAcl();
             this.IsDirty = false;
             this.sessionToken = string.Empty;
-            this.ObjectService = null;
         }
 
         public MoralisObject(string className, 
@@ -50,7 +51,31 @@ namespace MoralisUnity.Platform.Objects
         public MoralisAcl ACL; 
         public string ClassName { get; set; }
         internal bool IsDirty { get; set; }
-        internal IObjectService ObjectService { get; set; }
+        internal IObjectService ObjectService 
+        {
+            get
+            {
+                if (objectService == null)
+                {
+#if UNITY_2020_3
+                    // This functionality is only available in a Unity Context and
+                    // not in the SDK outside of Unity.
+                    if (MoralisState.Initialized.Equals(Moralis.State))
+                    { 
+                        // Initialize Object Service from the Moralis Client.
+                        objectService = Moralis.Client?.ServiceHub?.ObjectService;
+                    }
+#endif
+                }
+
+                return objectService;
+            }
+
+            set
+            {
+                objectService = value;
+            }
+        }
         internal TaskQueue TaskQueue { get; } = new TaskQueue { };
         internal object Mutex { get; } = new object { };
         internal IDictionary<string, IMoralisFieldOperation> CurrentOperations
