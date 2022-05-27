@@ -262,5 +262,21 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <returns>Returns a collection of NFT transfers</returns>
 		UniTask<NftTransferCollection> GetWalletTokenIdTransfers (string address, string tokenId, ChainList chain, string format=null, int? offset=null, int? limit=null, string order=null);
 
+		/// <summary>
+		/// ReSync the metadata for an NFT
+		/// </summary>
+		/// <param name="address">Address of the contract</param>
+		/// <param name="tokenId">The id of the token</param>
+		/// <param name="chain">The chain to query</param>
+		/// <returns></returns>
+		UniTask<bool> ReSyncMetadata(string address, string tokenId, ChainList chain);
+
+		/// <summary>
+		/// Sync a Contract for NFT Index
+		/// </summary>
+		/// <param name="address">Address of the contract</param>
+		/// <param name="chain">The chain to query</param>
+		/// <returns></returns>
+		UniTask<bool> SyncNFTContract(string address, ChainList chain);
 	}
 }
