@@ -1,12 +1,12 @@
 # Change Log
 ## 1.2.0 (2022-04-19)
 - Changed namespace from MoralisWeb3ApiSdk to MoralisUnity
-- Package now is visible in the Unity Editor as �Moralis Web3 Unity SDK�
-- No need to set the Allow �unsafe� code in the project. This now gets handled in the new Assembly Definitions
+- Package now is visible in the Unity Editor as Moralis Web3 Unity SDK
+- No need to set the Allow unsafe code in the project. This now gets handled in the new Assembly Definitions
 - Removed all the Unity specific code from the Dotnet SDK and moved it to the Runtime/Core folder
 - All external libraries are now under the Runtime/External folder
 - Renamed Samples folder to Samples~ to hide the folder in the package
-- Updated Newtonsoft dependency to 3.0.1
+- Updated Newtonsoft dependency to 3.0.2
 - Updated WalletConnect
 - Fixed warnings messages
 
@@ -22,7 +22,7 @@
 ## 1.0.9 (2022-03-09)
 - Issue #82 - Web3Api Native RunContractFunction Deserialization fails
 - Issue #80 - WebGL, LiveQuery - DELETE: Good response has an Empty content
-- Issue #75 - eature Request: CreateAsync
+- Issue #75 - Feature Request: CreateAsync
 - Issue #69 - Detecting failed SaveAsync
 - Issue #50 - On Object Create ACL not instantiated
 
