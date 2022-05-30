@@ -57,7 +57,6 @@ namespace MoralisUnity.Platform.Objects
             {
                 if (objectService == null)
                 {
-#if UNITY_2020_3
                     // This functionality is only available in a Unity Context and
                     // not in the SDK outside of Unity.
                     if (MoralisState.Initialized.Equals(Moralis.State))
@@ -65,7 +64,6 @@ namespace MoralisUnity.Platform.Objects
                         // Initialize Object Service from the Moralis Client.
                         objectService = Moralis.Client?.ServiceHub?.ObjectService;
                     }
-#endif
                 }
 
                 return objectService;
