@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 using MoralisUnity.Platform.Abstractions;
 using MoralisUnity.Platform.Operations;
 using MoralisUnity.Platform.Utilities;
-using UnityEngine;
 
 namespace MoralisUnity.Platform.Objects
 {
@@ -110,7 +109,7 @@ namespace MoralisUnity.Platform.Objects
 
             IDictionary<string, IMoralisFieldOperation> operations = this.StartSave();
             string resp = await this.ObjectService.SaveAsync(this, operations, sessionToken, cancellationToken);
-                Debug.Log($"SaveAsync returned: {resp}");
+                
             Dictionary<string, object> obj = JsonUtilities.Parse(resp) as Dictionary<string, object>;
 
             if (obj.ContainsKey("objectId"))
