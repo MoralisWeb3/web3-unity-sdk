@@ -1,5 +1,5 @@
 # Change Log
-## 1.2.1 (2022-??-??)
+## 1.2.1 (2022-05-30)
 - Issue #84 Web3Api Token Endpoint Missing Operations
 ```
 The Web3Api Token Endpoint is missing the SyncNftContract and ResyncMetadata oppperations
@@ -16,6 +16,8 @@ _MoralisUser user = new MoralisUser();_ now is the same as _MoralisUser user = M
 ```
 When _user.SignUpAsync()_ is called, if _user.LogInAsync()_ is called immediately, the login was being called before the SignUpAsync was complete.
 ```
+
+- Issue #89 Cronos Integration - Added support for Cronos chain.
 
 ## 1.2.0 (2022-04-19)
 - Changed namespace from MoralisWeb3ApiSdk to MoralisUnity
