@@ -192,6 +192,10 @@ namespace MoralisUnity
             resp["fantom"].Add("symbol", "FTM");
             resp["fantom"].Add("decimals", 18);
 
+            resp.Add("cronos", new Dictionary<string, object>());
+            resp["cronos"].Add("symbol", "CRO");
+            resp["cronos"].Add("decimals", 18);
+
             return resp;
         }
     }

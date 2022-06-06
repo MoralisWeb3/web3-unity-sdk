@@ -161,7 +161,6 @@ namespace MoralisUnity.Platform.Services.Infrastructure
 
         FileInfo File { get; set; }
         FileBackedCache Cache { get; set; }
-        TaskQueue Queue { get; } = new TaskQueue { };
 
         /// <summary>
         /// Creates a Moralis storage controller and attempts to extract a previously created settings storage file from the persistent storage location.

@@ -10,8 +10,6 @@ namespace MoralisUnity.Platform.Objects
 
         internal Stream DataStream { get; }
 
-        internal TaskQueue TaskQueue { get; } = new TaskQueue { };
-
         #region Constructor
 
         internal MoralisFile(string name, Uri uri, string mimeType = null) => State = new MoralisFileState

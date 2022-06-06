@@ -900,5 +900,86 @@ namespace MoralisUnity.Web3Api.Api
 
 			return (NftTransferCollection)ApiClient.Deserialize(response.Item3, typeof(NftTransferCollection), response.Item2);
 		}
+
+		/// <summary>
+		/// ReSync the metadata for an NFT
+		/// </summary>
+		/// <param name="address">Address of the contract</param>
+		/// <param name="tokenId">The id of the token</param>
+		/// <param name="chain">The chain to query</param>
+		/// <returns></returns>
+		public async UniTask<bool> ReSyncMetadata(string address, string tokenId, ChainList chain)
+		{
+			// Verify the required parameter 'address' is set
+			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetWalletTokenIdTransfers");
+
+			// Verify the required parameter 'tokenId' is set
+			if (tokenId == null) throw new ApiException(400, "Missing required parameter 'tokenId' when calling GetWalletTokenIdTransfers");
+
+			var postBody = new Dictionary<String, String>();
+			var queryParams = new Dictionary<String, String>();
+			var headerParams = new Dictionary<String, String>();
+			var formParams = new Dictionary<String, String>();
+			var fileParams = new Dictionary<String, FileParameter>();
+
+			var path = "/nft/{address}/{token_id}/metadata/resync";
+			path = path.Replace("{format}", "json");
+			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address)); 
+			path = path.Replace("{" + "token_id" + "}", ApiClient.ParameterToString(tokenId));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+
+			// Authentication setting, if any
+			String[] authSettings = new String[] { "ApiKeyAuth" };
+
+			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
+
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response =
+				await ApiClient.CallApi(path, Method.GET, queryParams, bodyData, headerParams, formParams, fileParams, authSettings);
+
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetWalletTokenIdTransfers: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetWalletTokenIdTransfers: " + response.Item3, response.Item3);
+
+			return true;
+		}
+
+		/// <summary>
+		/// Sync a Contract for NFT Index
+		/// </summary>
+		/// <param name="address">Address of the contract</param>
+		/// <param name="chain">The chain to query</param>
+		/// <returns></returns>
+		public async UniTask<bool> SyncNFTContract(string address, ChainList chain)
+		{
+			// Verify the required parameter 'address' is set
+			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetWalletTokenIdTransfers");
+
+			var postBody = new Dictionary<String, String>();
+			var queryParams = new Dictionary<String, String>();
+			var headerParams = new Dictionary<String, String>();
+			var formParams = new Dictionary<String, String>();
+			var fileParams = new Dictionary<String, FileParameter>();
+
+			var path = "/nft/{address}/sync";
+			path = path.Replace("{format}", "json");
+			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
+			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
+
+			// Authentication setting, if any
+			String[] authSettings = new String[] { "ApiKeyAuth" };
+
+			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
+
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response =
+				await ApiClient.CallApi(path, Method.POST, queryParams, bodyData, headerParams, formParams, fileParams, authSettings);
+
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetWalletTokenIdTransfers: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetWalletTokenIdTransfers: " + response.Item3, response.Item3);
+
+			return true;
+		}
 	}
 }

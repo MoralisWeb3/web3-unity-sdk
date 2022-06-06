@@ -13,8 +13,6 @@ namespace MoralisUnity.Platform.Services.Infrastructure
 
         object Mutex { get; } = new object { };
 
-        TaskQueue TaskQueue { get; } = new TaskQueue { };
-
         ICacheService StorageController { get; }
 
         IJsonSerializer JsonSerializer { get; }

@@ -168,50 +168,16 @@ namespace MoralisUnity.Platform.Objects
         /// password must be set before calling SignUpAsync.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public UniTask SignUpAsync(CancellationToken cancellationToken) => TaskQueue.Enqueue(toAwait => SignUpAsync(toAwait, cancellationToken), cancellationToken);
+        public async UniTask SignUpAsync(CancellationToken cancellationToken) //=> TaskQueue.Enqueue(toAwait => SignUpAsync(toAwait, cancellationToken), cancellationToken);
+        {
+            if (String.IsNullOrEmpty(this.objectId))
+            {
+                if (String.IsNullOrEmpty(this.username)) throw new ArgumentException("User username required for this action.");
+                if (String.IsNullOrEmpty(this.password)) throw new ArgumentException("User password required for this action.");
 
-        //protected override Task SaveAsync(Task toAwait, CancellationToken cancellationToken)
-        //{
-        //    lock (Mutex)
-        //    {
-        //        if (ObjectId is null)
-        //        {
-        //            throw new InvalidOperationException("You must call SignUpAsync before calling SaveAsync.");
-        //        }
-
-        //        return base.SaveAsync(toAwait, cancellationToken).OnSuccess(_ => Services.CurrentUserController.IsCurrent(this) ? Services.SaveCurrentUserAsync(this) : Task.CompletedTask).Unwrap();
-        //    }
-        //}
-
-        // If this is already the current user, refresh its state on disk.
-        //internal override Task<ParseObject> FetchAsyncInternal(Task toAwait, CancellationToken cancellationToken) => base.FetchAsyncInternal(toAwait, cancellationToken).OnSuccess(t => !Services.CurrentUserController.IsCurrent(this) ? Task.FromResult(t.Result) : Services.SaveCurrentUserAsync(this).OnSuccess(_ => t.Result)).Unwrap();
-
-        //internal Task LogOutAsync(Task toAwait, CancellationToken cancellationToken)
-        //{
-        //    string oldSessionToken = SessionToken;
-        //    if (oldSessionToken == null)
-        //    {
-        //        return Task.FromResult(0);
-        //    }
-
-        //    // Cleanup in-memory session.
-        //    this.SessionToken = null;
-        //    return Task.WhenAll(CurrentUserService.LogOutAsync();
-        //}
-
-        //internal Task UpgradeToRevocableSessionAsync() => UpgradeToRevocableSessionAsync(CancellationToken.None);
-
-        //internal Task UpgradeToRevocableSessionAsync(CancellationToken cancellationToken) => TaskQueue.Enqueue(toAwait => UpgradeToRevocableSessionAsync(toAwait, cancellationToken), cancellationToken);
-
-        //internal Task UpgradeToRevocableSessionAsync(Task toAwait, CancellationToken cancellationToken)
-        //{
-        //    string sessionToken = SessionToken;
-
-        //    return toAwait.OnSuccess(_ => Services.UpgradeToRevocableSessionAsync(sessionToken, cancellationToken)).Unwrap().OnSuccess(task => SetSessionTokenAsync(task.Result)).Unwrap();
-        //}
-
-
-
+                await this.SaveAsync();
+            }
+        }
 
         /// <summary>
         /// Removes null values from authData (which exist temporarily for unlinking)
