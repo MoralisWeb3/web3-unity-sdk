@@ -39,7 +39,7 @@ namespace MoralisUnity
     /// A class that autonmates subscription handling for vaious 
     /// game cycles.
     /// </summary>
-    public class MoralisLiveQueryController : MonoBehaviour
+    public class MoralisLiveQueryController
     {
         private Dictionary<string, ISubscriptionQuery> subscriptions;
 
