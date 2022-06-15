@@ -41,34 +41,27 @@ namespace MoralisUnity
     /// </summary>
     public class MoralisLiveQueryController : MonoBehaviour
     {
-        private Dictionary<string, ISubscriptionQuery> subscriptions;
-
         // Singleton instance.
-        private static MoralisLiveQueryController instance = new MoralisLiveQueryController();
-
-        private MoralisLiveQueryController()
-        {
-            subscriptions = new Dictionary<string, ISubscriptionQuery>();
-        }
+        private static MoralisLiveQueryService instance = new MoralisLiveQueryService();
 
         private void OnDestroy()
         {
             Debug.Log("MoralisLiveQueryController - OnDestroy called.");
-            UnsubscribeFromAll();
-            subscriptions.Clear();
+            instance.UnsubscribeFromAll();
+            instance.subscriptions.Clear();
         }
 
         private void OnApplicationQuit()
         {
             Debug.Log("MoralisLiveQueryController - OnApplicationQuit called.");
-            UnsubscribeFromAll();
-            subscriptions.Clear();
+            instance.UnsubscribeFromAll();
+            instance.subscriptions.Clear();
         }
 
         private void OnApplicationPause(bool pauseStatus)
         {
             Debug.Log("MoralisLiveQueryController - OnApplicationPause called.");
-            UnsubscribeFromAll();
+            instance.UnsubscribeFromAll();
         }
 
         protected void Awake()
@@ -76,27 +69,15 @@ namespace MoralisUnity
             Debug.Log("MoralisLiveQueryController - Awake called.");
             List<UniTask> tasks = new List<UniTask>();
 
-            foreach (string key in subscriptions.Keys)
+            foreach (string key in instance.subscriptions.Keys)
             {
                 Debug.Log($"Resubscribing to {key}");
-                tasks.Add(subscriptions[key].RenewSubscription());
+                tasks.Add(instance.subscriptions[key].RenewSubscription());
             }
 
             UniTask.WhenAll(tasks.ToArray());
         }
 
-        private void UnsubscribeFromAll()
-        {
-            List<UniTask> tasks = new List<UniTask>();
-
-            foreach (string key in subscriptions.Keys)
-            {
-                Debug.Log($"Unsubscribing from {key}");
-                tasks.Add(subscriptions[key].Unsubscribe());
-            }
-
-            UniTask.WhenAll(tasks.ToArray());
-        }
 
         /// <summary>
         /// Add a subscription for a query.
@@ -152,6 +133,29 @@ namespace MoralisUnity
 
                 instance.subscriptions.Remove(keyName);
             }
+        }
+    }
+
+    internal class MoralisLiveQueryService
+    {
+        public Dictionary<string, ISubscriptionQuery> subscriptions;
+
+        public MoralisLiveQueryService()
+        {
+            subscriptions = new Dictionary<string, ISubscriptionQuery>();
+        }
+
+        public void UnsubscribeFromAll()
+        {
+            List<UniTask> tasks = new List<UniTask>();
+
+            foreach (string key in subscriptions.Keys)
+            {
+                Debug.Log($"Unsubscribing from {key}");
+                tasks.Add(subscriptions[key].Unsubscribe());
+            }
+
+            UniTask.WhenAll(tasks.ToArray());
         }
     }
 }

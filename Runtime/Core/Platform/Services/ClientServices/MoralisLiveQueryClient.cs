@@ -20,10 +20,6 @@ namespace MoralisUnity.Platform.Services.ClientServices
     /// <typeparam name="T"></typeparam>
     public class MoralisLiveQueryClient<T> : ILiveQueryClient where T : MoralisObject
     {
-        /// <summary>
-        /// Singleton value should beincremented whenever a client is created.
-        /// </summary>
-        public static int NextRequestId = 1;
         private bool disposedValue;
         private UniTask subscriptTask;
 
@@ -371,7 +367,8 @@ namespace MoralisUnity.Platform.Services.ClientServices
 
         private void Initialize(MoralisQuery<T> query, IServerConnectionData conncetionData, ILiveQueryCallbacks<T> callbacks, string sessionToken, string installationId)
         {
-            RequestId = NextRequestId++;
+            RequestId = query.ClassName.GetHashCode();
+
             targetQuery = query;
             ConncetionData = conncetionData;
             SessionToken = sessionToken;
