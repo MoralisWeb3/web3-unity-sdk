@@ -66,48 +66,54 @@ namespace MoralisUnity.Kits.AuthenticationKit
             {
                 ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
                 {
-                    //If not logged in
-                    AuthenticationKitState.Connecting,
+                    // If not logged in
+                    AuthenticationKitState.WalletConnecting,
                     
-                    //If logged in
-                    AuthenticationKitState.Connected,
+                    // If AutoSaveAndResume
+                    AuthenticationKitState.WalletSigning,
                     
-                    //If reinitializing
+                    // If reinitializing
                     AuthenticationKitState.Disconnected
                 });
             }
             
-            if (oldValue == AuthenticationKitState.Connecting)
+            if (oldValue == AuthenticationKitState.WalletConnecting)
             {
                 ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
                 {
-                    AuthenticationKitState.Signing,
+                    AuthenticationKitState.WalletConnected,
+                    
+                    // If the user is already logged in
+                    AuthenticationKitState.MoralisLoggedIn,
                     
                     // If the user cancels the connect request
                     AuthenticationKitState.Disconnecting
                 });
             }
             
-            if (oldValue == AuthenticationKitState.Signing)
+            if (oldValue == AuthenticationKitState.WalletSigning)
             {
                 ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
                 {
-                    AuthenticationKitState.Signed,
+                    // If the user retries
+                    AuthenticationKitState.WalletSigning,
+                    
+                    AuthenticationKitState.WalletSigned,
                     
                     // If the user cancels the signing request
                     AuthenticationKitState.Disconnecting
                 });
             }
             
-            if (oldValue == AuthenticationKitState.Signed)
+            if (oldValue == AuthenticationKitState.WalletSigned)
             {
                 ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
                 {
-                    AuthenticationKitState.Connected
+                    AuthenticationKitState.MoralisLoggingIn
                 });
             }
             
-            if (oldValue == AuthenticationKitState.Connected)
+            if (oldValue == AuthenticationKitState.MoralisLoggedIn)
             {
                 ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
                 {

@@ -6,6 +6,7 @@ using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
 using Cysharp.Threading.Tasks;
 using System;
+using System.Collections;
 using UnityEngine.Events;
 using MoralisUnity.Sdk.Exceptions;
 
@@ -41,6 +42,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
         [SerializeField] 
         private Button _disconnectButton = null;
         
+        [SerializeField] 
+        private Button _retryButton = null;
+        
         [Header("Other")]
         [SerializeField] 
         private Text _statusText = null;
@@ -62,6 +66,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             
             _connectButton.onClick.AddListener(ConnectButton_OnClicked);
             _disconnectButton.onClick.AddListener(DisconnectButton_OnClicked);
+            _retryButton.onClick.AddListener(RetryButton_OnClicked);
         }
 
         protected void OnValidate()
@@ -113,6 +118,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 			// Buttons
 			_connectButton.gameObject.SetActive(isActive);
 			_disconnectButton.gameObject.SetActive(isActive);
+			_retryButton.gameObject.SetActive(isActive);
 	        
 			// Texts
 			_statusText.gameObject.SetActive(isActive);
@@ -132,6 +138,12 @@ namespace MoralisUnity.Kits.AuthenticationKit
         private void DisconnectButton_OnClicked()
         {
 	        _authenticationKit.Disconnect();
+        }
+        
+        
+        private void RetryButton_OnClicked()
+        {
+	        _authenticationKit.Retry();
         }
         
         
@@ -156,7 +168,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 					_backgroundImage.gameObject.SetActive(true);
             		
                     break;
-                case AuthenticationKitState.Connecting:
+                case AuthenticationKitState.WalletConnecting:
 
 	                // Show QR (or platform specific stuff)
 	                SetActiveUIAllParts(false);
@@ -168,19 +180,24 @@ namespace MoralisUnity.Kits.AuthenticationKit
 		                case AuthenticationKitPlatform.iOS:
 			                // Hide statusText first will be turned on by WalletConnect when a user click on a wallet
 			                _statusText.gameObject.SetActive(false);
-			                _statusText.text = "Connecting With Your Wallet";
+			                _statusText.text = "Connect With Your Wallet";
 			                // TODO show message if there is no wallet installed on the device
 			                break;
 		                case AuthenticationKitPlatform.Android:
 			                _statusText.gameObject.SetActive(true);
-			                _statusText.text = "Connecting With Your Wallet";
+			                _statusText.text = "Connect With Your Wallet";
+			                
+			                // Show Button "Retry" after 2 seconds
+			                StartCoroutine(SetActiveAfterSeconds(_retryButton.gameObject,true,2));
+			               
 			                // TODO show message if there is no wallet installed on the device
+			                
 			                break;
 		                case AuthenticationKitPlatform.WebGL:
 			                _statusText.gameObject.SetActive(true);
 			                if (!Application.isEditor)
 			                {
-				                _statusText.text = "Connecting With Your Wallet"; 
+				                _statusText.text = "Connect With Your Wallet"; 
 			                }
 			                else
 			                {
@@ -196,17 +213,25 @@ namespace MoralisUnity.Kits.AuthenticationKit
 			                //Do nothing for other states
 			                break;
 	                }
-	                
-                    break;
-                case AuthenticationKitState.Signing:
+	                break;
+	            case AuthenticationKitState.WalletConnected:
+		            SetActiveUIAllParts(false);
+		            break;
+                case AuthenticationKitState.WalletSigning:
 	                SetActiveUIAllParts(false);
 	                _statusText.gameObject.SetActive(true);
-	                _statusText.text = "Signing With Your Wallet";
-                    break;
-                case AuthenticationKitState.Signed:
+	                _statusText.text = "Sign With Your Wallet";
+	                
+	                // Show Button "Retry" after 5 seconds
+	                StartCoroutine(SetActiveAfterSeconds(_retryButton.gameObject,true,5));
+	                break;
+                case AuthenticationKitState.WalletSigned:
 	                SetActiveUIAllParts(false);
                     break;
-                case AuthenticationKitState.Connected:
+	            case AuthenticationKitState.MoralisLoggingIn:
+		            // No UI changes here
+		            break;
+                case AuthenticationKitState.MoralisLoggedIn:
 	                // Show Button "Disconnect"
 					SetActiveUIAllParts(false);
         			_disconnectButton.gameObject.SetActive(true);
@@ -221,6 +246,20 @@ namespace MoralisUnity.Kits.AuthenticationKit
 	                SwitchDefaultException.Throw(authenticationKitState);
                     break;   
             }
+        }
+        
+        IEnumerator SetActiveAfterSeconds(GameObject myGameObject, bool isActive = false, int seconds = 0)
+        {
+	        AuthenticationKitState rememberState = _authenticationKit.State;
+	        
+	        // yield on a new YieldInstruction that waits for X seconds.
+	        yield return new WaitForSeconds(seconds);
+
+	        // Only change if the state hasn't changed
+	        if (rememberState == _authenticationKit.State)
+	        {
+		        myGameObject.SetActive(isActive);
+	        }
         }
     }
 }
