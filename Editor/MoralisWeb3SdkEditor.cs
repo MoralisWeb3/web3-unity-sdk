@@ -177,7 +177,7 @@ namespace MoralisUnity.Editor
 
             if (MoralisSettings.MoralisData.DappUrl.Equals(String.Empty) || MoralisSettings.MoralisData.DappId.Equals(String.Empty))
             {
-                EditorUtility.DisplayDialog("Warning", "You have not yet completed the Moralis setup wizard. Your game won't be able to connect. Click Oke to open the wizard.", "Oke");
+                EditorUtility.DisplayDialog("Warning", "You have not yet completed the Moralis setup wizard. Your game won't be able to connect. Click Okay to open the wizard.", "Okay");
             }
         }
     }
