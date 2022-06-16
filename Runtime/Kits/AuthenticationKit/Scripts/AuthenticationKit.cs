@@ -156,7 +156,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             _walletConnect.OpenDeepLink();
                             break;
                         case AuthenticationKitPlatform.iOS:
-                            // No retry option needed because of the wallet select list
+                            // Let users go back to the wallet select screen
+                            State = AuthenticationKitState.WalletConnecting;
                             break;
                         case AuthenticationKitPlatform.WebGL:
                             // 

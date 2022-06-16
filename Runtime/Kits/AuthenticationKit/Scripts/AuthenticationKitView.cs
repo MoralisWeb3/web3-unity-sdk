@@ -81,16 +81,25 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
         private void OnApplicationPause(bool pauseStatus)
         {
-            if (pauseStatus && _authenticationKit.AuthenticationKitPlatform == AuthenticationKitPlatform.Android)
+            if (!pauseStatus)
             {
-                switch (_authenticationKit.State)
-                {
-                    case AuthenticationKitState.WalletConnecting:
-                    case AuthenticationKitState.WalletSigning:
-                        // Show Button "Retry" after 2 seconds
-                        StartCoroutine(EnableAfterSeconds(_retryButton, true, 1));
-                        break;
-                }
+                return;
+            }
+
+            switch (_authenticationKit.AuthenticationKitPlatform)
+            {
+                case AuthenticationKitPlatform.Android:
+                case AuthenticationKitPlatform.iOS:
+
+                    switch (_authenticationKit.State)
+                    {
+                        case AuthenticationKitState.WalletConnecting:
+                        case AuthenticationKitState.WalletSigning:
+                            // Show Button "Retry" after 2 seconds
+                            StartCoroutine(EnableAfterSeconds(_retryButton, true, 1));
+                            break;
+                    }
+                    break;
             }
         }
 
