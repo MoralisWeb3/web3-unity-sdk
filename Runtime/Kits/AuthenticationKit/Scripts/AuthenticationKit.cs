@@ -159,6 +159,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             // No retry option needed because of the wallet select list
                             break;
                         case AuthenticationKitPlatform.WebGL:
+                            // 
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
@@ -169,21 +170,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 case AuthenticationKitState.WalletSigning:
                     switch (AuthenticationKitPlatform)
                     {
-                        case AuthenticationKitPlatform.Android:
-                        case AuthenticationKitPlatform.iOS:
                         case AuthenticationKitPlatform.WalletConnect:
-                            // If there is a session try to Sign and Login or Disconnect and start over
-                            if (_walletConnect.Session != null)
-                            {
-                                WalletConnect_SignAndLoginToMoralis(_walletConnect.Session);
-                            }
-                            else
-                            {
-                                Disconnect();
-                            }
-
+                            // TODO Add a retry option if the wallet fails. Chance of failure is small. 
+                            break;
+                        case AuthenticationKitPlatform.Android:
+                            _walletConnect.OpenMobileWallet();
+                            break;
+                        case AuthenticationKitPlatform.iOS:
+                            // No retry option needed because of the wallet select list
                             break;
                         case AuthenticationKitPlatform.WebGL:
+                            // 
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
@@ -291,11 +288,21 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// <returns></returns>
         private async void WalletConnect_Connect()
         {
+            // Enable auto save to remember the session for future use 
             _walletConnect.autoSaveAndResume = true;
-            Debug.Log("WalletConnect start");
+            
             // Warning the _walletConnect.Connect() won't finish until a user approved Wallet connection has been established
             await _walletConnect.Connect();
-            Debug.Log("WalletConnect done");
+            
+            // If WalletConnect is connected set the state to WalletConnected or Disconnect and start over
+            if (_walletConnect.Connected)
+            {
+                State = AuthenticationKitState.WalletConnected;
+            }
+            else
+            {
+                Disconnect();
+            }
         }
 
         /// <summary>
@@ -305,7 +312,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// <returns></returns>
         private async void WalletConnect_SignAndLoginToMoralis(WalletConnectUnitySession session)
         {
-            //Debug.Log($"WalletConnect_OnConnectedEventSession() wcSessionData = {wcSessionData}");
+            // Debug.Log($"WalletConnect_OnConnectedEventSession() wcSessionData = {session}");
 
             // If there is already a Moralis user we can skip the sign and login and go straight to connected
             if (await Moralis.GetUserAsync() != null)
@@ -365,18 +372,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 State = AuthenticationKitState.MoralisLoggedIn;
             }
         }
-
-        /// <summary>
-        /// Handles when <see cref="WalletConnect"/> is connected.
-        /// Here the local scope will start and finish the signing process.
-        /// </summary>
-        /// <param name="wcSessionData"></param>
-        /// <returns></returns>
-        public async void WalletConnect_OnConnectedEventSession(WCSessionData wcSessionData)
-        {
-            // Debug.Log($"WalletConnect_OnConnectedEventSession() wcSessionData = {wcSessionData}");
-        }
-
+        
         // If the user cancels the connect Disconnect and start over
         public async void WalletConnect_OnDisconnectedEvent(WalletConnectUnitySession session)
         {
@@ -399,26 +395,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
             {
                 Disconnect();
             }
-        }
-
-        // If there is a new WalletConnect session setup Web3
-        public async void WalletConnect_OnNewSessionConnected(WalletConnectUnitySession session)
-        {
-            // Debug.Log("WalletConnect_OnNewSessionConnected");
-            // If the Wallet connection has been accepted first Setup Web3
-            await Moralis.SetupWeb3();
-
-            State = AuthenticationKitState.WalletConnected;
-        }
-
-        // If there is a resumed WalletConnect session setup Web3
-        public async void WalletConnect_OnResumedSessionConnected(WalletConnectUnitySession session)
-        {
-            // Debug.Log("WalletConnect_OnResumedSessionConnected");
-            // If the Wallet connection has been accepted first Setup Web3
-            await Moralis.SetupWeb3();
-
-            State = AuthenticationKitState.WalletConnected;
         }
 
         /// <summary>
@@ -478,8 +454,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     switch (AuthenticationKitPlatform)
                     {
                         case AuthenticationKitPlatform.Android:
-                            Debug.Log("Android start");
-
                             var cts = new CancellationTokenSource();
                             cts.CancelAfterSlim(TimeSpan.FromSeconds(15));
 
@@ -489,12 +463,15 @@ namespace MoralisUnity.Kits.AuthenticationKit
                                 WalletConnect_Connect();
 
                                 // Check if WalletConnect is ready in 15 seconds or else disconnect and start over
-                                await UniTask.WaitUntil(() => _walletConnect.Session.ReadyForUserPrompt,
+                                await UniTask.WaitUntil(() => _walletConnect.Session.ReadyForUserPrompt || _walletConnect.Connected,
                                     PlayerLoopTiming.Update, cts.Token);
 
-                                // Only works if a users has a app installed that handles "wc:" links
-                                _walletConnect.OpenDeepLink();
-
+                                if (_walletConnect.Session.ReadyForUserPrompt)
+                                {
+                                    // Only works if a users has a app installed that handles "wc:" links
+                                    _walletConnect.OpenDeepLink();
+                                }
+                                
                                 // TODO check if the app is paused with OnApplicationPause to see if the link working  
                             }
                             catch (OperationCanceledException ex)
@@ -534,6 +511,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
                         case AuthenticationKitPlatform.Android:
                         case AuthenticationKitPlatform.iOS:
                         case AuthenticationKitPlatform.WalletConnect:
+                            
+                            // If the Wallet connection has been accepted first Setup Web3
+                            await Moralis.SetupWeb3();
+                            
                             // If there is a Wallet connected and we got a Session
                             // try to Sign and Login to Moralis or else Disconnect and start over
                             if (_walletConnect.Session != null)

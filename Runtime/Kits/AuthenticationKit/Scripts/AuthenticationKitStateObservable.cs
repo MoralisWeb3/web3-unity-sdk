@@ -82,6 +82,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
                 {
                     AuthenticationKitState.WalletConnected,
+
+                    // If the user cancels the connect request
+                    AuthenticationKitState.Disconnecting
+                });
+            }
+            
+            if (oldValue == AuthenticationKitState.WalletConnected)
+            {
+                ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
+                {
+                    AuthenticationKitState.WalletSigning,
                     
                     // If the user is already logged in
                     AuthenticationKitState.MoralisLoggedIn,
