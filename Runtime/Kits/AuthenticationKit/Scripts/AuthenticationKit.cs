@@ -261,6 +261,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 }
                 
                 State = AuthenticationKitState.WalletSigned;
+
+                State = AuthenticationKitState.MoralisLoggingIn;
                 
                 // Create Moralis auth data from message signing response.
                 Dictionary<string, object> authData = new Dictionary<string, object>
@@ -485,17 +487,17 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
                             break;
                         case AuthenticationKitPlatform.iOS:
-                            break;
                         case AuthenticationKitPlatform.WalletConnect:
                             // Connect to the WalletConnect server
                             WalletConnect_Connect();
+                            
                             break;
                         case AuthenticationKitPlatform.WebGL:
                             if (!Application.isEditor)
                             {
                                 await LoginWithWeb3();
                             }
-
+                            
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
@@ -515,7 +517,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             // If the Wallet connection has been accepted first Setup Web3
                             await Moralis.SetupWeb3();
                             
-                            // If there is a Wallet connected and we got a Session
+                            // If there is a Wallet connected and we got a session
                             // try to Sign and Login to Moralis or else Disconnect and start over
                             if (_walletConnect.Session != null)
                             {

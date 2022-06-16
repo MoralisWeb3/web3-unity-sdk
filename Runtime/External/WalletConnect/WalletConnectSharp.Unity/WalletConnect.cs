@@ -346,7 +346,6 @@ namespace WalletConnectSharp.Unity
             }
             
             TeardownEvents();
-            TeardownEvents();
             
             if (createNewSessionOnSessionDisconnect)
             {
@@ -369,7 +368,7 @@ namespace WalletConnectSharp.Unity
             if (wallet != null)
             {
                 SelectedWallet = wallet;
-                yield return DownloadImagesFor(wallet.id);
+                yield return DownloadImagesFor(wallet.id,new [] {"md"});
                 //Debug.Log("Setup default wallet " + wallet.name);
             }
         }
@@ -464,7 +463,7 @@ namespace WalletConnectSharp.Unity
                 {
                     foreach (var id in SupportedWallets.Keys)
                     {
-                        yield return DownloadImagesFor(id);
+                        yield return DownloadImagesFor(id,new [] {"md"});
                     }
                 }
             }
