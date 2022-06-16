@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using MoralisUnity.Platform.Abstractions;
 using Newtonsoft.Json;
 using UnityEngine;
+using MoralisUnity.Core.Exceptions;
 
 namespace MoralisUnity.Platform.Objects
 {
@@ -92,8 +93,6 @@ namespace MoralisUnity.Platform.Objects
        
         internal ICurrentUserService<MoralisUser> CurrentUserService { get; set; }
 
-
-        // internal Task SignUpAsync(Task toAwait, CancellationToken cancellationToken) => throw new NotFiniteNumberException();
         internal async UniTask SignUpAsync(UniTask toAwait, CancellationToken cancellationToken)
         {
             if (String.IsNullOrEmpty(this.objectId))
@@ -175,7 +174,14 @@ namespace MoralisUnity.Platform.Objects
                 if (String.IsNullOrEmpty(this.username)) throw new ArgumentException("User username required for this action.");
                 if (String.IsNullOrEmpty(this.password)) throw new ArgumentException("User password required for this action.");
 
-                await this.SaveAsync();
+                try
+                {
+                    await this.SaveAsync();
+                }
+                catch (MoralisSaveException msexp)
+                {
+                    throw new MoralisSignupException(msexp.Message);
+                }
             }
         }
 
@@ -244,33 +250,7 @@ namespace MoralisUnity.Platform.Objects
                     restorationSuccess = provider.RestoreAuthentication(data);
                 }
             }
-
-            //if (!restorationSuccess)
-            //{
-            //    UnlinkFromAsync(provider.AuthType, CancellationToken.None);
-            //}
         }
-
-        //internal Task LinkWithAsync(string authType, IDictionary<string, object> data, CancellationToken cancellationToken) => TaskQueue.Enqueue(toAwait =>
-        //{
-        //    IDictionary<string, IDictionary<string, object>> authData = AuthData;
-
-        //    if (authData == null)
-        //    {
-        //        authData = AuthData = new Dictionary<string, IDictionary<string, object>>();
-        //    }
-
-        //    authData[authType] = data;
-        //    AuthData = authData;
-
-        //    return SaveAsync(cancellationToken);
-        //}, cancellationToken);
-
-
-        /// <summary>
-        /// Unlinks a user from a service.
-        /// </summary>
-        //internal Task UnlinkFromAsync(string authType, CancellationToken cancellationToken) => LinkWithAsync(authType, null, cancellationToken);
 
         /// <summary>
         /// Checks whether a user is linked to a service.

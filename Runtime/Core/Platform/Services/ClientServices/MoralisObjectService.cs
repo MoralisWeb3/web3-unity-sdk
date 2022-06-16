@@ -10,6 +10,7 @@ using MoralisUnity.Platform.Objects;
 using MoralisUnity.Platform.Services.Models;
 using MoralisUnity.Platform.Utilities;
 using UnityEngine;
+using MoralisUnity.Core.Exceptions;
 
 namespace MoralisUnity.Platform.Services.ClientServices
 {
@@ -24,7 +25,6 @@ namespace MoralisUnity.Platform.Services.ClientServices
         public MoralisObjectService(IMoralisCommandRunner commandRunner, IServerConnectionData serverConnectionData, IJsonSerializer jsonSerializer)
         {
             CommandRunner = commandRunner;
-            //Services = serviceHub;
             ServerConnectionData = serverConnectionData;
             JsonSerializer = jsonSerializer;
         }
@@ -58,13 +58,11 @@ namespace MoralisUnity.Platform.Services.ClientServices
             }
             else
             {
-                Debug.LogError($"SaveAsync failed: {cmdResp.Item2}");
+                throw new MoralisSaveException(cmdResp.Item2);
             }
 
             return resp;
         }
-
-        //public IList<Task<T>> SaveAllAsync<T>(IList<T> items, IList<IDictionary<string, IMoralisFieldOperation>> operationsList, string sessionToken, CancellationToken cancellationToken = default) where T : MoralisObject => ExecuteBatchRequests<T>(items.Zip(operationsList, (item, operations) => new MoralisCommand(item.ObjectId is null ? $"server/classes/{Uri.EscapeDataString(item.ClassName)}" : $"server/classes/{Uri.EscapeDataString(item.ClassName)}/{Uri.EscapeDataString(item.ObjectId)}", method: item.ObjectId is null ? "POST" : "PUT", data: operations is { } && operations.Count > 0 ? JsonConvert.SerializeObject(operations, jsonSettings).JsonInsertParseDate() : JsonConvert.SerializeObject(item, jsonSettings).JsonInsertParseDate())).ToList(), sessionToken, cancellationToken).Select(task => task.Result).ToList();
 
         public async UniTask DeleteAsync(MoralisObject item, string sessionToken, CancellationToken cancellationToken = default)
         {
@@ -76,30 +74,7 @@ namespace MoralisUnity.Platform.Services.ClientServices
             }
         }
                
-        //public IList<Task> DeleteAllAsync<T>(IList<T> items, string sessionToken, CancellationToken cancellationToken = default) where T : MoralisObject => ExecuteBatchRequests<T>(items.Where(item => item.ObjectId is { }).Select(item => new MoralisCommand($"server/classes/{Uri.EscapeDataString(item.ClassName)}/{Uri.EscapeDataString(item.ObjectId)}", method: "DELETE", data: default)).ToList(), sessionToken, cancellationToken).Cast<Task>().ToList();
-
         int MaximumBatchSize { get; } = 50;
-
-
-        //internal IList<Task<T>> ExecuteBatchRequests<T>(IList<MoralisCommand> requests, string sessionToken, CancellationToken cancellationToken = default) where T : MoralisObject
-        //{
-        //    List<Task<T>> tasks = new List<Task<T>>();
-        //    int batchSize = requests.Count;
-
-        //    IEnumerable<MoralisCommand> remaining = requests;
-
-        //    while (batchSize > MaximumBatchSize)
-        //    {
-        //        List<MoralisCommand> process = remaining.Take(MaximumBatchSize).ToList();
-
-        //        remaining = remaining.Skip(MaximumBatchSize);
-        //        tasks.AddRange(ExecuteBatchRequest<T>(process, sessionToken, cancellationToken));
-        //        batchSize = remaining.Count();
-        //    }
-
-        //    tasks.AddRange(ExecuteBatchRequest(remaining.ToList(), sessionToken, cancellationToken));
-        //    return tasks;
-        //}
 
         async UniTask<IList<UniTask<IDictionary<string, object>>>> ExecuteBatchRequestAsync<T>(IList<MoralisCommand> requests, string sessionToken, CancellationToken cancellationToken = default)
         {
