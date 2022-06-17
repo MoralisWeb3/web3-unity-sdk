@@ -1,11 +1,14 @@
 # Change Log
 ## 1.2.2 (2022-06-??)
 - Issue #64 BUG: MoralisLiveQueryController logs runtime warning
+- Issue #104 No Response When obj.SaveAsync() Fails
 - Issue #105 MoralisWeb3SdkEditor Spelling error in Warning Message
 - Issue #107 WebGL - Multiple Livequeries Does not connect
 ```
 The requestId was not being updated properly for WebGL so connections created close together had the same requestId in WebGL.
 ```
+- Issue #112 SignUpAsync always throws an exception
+
 
 ## 1.2.1 (2022-05-30)
 - Issue #84 Web3Api Token Endpoint Missing Operations
