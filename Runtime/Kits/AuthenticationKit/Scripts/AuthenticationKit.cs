@@ -160,7 +160,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             State = AuthenticationKitState.WalletConnecting;
                             break;
                         case AuthenticationKitPlatform.WebGL:
-                            // 
+                            // TODO
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
@@ -175,13 +175,11 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             // TODO Add a retry option if the wallet fails. Chance of failure is small. 
                             break;
                         case AuthenticationKitPlatform.Android:
+                        case AuthenticationKitPlatform.iOS:
                             _walletConnect.OpenMobileWallet();
                             break;
-                        case AuthenticationKitPlatform.iOS:
-                            // No retry option needed because of the wallet select list
-                            break;
                         case AuthenticationKitPlatform.WebGL:
-                            // 
+                            // TODO
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
