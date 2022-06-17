@@ -380,9 +380,10 @@ namespace MoralisUnity
 
                 await u.SignUpAsync();
             }
-
-            throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
-
+            else
+            {
+                throw new MoralisFailureException(MoralisFailureException.ErrorCode.NotInitialized, "Moralis must be started before accessing this object.");
+            }
         }
 
         #region MoralisClient and other objects direct calls
