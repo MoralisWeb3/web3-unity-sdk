@@ -106,7 +106,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
             {
                 ValidateNewValue(oldValue, newValue, new List<AuthenticationKitState>
                 {
-                    // If the user retries
+                    // If the user retries on iOS
+                    AuthenticationKitState.WalletConnecting,
+                    
+                    // If the user retries on Android
                     AuthenticationKitState.WalletSigning,
                     
                     AuthenticationKitState.WalletSigned,
