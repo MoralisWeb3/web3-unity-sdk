@@ -160,7 +160,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             State = AuthenticationKitState.WalletConnecting;
                             break;
                         case AuthenticationKitPlatform.WebGL:
-                            // TODO
+                            // TODO Add a retry on a fail instead of disconnect and start over
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
@@ -179,7 +179,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             _walletConnect.OpenMobileWallet();
                             break;
                         case AuthenticationKitPlatform.WebGL:
-                            // TODO
+                            // TODO Add a retry on a fail instead of disconnect and start over
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
@@ -219,6 +219,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 Disconnect();
                 return;
             }
+            
+            State = AuthenticationKitState.WalletConnected;
             
             State = AuthenticationKitState.WalletSigning;
 
@@ -552,7 +554,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
                             break;
                         case AuthenticationKitPlatform.WebGL:
-                            // TODO
+                            // TODO Break up the LoginWithWeb3 method to a separate the connecting signing and logging 
                             break;
                         default:
                             SwitchDefaultException.Throw(AuthenticationKitPlatform);
