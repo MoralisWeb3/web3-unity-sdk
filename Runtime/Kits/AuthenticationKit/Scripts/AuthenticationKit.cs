@@ -455,8 +455,8 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     switch (AuthenticationKitPlatform)
                     {
                         case AuthenticationKitPlatform.Android:
-                            var cts = new CancellationTokenSource();
-                            cts.CancelAfterSlim(TimeSpan.FromSeconds(15));
+                            var cancellationTokenSourceAndroid = new CancellationTokenSource();
+                            cancellationTokenSourceAndroid.CancelAfterSlim(TimeSpan.FromSeconds(15));
 
                             try
                             {
@@ -465,7 +465,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
                                 // Check if WalletConnect is ready in 15 seconds or else disconnect and start over
                                 await UniTask.WaitUntil(() => _walletConnect.Session.ReadyForUserPrompt || _walletConnect.Connected,
-                                    PlayerLoopTiming.Update, cts.Token);
+                                    PlayerLoopTiming.Update, cancellationTokenSourceAndroid.Token);
 
                                 if (_walletConnect.Session.ReadyForUserPrompt)
                                 {
@@ -477,7 +477,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             }
                             catch (OperationCanceledException ex)
                             {
-                                if (ex.CancellationToken == cts.Token)
+                                if (ex.CancellationToken == cancellationTokenSourceAndroid.Token)
                                 {
                                     // WalletConnect connection timeout so let's start over
                                     Disconnect();
@@ -486,6 +486,29 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
                             break;
                         case AuthenticationKitPlatform.iOS:
+                            var cancellationTokenSourceIOS = new CancellationTokenSource();
+                            cancellationTokenSourceIOS.CancelAfterSlim(TimeSpan.FromSeconds(15));
+
+                            try
+                            {
+                                // Connect to the WalletConnect server
+                                WalletConnect_Connect();
+
+                                // Check if WalletConnect is ready in 15 seconds or else disconnect and start over
+                                await UniTask.WaitUntil(() => _walletConnect.Session.ReadyForUserPrompt || _walletConnect.Connected,
+                                    PlayerLoopTiming.Update, cancellationTokenSourceIOS.Token);
+                                
+                                // TODO check if the app is paused with OnApplicationPause to see if the link working  
+                            }
+                            catch (OperationCanceledException ex)
+                            {
+                                if (ex.CancellationToken == cancellationTokenSourceIOS.Token)
+                                {
+                                    // WalletConnect connection timeout so let's start over
+                                    Disconnect();
+                                }
+                            }
+                            break;
                         case AuthenticationKitPlatform.WalletConnect:
                             // Connect to the WalletConnect server
                             WalletConnect_Connect();
