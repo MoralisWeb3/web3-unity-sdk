@@ -100,8 +100,6 @@ namespace MoralisUnity.Platform.Objects
 
         public virtual async UniTask<bool> SaveAsync(CancellationToken cancellationToken = default)
         {
-            try
-            { 
             // MoralisUser is a special case not all properties can be passed to save.
             if (this is MoralisUser) ((MoralisUser)this).SetSaving(true);
 
@@ -140,14 +138,7 @@ namespace MoralisUnity.Platform.Objects
 
             OperationSetQueue.Clear();
 
-                return true;
-            }
-            catch (Exception exp)
-            {
-                Console.WriteLine($"Save failed: {exp.Message}");
-            }
-
-            return false;
+            return true;
         }
 
         /// <summary>
