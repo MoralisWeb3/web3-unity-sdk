@@ -11,10 +11,12 @@ namespace MoralisUnity.Kits.AuthenticationKit
         PreInitialized,
         Initializing,
         Initialized,
-        Connecting,
-        Signing,
-        Signed,
-        Connected,
+        WalletConnecting,
+        WalletConnected,
+        WalletSigning,
+        WalletSigned,
+        MoralisLoggingIn,
+        MoralisLoggedIn,
         Disconnecting,
         Disconnected
     }

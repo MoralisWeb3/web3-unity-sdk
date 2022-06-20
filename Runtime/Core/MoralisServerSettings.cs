@@ -25,11 +25,11 @@ namespace MoralisUnity
         {
             DappUrl = String.Empty;
             DappId = String.Empty;
-            DappName = "Moralis SDK Application";
-            DappDescription = "This application provides an example of how to you Moralis in a Unity 3D Game";
-            DappVersion = "1.0.0";
+            DappName = "Your dapp name";
+            DappDescription = "Your dapp description";
+            DappVersion = "0.0.1";
             DappWebsiteUrl = "https://moralis.io";
-            DappIconUrl = "https://moralis.io/wp-content/uploads/2021/06/Powered-by-Moralis-Badge-Black.svg";
+            DappIconUrl = "https://moralis.io/wp-content/uploads/2022/05/symbol_for_light_bckg.svg";
         }
     }
 }

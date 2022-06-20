@@ -108,7 +108,7 @@ namespace WalletConnectSharp.Unity.Network
 #endif
             nextClient.OnError += (e) => {
 
-                Debug.LogError("[WebSocket] OnError " + e);
+                Debug.Log("[WebSocket] OnError " + e);
                 HandleError(new Exception(e));
             };
 

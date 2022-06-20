@@ -75,11 +75,15 @@ namespace WalletConnectSharp.Unity.UI
                 
                 walletButton.onClick.AddListener(delegate
                 {
-                    WalletConnect.OpenDeepLink(walletData);
-                    // hide wallets after 
-                    gameObject.SetActive(false);
-                    // show status text
-                    statusText.gameObject.SetActive(true);
+                    // Check if WalletConnect is ready for the user prompt to make sure the user wont get stuck
+                    if (WalletConnect.Session.ReadyForUserPrompt)
+                    {
+                        WalletConnect.OpenDeepLink(walletData);
+                        // hide wallets after 
+                        gameObject.SetActive(false);
+                        // show status text
+                        statusText.gameObject.SetActive(true);
+                    }
                 });
             }
             
