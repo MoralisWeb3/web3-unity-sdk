@@ -1,5 +1,5 @@
 # Change Log
-## 1.2.2 (2022-06-??)
+## 1.2.2 (2022-06-20)
 - Issue #64 BUG: MoralisLiveQueryController logs runtime warning
 - Issue #104 No Response When obj.SaveAsync() Fails
 - Issue #105 MoralisWeb3SdkEditor Spelling error in Warning Message
@@ -8,7 +8,14 @@
 The requestId was not being updated properly for WebGL so connections created close together had the same requestId in WebGL.
 ```
 - Issue #112 SignUpAsync always throws an exception
-
+- Improved WalletConnect process in the Authentication Kit to make it more reliable
+- Added retry button for connecting and signing on Android and iOS
+- Updated WalletConnect to latest version and enable timeout refresh and QR loading animation
+- Change State names to better reflect the state
+- Fixed Web3 not getting set up on stored session
+- Added extra ReadyForUserPrompt check on Android and iOS with 15 seconds timeout to help with unresponsive WalletConnect bridges
+- Only download medium wallet images to speed up iOS wallet list
+- Updated default server settings
 
 ## 1.2.1 (2022-05-30)
 - Issue #84 Web3Api Token Endpoint Missing Operations
