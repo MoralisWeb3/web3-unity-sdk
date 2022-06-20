@@ -161,7 +161,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns the trades</returns>
-		public async UniTask<TradeCollection> GetNFTTrades (string address, ChainList chain, int? fromBlock=null, string toBlock=null, string fromDate=null, string toDate=null, string providerUrl=null, string marketplace=null, int? offset=null, int? limit=null)
+		public async UniTask<TradeCollection> GetNFTTrades (string address, ChainList chain, int? fromBlock=null, string toBlock=null, string fromDate=null, string toDate=null, string providerUrl=null, string marketplace=null, string cursor = "", int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -183,7 +183,7 @@ namespace MoralisUnity.Web3Api.Api
 			if(toDate != null) queryParams.Add("to_date", ApiClient.ParameterToString(toDate));
 			if(providerUrl != null) queryParams.Add("provider_url", ApiClient.ParameterToString(providerUrl));
 			if(marketplace != null) queryParams.Add("marketplace", ApiClient.ParameterToString(marketplace));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 
 			// Authentication setting, if any
@@ -472,7 +472,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns the matching NFTs</returns>
-		public async UniTask<NftMetadataCollection> SearchNFTs (string q, ChainList chain, string format=null, string filter=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? offset=null, int? limit=null)
+		public async UniTask<NftMetadataCollection> SearchNFTs (string q, ChainList chain, string format=null, string filter=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, string cursor = "", int? limit=null)
 		{
 
 			// Verify the required parameter 'q' is set
@@ -495,7 +495,7 @@ namespace MoralisUnity.Web3Api.Api
 			if(toBlock != null) queryParams.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if(fromDate != null) queryParams.Add("from_date", ApiClient.ParameterToString(fromDate));
 			if(toDate != null) queryParams.Add("to_date", ApiClient.ParameterToString(toDate));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 
 			// Authentication setting, if any
@@ -537,7 +537,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of NFT transfers</returns>
-		public async UniTask<NftTransferCollection> GetNftTransfersFromToBlock (ChainList chain, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, string format=null, int? offset=null, int? limit=null)
+		public async UniTask<NftTransferCollection> GetNftTransfersFromToBlock (ChainList chain, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, string format=null, string cursor = "", int? limit=null)
 		{
 
 			var postBody = new Dictionary<String, String>();
@@ -555,7 +555,7 @@ namespace MoralisUnity.Web3Api.Api
 			if(fromDate != null) queryParams.Add("from_date", ApiClient.ParameterToString(fromDate));
 			if(toDate != null) queryParams.Add("to_date", ApiClient.ParameterToString(toDate));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 
 			// Authentication setting, if any
@@ -585,7 +585,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nfts</returns>
-		public async UniTask<NftCollection> GetAllTokenIds (string address, ChainList chain, string format=null, int? offset=null, int? limit=null)
+		public async UniTask<NftCollection> GetAllTokenIds (string address, ChainList chain, string format=null, string cursor = "", int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -602,7 +602,7 @@ namespace MoralisUnity.Web3Api.Api
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
 			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 
 			// Authentication setting, if any
@@ -629,7 +629,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of NFT transfers</returns>
-		public async UniTask<NftTransferCollection> GetContractNFTTransfers (string address, ChainList chain, string format=null, int? offset=null, int? limit=null)
+		public async UniTask<NftTransferCollection> GetContractNFTTransfers (string address, ChainList chain, string format=null, string cursor = "", int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -646,7 +646,7 @@ namespace MoralisUnity.Web3Api.Api
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
 			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 
 			// Authentication setting, if any
@@ -677,7 +677,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nft owners</returns>
-		public async UniTask<NftOwnerCollection> GetNFTOwners (string address, ChainList chain, string format=null, int? offset=null, int? limit=null)
+		public async UniTask<NftOwnerCollection> GetNFTOwners (string address, ChainList chain, string format=null, string cursor = "", int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -694,7 +694,7 @@ namespace MoralisUnity.Web3Api.Api
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
 			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 
 			// Authentication setting, if any
@@ -812,7 +812,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of NFTs with their respective owners</returns>
-		public async UniTask<NftOwnerCollection> GetTokenIdOwners (string address, string tokenId, ChainList chain, string format=null, int? offset=null, int? limit=null)
+		public async UniTask<NftOwnerCollection> GetTokenIdOwners (string address, string tokenId, ChainList chain, string format=null, string cursor = "", int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -832,7 +832,7 @@ namespace MoralisUnity.Web3Api.Api
 			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));			path = path.Replace("{" + "token_id" + "}", ApiClient.ParameterToString(tokenId));
 			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 
 			// Authentication setting, if any
@@ -861,7 +861,7 @@ namespace MoralisUnity.Web3Api.Api
 		/// <param name="limit">limit</param>
 		/// <param name="order">The field(s) to order on and if it should be ordered in ascending or descending order. Specified by: fieldName1.order,fieldName2.order. Example 1: "block_number", "block_number.ASC", "block_number.DESC", Example 2: "block_number and contract_type", "block_number.ASC,contract_type.DESC"</param>
 		/// <returns>Returns a collection of NFT transfers</returns>
-		public async UniTask<NftTransferCollection> GetWalletTokenIdTransfers (string address, string tokenId, ChainList chain, string format=null, int? offset=null, int? limit=null, string order=null)
+		public async UniTask<NftTransferCollection> GetWalletTokenIdTransfers (string address, string tokenId, ChainList chain, string format=null, string cursor = "", int? limit=null, string order=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -878,10 +878,11 @@ namespace MoralisUnity.Web3Api.Api
 
 			var path = "/nft/{address}/{token_id}/transfers";
 			path = path.Replace("{format}", "json");
-			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));			path = path.Replace("{" + "token_id" + "}", ApiClient.ParameterToString(tokenId));
+			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));			
+			path = path.Replace("{" + "token_id" + "}", ApiClient.ParameterToString(tokenId));
 			queryParams.Add("chain", ApiClient.ParameterToHex((long)chain));
 			if(format != null) queryParams.Add("format", ApiClient.ParameterToString(format));
-			if(offset != null) queryParams.Add("offset", ApiClient.ParameterToString(offset));
+			if(cursor != null) queryParams.Add("offset", ApiClient.ParameterToString(cursor));
 			if(limit != null) queryParams.Add("limit", ApiClient.ParameterToString(limit));
 			if(order != null) queryParams.Add("order", ApiClient.ParameterToString(order));
 
