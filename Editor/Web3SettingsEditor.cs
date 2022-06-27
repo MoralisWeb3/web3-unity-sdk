@@ -25,7 +25,7 @@ namespace MoralisUnity.Editor
         /// <summary>
         /// Menu show event - displays the setup window when menu selection made.
         /// </summary>
-        [MenuItem(MoralisConstants.PathMoralisWindowMenu + "/" + MoralisConstants.Open + " " + "Web3 Request Settings", false, 5 )]
+        [MenuItem( MoralisConstants.PathMoralisWindowMenu + "/" + MoralisConstants.Open + " " + "Web3 Request Settings", false, 15 )]
         public static void ShowWindow()
         {
             var window = GetWindow<Web3SettingsEditor>();

@@ -16,5 +16,34 @@ namespace MoralisUnity.Sdk.MenuItems
 		{
 			ReadMeEditor.SelectReadmeGuid("f28fe356e1effe947938cac2b8ba360a");
 		}
+		
+		
+		[MenuItem( MoralisConstants.PathMoralisWindowMenu + "/" + "Select AuthenticationKit", false, 30 )]
+		static void SelectAuthenticationKit()
+		{
+			string path = AssetDatabase.GUIDToAssetPath("a41feed31bcc36541a7a9505212ddc63");
+			if (string.IsNullOrEmpty(path)) return;
+			var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
+			if (obj == null) return;
+            
+			Selection.activeObject = obj;
+			EditorGUIUtility.PingObject(obj);
+		}
+		
+		
+		[MenuItem( "GameObject/" + MoralisConstants.PathMoralisCreateAssetMenu + "/" + "AuthenticationKit", false, 30 )]
+		static void CreateAuthenticationKit()
+		{
+			string path = AssetDatabase.GUIDToAssetPath("a41feed31bcc36541a7a9505212ddc63");
+			if (string.IsNullOrEmpty(path)) return;
+			var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
+			if (obj == null) return;
+            
+			GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(obj, Selection.activeTransform);
+			
+			Undo.RegisterCreatedObjectUndo(instance , $"Create {instance.name}");
+			
+			Selection.activeGameObject = instance;
+		}
 	}
 }

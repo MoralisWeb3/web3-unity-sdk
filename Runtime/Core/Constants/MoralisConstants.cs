@@ -7,8 +7,8 @@ namespace MoralisUnity.Sdk.Constants
     public static class MoralisConstants 
     {
 		//Paths
-        public const string PathMoralisCreateAssetMenu = Moralis + "/" + Web3UnitySDK;
-        public const string PathMoralisWindowMenu = "Window/" + Moralis + "/" + Web3UnitySDK;
+        public const string PathMoralisCreateAssetMenu = Moralis + " " + Web3UnitySDK;
+        public const string PathMoralisWindowMenu = "Tools/" + Moralis + " " + Web3UnitySDK;
         public const string PathMoralisExamplesCreateAssetMenu = PathMoralisCreateAssetMenu + "/Examples";
         public const string PathMoralisExamplesWindowMenu = PathMoralisWindowMenu + "/Examples";
         public const string PathMoralisSamplesCreateAssetMenu = PathMoralisCreateAssetMenu + "/Samples";

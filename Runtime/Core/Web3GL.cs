@@ -129,7 +129,7 @@ namespace MoralisUnity
                 response = SendContractResponse();
             }
             SetContractResponse("");
-            // check if user submmited or user rejected
+            // check if user submitted or user rejected
             if (response.Length == 66)
             {
                 return response;
