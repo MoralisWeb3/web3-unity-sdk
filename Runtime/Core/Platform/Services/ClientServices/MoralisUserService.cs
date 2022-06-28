@@ -48,7 +48,12 @@ namespace MoralisUnity.Platform.Services.ClientServices
         public async UniTask<TUser> LogInAsync(string username, string password, IServiceHub<TUser> serviceHub, CancellationToken cancellationToken = default)
         {
             TUser result = default;
-            Tuple<HttpStatusCode, string> cmdResp = await CommandRunner.RunCommandAsync(new MoralisCommand($"server/login?{MoralisService<TUser>.BuildQueryString(new Dictionary<string, object> { [nameof(username)] = username, [nameof(password)] = password })}", method: "GET", data: null), cancellationToken: cancellationToken);
+            string signinData = "{\"username\":\"" + username + "\", \"password\":\"" + password + "\"}";
+
+            Tuple<HttpStatusCode, string> cmdResp =
+                await CommandRunner.RunCommandAsync(
+                    new MoralisCommand($"server/login", method: "POST", data: signinData), cancellationToken: cancellationToken);
+
             if ((int)cmdResp.Item1 < 300)
             {
                 result = JsonSerializer.Deserialize<TUser>(cmdResp.Item2.ToString());
