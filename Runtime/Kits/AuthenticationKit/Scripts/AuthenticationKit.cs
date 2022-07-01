@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity;
+using WalletConnectSharp.Unity.Models;
 
 #pragma warning disable CS1998
 namespace MoralisUnity.Kits.AuthenticationKit
@@ -120,6 +121,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             // Initialize Moralis
             Moralis.Start();
+            
+            // Log out any old users so we do a full authentication cycle
+            await Moralis.LogOutAsync();
 
             State = AuthenticationKitState.Initialized;
         }
@@ -291,8 +295,14 @@ namespace MoralisUnity.Kits.AuthenticationKit
         /// <returns></returns>
         private async void WalletConnect_Connect()
         {
+            // CLear out the session so it is re-establish on sign-in.
+            _walletConnect.CLearSession();
+            
             // Enable auto save to remember the session for future use 
             _walletConnect.autoSaveAndResume = true;
+            
+            // Don't start a new session on disconnect automatically
+            _walletConnect.createNewSessionOnSessionDisconnect = false;
             
             // Warning the _walletConnect.Connect() won't finish until a user approved Wallet connection has been established
             await _walletConnect.Connect();
@@ -420,9 +430,9 @@ namespace MoralisUnity.Kits.AuthenticationKit
 #if !UNITY_WEBGL
             try
             {
-                // CLear out the session so it is re-establish on sign-in.
-                _walletConnect.CLearSession();
-
+                // Close the WalletConnect Transport Session
+                await _walletConnect.Session.Transport.Close();
+                
                 // Disconnect the WalletConnect session
                 await _walletConnect.Session.Disconnect();
             }
