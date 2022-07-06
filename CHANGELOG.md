@@ -1,4 +1,14 @@
 # Change Log
+## 1.2.3 (2022-07-06)
+- Fixed WalletConnect instabilities
+```
+Always do a full authentication cycle (Connecting,Signing,GetUser) There currently is no way to check if a WalletConnect session is still valid and not broken so we always need to do a full authentication cycle to be sure.
+```
+- Fixed UnityWebRequest memory leaks
+- Fixed WebSocket.jslib naming conflict with Photon
+- Improved menu items for better exposure of the AuthenticationKit
+- Issue #125 Update MoralisUserService to send signin with username/password from GET to POST
+
 ## 1.2.2 (2022-06-20)
 - Issue #64 BUG: MoralisLiveQueryController logs runtime warning
 - Issue #104 No Response When obj.SaveAsync() Fails
