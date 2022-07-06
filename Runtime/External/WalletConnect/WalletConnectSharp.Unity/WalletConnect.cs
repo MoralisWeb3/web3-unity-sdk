@@ -185,7 +185,7 @@ namespace WalletConnectSharp.Unity
                         {
                             if (currentKey != savedSession.Key)
                             {
-                                if (Session.Connected)
+                                if (Session.SessionConnected)
                                 {
                                     await Session.Disconnect();
                                 }
@@ -207,7 +207,7 @@ namespace WalletConnectSharp.Unity
                                 return null; //Nothing to do
                             }
                         }
-                        else if (Session.Connected)
+                        else if (Session.SessionConnected)
                         {
                             await Session.Disconnect();
                         }

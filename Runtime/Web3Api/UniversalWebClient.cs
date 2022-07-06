@@ -105,6 +105,9 @@ namespace MoralisUnity.Web3Api
             }
             
             result = new Tuple<HttpStatusCode, Dictionary<string, string>, string>(responseStatus, webRequest.GetResponseHeaders(), responseText);
+            
+            // Signals that this UnityWebRequest is no longer being used, and should clean up any resources it is using.
+            webRequest.Dispose();
 
             return result;
         }

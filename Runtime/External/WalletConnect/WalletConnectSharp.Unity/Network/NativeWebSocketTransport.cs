@@ -32,7 +32,7 @@ namespace WalletConnectSharp.Unity.Network
         {
             get
             {
-                return client != null && client.State == WebSocketState.Open && opened;
+                return client != null && (client.State == WebSocketState.Open || client.State == WebSocketState.Closing) && opened;
             }
         }
 
