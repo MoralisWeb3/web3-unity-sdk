@@ -1,4 +1,4 @@
-# Change Log
+# Changelog
 ## 1.2.3 (2022-07-06)
 - Fixed WalletConnect instabilities
 ```
