@@ -7,6 +7,7 @@ using System;
 using MoralisUnity.Platform.Abstractions;
 using MoralisUnity.Platform.Objects;
 using MoralisUnity.Platform.Services.Models;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace MoralisUnity.Platform.Services.ClientServices
@@ -48,7 +49,12 @@ namespace MoralisUnity.Platform.Services.ClientServices
         public async UniTask<TUser> LogInAsync(string username, string password, IServiceHub<TUser> serviceHub, CancellationToken cancellationToken = default)
         {
             TUser result = default;
-            string signinData = "{\"username\":\"" + username + "\", \"password\":\"" + password + "\"}";
+            
+            string signinData = JsonConvert.SerializeObject(new
+            {
+                username,
+                password,
+            });
 
             Tuple<HttpStatusCode, string> cmdResp =
                 await CommandRunner.RunCommandAsync(
