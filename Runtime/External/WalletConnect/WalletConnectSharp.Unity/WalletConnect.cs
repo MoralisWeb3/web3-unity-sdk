@@ -127,23 +127,19 @@ namespace WalletConnectSharp.Unity
 
         protected override async void Awake()
         {
-            if (_instance != null)
+            if (_instance == null || ReferenceEquals(this, _instance))
             {
-                Destroy(gameObject);
-                return;
+                // Object.DontDestroyOnLoad only works for root GameObjects or components on root GameObject.
+                // So let's set the parent to null.
+                gameObject.transform.SetParent(null);
+                _instance = this;
+                DontDestroyOnLoad(gameObject);
             }
-
-            /////////////////////////////////////////////////////////
-            /// WORKAROUND FOR: "DontDestroyOnLoad only works for root
-            /// GameObjects or components on root GameObjects."
-            Transform parent = gameObject.transform.parent;
-            gameObject.transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
-            gameObject.transform.SetParent(parent);
-            /////////////////////////////////////////////////////////
-
-            _instance = this;
-
+            else
+            {
+                Destroy(this);
+            }
+            
             base.Awake();
 
             if (connectOnAwake)
