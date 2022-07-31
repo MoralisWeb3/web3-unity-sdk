@@ -36,6 +36,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         }
 
         [Header("Settings")] [SerializeField] private bool _willInitializeOnStart = true;
+        [SerializeField] private bool _signAndLoginToMoralis = true;
 
         //  Events ----------------------------------------
 
@@ -60,7 +61,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         public AuthenticationKitState State
         {
             get { return _stateObservable.Value; }
-            private set { _stateObservable.Value = value; }
+            set { _stateObservable.Value = value; }
         }
 
         private AuthenticationKitStateObservable _stateObservable = new AuthenticationKitStateObservable();
@@ -225,65 +226,70 @@ namespace MoralisUnity.Kits.AuthenticationKit
             }
             
             State = AuthenticationKitState.WalletConnected;
-            
-            State = AuthenticationKitState.WalletSigning;
 
-            if (string.IsNullOrWhiteSpace(userAddr))
+            if (_signAndLoginToMoralis)
             {
-                Debug.LogError("Could not login or fetch account from web3.");
-            }
-            else 
-            {
-                string address = Web3GL.Account().ToLower();
-                string appId = Moralis.DappId;
-                long serverTime = 0;
 
-                // Retrieve server time from Moralis Server for message signature
-                Dictionary<string, object> serverTimeResponse =
-                    await Moralis.Cloud.RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
+                State = AuthenticationKitState.WalletSigning;
 
-                if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
-                    !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
+                if (string.IsNullOrWhiteSpace(userAddr))
                 {
-                    Debug.LogError("Failed to retrieve server time from Moralis Server!");
+                    Debug.LogError("Could not login or fetch account from web3.");
                 }
-
-                string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
-                
-                string signature = null;
-                
-                // Try to sign and catch the Exception when a user cancels the request
-                try
+                else
                 {
-                    signature = await Web3GL.Sign(signMessage);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                    // Disconnect and start over if a user cancels the singing request or there is an error
-                    Disconnect();
-                    return;
-                }
-                
-                State = AuthenticationKitState.WalletSigned;
+                    string address = Web3GL.Account().ToLower();
+                    string appId = Moralis.DappId;
+                    long serverTime = 0;
 
-                State = AuthenticationKitState.MoralisLoggingIn;
-                
-                // Create Moralis auth data from message signing response.
-                Dictionary<string, object> authData = new Dictionary<string, object>
-                {
-                    { "id", address }, { "signature", signature }, { "data", signMessage }
-                };
+                    // Retrieve server time from Moralis Server for message signature
+                    Dictionary<string, object> serverTimeResponse =
+                        await Moralis.Cloud.RunAsync<Dictionary<string, object>>("getServerTime",
+                            new Dictionary<string, object>());
 
-                // Get chain Id
-                int chainId = Web3GL.ChainId();
+                    if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
+                        !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
+                    {
+                        Debug.LogError("Failed to retrieve server time from Moralis Server!");
+                    }
 
-                // Attempt to login user.
-                MoralisUser user = await Moralis.LogInAsync(authData, chainId);
+                    string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
 
-                if (user != null)
-                {
-                    State = AuthenticationKitState.MoralisLoggedIn;
+                    string signature = null;
+
+                    // Try to sign and catch the Exception when a user cancels the request
+                    try
+                    {
+                        signature = await Web3GL.Sign(signMessage);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e);
+                        // Disconnect and start over if a user cancels the singing request or there is an error
+                        Disconnect();
+                        return;
+                    }
+
+                    State = AuthenticationKitState.WalletSigned;
+
+                    State = AuthenticationKitState.MoralisLoggingIn;
+
+                    // Create Moralis auth data from message signing response.
+                    Dictionary<string, object> authData = new Dictionary<string, object>
+                    {
+                        { "id", address }, { "signature", signature }, { "data", signMessage }
+                    };
+
+                    // Get chain Id
+                    int chainId = Web3GL.ChainId();
+
+                    // Attempt to login user.
+                    MoralisUser user = await Moralis.LogInAsync(authData, chainId);
+
+                    if (user != null)
+                    {
+                        State = AuthenticationKitState.MoralisLoggedIn;
+                    }
                 }
             }
 #endif
@@ -555,7 +561,10 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             // try to Sign and Login to Moralis or else Disconnect and start over
                             if (_walletConnect.Session != null)
                             {
-                                WalletConnect_SignAndLoginToMoralis(_walletConnect.Session);
+                                if (_signAndLoginToMoralis)
+                                {
+                                    WalletConnect_SignAndLoginToMoralis(_walletConnect.Session);
+                                }
                             }
                             else
                             {
