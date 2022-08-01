@@ -1,6 +1,6 @@
 {
     "name": "io.moralis.web3-unity-sdk",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "displayName": "Moralis Web3 Unity SDK",
     "description": "Moralis provides a single workflow for building high performance dapps. Fully compatible with your favorite web3 tools and services. This SDK brings the power of Moralis to your Unity projects.",
     "homepage": "https://moralis.io",
