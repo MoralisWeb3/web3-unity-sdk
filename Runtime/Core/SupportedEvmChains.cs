@@ -196,6 +196,10 @@ namespace MoralisUnity
             resp["cronos"].Add("symbol", "CRO");
             resp["cronos"].Add("decimals", 18);
 
+            resp.Add("cronos_testnet", new Dictionary<string, object>());
+            resp["cronos_testnet"].Add("symbol", "CRO");
+            resp["cronos_testnet"].Add("decimals", 18);
+            
             return resp;
         }
     }
