@@ -417,7 +417,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
 		/// <param name="providerUrl">web3 provider url to user when using local dev chain</param>
 		/// <returns>Returns response of the function executed</returns>
-		public async UniTask<string> RunContractFunction (string address, string functionName, RunContractDto abi, ChainList chain, string subdomain=null, string providerUrl=null)
+		public async UniTask<T> RunContractFunction<T> (string address, string functionName, RunContractDto abi, ChainList chain, string subdomain=null, string providerUrl=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -452,35 +452,37 @@ namespace MoralisUnity.Web3Api.CloudApi
 			Tuple<HttpStatusCode, Dictionary<string, string>, string> response =
 				await ApiClient.CallApi(path, Method.POST, queryParams, bodyData, headerParams, formParams, fileParams, authSettings);
 
-			//if (((int)response.Item1) >= 400)
-			//	throw new ApiException((int)response.Item1, "Error calling RunContractFunction: " + response.Item3, response.Item3);
-			//else if (((int)response.Item1) == 0)
-			//	throw new ApiException((int)response.Item1, "Error calling RunContractFunction: " + response.Item3, response.Item3);
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetContractEvents: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetContractEvents: " + response.Item3, response.Item3);
 
-			//return ((CloudFunctionResult<string>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<string>), response.Item2)).Result;
+			T resp = ((CloudFunctionResult<T>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<T>), response.Item2)).Result;
 
-			if (((int)response.Item1) == 200)
-			{
-				string data = response.Item3;
+			return resp;
 
-				if (data.Substring(0, 10).Equals("{\"result\":"))
-				{
-					data = data.Substring(10);
-					// Strip off ending '}'
-					data = data.Substring(0, data.Length - 1);
-					// If data is a string, strip of leading and ending quotes
-					if (data.Substring(0, 1).Equals("\""))
-					{
-						data = data.Substring(1, data.Length - 2);
-					}
-				}
+			//if (((int)response.Item1) == 200)
+			//{
+			//	string data = response.Item3;
 
-				return data;
-			}
-			else
-			{
-				throw new ApiException((int)response.Item1, $"Error calling RunContractFunction: {response.Item3}");
-			}
+			//	if (data.Substring(0, 10).Equals("{\"result\":"))
+			//	{
+			//		data = data.Substring(10);
+			//		// Strip off ending '}'
+			//		data = data.Substring(0, data.Length - 1);
+			//		// If data is a string, strip of leading and ending quotes
+			//		if (data.Substring(0, 1).Equals("\""))
+			//		{
+			//			data = data.Substring(1, data.Length - 2);
+			//		}
+			//	}
+
+			//	return data;
+			//}
+			//else
+			//{
+			//	throw new ApiException((int)response.Item1, $"Error calling RunContractFunction: {response.Item3}");
+			//}
 		}
 	}
 }
