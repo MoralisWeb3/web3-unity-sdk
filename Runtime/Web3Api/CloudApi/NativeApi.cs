@@ -134,6 +134,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<Block>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<Block>), response.Item2)).Result;
 		}
+		
 		/// <summary>
 		/// Gets the closest block of the provided date
 		/// </summary>
@@ -173,6 +174,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<BlockDate>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<BlockDate>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets the logs from an address
 		/// </summary>
@@ -247,6 +249,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<LogEventByAddress>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<LogEventByAddress>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets NFT transfers by block number or block hash
 		/// </summary>
@@ -290,6 +293,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<NftTransferCollection>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<NftTransferCollection>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets the contents of a block transaction by hash
 		/// </summary>
@@ -329,6 +333,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<BlockTransaction>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<BlockTransaction>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets events in descending order based on block number
 		/// </summary>
@@ -460,29 +465,6 @@ namespace MoralisUnity.Web3Api.CloudApi
 			T resp = ((CloudFunctionResult<T>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<T>), response.Item2)).Result;
 
 			return resp;
-
-			//if (((int)response.Item1) == 200)
-			//{
-			//	string data = response.Item3;
-
-			//	if (data.Substring(0, 10).Equals("{\"result\":"))
-			//	{
-			//		data = data.Substring(10);
-			//		// Strip off ending '}'
-			//		data = data.Substring(0, data.Length - 1);
-			//		// If data is a string, strip of leading and ending quotes
-			//		if (data.Substring(0, 1).Equals("\""))
-			//		{
-			//			data = data.Substring(1, data.Length - 2);
-			//		}
-			//	}
-
-			//	return data;
-			//}
-			//else
-			//{
-			//	throw new ApiException((int)response.Item1, $"Error calling RunContractFunction: {response.Item3}");
-			//}
 		}
 	}
 }
