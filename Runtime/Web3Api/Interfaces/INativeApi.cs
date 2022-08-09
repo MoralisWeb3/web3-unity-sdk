@@ -124,7 +124,7 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
 		/// <param name="providerUrl">web3 provider url to user when using local dev chain</param>
 		/// <returns>Returns response of the function executed</returns>
-		UniTask<string> RunContractFunction (string address, string functionName, RunContractDto abi, ChainList chain, string subdomain=null, string providerUrl=null);
+		UniTask<T> RunContractFunction <T> (string address, string functionName, RunContractDto abi, ChainList chain, string subdomain=null, string providerUrl=null);
 
 	}
 }

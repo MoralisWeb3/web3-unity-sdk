@@ -134,6 +134,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<Block>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<Block>), response.Item2)).Result;
 		}
+		
 		/// <summary>
 		/// Gets the closest block of the provided date
 		/// </summary>
@@ -173,6 +174,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<BlockDate>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<BlockDate>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets the logs from an address
 		/// </summary>
@@ -247,6 +249,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<LogEventByAddress>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<LogEventByAddress>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets NFT transfers by block number or block hash
 		/// </summary>
@@ -290,6 +293,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<NftTransferCollection>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<NftTransferCollection>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets the contents of a block transaction by hash
 		/// </summary>
@@ -329,6 +333,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<BlockTransaction>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<BlockTransaction>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets events in descending order based on block number
 		/// </summary>
@@ -402,7 +407,6 @@ namespace MoralisUnity.Web3Api.CloudApi
 			else if (((int)response.Item1) == 0)
 				throw new ApiException((int)response.Item1, "Error calling GetContractEvents: " + response.Item3, response.Item3);
 
-			//			return ((CloudFunctionResult<List<LogEvent>>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<List<LogEvent>>), response.Item2)).Result;
 			LogEventResponse resp = ((CloudFunctionResult<LogEventResponse>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<LogEventResponse>), response.Item2)).Result;
 
 			return resp.Events;
@@ -418,7 +422,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
 		/// <param name="providerUrl">web3 provider url to user when using local dev chain</param>
 		/// <returns>Returns response of the function executed</returns>
-		public async UniTask<string> RunContractFunction (string address, string functionName, RunContractDto abi, ChainList chain, string subdomain=null, string providerUrl=null)
+		public async UniTask<T> RunContractFunction<T> (string address, string functionName, RunContractDto abi, ChainList chain, string subdomain=null, string providerUrl=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -454,11 +458,13 @@ namespace MoralisUnity.Web3Api.CloudApi
 				await ApiClient.CallApi(path, Method.POST, queryParams, bodyData, headerParams, formParams, fileParams, authSettings);
 
 			if (((int)response.Item1) >= 400)
-				throw new ApiException((int)response.Item1, "Error calling RunContractFunction: " + response.Item3, response.Item3);
+				throw new ApiException((int)response.Item1, "Error calling GetContractEvents: " + response.Item3, response.Item3);
 			else if (((int)response.Item1) == 0)
-				throw new ApiException((int)response.Item1, "Error calling RunContractFunction: " + response.Item3, response.Item3);
+				throw new ApiException((int)response.Item1, "Error calling GetContractEvents: " + response.Item3, response.Item3);
 
-			return ((CloudFunctionResult<string>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<string>), response.Item2)).Result;
+			T resp = ((CloudFunctionResult<T>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<T>), response.Item2)).Result;
+
+			return resp;
 		}
 	}
 }
