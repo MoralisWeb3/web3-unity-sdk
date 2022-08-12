@@ -95,12 +95,12 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <value>An instance of the ApiClient</value>
 		public ApiClient ApiClient {get; set;}
 
-
 		/// <summary>
 		/// Gets native transactions in descending order based on block number
 		/// </summary>
 		/// <param name="address">address</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
 		/// <param name="fromBlock">The minimum block number from where to get the transactions
 		/// * Provide the param 'from_block' or 'from_date'
@@ -118,12 +118,10 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// * Provide the param 'to_block' or 'to_date'
 		/// * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
 		/// </param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of native transactions.</returns>
-		public async UniTask<TransactionCollection> GetTransactions (string address, ChainList chain, string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? offset=null, int? limit=null)
+		public async UniTask<TransactionCollection> GetTransactions (string address, ChainList chain, string cursor="", string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? limit=null)
 		{
-
 			// Verify the required parameter 'address' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetTransactions");
 
@@ -140,7 +138,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (toBlock != null) postBody.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if (fromDate != null) postBody.Add("from_date", ApiClient.ParameterToString(fromDate));
 			if (toDate != null) postBody.Add("to_date", ApiClient.ParameterToString(toDate));
-			if (offset != null) postBody.Add("offset", ApiClient.ParameterToString(offset));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -159,6 +157,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<TransactionCollection>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<TransactionCollection>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets native balance for a specific address
 		/// </summary>
@@ -169,7 +168,6 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <returns>Returns native balance for a specific address</returns>
 		public async UniTask<NativeBalance> GetNativeBalance (string address, ChainList chain, string providerUrl=null, decimal? toBlock=null)
 		{
-
 			// Verify the required parameter 'address' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNativeBalance");
 
@@ -200,6 +198,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<NativeBalance>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<NativeBalance>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets token balances for a specific address
 		/// </summary>
@@ -210,7 +209,6 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <returns>Returns token balances for a specific address</returns>
 		public async UniTask<List<Erc20TokenBalance>> GetTokenBalances (string address, ChainList chain, string subdomain=null, decimal? toBlock=null)
 		{
-
 			// Verify the required parameter 'address' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetTokenBalances");
 
@@ -241,11 +239,13 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<List<Erc20TokenBalance>>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<List<Erc20TokenBalance>>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets ERC20 token transactions in descending order based on block number
 		/// </summary>
 		/// <param name="address">address</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">offset</param>
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
 		/// <param name="fromBlock">The minimum block number from where to get the transactions
 		/// * Provide the param 'from_block' or 'from_date'
@@ -263,12 +263,10 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// * Provide the param 'to_block' or 'to_date'
 		/// * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
 		/// </param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of token transactions.</returns>
-		public async UniTask<Erc20TransactionCollection> GetTokenTransfers (string address, ChainList chain, string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? offset=null, int? limit=null)
+		public async UniTask<Erc20TransactionCollection> GetTokenTransfers (string address, ChainList chain, string cursor="", string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? limit=null)
 		{
-
 			// Verify the required parameter 'address' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetTokenTransfers");
 
@@ -285,7 +283,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (toBlock != null) postBody.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if (fromDate != null) postBody.Add("from_date", ApiClient.ParameterToString(fromDate));
 			if (toDate != null) postBody.Add("to_date", ApiClient.ParameterToString(toDate));
-			if (offset != null) postBody.Add("offset", ApiClient.ParameterToString(offset));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -304,6 +302,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<Erc20TransactionCollection>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<Erc20TransactionCollection>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets NFTs owned by the given address
 		/// * The response will include status [SYNCED/SYNCING] based on the contracts being indexed.
@@ -314,13 +313,12 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// </summary>
 		/// <param name="address">The owner of a given token</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="format">The format of the token id</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nft owners</returns>
-		public async UniTask<NftOwnerCollection> GetNFTs (string address, ChainList chain, string format=null, int? offset=null, int? limit=null)
+		public async UniTask<NftOwnerCollection> GetNFTs (string address, ChainList chain, string cursor="", string format=null, int? limit=null)
 		{
-
 			// Verify the required parameter 'address' is set
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetNFTs");
 
@@ -333,7 +331,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			var path = "/functions/getNFTs";
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
-			if (offset != null) postBody.Add("offset", ApiClient.ParameterToString(offset));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -352,17 +350,18 @@ namespace MoralisUnity.Web3Api.CloudApi
 
 			return ((CloudFunctionResult<NftOwnerCollection>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<NftOwnerCollection>), response.Item2)).Result;
 		}
+
 		/// <summary>
 		/// Gets the transfers of the tokens matching the given parameters
 		/// </summary>
 		/// <param name="address">The sender or recepient of the transfer</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="format">The format of the token id</param>
 		/// <param name="direction">The transfer direction</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of NFT transfer</returns>
-		public async UniTask<NftTransferCollection> GetNFTTransfers (string address, ChainList chain, string format=null, string direction=null, int? offset=null, int? limit=null)
+		public async UniTask<NftTransferCollection> GetNFTTransfers (string address, ChainList chain, string cursor="", string format=null, string direction=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -378,7 +377,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
 			if (direction != null) postBody.Add("direction", ApiClient.ParameterToString(direction));
-			if (offset != null) postBody.Add("offset", ApiClient.ParameterToString(offset));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -407,11 +406,11 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <param name="address">The owner of a given token</param>
 		/// <param name="tokenAddress">Address of the contract</param>
 		/// <param name="chain">The chain to query</param>
-		/// <param name="format">The format of the token id</param>
 		/// <param name="offset">offset</param>
+		/// <param name="format">The format of the token id</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nft owners</returns>
-		public async UniTask<NftOwnerCollection> GetNFTsForContract (string address, string tokenAddress, ChainList chain, string format=null, int? offset=null, int? limit=null)
+		public async UniTask<NftOwnerCollection> GetNFTsForContract (string address, string tokenAddress, ChainList chain, string cursor="", string format=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -430,7 +429,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (tokenAddress != null) postBody.Add("token_address", ApiClient.ParameterToString(tokenAddress));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
-			if (offset != null) postBody.Add("offset", ApiClient.ParameterToString(offset));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 

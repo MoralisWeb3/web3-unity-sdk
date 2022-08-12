@@ -62,18 +62,18 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="topic2">topic2</param>
 		/// <param name="topic3">topic3</param>
 		/// <returns>Returns the logs of an address</returns>
-		UniTask<LogEventByAddress> GetLogsByAddress (string address, ChainList chain, string subdomain=null, string blockNumber=null, string fromBlock=null, string toBlock=null, string fromDate=null, string toDate=null, string topic0=null, string topic1=null, string topic2=null, string topic3=null);
+		UniTask<LogEventByAddress> GetLogsByAddress (string address, ChainList chain, string cursor = "", string subdomain=null, string blockNumber=null, string fromBlock=null, string toBlock=null, string fromDate=null, string toDate=null, string topic0=null, string topic1=null, string topic2=null, string topic3=null, int? limit=null);
 
 		/// <summary>
 		/// Gets NFT transfers by block number or block hash
 		/// </summary>
 		/// <param name="blockNumberOrHash">The block hash or block number</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns the contents of a block</returns>
-		UniTask<NftTransferCollection> GetNFTTransfersByBlock (string blockNumberOrHash, ChainList chain, string subdomain=null, int? offset=null, int? limit=null);
+		UniTask<NftTransferCollection> GetNFTTransfersByBlock (string blockNumberOrHash, ChainList chain, string cursor="", string subdomain=null, int? limit=null);
 
 		/// <summary>
 		/// Gets the contents of a block transaction by hash
@@ -91,6 +91,7 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="topic">The topic of the event</param>
 		/// <param name="abi">ABI of the specific event</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
 		/// <param name="providerUrl">web3 provider url to user when using local dev chain</param>
 		/// <param name="fromBlock">The minimum block number from where to get the logs
@@ -109,10 +110,9 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// * Provide the param 'to_block' or 'to_date'
 		/// * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
 		/// </param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of events by topic</returns>
-		UniTask<List<LogEvent>> GetContractEvents (string address, string topic, object abi, ChainList chain, string subdomain=null, string providerUrl=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? offset=null, int? limit=null);
+		UniTask<List<LogEvent>> GetContractEvents (string address, string topic, object abi, ChainList chain, string cursor="", string subdomain=null, string providerUrl=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? limit=null);
 
 		/// <summary>
 		/// Runs a given function of a contract abi and returns readonly data
