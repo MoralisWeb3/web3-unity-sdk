@@ -568,11 +568,11 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// </summary>
 		/// <param name="address">Address of the contract</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="format">The format of the token id</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nfts</returns>
-		public async UniTask<NftCollection> GetAllTokenIds (string address, ChainList chain, string format=null, string cursor = "", int? limit=null)
+		public async UniTask<NftCollection> GetAllTokenIds (string address, ChainList chain, string cursor = "", string format=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -587,7 +587,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			var path = "/functions/getAllTokenIds";
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
-			if (cursor != null) postBody.Add("offset", ApiClient.ParameterToString(cursor));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -611,11 +611,11 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// </summary>
 		/// <param name="address">Address of the contract</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="format">The format of the token id</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of NFT transfers</returns>
-		public async UniTask<NftTransferCollection> GetContractNFTTransfers (string address, ChainList chain, string format=null, string cursor = "", int? limit=null)
+		public async UniTask<NftTransferCollection> GetContractNFTTransfers (string address, ChainList chain, string cursor = "", string format=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -630,7 +630,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			var path = "/functions/getContractNFTTransfers";
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
-			if (cursor != null) postBody.Add("offset", ApiClient.ParameterToString(cursor));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -658,11 +658,11 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// </summary>
 		/// <param name="address">Address of the contract</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="format">The format of the token id</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nft owners</returns>
-		public async UniTask<NftOwnerCollection> GetNFTOwners (string address, ChainList chain, string format=null, string cursor = "", int? limit=null)
+		public async UniTask<NftOwnerCollection> GetNFTOwners (string address, ChainList chain, string cursor = "", string format=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -677,7 +677,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			var path = "/functions/getNFTOwners";
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
-			if (cursor != null) postBody.Add("offset", ApiClient.ParameterToString(cursor));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -792,10 +792,10 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <param name="tokenId">The id of the token</param>
 		/// <param name="chain">The chain to query</param>
 		/// <param name="format">The format of the token id</param>
-		/// <param name="offset">offset</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of NFTs with their respective owners</returns>
-		public async UniTask<NftOwnerCollection> GetTokenIdOwners (string address, string tokenId, ChainList chain, string format=null, string cursor = "", int? limit=null)
+		public async UniTask<NftOwnerCollection> GetTokenIdOwners (string address, string tokenId, ChainList chain, string cursor = "", string format=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -814,7 +814,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (tokenId != null) postBody.Add("token_id", ApiClient.ParameterToString(tokenId));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
-			if (cursor != null) postBody.Add("offset", ApiClient.ParameterToString(cursor));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -839,12 +839,12 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <param name="address">Address of the contract</param>
 		/// <param name="tokenId">The id of the token</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="format">The format of the token id</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <param name="order">The field(s) to order on and if it should be ordered in ascending or descending order. Specified by: fieldName1.order,fieldName2.order. Example 1: "block_number", "block_number.ASC", "block_number.DESC", Example 2: "block_number and contract_type", "block_number.ASC,contract_type.DESC"</param>
 		/// <returns>Returns a collection of NFT transfers</returns>
-		public async UniTask<NftTransferCollection> GetWalletTokenIdTransfers (string address, string tokenId, ChainList chain, string format = null, string cursor = "", int? limit = null, string order = null)
+		public async UniTask<NftTransferCollection> GetWalletTokenIdTransfers (string address, string tokenId, ChainList chain, string cursor = "", string format = null, int? limit = null, string order = null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -863,7 +863,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
 			if (tokenId != null) postBody.Add("token_id", ApiClient.ParameterToString(tokenId));
 			if (format != null) postBody.Add("format", ApiClient.ParameterToString(format));
-			if (cursor != null) postBody.Add("offset", ApiClient.ParameterToString(cursor));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			if (order != null) postBody.Add("order", ApiClient.ParameterToString(order));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
