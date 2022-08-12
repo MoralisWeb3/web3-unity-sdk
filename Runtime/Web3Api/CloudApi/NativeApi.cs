@@ -207,8 +207,9 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <param name="topic1">topic1</param>
 		/// <param name="topic2">topic2</param>
 		/// <param name="topic3">topic3</param>
+		/// <param name="limit">limit</param>
 		/// <returns>Returns the logs of an address</returns>
-		public async UniTask<LogEventByAddress> GetLogsByAddress (string address, ChainList chain, string subdomain=null, string blockNumber=null, string fromBlock=null, string toBlock=null, string fromDate=null, string toDate=null, string topic0=null, string topic1=null, string topic2=null, string topic3=null)
+		public async UniTask<LogEventByAddress> GetLogsByAddress (string address, ChainList chain, string cursor="", string subdomain=null, string blockNumber=null, string fromBlock=null, string toBlock=null, string fromDate=null, string toDate=null, string topic0=null, string topic1=null, string topic2=null, string topic3=null, int? limit = null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -232,6 +233,8 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (topic1 != null) postBody.Add("topic1", ApiClient.ParameterToString(topic1));
 			if (topic2 != null) postBody.Add("topic2", ApiClient.ParameterToString(topic2));
 			if (topic3 != null) postBody.Add("topic3", ApiClient.ParameterToString(topic3));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
+			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
 			// Authentication setting, if any
@@ -255,11 +258,11 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// </summary>
 		/// <param name="blockNumberOrHash">The block hash or block number</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">cursor</param>
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns the contents of a block</returns>
-		public async UniTask<NftTransferCollection> GetNFTTransfersByBlock (string blockNumberOrHash, ChainList chain, string subdomain=null, int? offset=null, int? limit=null)
+		public async UniTask<NftTransferCollection> GetNFTTransfersByBlock (string blockNumberOrHash, ChainList chain, string cursor="", string subdomain=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'blockNumberOrHash' is set
@@ -274,7 +277,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			var path = "/functions/getNFTTransfersByBlock";
 			if (blockNumberOrHash != null) postBody.Add("block_number_or_hash", ApiClient.ParameterToString(blockNumberOrHash));
 			if (subdomain != null) postBody.Add("subdomain", ApiClient.ParameterToString(subdomain));
-			if (offset != null) postBody.Add("offset", ApiClient.ParameterToString(offset));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 
@@ -341,6 +344,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// <param name="topic">The topic of the event</param>
 		/// <param name="abi">ABI of the specific event</param>
 		/// <param name="chain">The chain to query</param>
+		/// <param name="cursor">offset</param>
 		/// <param name="subdomain">The subdomain of the moralis server to use (Only use when selecting local devchain as chain)</param>
 		/// <param name="providerUrl">web3 provider url to user when using local dev chain</param>
 		/// <param name="fromBlock">The minimum block number from where to get the logs
@@ -359,10 +363,9 @@ namespace MoralisUnity.Web3Api.CloudApi
 		/// * Provide the param 'to_block' or 'to_date'
 		/// * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
 		/// </param>
-		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of events by topic</returns>
-		public async UniTask<List<LogEvent>> GetContractEvents (string address, string topic, object abi, ChainList chain, string subdomain=null, string providerUrl=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? offset=null, int? limit=null)
+		public async UniTask<List<LogEvent>> GetContractEvents (string address, string topic, object abi, ChainList chain, string cursor="", string subdomain=null, string providerUrl=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? limit=null)
 		{
 
 			// Verify the required parameter 'address' is set
@@ -390,7 +393,7 @@ namespace MoralisUnity.Web3Api.CloudApi
 			if (toBlock != null) postBody.Add("to_block", ApiClient.ParameterToString(toBlock));
 			if (fromDate != null) postBody.Add("from_date", ApiClient.ParameterToString(fromDate));
 			if (toDate != null) postBody.Add("to_date", ApiClient.ParameterToString(toDate));
-			if (offset != null) postBody.Add("offset", ApiClient.ParameterToString(offset));
+			if (cursor != null) postBody.Add("cursor", ApiClient.ParameterToString(cursor));
 			if (limit != null) postBody.Add("limit", ApiClient.ParameterToString(limit));
 			postBody.Add("chain", ApiClient.ParameterToHex((long)chain));
 

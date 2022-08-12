@@ -36,7 +36,7 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of native transactions.</returns>
-		UniTask<TransactionCollection>GetTransactions (string address, ChainList chain, string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? offset=null, int? limit=null);
+		UniTask<TransactionCollection>GetTransactions (string address, ChainList chain, string cursor="", string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? limit=null);
 
 		/// <summary>
 		/// Gets native balance for a specific address
@@ -83,7 +83,7 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of token transactions.</returns>
-		UniTask<Erc20TransactionCollection> GetTokenTransfers (string address, ChainList chain, string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? offset=null, int? limit=null);
+		UniTask<Erc20TransactionCollection> GetTokenTransfers (string address, ChainList chain, string cursor="", string subdomain=null, int? fromBlock=null, int? toBlock=null, string fromDate=null, string toDate=null, int? limit=null);
 
 		/// <summary>
 		/// Gets NFTs owned by the given address
@@ -99,7 +99,7 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nft owners</returns>
-		UniTask<NftOwnerCollection> GetNFTs (string address, ChainList chain, string format=null, int? offset=null, int? limit=null);
+		UniTask<NftOwnerCollection> GetNFTs (string address, ChainList chain, string cursor="", string format=null, int? limit=null);
 
 		/// <summary>
 		/// Gets the transfers of the tokens matching the given parameters
@@ -111,7 +111,7 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of NFT transfer</returns>
-		UniTask<NftTransferCollection> GetNFTTransfers (string address, ChainList chain, string format=null, string direction=null, int? offset=null, int? limit=null);
+		UniTask<NftTransferCollection> GetNFTTransfers (string address, ChainList chain, string cursor="", string format=null, string direction=null, int? limit=null);
 
 		/// <summary>
 		/// Gets NFTs owned by the given address
@@ -127,7 +127,7 @@ namespace MoralisUnity.Web3Api.Interfaces
 		/// <param name="offset">offset</param>
 		/// <param name="limit">limit</param>
 		/// <returns>Returns a collection of nft owners</returns>
-		UniTask<NftOwnerCollection> GetNFTsForContract (string address, string tokenAddress, ChainList chain, string format=null, int? offset=null, int? limit=null);
+		UniTask<NftOwnerCollection> GetNFTsForContract (string address, string tokenAddress, ChainList chain, string cursor="", string format=null, int? limit=null);
 
 	}
 }
