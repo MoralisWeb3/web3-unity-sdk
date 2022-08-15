@@ -110,6 +110,20 @@ namespace MoralisUnity.Platform.Services.ClientServices
                     newCommand.Headers.Add(appId);
                 }
 
+                KeyValuePair<string, string> platform = new KeyValuePair<string, string>("x-moralis-platform", "UNITY SDK");
+
+                if (!newCommand.Headers.Contains(platform))
+                {
+                    newCommand.Headers.Add(platform);
+                }
+
+                KeyValuePair<string, string> platformVersion = new KeyValuePair<string, string>("x-moralis-platform-version", "v1.2.8");
+
+                if (!newCommand.Headers.Contains(platformVersion))
+                {
+                    newCommand.Headers.Add(platformVersion);
+                }
+
                 KeyValuePair<string, string> clientVersion = new KeyValuePair<string, string>("X-Parse-Client-Version", MoralisService<TUser>.Version.ToString());
 
                 if (!newCommand.Headers.Contains(clientVersion))

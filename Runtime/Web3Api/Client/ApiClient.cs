@@ -35,6 +35,9 @@ namespace MoralisUnity.Web3Api.Client
             BasePath = basePath;
             RestClient = new UniversalWebClient();
 
+            _defaultHeaderMap.Add("x-moralis-platform", "UNITY SDK");
+            _defaultHeaderMap.Add("x-moralis-platform-version", "v1.2.8");
+
         }
 
         /// <summary>
