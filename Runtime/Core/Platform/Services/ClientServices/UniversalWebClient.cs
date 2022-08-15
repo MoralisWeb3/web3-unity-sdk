@@ -38,8 +38,11 @@ namespace MoralisUnity.Platform.Services
             "x-parse-client-version",
             "x-parse-installation-id",
             "x-parse-session-token",
-            "content-type"
+            "content-type",
+            "x-moralis-platform",
+            "x-moralis-platform-version"
         };
+
         public UniversalWebClient() { }
 
         public async UniTask<Tuple<HttpStatusCode, string>> ExecuteAsync(Models.WebRequest httpRequest)
