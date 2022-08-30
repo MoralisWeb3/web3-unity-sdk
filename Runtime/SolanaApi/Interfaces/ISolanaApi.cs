@@ -12,6 +12,8 @@ namespace MoralisUnity.SolanaApi.Interfaces
         /// TokenApi operations.
         /// </summary>
         INftApi Nft { get; }
+        
+        
 
         /// <summary>
         /// Indicates that the client has been initialized.
