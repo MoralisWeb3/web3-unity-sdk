@@ -92,13 +92,6 @@ namespace MoralisUnity.SolanaApi.CloudApi;
 
 			
 			return ((CloudFunctionResult<TokenPrice>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<TokenPrice>), response.Item2)).Result;
-
-			
-			
-
-			
-
-			
 			}
 
 	}    

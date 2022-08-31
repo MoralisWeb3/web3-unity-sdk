@@ -23,9 +23,13 @@ namespace MoralisUnity.SolanaApi.Api
 		public TokenApi(ApiClient apiClient = null)
 		{
 			if (apiClient == null) // use the default one in Configuration
-				this.ApiClient = Configuration.DefaultApiClient;
+				{
+					this.ApiClient = Configuration.DefaultApiClient;
+				}
 			else
-				this.ApiClient = apiClient;
+				{
+					this.ApiClient = apiClient;
+				}
 		}
 
 		/// <summary>
@@ -86,8 +90,6 @@ namespace MoralisUnity.SolanaApi.Api
 
 			
 			return ((CloudFunctionResult<TokenPrice>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<TokenPrice>), response.Item2)).Result;
-
-			
 			}
 
 	}    
