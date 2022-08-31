@@ -60,7 +60,8 @@ namespace MoralisUnity.SolanaApi.Api
 		public ApiClient ApiClient { get; set; }
 		
 		
-		public async UniTask<TokenPrice> GetTokenPrice(NetworkTypes network, string address) {
+		public async UniTask<TokenPrice> GetTokenPrice(NetworkTypes network, string address)
+		{
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetTokenPrice");
 			
 			var headerParams = new Dictionary<String, String>();

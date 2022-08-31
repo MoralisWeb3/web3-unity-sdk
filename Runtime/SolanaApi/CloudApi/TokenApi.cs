@@ -19,9 +19,13 @@ namespace MoralisUnity.SolanaApi.CloudApi;
 		public TokenApi(ApiClient apiClient = null)
 		{
 			if (apiClient == null) // use the default one in Configuration
-				this.ApiClient = Configuration.DefaultApiClient;
+				{
+					this.ApiClient = Configuration.DefaultApiClient;
+				}
 			else
-				this.ApiClient = apiClient;
+				{
+					this.ApiClient = apiClient;
+				}
 		}
 
 		/// <summary>
@@ -60,10 +64,35 @@ namespace MoralisUnity.SolanaApi.CloudApi;
 		public ApiClient ApiClient { get; set; }
 		
 		
-		public async UniTask<TokenPrice> GetTokenPrice(NetworkTypes network, string address) {
+		public async UniTask<TokenPrice> GetTokenPrice(NetworkTypes network, string address)
+		{
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetTokenPrice");
 			
 			var headerParams = new Dictionary<String, String>();
+
+			var path = "/functions/sol-getTokenPrice";
+			postBody.Add("network", ApiClient.ParameterToString(network.ToString()));
+			if (address != null) postBody.Add("address", ApiClient.ParameterToString(address));
+			
+			// Authentication setting, if any
+			String[] authSettings = new String[] { "ApiKeyAuth" };
+
+			string bodyData = postBody.Count > 0 ? JsonConvert.SerializeObject(postBody) : null;
+
+			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.POST, null, bodyData, headerParams, null, null, authSettings);
+
+			if (((int)response.Item1) >= 400)
+				throw new ApiException((int)response.Item1, "Error calling GetTokenPrice: " + response.Item3, response.Item3);
+			else if (((int)response.Item1) == 0)
+				throw new ApiException((int)response.Item1, "Error calling GetTokenPrice: " + response.Item3, response.Item3);
+
+			
+			return ((CloudFunctionResult<TokenPrice>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<TokenPrice>), response.Item2)).Result;
+
+			
+			
+
+			
 
 			
 			}
