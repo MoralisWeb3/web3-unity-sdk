@@ -9,12 +9,15 @@ namespace MoralisUnity.SolanaApi.Interfaces
         IAccountApi Account { get; }
 
         /// <summary>
-        /// TokenApi operations.
+        /// NftApi operations.
         /// </summary>
         INftApi Nft { get; }
         
+        /// <summary>
+        /// TokenApi operations.
+        /// </summary>
+        ITokenApi Token { get; }
         
-
         /// <summary>
         /// Indicates that the client has been initialized.
         /// </summary>
