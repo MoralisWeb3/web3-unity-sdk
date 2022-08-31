@@ -1,6 +1,6 @@
 # web3-unity-sdk
 
-The web3uiKit is aimed at helping developers build web3 based unity games fast, delivering a quality DX to our developers plus an inclusive and reliable UX to your end users.
+The web3-unity-sdk is aimed at helping developers build web3 based unity games fast, delivering a quality DX to our developers plus an inclusive and reliable UX to your end users.
 Thank you for taking an interest in contributing
 
 &nbsp;
