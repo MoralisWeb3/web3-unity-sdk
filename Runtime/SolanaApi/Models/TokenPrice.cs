@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace DefaultNamespace
+namespace MoralisUnity.SolanaApi.Models
 {
     public class TokenPrice
     {
