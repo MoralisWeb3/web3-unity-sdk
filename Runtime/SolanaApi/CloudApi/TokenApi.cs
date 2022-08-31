@@ -6,10 +6,9 @@ using MoralisUnity.SolanaApi.Client;
 using MoralisUnity.SolanaApi.Interfaces;
 using MoralisUnity.SolanaApi.Models;
 
-namespace MoralisUnity.SolanaApi.CloudApi
+namespace MoralisUnity.SolanaApi.CloudApi;
 {
     public class TokenApi : ITokenApi;
-    
     {
 
 		/// <summary>
@@ -65,23 +64,6 @@ namespace MoralisUnity.SolanaApi.CloudApi
 			if (address == null) throw new ApiException(400, "Missing required parameter 'address' when calling GetTokenPrice");
 			
 			var headerParams = new Dictionary<String, String>();
-
-			var path = "/token/{network}/{address}/price";
-			path = path.Replace("{" + "network" + "}", ApiClient.ParameterToString(network.ToString()));
-			path = path.Replace("{" + "address" + "}", ApiClient.ParameterToString(address));
-
-			// Authentication setting, if any
-			String[] authSettings = new String[] { "ApiKeyAuth" };
-
-			Tuple<HttpStatusCode, Dictionary<string, string>, string> response = await ApiClient.CallApi(path, Method.GET, null, null, headerParams, null, null, authSettings);
-			
-			if (((int)response.Item1) >= 400)
-				throw new ApiException((int)response.Item1, "Error calling GetTokenPrice: " + response.Item3, response.Item3);
-			else if (((int)response.Item1) == 0)
-				throw new ApiException((int)response.Item1, "Error calling GetTokenPrice: " + response.Item3, response.Item3);
-
-			
-			return ((CloudFunctionResult<TokenPrice>)ApiClient.Deserialize(response.Item3, typeof(CloudFunctionResult<TokenPrice>), response.Item2)).Result;
 
 			
 			}

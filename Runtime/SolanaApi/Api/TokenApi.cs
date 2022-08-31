@@ -8,8 +8,7 @@ using MoralisUnity.SolanaApi.Models;
 
 namespace MoralisUnity.SolanaApi.Api
 {
-    public class TokenApi : ITokenApi;
-    
+    public class TokenApi : ITokenApi; 
     {
 
 		/// <summary>
