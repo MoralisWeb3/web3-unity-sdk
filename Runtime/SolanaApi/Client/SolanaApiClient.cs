@@ -10,7 +10,7 @@ namespace MoralisUnity.SolanaApi.Client
     /// </summary>
     public class SolanaApiClient : ISolanaApi
     {
-        private static string defaultServerUrl = "https://deep-index.moralis.io/api/v2";
+        private static string defaultServerUrl = "https://solana-gateway.moralis.io";
 
         /// <summary>
         /// AccountApi operations.
