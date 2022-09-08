@@ -1,4 +1,8 @@
 # Changelog
+## 1.2.9 (2022-09-08)
+- Issue 68 - Solana throws nul reference error
+- Issue 96 - SolanaAPI thrown NullReferencec Exception
+
 ## 1.2.6 (2022-08-01)
 - Added sign and login to Moralis option. This option is enabled by default but can be disabled to allow for custom sign and authentication solutions.
 
