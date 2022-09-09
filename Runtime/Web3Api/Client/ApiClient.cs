@@ -91,32 +91,53 @@ namespace MoralisUnity.Web3Api.Client
                 request.Data = new MemoryStream(Encoding.UTF8.GetBytes(postBody));
             }
 
-            // add default header, if any
-            foreach (var defaultHeader in _defaultHeaderMap)
+            if (_defaultHeaderMap.Count > 0)
             {
-                request.Headers.Add(new KeyValuePair<string, string>(defaultHeader.Key, defaultHeader.Value));
-            }
-
-            // add header parameter, if any
-            foreach (var param in headerParams)
-            {
-                if (!String.IsNullOrEmpty(param.Key) && !String.IsNullOrEmpty(param.Value))
+                if (request.Headers == null)
                 {
-                    request.Headers.Add(new KeyValuePair<string, string>(param.Key, param.Value));
+                    request.Headers = new List<KeyValuePair<string, string>>();
+                }
+
+                // add default header, if any
+                foreach (var defaultHeader in _defaultHeaderMap)
+                {
+                    request.Headers.Add(new KeyValuePair<string, string>(defaultHeader.Key, defaultHeader.Value));
                 }
             }
 
-            // add query parameter, if any
-            foreach (var param in queryParams)
+            if (headerParams.Count > 0)
             {
-                if (paramsAdded == false)
+                if (request.Headers == null)
                 {
-                    paramsAdded = true;
-                    request.Method = $"{request.Method}?{param.Key}={UnityWebRequest.EscapeURL(param.Value)}";
+                    request.Headers = new List<KeyValuePair<string, string>>();
                 }
-                else
+
+                // add header parameter, if any
+                foreach (var param in headerParams)
                 {
-                    request.Method = $"{request.Method}&{param.Key}={UnityWebRequest.EscapeURL(param.Value)}";
+                    if (!String.IsNullOrEmpty(param.Key) && !String.IsNullOrEmpty(param.Value))
+                    {
+                        request.Headers.Add(new KeyValuePair<string, string>(param.Key, param.Value));
+                    }
+                }
+            }
+
+
+
+            if (queryParams.Count > 0)
+            {
+                // add query parameter, if any
+                foreach (var param in queryParams)
+                {
+                    if (paramsAdded == false)
+                    {
+                        paramsAdded = true;
+                        request.Method = $"{request.Method}?{param.Key}={UnityWebRequest.EscapeURL(param.Value)}";
+                    }
+                    else
+                    {
+                        request.Method = $"{request.Method}&{param.Key}={UnityWebRequest.EscapeURL(param.Value)}";
+                    }
                 }
             }
 
