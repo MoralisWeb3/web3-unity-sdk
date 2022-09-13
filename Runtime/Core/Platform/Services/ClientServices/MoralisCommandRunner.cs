@@ -117,7 +117,7 @@ namespace MoralisUnity.Platform.Services.ClientServices
                     newCommand.Headers.Add(platform);
                 }
 
-                KeyValuePair<string, string> platformVersion = new KeyValuePair<string, string>("x-moralis-platform-version", "v1.2.8");
+                KeyValuePair<string, string> platformVersion = new KeyValuePair<string, string>("x-moralis-platform-version", "v1.2.10");
 
                 if (!newCommand.Headers.Contains(platformVersion))
                 {

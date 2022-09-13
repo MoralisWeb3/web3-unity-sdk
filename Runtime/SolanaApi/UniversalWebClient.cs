@@ -36,7 +36,9 @@ namespace MoralisUnity.SolanaApi
         {
             "x-parse-application-id",
             "x-parse-installation-id",
-            "content-type"
+            "content-type",
+            "x-moralis-platform",
+            "x-moralis-platform-version"
         };
 
         public UniversalWebClient() { }
