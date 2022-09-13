@@ -37,7 +37,9 @@ namespace MoralisUnity.Web3Api
             "x-parse-application-id",
             "x-parse-installation-id",
             "x-parse-session-token",
-            "content-type"
+            "content-type",
+            "x-moralis-platform",
+            "x-moralis-platform-version"
         };
 
         public UniversalWebClient() { }

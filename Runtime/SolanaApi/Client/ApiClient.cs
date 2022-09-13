@@ -30,7 +30,7 @@ namespace MoralisUnity.SolanaApi.Client
             RestClient = new UniversalWebClient();
 
             _defaultHeaderMap.Add("x-moralis-platform", "UNITY SDK");
-            _defaultHeaderMap.Add("x-moralis-platform-version", "v1.2.8");
+            _defaultHeaderMap.Add("x-moralis-platform-version", "v1.2.10");
 
         }
 
