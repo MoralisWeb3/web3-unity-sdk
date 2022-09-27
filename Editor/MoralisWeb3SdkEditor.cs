@@ -29,7 +29,7 @@ namespace MoralisUnity.Editor
         /// <summary>
         /// Menu show event - displays the setup window when menu selection made.
         /// </summary>
-        [MenuItem( MoralisConstants.PathMoralisWindowMenu + "/" + MoralisConstants.Open + " " + "Web3 Setup", false, 15 )]
+        [MenuItem(MoralisConstants.PathMoralisWindowMenu + "/" + MoralisConstants.Open + " " + "Web3 Setup", false, 15)]
         public static void ShowWindow()
         {
             var window = GetWindow<MoralisWeb3SdkEditor>();
@@ -45,7 +45,8 @@ namespace MoralisUnity.Editor
         /// </summary>
         protected static void ShowSetupWizard()
         {
-            MoralisWeb3SdkEditor win = GetWindow(WindowType, false, "Moralis Unity Web3 SDK", true) as MoralisWeb3SdkEditor;
+            MoralisWeb3SdkEditor win =
+                GetWindow(WindowType, false, "Moralis Unity Web3 SDK", true) as MoralisWeb3SdkEditor;
             if (win == null)
             {
                 return;
@@ -62,7 +63,7 @@ namespace MoralisUnity.Editor
         {
             EditorApplication.playModeStateChanged -= PlayModeStateChanged;
             EditorApplication.playModeStateChanged += PlayModeStateChanged;
-            
+
             if (MoralisSettings.MoralisData == null)
             {
                 // Load or (when first run) create the settings scriptable object.
@@ -78,9 +79,10 @@ namespace MoralisUnity.Editor
 
             // Only show the wizard if it is not disabled and the information has
             // not already been filled in.
-            if (!MoralisSettings.MoralisData.DisableAutoOpenWizard && 
-                (MoralisSettings.MoralisData.DappId.Equals(String.Empty) ||
-                 MoralisSettings.MoralisData.DappUrl.Equals(String.Empty)))
+            if (!MoralisSettings.MoralisData.DisableAutoOpenWizard &&
+                (!MoralisSettings.MoralisData.DisableMoralisClient &&
+                 (MoralisSettings.MoralisData.DappId.Equals(String.Empty) ||
+                  MoralisSettings.MoralisData.DappUrl.Equals(String.Empty))))
             {
                 ShowSetupWizard();
             }
@@ -136,6 +138,7 @@ namespace MoralisUnity.Editor
                 rootVisualElement.styleSheets.Add(styleSheet);
 
                 #region Page Button Setup
+
                 // Add action to Save button
                 var doneButton = rootVisualElement.Q<Button>("DoneButton");
                 doneButton.RegisterCallback<MouseUpEvent>((evt) =>
@@ -146,9 +149,11 @@ namespace MoralisUnity.Editor
                 // Since we start on the first page, back button should start hidden.
                 doneButton.style.display = DisplayStyle.None;
                 rootElement.Q<Button>("DoneButton").style.display = DisplayStyle.Flex;
+
                 #endregion
 
                 #region TextField Values Setup
+
                 var DappUrlField = rootVisualElement.Q<TextField>("DappUrlField");
                 DappUrlField.SetValueWithoutNotify(MoralisSettings.MoralisData.DappUrl);
                 DappUrlField.RegisterValueChangedCallback(evt =>
@@ -164,10 +169,19 @@ namespace MoralisUnity.Editor
                     MoralisSettings.MoralisData.DappId = evt.newValue;
                     SaveSettings();
                 });
+
                 #endregion
+
+                var DisableMoralisClient = rootVisualElement.Q<Toggle>("DisableMoralisClient");
+                DisableMoralisClient.SetValueWithoutNotify(MoralisSettings.MoralisData.DisableMoralisClient);
+                DisableMoralisClient.RegisterValueChangedCallback(evt =>
+                {
+                    MoralisSettings.MoralisData.DisableMoralisClient = evt.newValue;
+                    SaveSettings();
+                });
             }
         }
-        
+
         private static void PlayModeStateChanged(PlayModeStateChange state)
         {
             if (EditorApplication.isPlaying || !EditorApplication.isPlayingOrWillChangePlaymode)
@@ -175,9 +189,17 @@ namespace MoralisUnity.Editor
                 return;
             }
 
-            if (MoralisSettings.MoralisData.DappUrl.Equals(String.Empty) || MoralisSettings.MoralisData.DappId.Equals(String.Empty))
+            if (MoralisSettings.MoralisData.DisableMoralisClient)
             {
-                EditorUtility.DisplayDialog("Warning", "You have not yet completed the Moralis setup wizard. Your game won't be able to connect. Click Okay to open the wizard.", "Okay");
+                return;
+            }
+
+            if (MoralisSettings.MoralisData.DappUrl.Equals(String.Empty) ||
+                MoralisSettings.MoralisData.DappId.Equals(String.Empty))
+            {
+                EditorUtility.DisplayDialog("Warning",
+                    "You have not yet completed the Moralis setup wizard. Your game won't be able to connect. Click Okay to open the wizard.",
+                    "Okay");
             }
         }
     }

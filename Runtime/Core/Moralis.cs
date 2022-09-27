@@ -575,13 +575,15 @@ namespace MoralisUnity
         /// </summary>
         /// <returns></returns>
         public static async UniTask SetupWeb3()
-        {            
-            if (clientMetaData == null)
-            {
-                Debug.LogError("Metadata not provided.");
-            }
+        {
 #if UNITY_WEBGL
-            await Web3GL.Connect(clientMetaData);
+            await Web3GL.Connect(new ClientMeta()
+            {
+                Name = MoralisSettings.MoralisData.DappName,
+                Description = MoralisSettings.MoralisData.DappDescription,
+                Icons = new[] { MoralisSettings.MoralisData.DappIconUrl },
+                URL = MoralisSettings.MoralisData.DappWebsiteUrl
+            });
 #else
             await UniTask.Run(() =>
             {
