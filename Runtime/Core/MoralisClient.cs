@@ -23,7 +23,7 @@ namespace MoralisUnity
         {
             if (MoralisSettings.MoralisData.DisableMoralisClient)
             {
-                throw new ArgumentException("MoralisClient disabled in the settings. (I integrated Moralis 2.0 in my back-end and want to disable the client side connection.)");
+                throw new ArgumentException("MoralisClient is disabled. Please integrate Moralis in your backend or enable MoralisClient in the settings.");
             }
             
             if (jsonSerializer == null)
