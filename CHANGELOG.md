@@ -1,4 +1,10 @@
 # Changelog
+## 1.2.11 (2022-10-03)
+- Added Use Moralis back-end integration and disable MoralisClient option.
+
+## 1.2.10 (2022-09-13)
+- Added x-moralis-platform and x-moralis-platform-version to the allowHeaders
+
 ## 1.2.9 (2022-09-08)
 - Issue 68 - Solana throws nul reference error
 - Issue 96 - SolanaAPI thrown NullReferencec Exception
