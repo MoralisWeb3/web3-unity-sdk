@@ -37,7 +37,7 @@
 
 				<engine:VisualElement class="button_row">
 					<engine:VisualElement class="left_side">
-						<engine:Toggle class="toggle_field" name="DisableMoralisClient" /><engine:Label class="toggle_label" text="Use Moralis 2.0 back-end integration and disable MoralisClient in Unity." />
+						<engine:Toggle class="toggle_field" name="DisableMoralisClient" /><engine:Label class="toggle_label" text="Use Moralis back-end integration and disable MoralisClient in Unity." />
 					</engine:VisualElement>
 					<engine:VisualElement class="right_side">
 						<engine:Button name="DoneButton" text="Done" class="button" />
