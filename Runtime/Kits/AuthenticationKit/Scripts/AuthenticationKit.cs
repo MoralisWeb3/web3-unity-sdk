@@ -120,6 +120,13 @@ namespace MoralisUnity.Kits.AuthenticationKit
         {
             State = AuthenticationKitState.Initializing;
 
+            // If MoralisClient is disabled we can skip Start
+            if (MoralisSettings.MoralisData.DisableMoralisClient)
+            {
+                State = AuthenticationKitState.Initialized;
+                return;
+            }
+            
             // Initialize Moralis
             Moralis.Start();
             
@@ -227,7 +234,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
             
             State = AuthenticationKitState.WalletConnected;
 
-            if (_signAndLoginToMoralis)
+            if (_signAndLoginToMoralis && !MoralisSettings.MoralisData.DisableMoralisClient)
             {
 
                 State = AuthenticationKitState.WalletSigning;
@@ -561,7 +568,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                             // try to Sign and Login to Moralis or else Disconnect and start over
                             if (_walletConnect.Session != null)
                             {
-                                if (_signAndLoginToMoralis)
+                                if (_signAndLoginToMoralis && !MoralisSettings.MoralisData.DisableMoralisClient)
                                 {
                                     WalletConnect_SignAndLoginToMoralis(_walletConnect.Session);
                                 }

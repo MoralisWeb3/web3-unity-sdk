@@ -10,15 +10,29 @@ namespace MoralisUnity
     [Serializable]
     public class MoralisServerSettings : ScriptableObject
     {
-        [FormerlySerializedAs("ServerUrl")]
-        [FormerlySerializedAs("ServerUri")] 
+        public bool DisableMoralisClient = false;
+        
+        [FormerlySerializedAs("ServerUrl")] [FormerlySerializedAs("ServerUri")]
         public string DappUrl;
-        [FormerlySerializedAs("ApplicationId")] public string DappId;
-        [FormerlySerializedAs("ApplicationName")] public string DappName;
-        [FormerlySerializedAs("ApplicationDescription")] public string DappDescription;
-        [FormerlySerializedAs("ApplicationVersion")] public string DappVersion;
-        [FormerlySerializedAs("DappIconUri")] [FormerlySerializedAs("ApplicationIconUri")] public string DappIconUrl;
-        [FormerlySerializedAs("DappWebsite")] [FormerlySerializedAs("ApplicationUrl")] public string DappWebsiteUrl;
+
+        [FormerlySerializedAs("ApplicationId")]
+        public string DappId;
+
+        [FormerlySerializedAs("ApplicationName")]
+        public string DappName;
+
+        [FormerlySerializedAs("ApplicationDescription")]
+        public string DappDescription;
+
+        [FormerlySerializedAs("ApplicationVersion")]
+        public string DappVersion;
+
+        [FormerlySerializedAs("DappIconUri")] [FormerlySerializedAs("ApplicationIconUri")]
+        public string DappIconUrl;
+
+        [FormerlySerializedAs("DappWebsite")] [FormerlySerializedAs("ApplicationUrl")]
+        public string DappWebsiteUrl;
+
         public bool DisableAutoOpenWizard = false;
 
         public MoralisServerSettings()

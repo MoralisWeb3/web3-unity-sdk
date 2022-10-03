@@ -1,153 +1,150 @@
-.header
-{
-	-unity-font-style: bold;
-	font-size: 20px;
+.header {
+    -unity-font-style: bold;
+    font-size: 20px;
 }
 
-#Title
-{
-	font-size: 28px;
-	-unity-font-style: bold;
-	flex-direction: row;
-	color: #FFFFFF;
+#Title {
+    font-size: 28px;
+    -unity-font-style: bold;
+    flex-direction: row;
+    color: #FFFFFF;
 }
 
-.box
-{
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-size: 16px;
+.box {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 16px;
 }
 
-.box_line
-{
-	width: 100%;
-	height: 2px;
-	background-color: #00C3F8;
-	margin-bottom: 5px;
+.box_line {
+    width: 100%;
+    height: 2px;
+    background-color: #00C3F8;
+    margin-bottom: 5px;
 }
 
-.button
-{
-	color: #FFFFFF;
-	background-color: #0094bd;
-	width: 150px;
-	height: 40px;
-	font-size: 18px;
-	-unity-font-style: bold;
-	margin-left: 5px;
-	margin-right: 0px;
+.button {
+    color: #FFFFFF;
+    background-color: #0094bd;
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-left: 5px;
+    margin-right: 0px;
 }
 
-.button:hover{
-	background-color: #00C3F8;
+.button:hover {
+    background-color: #00C3F8;
 }
 
-.button_row
-{
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	margin-top: 20px;
+.button_row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 20px;
 }
 
-.page
-{
-	display: flex;
-	color: #FFFFFF;
+.left_side {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.title_text 
-{
-	margin-top: 30px;
-	margin-left: 10px;
+.toggle_field {
+    margin-right: 6px;
 }
 
-.page_title
-{
-	font-size: 18px;
-	-unity-font-style: bold;
-	margin-bottom: 5px;
+.page {
+    display: flex;
+    color: #FFFFFF;
 }
 
-.page_text
-{
-	font-size: 16px;
+.title_text {
+    margin-top: 30px;
+    margin-left: 10px;
+}
+
+.page_title {
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-bottom: 5px;
+}
+
+.page_text {
+    font-size: 16px;
 }
 
 .bold {
-	-unity-font-style: bold;
+    -unity-font-style: bold;
 }
 
-.list-text
-{	
-	margin-top: 1px;
-	margin-bottom: 1px;
+.list-text {
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 
 .text-small {
-	font-size: 14px;
+    font-size: 14px;
 }
 
 .mt-1 {
-	margin-top: 4px;
-} 
+    margin-top: 4px;
+}
 
 .mt-2 {
-	margin-top: 8px;
+    margin-top: 8px;
 }
 
 .mt-3 {
-	margin-top: 12px;
+    margin-top: 12px;
 }
 
 .mb-1 {
-	margin-bottom: 4px;
+    margin-bottom: 4px;
 }
 
 .mb-2 {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .mb-3 {
-	margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 
-.field_label
-{
-	color: #FFFFFF;
-	font-size: 16px;
-	-unity-font-style: bold;
-	margin-top: 5px;
+.field_label {
+    color: #FFFFFF;
+    font-size: 16px;
+    -unity-font-style: bold;
+    margin-top: 5px;
 }
 
-.text_field
-{
-	font-size: 16px;
-	color: #FFFFFF;
-	height: 35px;
-	margin-left: 0px;
-	margin-right: 0px;
-	margin-top: 5px;
-	border-width: 1px;
-	margin-bottom: 5px;
+.text_field {
+    font-size: 16px;
+    color: #FFFFFF;
+    height: 35px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 5px;
+    border-width: 1px;
+    margin-bottom: 5px;
 }
 
-#LeftPanel
-{
-	width: 100%;
-	height: 100%;
+#LeftPanel {
+    width: 100%;
+    height: 100%;
 }
 
 .web3-settings-view {
-	padding-left: 20px;
-	padding-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
-#Logo
-{
-	margin-top: 10px;
-	height: 75px;
-	width: 256px;
-	background-image: url("Resources/MoralisLogoWizard.png"); 
+#Logo {
+    margin-top: 10px;
+    height: 75px;
+    width: 256px;
+    background-image: url("Resources/MoralisLogoWizard.png");
 }

@@ -21,6 +21,11 @@ namespace MoralisUnity
 
         public MoralisClient(ServerConnectionData connectionData, IWeb3Api web3Api = null, ISolanaApi solanaApi = null, IJsonSerializer jsonSerializer = null)
         {
+            if (MoralisSettings.MoralisData.DisableMoralisClient)
+            {
+                throw new ArgumentException("MoralisClient is disabled. Please integrate Moralis in your backend or enable MoralisClient in the settings.");
+            }
+            
             if (jsonSerializer == null)
             {
                 throw new ArgumentException("jsonSerializer cannot be null.");
