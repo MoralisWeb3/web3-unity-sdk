@@ -246,15 +246,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 else
                 {
                     string address = Web3GL.Account().ToLower();
-                    
-                    // Retrieve server time from Moralis Server for message signature
-                    Dictionary<string, object> serverTimeResponse = await Moralis.Cloud
-                        .RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
-
-                    if (serverTimeResponse != null)
-                    {
-                        Debug.LogError("Failed to retrieve server time from Moralis Server!");
-                    }
 
                     // Creating and adding request message parameters
                     IDictionary<string, object> requestMessageParams = new Dictionary<string, object>();
@@ -358,15 +349,6 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             // Extract wallet address from the Wallet Connect Session data object.
             string address = session.Accounts[0].ToLower();
-
-            // Retrieve server time from Moralis Server for message signature
-            Dictionary<string, object> serverTimeResponse = await Moralis.Cloud
-                .RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
-
-            if (serverTimeResponse != null)
-            {
-                Debug.LogError("Failed to retrieve server time from Moralis Server!");
-            }
 
             // Creating and adding request message parameters
             IDictionary<string, object> requestMessageParams = new Dictionary<string, object>();
