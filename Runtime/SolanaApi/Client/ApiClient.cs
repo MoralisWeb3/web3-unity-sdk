@@ -31,6 +31,7 @@ namespace MoralisUnity.SolanaApi.Client
 
             _defaultHeaderMap.Add("x-moralis-platform", "UNITY SDK");
             _defaultHeaderMap.Add("x-moralis-platform-version", "v1.2.10");
+            _defaultHeaderMap.Add("x-parse-application-id", Moralis.DappId);
 
         }
 

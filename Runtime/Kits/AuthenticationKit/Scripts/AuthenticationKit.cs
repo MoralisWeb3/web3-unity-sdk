@@ -246,23 +246,21 @@ namespace MoralisUnity.Kits.AuthenticationKit
                 else
                 {
                     string address = Web3GL.Account().ToLower();
-                    string appId = Moralis.DappId;
-                    long serverTime = 0;
 
-                    // Retrieve server time from Moralis Server for message signature
-                    Dictionary<string, object> serverTimeResponse =
-                        await Moralis.Cloud.RunAsync<Dictionary<string, object>>("getServerTime",
-                            new Dictionary<string, object>());
+                    // Creating and adding request message parameters
+                    IDictionary<string, object> requestMessageParams = new Dictionary<string, object>();
 
-                    if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
-                        !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
-                    {
-                        Debug.LogError("Failed to retrieve server time from Moralis Server!");
-                    }
+                    requestMessageParams.Add("address", address);
+                    requestMessageParams.Add("chain", Web3GL.ChainId());
+                    requestMessageParams.Add("network", "evm"); // Change to "sol" if you're using Solana
 
-                    string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
+                    // Creating auth message
+                    Dictionary<string, object> authMessage = await Moralis.Cloud.RunAsync<Dictionary<string, object>>("requestMessage", requestMessageParams);
 
-                    string signature = null;
+                    string signMessage = authMessage["message"].ToString();
+            
+                    // Initializing signature
+                    string signature;
 
                     // Try to sign and catch the Exception when a user cancels the request
                     try
@@ -351,23 +349,22 @@ namespace MoralisUnity.Kits.AuthenticationKit
 
             // Extract wallet address from the Wallet Connect Session data object.
             string address = session.Accounts[0].ToLower();
-            string appId = Moralis.DappId;
-            long serverTime = 0;
 
-            // Retrieve server time from Moralis Server for message signature
-            Dictionary<string, object> serverTimeResponse = await Moralis.Cloud
-                .RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
+            // Creating and adding request message parameters
+            IDictionary<string, object> requestMessageParams = new Dictionary<string, object>();
 
-            if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
-                !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
-            {
-                Debug.LogError("Failed to retrieve server time from Moralis Server!");
-            }
+            requestMessageParams.Add("address", address);
+            requestMessageParams.Add("chain", session.ChainId);
+            requestMessageParams.Add("network", session.NetworkId);
 
-            string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
+            // Creating auth message
+            Dictionary<string, object> authMessage = await Moralis.Cloud.RunAsync<Dictionary<string, object>>("requestMessage", requestMessageParams);
 
-            string signature = null;
-
+            string signMessage = authMessage["message"].ToString();
+            
+            // Initializing signature
+            string signature;
+            
             // Try to sign and catch the Exception when a user cancels the request
             try
             {
