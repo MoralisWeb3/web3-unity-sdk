@@ -99,7 +99,6 @@ namespace MoralisUnity.Platform.Services.ClientServices
                 user.accounts = new string[1];
                 user.accounts[0] = user.ethAddress;
 
-                user.authData.Clear();
                 await user.SaveAsync();
             }
             else
