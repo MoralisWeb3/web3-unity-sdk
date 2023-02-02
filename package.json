@@ -1,49 +1,49 @@
 {
-    "name": "io.moralis.web3-unity-sdk",
-    "version": "1.2.11",
-    "displayName": "Moralis Web3 Unity SDK",
-    "description": "Moralis provides a single workflow for building high performance dapps. Fully compatible with your favorite web3 tools and services. This SDK brings the power of Moralis to your Unity projects.",
-    "homepage": "https://moralis.io",
-    "unity": "2020.3",
-    "hideInEditor": false,
-    "license": "MIT License",
-    "documentationUrl": "https://docs.moralis.io/unity/",
-    "changelogUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/CHANGELOG.md",
-    "licensesUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/LICENSE.md",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/MoralisWeb3/web3-unity-sdk.git"
-    },
-    "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.2"
-    },
-    "samples": [
-        {
-            "displayName": "AuthenticationKit",
-            "description": "Demonstrates the Moralis AuthenticationKit to connect Unity to Moralis and Web3.",
-            "path": "Samples~/AuthenticationKit"
-        }
-    ],
-    "keywords": [
-        "Moralis",
-        "Web3",
-        "Unity",
-        "Blockchain",
-        "Ethereum",
-        "Binance",
-        "Polygon",
-        "Avalanche",
-        "Fantom",
-        "Solana",
-        "EVM",
-        "NFT",
-        "ERC-20",
-        "ERC-721",
-        "ERC-1155"
-    ],
-    "author": {
-        "name": "Moralis Web3",
-        "email": "unity@moralis.io",
-        "url": "https://www.moralis.io"
+  "name": "io.moralis.web3-unity-sdk",
+  "version": "1.2.12-MSW",
+  "displayName": "Moralis Web3 Unity SDK",
+  "description": "Moralis provides a single workflow for building high performance dapps. Fully compatible with your favorite web3 tools and services. This SDK brings the power of Moralis to your Unity projects.",
+  "homepage": "https://moralis.io",
+  "unity": "2020.3",
+  "hideInEditor": false,
+  "license": "MIT License",
+  "documentationUrl": "https://docs.moralis.io/unity/",
+  "changelogUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/MoralisWeb3/web3-unity-sdk/blob/main/LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MoralisWeb3/web3-unity-sdk.git"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  },
+  "samples": [
+    {
+      "displayName": "AuthenticationKit",
+      "description": "Demonstrates the Moralis AuthenticationKit to connect Unity to Moralis and Web3.",
+      "path": "Samples~/AuthenticationKit"
     }
+  ],
+  "keywords": [
+    "Moralis",
+    "Web3",
+    "Unity",
+    "Blockchain",
+    "Ethereum",
+    "Binance",
+    "Polygon",
+    "Avalanche",
+    "Fantom",
+    "Solana",
+    "EVM",
+    "NFT",
+    "ERC-20",
+    "ERC-721",
+    "ERC-1155"
+  ],
+  "author": {
+    "name": "Moralis Web3",
+    "email": "unity@moralis.io",
+    "url": "https://www.moralis.io"
+  }
 }
