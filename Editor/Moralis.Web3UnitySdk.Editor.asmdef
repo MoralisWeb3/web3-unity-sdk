@@ -2,7 +2,8 @@
     "name": "Moralis.Web3UnitySdk.Editor",
     "rootNamespace": "",
     "references": [
-        "Moralis.Web3UnitySdk"
+        "Moralis.Web3UnitySdk",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor"

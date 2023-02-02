@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 using System.Threading.Tasks;
+using TMPro;
 
 namespace WalletConnectSharp.Unity.UI
 {
@@ -15,7 +16,7 @@ namespace WalletConnectSharp.Unity.UI
         public WalletConnect WalletConnect;
         public Transform buttonGridTransform;
         public Text loadingText;
-        public Text statusText;
+        public TMP_Text statusText;
         
         [SerializeField]
         public WalletSelectItem[] wallets;

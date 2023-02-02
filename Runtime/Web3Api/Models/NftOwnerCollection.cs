@@ -48,6 +48,10 @@ namespace MoralisUnity.Web3Api.Models
 		[JsonProperty(PropertyName = "result")]
 		public List<NftOwner> Result { get; set; }
 
+		[DataMember(Name = "cursor", EmitDefaultValue = false)]
+		[JsonProperty(PropertyName = "cursor")]
+		public string Cursor { get; set; }
+
 
 		/// <summary>
 		/// Get the string presentation of the object

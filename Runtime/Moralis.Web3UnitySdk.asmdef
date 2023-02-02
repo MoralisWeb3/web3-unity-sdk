@@ -4,7 +4,8 @@
     "references": [
         "Nethereum",
         "UniTask",
-        "WalletConnectSharp.Unity"
+        "WalletConnectSharp.Unity",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using UnityEngine.Events;
 using MoralisUnity.Sdk.Exceptions;
+using TMPro;
 
 namespace MoralisUnity.Kits.AuthenticationKit
 {
@@ -47,7 +48,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
         
         [Header("Other")]
         [SerializeField] 
-        private Text _statusText = null;
+        private TMP_Text _statusText = null;
         
         [SerializeField] 
         private Image _backgroundImage = null;
@@ -246,6 +247,7 @@ namespace MoralisUnity.Kits.AuthenticationKit
                     SetActiveUIAllParts(false);
                     _statusText.gameObject.SetActive(true);
                     _statusText.text = "Signing With Your Wallet";
+                    Debug.Log("BRUH");
                     break;
                 case AuthenticationKitState.WalletSigned:
                     SetActiveUIAllParts(false);
