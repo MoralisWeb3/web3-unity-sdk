@@ -588,9 +588,9 @@ namespace MoralisUnity
             await UniTask.Run(() =>
             {
                 WalletConnectSession client = WalletConnect.Instance.Session;
-
+                
                 // Create a web3 client using Wallet Connect as write client and a dummy client as read client.
-                Web3Client = new Web3(client.CreateProvider(new DeadRpcReadClient(Debug.LogError)));
+                Web3Client = client.BuildWeb3(new DeadRpcReadClient(Debug.LogError)).AsUnmanagedAccount();
             });
 #endif
         }

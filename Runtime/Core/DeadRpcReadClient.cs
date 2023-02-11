@@ -17,6 +17,11 @@ namespace MoralisUnity
 
         public RequestInterceptor OverridingRequestInterceptor { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public Task<RpcRequestResponseBatch> SendBatchRequestAsync(RpcRequestResponseBatch rpcRequestResponseBatch)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<T> SendRequestAsync<T>(RpcRequest request, string route = null)
         {
             if (messageHandler != null)

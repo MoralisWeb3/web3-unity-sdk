@@ -2,6 +2,7 @@
 using UnityEngine;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Core.Models.Ethereum;
+using WalletConnectSharp.Core.Models.Ethereum.Types;
 using WalletConnectSharp.Unity;
 
 public class WalletConnectActions : MonoBehaviour
