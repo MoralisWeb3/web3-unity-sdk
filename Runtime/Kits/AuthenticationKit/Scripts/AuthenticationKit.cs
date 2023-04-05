@@ -254,13 +254,19 @@ namespace MoralisUnity.Kits.AuthenticationKit
                         await Moralis.Cloud.RunAsync<Dictionary<string, object>>("getServerTime",
                             new Dictionary<string, object>());
 
-                    if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
-                        !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
+                    if (serverTimeResponse != null)
                     {
                         Debug.LogError("Failed to retrieve server time from Moralis Server!");
                     }
 
-                    string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
+                    IDictionary<string, object> requestMessageParams = new Dictionary<string, object>();
+
+                    requestMessageParams.Add("address", address);
+                    requestMessageParams.Add("chain", Web3GL.ChainId());
+
+                    Dictionary<string, object> authMessage = await Moralis.Cloud.RunAsync<Dictionary<string, object>>("requestMessage", requestMessageParams);
+
+                    string signMessage = authMessage["message"].ToString();
 
                     string signature = null;
 
@@ -358,13 +364,19 @@ namespace MoralisUnity.Kits.AuthenticationKit
             Dictionary<string, object> serverTimeResponse = await Moralis.Cloud
                 .RunAsync<Dictionary<string, object>>("getServerTime", new Dictionary<string, object>());
 
-            if (serverTimeResponse == null || !serverTimeResponse.ContainsKey("dateTime") ||
-                !long.TryParse(serverTimeResponse["dateTime"].ToString(), out serverTime))
+            if (serverTimeResponse != null)
             {
                 Debug.LogError("Failed to retrieve server time from Moralis Server!");
             }
 
-            string signMessage = $"Moralis Authentication\n\nId: {appId}:{serverTime}";
+            IDictionary<string, object> requestMessageParams = new Dictionary<string, object>();
+
+            requestMessageParams.Add("address", address);
+            requestMessageParams.Add("chain", session.ChainId);
+
+            Dictionary<string, object> authMessage = await Moralis.Cloud.RunAsync<Dictionary<string, object>>("requestMessage", requestMessageParams);
+
+            string signMessage = authMessage["message"].ToString();
 
             string signature = null;
 
