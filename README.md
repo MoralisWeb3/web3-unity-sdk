@@ -1,6 +1,6 @@
 > [!IMPORTANT]
-> ### **Deprecated: this repository is not being mantained.** \
-> The best way to integrate Moralis now is directly calling the API. See out [docs](https://docs.moralis.io/web3-data-api/evm/getting-started) for more info.
+> ### **Deprecated**: this repository is not being mantained.
+> As an alternative you can integrate Moralis by directly calling the API. Check the [Moralis Docs](https://docs.moralis.io/web3-data-api/evm/getting-started) for more info.
 
 # web3-unity-sdk
 Moralis Unity SDK provides full wallet and blockchain integration for your Unity Game. Full cross-chain and L2 support. Feel free to fork and contribute.
