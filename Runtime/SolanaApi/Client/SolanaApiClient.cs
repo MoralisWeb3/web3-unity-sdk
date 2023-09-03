@@ -21,6 +21,11 @@ namespace MoralisUnity.SolanaApi.Client
         /// DefiApi operations
         /// </summary>
         public INftApi Nft { get; private set; }
+        
+        /// <summary>
+        /// TokenApi operations
+        /// </summary>
+        public ITokenApi Token { get; private set; }
 
         /// <summary>
         /// Indicates that the client has been initialized.
